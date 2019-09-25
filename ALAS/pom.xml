@@ -25,6 +25,10 @@
       <version>4.11</version>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>fr.femtost.disc.minijaja</groupId>
+      <artifactId>ast</artifactId>
+    </dependency>
   </dependencies>
 
   <build>
