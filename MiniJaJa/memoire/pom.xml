@@ -27,6 +27,21 @@
     </dependency>
   </dependencies>
 
+  <distributionManagement>
+    <repository>
+      <id>nexus-deptinfo</id>
+      <url>
+        https://disc.univ-fcomte.fr/m1gl-nexus/content/repositories/releases/
+      </url>
+    </repository>
+    <snapshotRepository>
+      <id>nexus-deptinfo-snapshots</id>
+      <url>
+        https://disc.univ-fcomte.fr/m1gl-nexus/content/repositories/snapshots/
+      </url>
+    </snapshotRepository>
+  </distributionManagement>
+
   <build>
     <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
       <plugins>
