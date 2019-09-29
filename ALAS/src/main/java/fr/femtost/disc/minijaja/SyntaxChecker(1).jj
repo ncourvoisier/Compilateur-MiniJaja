@@ -1,0 +1,53 @@
+PARSER_BEGIN(SyntaxChecker)
+
+public class SyntaxChecker {
+    public static void main(String[] args) {
+        try {
+            new SyntaxChecker(new java.io.StringReader(args[0])).S();
+            System.out.println("Syntax is okay");
+        } catch (Throwable e) {
+            System.out.println("Syntax check failed: " + e.getMessage());
+        }
+    }
+}
+
+PARSER_END(SyntaxChecker)
+
+ SKIP:  { " " | <"\t"> | <"\n"> | <"\r"> }
+TOKEN: { 
+	<CLASS: "class"(" ")>{ System.out.println("Déclaration d'une nouvelle classe");} |
+	//<IDENT: ((["a"-"z"])*(["A"-"Z"])*(["0"-"9"])*)+(" ")*>{ System.out.println("Identificateur :"+ matchedToken.image);} |
+	<TYPEMETH: "void" | <TYPE>>{ System.out.println("Type de la méthode : "+ matchedToken.image);} |
+	<TYPE: "int" | "boolean">{ System.out.println("Type de la variable : "+ matchedToken.image);} |
+	<VIRGULE: ",">{} |
+	
+	<COM: ("//" (~["\r", "\n"])*)>{ System.out.println("Commentaire:"+ matchedToken.image);}
+}
+
+void S(): {} {<CLASS>/*<IDENT>*/"{" Decls() "}" <EOF>  }
+void Decls(): {} {Decl()";"Decls()| ""}
+void Decl(): {} {Var() | Methode()}
+void Vars(): {} {Var()";"Vars()|""}
+void Var(): {} {<TYPEMETH>/*<IDENT>*/ Vexp() | <TYPEMETH>"["Exp()"]" | "final "<TYPE> /*<IDENT>*/Vexp() }
+void Vexp(): {} {"="Exp()|""}
+void Methode(): {} {<TYPEMETH> /*<IDENT>*/"("Entetes()")""{"Vars() Instrs()"}"}
+void Methmain(): {} {"main {" Vars() Instrs()"}"}
+void Entetes(): {} { Entete() <VIRGULE> Entetes() | Entete() | ""}
+void Entete(): {} {<TYPE>/*<IDENT>*/}
+void Instrs(): {} {Instr() ";" Instrs() | ""}
+void Instr(): {} {Ident1() "=" Exp() | Ident1() "+=" Exp() | Ident1() "++" | /*<IDENT>*/"(" Listexp() ")" | "return" Exp() | "write" "(" /*<IDENT> | <STRING> */")" | "writeln" "(" /*<IDENT> | <STRING> */")" | "if" Exp() "{" Instrs() "}" ( "else""{" Instrs() "}" )? | "while" "(" Exp() ")" "{"Instrs()"}" }
+void Listexp(): {} {Exp() "," Listexp() | Exp() | ""}
+//void Exp(): {} {"!" Exp1() | Exp() "&&" Exp1() | Exp() "||" Exp1() | Exp1()} /*pb rec à gauche*/
+void Exp(): {}{"!"Exp1() ExpP() | Exp1() ExpP() }//corrige la rec à gauche de Exp => à vérifier 
+void ExpP() : {} {"&&" Exp1() ExpP() | "||" Exp1() ExpP()  } //corrige la rec à gauche de Exp => à vérifier 
+//void Exp1(): {} {Exp1() "==" Exp2() | Exp1() ">" Exp2() | Exp2()}/*pb rec à gauche*/
+void Exp1(): {}{Exp2() Exp1P()}//corrige la rec à gauche de Exp1 => à vérifier
+void Exp1P() : {}{"==" Exp2() Exp1P() | ">" Exp2() Exp1P() | "" }//corrige la rec à gauche de Exp1 => à vérifier
+//void Exp2(): {} {Exp2() "+" Terme() | Exp2() "-" Terme() | Terme()}/*pb rec à gauche*/
+void Exp2(): {} {Terme() Exp2P()}//corrige la rec à gauche de Exp2 => à vérifier
+void Exp2P(): {} {"+" Terme() Exp2P() | "-" Terme() Exp2P() | ""}//corrige la rec à gauche de Exp2 => à vérifier
+//void Terme(): {} {Terme() "*" Fact() | Terme() "/" Fact() | Fact()}/*pb rec à gauche*/
+void Terme(): {}{Fact() TermeP()}//corrige la rec à gauche de Exp2 => à vérifier
+void TermeP(): {}{"*" Fact() TermeP() | "/" Fact() TermeP() |""}//corrige la rec à gauche de Exp2 => à vérifier
+void Fact(): {} {Ident1() | /*<IDENT>*/ "(" Listexp() ")" | "true" |"false"/*<NOMBRE>*/|"(" Exp()")"}
+void Ident1(): {} {/*<IDENT> |<IDENT>*/ "[" Exp() "]"}
