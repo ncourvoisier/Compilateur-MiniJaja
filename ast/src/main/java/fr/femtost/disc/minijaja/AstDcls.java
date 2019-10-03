@@ -1,6 +1,6 @@
 package fr.femtost.disc.minijaja;
 
-public class AstDcls {
+public class AstDcls implements AstTree{
     AstTree decl;
     AstTree decls;
 
