@@ -1,6 +1,6 @@
 package fr.femtost.disc.minijaja;
 
-public class AstVar {
+public class AstVar implements AstTree{
     AstTree typemeth;
     AstTree ident;
     AstTree vexp;
