@@ -20,4 +20,14 @@ public class DChain extends ASTDecls {
     public ASTDecl getNode() {
         return node;
     }
+
+    public String rewrite() {
+        //TODO : implement
+        return null;
+    }
+
+    public void typeCheck() {
+        //TODO : implement
+        //Probablement objet de type dictionnaire à passer en paramètre
+    }
 }
