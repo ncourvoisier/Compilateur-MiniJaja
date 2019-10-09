@@ -1,7 +1,4 @@
 package fr.femtost.disc.minijaja.ast.instrs;
-
-import fr.femtost.disc.minijaja.ast.ASTDecl;
-import fr.femtost.disc.minijaja.ast.ASTDecls;
 import fr.femtost.disc.minijaja.ast.ASTInstr;
 import fr.femtost.disc.minijaja.ast.ASTInstrs;
 
