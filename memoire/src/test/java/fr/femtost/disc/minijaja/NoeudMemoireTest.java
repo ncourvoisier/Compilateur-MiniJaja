@@ -61,5 +61,114 @@ public class NoeudMemoireTest {
         assertEquals(3, AM1.getProfondeurArbre());
     }
 
+    @Test
+    public void getNoeud() {
+        ArbreMemoire AM1 = new ArbreMemoire(100);
+        NoeudMemoire r1 = AM1.getRacine();
+        int A1 = r1.allouerMemoire(10);
+        int A2 = r1.allouerMemoire(10);
+        assertTrue(AM1.getNoeud(A1).adresse == A1);
+        assertTrue(AM1.getNoeud(A2).adresse == A2);
+    }
 
+
+    @Test
+    public void suppressionNoeud() {
+        ArbreMemoire AM1 = new ArbreMemoire(100);
+        NoeudMemoire r1 = AM1.getRacine();
+        int A1 = r1.allouerMemoire(10);
+        int A2 = r1.allouerMemoire(10);
+        AM1.libererMemoire(A2);
+        NoeudMemoire noeud2 = AM1.getNoeud(A2);
+        assertTrue(noeud2.disponible);
+    }
+
+    @Test
+    public void reallocationNoeud() {
+        ArbreMemoire AM1 = new ArbreMemoire(100);
+        NoeudMemoire r1 = AM1.getRacine();
+        int A1 = r1.allouerMemoire(10);
+        int A2 = r1.allouerMemoire(10);
+        AM1.libererMemoire(A2);
+        NoeudMemoire noeud2 = AM1.getNoeud(A2);
+        assertTrue(noeud2.disponible);
+        int A3 = r1.allouerMemoire(10);
+        assertEquals(10, A3);
+        assertFalse(AM1.getNoeud(A3).disponible);
+    }
+
+    @Test
+    public void multiAllocNoeud1() {
+        ArbreMemoire AM1 = new ArbreMemoire(100);
+        NoeudMemoire r1 = AM1.getRacine();
+        int A1 = r1.allouerMemoire(5);
+        int A2 = r1.allouerMemoire(10);
+        int A3 = r1.allouerMemoire(20);
+        assertFalse(AM1.getNoeud(A1).disponible);
+        assertFalse(AM1.getNoeud(A2).disponible);
+        assertFalse(AM1.getNoeud(A3).disponible);
+
+        assertEquals(0, A1);
+        assertEquals(5, A2);
+        assertEquals(15, A3);
+
+        assertEquals(65, AM1.getRacine().taille);
+
+        AM1.libererMemoire(A2);
+        NoeudMemoire noeud2 = AM1.getNoeud(A2);
+        assertTrue(noeud2.disponible);
+
+        assertEquals(75, AM1.getRacine().taille);
+    }
+
+    @Test
+    public void multiAllocNoeud3() {
+        ArbreMemoire AM1 = new ArbreMemoire(100);
+        NoeudMemoire r1 = AM1.getRacine();
+        int A1 = r1.allouerMemoire(10);
+        int A2 = r1.allouerMemoire(89);
+        assertFalse(AM1.getNoeud(A1).disponible);
+        assertFalse(AM1.getNoeud(A2).disponible);
+
+        assertEquals(0, A1);
+        assertEquals(10, A2);
+    }
+
+    @Test
+    public void multiAllocNoeud2() {
+        ArbreMemoire AM1 = new ArbreMemoire(100);
+        NoeudMemoire r1 = AM1.getRacine();
+        int A1 = r1.allouerMemoire(5);
+        int A2 = r1.allouerMemoire(10);
+        int A3 = r1.allouerMemoire(20);
+        assertFalse(AM1.getNoeud(A1).disponible);
+        assertFalse(AM1.getNoeud(A2).disponible);
+        assertFalse(AM1.getNoeud(A3).disponible);
+
+        assertEquals(0, A1);
+        assertEquals(5, A2);
+        assertEquals(15, A3);
+
+        assertEquals(65, AM1.getRacine().taille);
+
+        AM1.libererMemoire(A2);
+        NoeudMemoire noeud2 = AM1.getNoeud(A2);
+        assertTrue(noeud2.disponible);
+
+        int A4 = r1.allouerMemoire(5);
+        int A5 = r1.allouerMemoire(5);
+        assertFalse(AM1.getNoeud(A4).disponible);
+
+        System.out.println("aaaaaasezqzqzz" + AM1.getNoeud(A5));
+        System.out.println("adresse de A5 " + A5);
+
+        assertFalse(AM1.getNoeud(A5).disponible);
+
+        assertEquals(0, A1);
+        assertEquals(15, A3);
+        assertEquals(5, A4);
+        assertEquals(10, A5);
+
+        assertEquals(65, AM1.getRacine().taille);
+    }
 }

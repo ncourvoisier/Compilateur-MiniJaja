@@ -4,10 +4,19 @@ import sun.reflect.generics.tree.Tree;
 
 public class Tas {
 
+    class EntreeMemoire {
+        int adresse;
+        int taille;
+        boolean disponible;
+    }
+
 
     private Tree tas;
+    private Object[] memoire;
 
-    public Tas(Tree tas) {
+
+    public Tas(int mem_taille) {
+
         this.tas = new Tree() {
             @Override
             public int hashCode() {
@@ -35,10 +44,24 @@ public class Tas {
             }
         };
 
+        memoire = new Object[mem_taille];
+
+
+
     }
 
     public Tree getTas() {
+
+
+
         return tas;
+
+
+    }
+
+    private int allouer() {
+
+        return 0;
     }
 
 

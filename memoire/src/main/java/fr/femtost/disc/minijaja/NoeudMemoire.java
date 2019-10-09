@@ -59,7 +59,12 @@ public class NoeudMemoire {
                 gauche = noeudDisponible;
                 droit = noeudNouveau;
             }
-            propagationTailleDisponile(noeudNouveau.taille);
+            if (parent != null) {  // On lance la propagation à partir du parent, si pas racine
+                parent.propagationTailleDisponile(-noeudNouveau.taille);
+            }
+            else { // si racine, propagation directe
+                propagationTailleDisponile(-noeudNouveau.taille);
+            }
             return noeudNouveau.adresse;
         } else {
             return -1; // Pas de mémoire disponible (trop fragmentée)
@@ -67,7 +72,7 @@ public class NoeudMemoire {
     }
 
     void propagationTailleDisponile(int tailleAPropapger) {
-        taille -= tailleAPropapger;
+        taille += tailleAPropapger;
         if (parent != null) {
             parent.propagationTailleDisponile(tailleAPropapger);
         }
@@ -77,26 +82,33 @@ public class NoeudMemoire {
         if (adresse >= taille) {
             return;
         }
-        if (adresse < 0 ) {
+        if (adresse < 0) {
             return;
         }
-        suppessionMemoireReccursive(adresse, courant);
+        suppressionMemoireReccursive(adresse, courant);
     }
 
-    public void suppessionMemoireReccursive(int adresse, NoeudMemoire courant) {
-        if(courant.adresse == adresse && !disponible) {
-            disponible = true;
+    public void suppressionMemoireReccursive(int adresse, NoeudMemoire courant) {
+        System.out.println("Adresse : " + courant.adresse + ", Disponible : " + Boolean.toString(courant.disponible));
+        if(courant.adresse == adresse && !courant.disponible) {
+            courant.disponible = true;
+            if (parent != null) {  // On lance la propagation à partir du parent, si pas racine
+                parent.propagationTailleDisponile(courant.taille);
+            }
+            else { // si racine, propagation directe
+                propagationTailleDisponile(courant.taille);
+            }
             return;
         }
         if (courant.gauche != null) {
             if (courant.adresse + courant.gauche.taille - adresse > 0) {
-                suppessionMemoireReccursive(adresse, courant.gauche);
+                suppressionMemoireReccursive(adresse, courant.gauche);
                 return;
             }
         }
 
         if (courant.droit != null) {
-            suppessionMemoireReccursive(adresse, courant.droit);
+            suppressionMemoireReccursive(adresse, courant.droit);
             return;
         }
 
