@@ -1,7 +1,24 @@
 package fr.femtost.disc.minijaja.ast.instr;
 
+import fr.femtost.disc.minijaja.ast.ASTExpr;
 import fr.femtost.disc.minijaja.ast.ASTInstr;
+import fr.femtost.disc.minijaja.ast.expr.ASTIdentGenerique;
 
 public class Affectation extends ASTInstr {
 
+    private ASTIdentGenerique ident;
+    private ASTExpr expr;
+
+    public Affectation(ASTIdentGenerique ident, ASTExpr expr) {
+        this.ident = ident;
+        this.expr = expr;
+    }
+
+    public ASTIdentGenerique getIdent() {
+        return ident;
+    }
+
+    public ASTExpr getExpr() {
+        return expr;
+    }
 }
