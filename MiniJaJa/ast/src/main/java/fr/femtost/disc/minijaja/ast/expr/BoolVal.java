@@ -4,6 +4,16 @@ import fr.femtost.disc.minijaja.ast.ASTExpr;
 
 public class BoolVal extends ASTExpr {
 
+    private boolean value;
+
+    public BoolVal(boolean value) {
+        this.value = value;
+    }
+
+    public boolean isValue() {
+        return value;
+    }
+
     public String rewrite() {
         //TODO : implement
         return null;
