@@ -1,6 +1,5 @@
 package fr.femtost.disc.minijaja.ast.expr;
 
-import fr.femtost.disc.minijaja.AstIdent;
 import fr.femtost.disc.minijaja.ast.ASTExpr;
 
 public class Soustraction extends ASTExpr {
@@ -21,8 +20,12 @@ public class Soustraction extends ASTExpr {
     }
 
     public String rewrite() {
-        //TODO : implement
-        return null;
+        StringBuilder sb = new StringBuilder();
+        sb.append(expr1.rewrite());
+        sb.append("-");
+        sb.append(expr2.rewrite());
+
+        return sb.toString();
     }
 
     public void typeCheck() {

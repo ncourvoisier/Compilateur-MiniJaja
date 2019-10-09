@@ -4,8 +4,7 @@ public final class Entier extends ASTType {
 
 
     public String rewrite() {
-        //TODO : implement
-        return null;
+        return "int";
     }
 
     public void typeCheck() {

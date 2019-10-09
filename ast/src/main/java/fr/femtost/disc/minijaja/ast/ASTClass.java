@@ -26,4 +26,17 @@ public class ASTClass extends ASTNode {
     public ASTMain getMain() {
         return main;
     }
+
+    @Override
+    public String rewrite() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("class ");
+        sb.append(ident.rewrite());
+        sb.append(" {\n");
+        sb.append(decls.rewrite()).append("\n");
+        sb.append(main.rewrite()).append("\n");
+        sb.append("}\n");
+
+        return sb.toString();
+    }
 }

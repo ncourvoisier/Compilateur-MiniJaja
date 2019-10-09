@@ -14,4 +14,14 @@ public class Ecrire extends ASTInstr {
     public Identifiant getIdent() {
         return ident;
     }
+
+    @Override
+    public String rewrite() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("write");
+        sb.append("(");
+        sb.append(ident.rewrite());
+        sb.append(")");
+        return sb.toString();
+    }
 }

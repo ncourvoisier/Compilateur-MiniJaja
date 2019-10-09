@@ -21,4 +21,16 @@ public class appelI extends ASTInstr {
     public ASTListExpr getListExpr() {
         return listExpr;
     }
+
+    @Override
+    public String rewrite() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(ident.rewrite());
+        sb.append("(");
+        sb.append(listExpr.rewrite());
+        sb.append(")");
+
+
+        return sb.toString();
+    }
 }

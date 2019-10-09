@@ -2,10 +2,7 @@ package fr.femtost.disc.minijaja;
 
 public abstract class ASTNode {
 
-    public String rewrite() {
-        //TODO : implement
-        return null;
-    }
+   public abstract String rewrite();
 
     public void typeCheck() {
         //TODO : implement

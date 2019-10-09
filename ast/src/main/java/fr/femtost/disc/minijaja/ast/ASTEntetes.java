@@ -4,10 +4,6 @@ import fr.femtost.disc.minijaja.ASTNode;
 
 public abstract class ASTEntetes extends ASTNode {
 
-    public String rewrite() {
-
-        return null;
-    }
 
     public void typeCheck() {
         //TODO : implement

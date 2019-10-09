@@ -22,4 +22,14 @@ public class ExChain extends ASTListExpr {
     public ASTExpr getNode() {
         return node;
     }
+
+    public String rewrite() {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append(node.rewrite());
+        sb.append(",");
+        sb.append(successor.rewrite());
+
+        return sb.toString();
+    }
 }

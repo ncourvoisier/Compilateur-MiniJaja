@@ -15,8 +15,11 @@ public class BoolVal extends ASTExpr {
     }
 
     public String rewrite() {
-        //TODO : implement
-        return null;
+        if(value){
+            return "true";
+        }else{
+            return "false";
+        }
     }
 
     public void typeCheck() {

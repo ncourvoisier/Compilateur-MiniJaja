@@ -22,8 +22,13 @@ public class DChain extends ASTDecls {
     }
 
     public String rewrite() {
-        //TODO : implement
-        return null;
+        StringBuilder sb = new StringBuilder();
+
+        sb.append(node.rewrite());
+        sb.append(";");
+        sb.append(successor.rewrite());
+
+        return sb.toString();
     }
 
     public void typeCheck() {

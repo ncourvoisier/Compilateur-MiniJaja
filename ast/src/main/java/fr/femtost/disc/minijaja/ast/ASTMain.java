@@ -21,8 +21,14 @@ public class ASTMain extends ASTNode {
     }
 
     public String rewrite() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("main ");
+        sb.append(" {\n");
+        sb.append(vars.rewrite()).append("\n");
+        sb.append(instrs.rewrite()).append("\n");
+        sb.append("}\n");
 
-        return null;
+        return sb.toString();
     }
 
     public void typeCheck() {

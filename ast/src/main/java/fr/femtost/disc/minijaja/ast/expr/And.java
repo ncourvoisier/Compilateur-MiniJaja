@@ -21,8 +21,12 @@ public class And extends ASTExpr {
     }
 
     public String rewrite() {
-        //TODO : implement
-        return null;
+        StringBuilder sb = new StringBuilder();
+        sb.append(expr1.rewrite());
+        sb.append(" && ");
+        sb.append(expr2.rewrite());
+
+        return sb.toString();
     }
 
     public void typeCheck() {
