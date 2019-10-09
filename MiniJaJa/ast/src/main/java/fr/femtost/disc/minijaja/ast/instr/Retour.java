@@ -14,4 +14,14 @@ public class Retour extends ASTInstr {
     public ASTExpr getExpr() {
         return expr;
     }
+
+    @Override
+    public String rewrite() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("writeln");
+        sb.append("(");
+        sb.append(expr.rewrite());
+        sb.append(")");
+        return sb.toString();
+    }
 }

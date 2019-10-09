@@ -40,8 +40,16 @@ public class ASTMethode extends ASTDecl {
     }
 
     public String rewrite() {
-        //TODO : implement
-        return null;
+        StringBuilder sb = new StringBuilder();
+        sb.append(typeMeth.rewrite()).append((" "));
+        sb.append(ident.rewrite()).append(" ");
+        sb.append("( ").append(entetes.rewrite()).append(" )");
+        sb.append("{\n");
+        sb.append(vars.rewrite()).append("\n");
+        sb.append(instrs.rewrite()).append("\n");
+        sb.append("}\n");
+
+        return sb.toString();
     }
 
     public void typeCheck() {

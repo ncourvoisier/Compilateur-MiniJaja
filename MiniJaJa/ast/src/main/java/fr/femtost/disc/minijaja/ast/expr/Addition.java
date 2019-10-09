@@ -21,8 +21,14 @@ public class Addition extends ASTExpr {
     }
 
     public String rewrite() {
-        //TODO : implement
-        return null;
+        StringBuilder sb = new StringBuilder();
+        sb.append("(");
+        sb.append(expr1.rewrite());
+        sb.append("+");
+        sb.append(expr2.rewrite());
+        sb.append(")");
+
+        return sb.toString();
     }
 
     public void typeCheck() {

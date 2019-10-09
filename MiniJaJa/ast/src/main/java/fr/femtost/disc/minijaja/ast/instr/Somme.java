@@ -23,4 +23,14 @@ public class Somme extends ASTInstr {
     }
 
 
+    @Override
+    public String rewrite() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("(");
+        sb.append(ident.rewrite());
+        sb.append("+=");
+        sb.append(expr.rewrite());
+        sb.append(")");
+        return sb.toString();
+    }
 }

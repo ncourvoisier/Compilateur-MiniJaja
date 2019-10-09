@@ -21,4 +21,14 @@ public class Affectation extends ASTInstr {
     public ASTExpr getExpr() {
         return expr;
     }
+
+    @Override
+    public String rewrite() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(ident.rewrite());
+        sb.append("=");
+        sb.append(expr.rewrite());
+
+        return sb.toString();
+    }
 }

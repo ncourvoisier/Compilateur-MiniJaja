@@ -12,4 +12,15 @@ public class Negation extends ASTExpr {
     public ASTExpr getExpr() {
         return expr;
     }
+
+    @Override
+    public String rewrite() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("(");
+        sb.append("-");
+        sb.append(expr.rewrite());
+        sb.append(")");
+
+        return sb.toString();
+    }
 }

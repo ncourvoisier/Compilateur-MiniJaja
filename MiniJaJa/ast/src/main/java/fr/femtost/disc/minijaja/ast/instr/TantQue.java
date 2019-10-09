@@ -20,4 +20,16 @@ public class TantQue extends ASTInstr {
     public ASTExpr getExpr() {
         return expr;
     }
+
+    @Override
+    public String rewrite() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("while");
+        sb.append("(").append(expr.rewrite()).append(")");
+        sb.append(" {\n");
+        sb.append(instrs.rewrite());
+        sb.append("\n}");
+
+        return sb.toString();
+    }
 }

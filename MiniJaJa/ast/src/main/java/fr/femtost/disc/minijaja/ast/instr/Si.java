@@ -27,4 +27,14 @@ public class Si extends ASTInstr {
     public ASTInstrs getInstrsElse() {
         return instrsElse;
     }
+
+    @Override
+    public String rewrite() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("if");
+        sb.append(expr.rewrite()).append(" {\n");
+        sb.append(instrsIf.rewrite()).append("\n}else {\n");
+        sb.append(instrsElse.rewrite()).append("\n}\n");
+        return sb.toString();
+    }
 }

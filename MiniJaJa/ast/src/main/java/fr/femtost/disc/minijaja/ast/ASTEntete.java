@@ -1,21 +1,21 @@
 package fr.femtost.disc.minijaja.ast;
 
 import fr.femtost.disc.minijaja.ASTNode;
-import fr.femtost.disc.minijaja.AstIdent;
+import fr.femtost.disc.minijaja.ast.expr.identificateur.Identifiant;
 import fr.femtost.disc.minijaja.ast.type.ASTType;
 
 public class ASTEntete extends ASTNode {
-    private AstIdent ident;
+    private Identifiant ident;
     private ASTType type;
 
 
 
-    public ASTEntete(AstIdent ident, ASTType type) {
+    public ASTEntete(Identifiant ident, ASTType type) {
         this.ident = ident;
         this.type = type;
     }
 
-    public AstIdent getIdent() {
+    public Identifiant getIdent() {
         return ident;
     }
 
@@ -24,8 +24,11 @@ public class ASTEntete extends ASTNode {
     }
 
     public String rewrite() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(type.rewrite()).append(" ");
+        sb.append(ident.rewrite()).append("\n");
 
-        return null;
+        return sb.toString();
     }
 
     public void typeCheck() {

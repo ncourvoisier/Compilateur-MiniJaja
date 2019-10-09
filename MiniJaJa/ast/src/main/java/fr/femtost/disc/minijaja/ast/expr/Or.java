@@ -18,4 +18,14 @@ public class Or extends ASTExpr {
     public ASTExpr getExpr2() {
         return expr2;
     }
+
+    @Override
+    public String rewrite() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(expr1.rewrite());
+        sb.append("||");
+        sb.append(expr2.rewrite());
+
+        return sb.toString();
+    }
 }

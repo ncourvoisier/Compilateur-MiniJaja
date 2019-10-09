@@ -4,8 +4,7 @@ public final class Booleen extends ASTType {
 
 
     public String rewrite() {
-        //TODO : implement
-        return null;
+        return "boolean";
     }
 
     public void typeCheck() {

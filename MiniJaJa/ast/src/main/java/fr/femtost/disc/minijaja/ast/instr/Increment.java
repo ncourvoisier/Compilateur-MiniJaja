@@ -14,4 +14,13 @@ public class Increment extends ASTInstr {
     public ASTIdentGenerique getIdentGenerique() {
         return identGenerique;
     }
+
+    @Override
+    public String rewrite() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(identGenerique.rewrite());
+        sb.append("++");
+
+        return sb.toString();
+    }
 }

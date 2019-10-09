@@ -13,4 +13,12 @@ public class Not extends ASTExpr {
         return expr;
     }
 
+    @Override
+    public String rewrite() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("!");
+        sb.append(expr.rewrite());
+
+        return sb.toString();
+    }
 }

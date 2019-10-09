@@ -12,4 +12,12 @@ public class Nbre extends ASTExpr {
     public ASTExpr getExpr() {
         return expr;
     }
+
+    @Override
+    public String rewrite() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(expr.rewrite());
+
+        return sb.toString();
+    }
 }
