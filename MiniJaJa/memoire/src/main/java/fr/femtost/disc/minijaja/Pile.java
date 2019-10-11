@@ -80,14 +80,14 @@ public class Pile {
         if (!ID.equals(q1.ID)) {
 
         } else if (q1.OBJ.equals("VCST")) {
-            return null;
+            return pile;
         } else if (q1.OBJ.equals("CST")) {
             return pile;
         } else if (q1.OBJ.equals("TAB")) {
-            //AjouterRef
+            //AjouterRef(v, t)
             //RetirerTas(v1 , t);
         } else {
-            return null;
+            return pile;
         }
         return pile;
     }
