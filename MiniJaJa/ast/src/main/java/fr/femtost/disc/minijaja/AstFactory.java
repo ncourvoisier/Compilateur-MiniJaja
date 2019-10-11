@@ -1,9 +1,8 @@
 package fr.femtost.disc.minijaja;
 
-import sun.security.krb5.internal.ASRep;
 
 public class AstFactory {
-    public static AstTree generateClass(AstTree ident, AstTree decls, AstTree methmain){
+    /*public static AstTree generateClass(AstTree ident, AstTree decls, AstTree methmain){
 
         return null;
     }
@@ -188,5 +187,5 @@ public class AstFactory {
         return null;
     }
 
-
+*/
 }
