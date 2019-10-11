@@ -58,6 +58,39 @@ public class Pile {
         return pile;
     }
 
+    Stack RetirerDecl (String ID) {
+        pile.pop();
+        return null; //Tas à retourner ici
+    }
+
+    Stack RetirerDecl (String ID, Quad q1) {
+         if (ID.equals(q1.ID)) {
+             if (q1.OBJ.equals(NatureObjet.TAB)) {
+                 // retirer tas
+             }
+             return pile;
+         } else {
+            RetirerDecl(ID);
+         }
+        return  pile;
+    }
+
+    Stack AffecterVal (String ID, Object VAL) {
+        Quad q1 = pile.peek();
+        if (!ID.equals(q1.ID)) {
+
+        } else if (q1.OBJ.equals("VCST")) {
+            return null;
+        } else if (q1.OBJ.equals("CST")) {
+            return pile;
+        } else if (q1.OBJ.equals("TAB")) {
+            //AjouterRef
+            //RetirerTas(v1 , t);
+        } else {
+            return null;
+        }
+        return pile;
+    }
 
 
 }
