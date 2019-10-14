@@ -21,4 +21,12 @@ public class VChain extends ASTVars {
         return vars;
     }
 
+
+    @Override
+    public String rewrite() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(var.rewrite()).append(";\n");
+        sb.append(vars.rewrite());
+        return sb.toString();
+    }
 }
