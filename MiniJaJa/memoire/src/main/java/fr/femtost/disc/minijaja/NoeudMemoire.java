@@ -89,7 +89,7 @@ public class NoeudMemoire {
     }
 
     public void suppressionMemoireReccursive(int adresse, NoeudMemoire courant) {
-        System.out.println("Adresse : " + courant.adresse + ", Disponible : " + Boolean.toString(courant.disponible));
+        //System.out.println("Adresse : " + courant.adresse + ", Disponible : " + Boolean.toString(courant.disponible));
         if(courant.adresse == adresse && !courant.disponible) {
             courant.disponible = true;
             if (parent != null) {  // On lance la propagation à partir du parent, si pas racine

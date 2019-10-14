@@ -159,8 +159,8 @@ public class NoeudMemoireTest {
         int A5 = r1.allouerMemoire(5);
         assertFalse(AM1.getNoeud(A4).disponible);
 
-        System.out.println("aaaaaasezqzqzz" + AM1.getNoeud(A5));
-        System.out.println("adresse de A5 " + A5);
+        //System.out.println("aaaaaasezqzqzz" + AM1.getNoeud(A5));
+        //System.out.println("adresse de A5 " + A5);
 
         assertFalse(AM1.getNoeud(A5).disponible);
 
@@ -170,5 +170,30 @@ public class NoeudMemoireTest {
         assertEquals(10, A5);
 
         assertEquals(65, AM1.getRacine().taille);
+    }
+
+    @Test
+    public void debugTest() {
+        ArbreMemoire AM1 = new ArbreMemoire(100);
+        NoeudMemoire r1 = AM1.getRacine();
+        int a1 = r1.allouerMemoire(10);
+        int a2 = r1.allouerMemoire(46);
+        System.out.println("add 1: " + a1 + ", add 2: " + a2);
+        NoeudMemoire n1 = AM1.getNoeud(a1);
+        NoeudMemoire n2 = AM1.getNoeud(a2);
+        if (r1.droit.gauche == null) {  // LES 2 FILS PAS NULL
+            System.out.println("fils droit/gauche null");
+        }
+        else {
+            System.out.println("fils droit/gauche addr: " + r1.droit.gauche.adresse + " (disp:" + r1.droit.gauche.disponible + ")");  // ADRESSES DES 2 FILS BONNES
+        }
+        if (r1.droit.droit == null) {
+            System.out.println("fils droit/droit null");
+        }
+        else {
+            System.out.println("fils droit/droit addr: " + r1.droit.droit.adresse + " (disp:" + r1.droit.droit.disponible + ")");
+        }
+        if (n1 == null) { System.out.println("n1 null"); }
+        if (n2 == null) { System.out.println("n2 null"); }
     }
 }
