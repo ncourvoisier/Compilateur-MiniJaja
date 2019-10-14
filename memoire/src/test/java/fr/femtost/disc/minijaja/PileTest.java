@@ -5,6 +5,7 @@ import org.junit.Test;
 
 import java.util.Stack;
 
+import static fr.femtost.disc.minijaja.TableDesSymboles.tableSymbole;
 import static org.junit.Assert.*;
 
 public class PileTest {
@@ -79,4 +80,11 @@ public class PileTest {
         assertEquals(0, s.peek().VAL);
     }
 
+    @Test
+    public void DeclVarTest() {
+        p.DeclVar("1", 0, "sorte");
+        assertEquals(1, s.size());
+        Quad q = tableSymbole.get(0);
+        //assertEquals(0, q.VAL);
+    }
 }
