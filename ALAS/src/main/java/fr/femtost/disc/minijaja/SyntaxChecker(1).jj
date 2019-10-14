@@ -1,53 +1,112 @@
 PARSER_BEGIN(SyntaxChecker)
-
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 public class SyntaxChecker {
     public static void main(String[] args) {
+	System.out.println(args[0]);
+	if (args[0].equals("-f"))
+	{
+
+	try {
+            new SyntaxChecker(new BufferedReader(new FileReader(args[1]))).S();
+            System.out.println("Syntax is okay");
+        } catch (Throwable e) {
+            System.out.println("Syntax check failed: " + e.getMessage());
+        }
+	}else{
+
         try {
             new SyntaxChecker(new java.io.StringReader(args[0])).S();
             System.out.println("Syntax is okay");
         } catch (Throwable e) {
             System.out.println("Syntax check failed: " + e.getMessage());
         }
+	}
     }
 }
 
 PARSER_END(SyntaxChecker)
 
- SKIP:  { " " | <"\t"> | <"\n"> | <"\r"> }
-TOKEN: { 
+ SKIP:  { " " | <"\t"> | <"\n"> | <"\r">|<COM1: ("//" (~["\r", "\n"])*)> | <COM2:("/*"(~["*"] | "*"~["/"])*"*/")> }
+TOKEN: {
 	<CLASS: "class"(" ")>{ System.out.println("Déclaration d'une nouvelle classe");} |
-	//<IDENT: ((["a"-"z"])*(["A"-"Z"])*(["0"-"9"])*)+(" ")*>{ System.out.println("Identificateur :"+ matchedToken.image);} |
-	<TYPEMETH: "void" | <TYPE>>{ System.out.println("Type de la méthode : "+ matchedToken.image);} |
-	<TYPE: "int" | "boolean">{ System.out.println("Type de la variable : "+ matchedToken.image);} |
+	<VOID: "void ">{System.out.println("Déclaration d'une instance void");}|
+	<ACCG: "{">{System.out.println("Ouverture d'une accolade");}|
+	<ACCD: "}">{System.out.println("Fermeture d'une accolade");}|
+	<PV: ";">{System.out.println("Point virgule");}|
+	<PARRG: "(">{System.out.println("Ouverture d'une parenthèse");}|
+	<PARRD :")">{System.out.println("Fermeture d'une parenthèse");}|
+	<MAIN:"main ">{System.out.println("Méthode principale");}|
+	<FINAL:"final ">{System.out.println("méthode ou variable final");}|
+	<RETURN: "return">{System.out.println("retour attendu");}|
+	<EGAL: "=">{System.out.println("Affectation");}|
+	<TABG: "[">{System.out.println("Ouverture de crochets");}|
+	<TABD: "]">{System.out.println("Fermeture de crochets");}|
+	<WRITE: "write">{System.out.println("La console doit écrire");}|
+	<WRITELN: "writeln">{System.out.println("La console doit écrire puis revenir à la ligne");}|
+	<IF: "if">{System.out.println("Si");}|
+	<ELSE: "else">{System.out.println("Sinon");}|
+	<WHILE: "while">{System.out.println("Tant que");}|
+	<PEG: "+=">{System.out.println("Est égal à la valeur plus 1");}|
+	<PP: "++">{System.out.println("Incrémentation");}|
+	<OU: "||">{System.out.println("Ou");}|
+	<ET: "&&">{System.out.println("Et");}|
+	<EXCL: "!">{System.out.println("Point d'exclamation");}|
+	<EGEG : "==">{System.out.println("Est égal à ");}|
+	//<INF>|
+	<SUP : ">">{System.out.println("Est supérieur à");}|
+	<PLUS : "+">{System.out.println("Addition");}|
+	<MOINS : "-">{System.out.println("Soustraction");}|
+	<MULT : "*">{System.out.println("Multiplication");}|
+	<DIV : "/">{System.out.println("Division");}|
+	<VRAI: "true">{System.out.println("Vrai");}|
+	<FAUX: "false">{System.out.println("Faux");}|
+	<TYPE: "int " | "boolean ">{ System.out.println("Type de la variable : "+ matchedToken.image);} |
 	<VIRGULE: ",">{} |
-	
-	<COM: ("//" (~["\r", "\n"])*)>{ System.out.println("Commentaire:"+ matchedToken.image);}
+
+	<IDENT: ((["a"-"z"])+|(["A"-"Z"])+)((["a"-"z"])*(["A"-"Z"])*(["0"-"9"])*)>{ System.out.println("Identificateur :"+ matchedToken.image);} |//Commence forcément par une lettre majuscule ou minuscule, modifiable
+	//<TypeMeth: "void" | <TYPE>>{ System.out.println("Type de la méthode : "+ matchedToken.image);} |
+	<STRING:("\""(~["\""])*"\"")>{ System.out.println("Chaine de caractères :"+ matchedToken.image);}|
+	<NOMBRE: (["0"-"9"])+>{ System.out.println("Entier :"+ matchedToken.image);}
 }
 
-void S(): {} {<CLASS>/*<IDENT>*/"{" Decls() "}" <EOF>  }
-void Decls(): {} {Decl()";"Decls()| ""}
-void Decl(): {} {Var() | Methode()}
-void Vars(): {} {Var()";"Vars()|""}
-void Var(): {} {<TYPEMETH>/*<IDENT>*/ Vexp() | <TYPEMETH>"["Exp()"]" | "final "<TYPE> /*<IDENT>*/Vexp() }
-void Vexp(): {} {"="Exp()|""}
-void Methode(): {} {<TYPEMETH> /*<IDENT>*/"("Entetes()")""{"Vars() Instrs()"}"}
-void Methmain(): {} {"main {" Vars() Instrs()"}"}
-void Entetes(): {} { Entete() <VIRGULE> Entetes() | Entete() | ""}
-void Entete(): {} {<TYPE>/*<IDENT>*/}
-void Instrs(): {} {Instr() ";" Instrs() | ""}
-void Instr(): {} {Ident1() "=" Exp() | Ident1() "+=" Exp() | Ident1() "++" | /*<IDENT>*/"(" Listexp() ")" | "return" Exp() | "write" "(" /*<IDENT> | <STRING> */")" | "writeln" "(" /*<IDENT> | <STRING> */")" | "if" Exp() "{" Instrs() "}" ( "else""{" Instrs() "}" )? | "while" "(" Exp() ")" "{"Instrs()"}" }
-void Listexp(): {} {Exp() "," Listexp() | Exp() | ""}
-//void Exp(): {} {"!" Exp1() | Exp() "&&" Exp1() | Exp() "||" Exp1() | Exp1()} /*pb rec à gauche*/
-void Exp(): {}{"!"Exp1() ExpP() | Exp1() ExpP() }//corrige la rec à gauche de Exp => à vérifier 
-void ExpP() : {} {"&&" Exp1() ExpP() | "||" Exp1() ExpP()  } //corrige la rec à gauche de Exp => à vérifier 
-//void Exp1(): {} {Exp1() "==" Exp2() | Exp1() ">" Exp2() | Exp2()}/*pb rec à gauche*/
+void S(): {} {<CLASS> <IDENT> <ACCG> Decls() Methmain() <ACCD> <EOF>  }
+void Decls(): {} {Decl()<PV>Decls()| {} }
+//void Decl(): {} {Var() | Methode()}
+void Decl(): {} {TypeMeth() DeclP() | <FINAL> TypeMeth() <IDENT>Vexp()}
+void DeclP(): {} {<IDENT>(<PARRG>Entetes()<PARRD><ACCG>Vars() Instrs()<ACCD>| <TABG> Exp()<TABD>|Vexp())}
+void Vars(): {} {Var()<PV>Vars()|{}}
+//void Var(): {} {TypeMeth()<IDENT> Vexp() | TypeMeth()<TABG>Exp()<TABD> | "final "<TYPE> <IDENT>Vexp() } /*pb de factorisation*/
+void Var(): {} {TypeMeth()  VarP() | <FINAL> TypeMeth() <IDENT>Vexp() }
+void VarP(): {} {<IDENT>(<TABG> Exp()<TABD>|Vexp())}//On a inversé les deux parties du ou logique et ça marche miraculeusement
+void Vexp(): {} {<EGAL>Exp()|{}}
+void Methode(): {} {TypeMeth() <IDENT><PARRG>Entetes()<PARRD><ACCG>Vars() Instrs()<ACCD>}
+void Methmain(): {} {<MAIN> <ACCG> Vars() Instrs()<ACCD>}
+//void Entetes(): {} { Entete() <VIRGULE> Entetes() | Entete() | {}}
+void Entetes(): {} {Entete() EntetesP() | {}}
+void EntetesP() : {} {<VIRGULE> Entetes() | {}}
+void Entete(): {} {<TYPE><IDENT>}
+void Instrs(): {} {Instr() <PV> Instrs() | {}}
+//void Instr(): {} {Ident1() <EGAL> Exp() | Ident1() <PEG> Exp() | Ident1() <PP> | <IDENT><PARRG> Listexp() <PARRD> | <RETURN> Exp() | <WRITE> <PARRG> <IDENT> | <STRING> */<PARRD> | <WRITELN> <PARRG> <IDENT> | <STRING> */<PARRD> | <IF> Exp() <ACCG> Instrs() <ACCD> ( <ELSE><ACCG> Instrs() <ACCD> )? | <WHILE> <PARRG> Exp() <PARRD> <ACCG>Instrs()<ACCD> }
+void Instr(): {} {<IDENT>((Ident1()InstrP())|<PARRG> Listexp() <PARRD>) | <RETURN> Exp() | <WRITE> <PARRG> (<IDENT> | <STRING>) <PARRD> | <WRITELN> <PARRG> (<IDENT> | <STRING>) <PARRD> | <IF> Exp() <ACCG> Instrs() <ACCD> ( <ELSE><ACCG> Instrs() <ACCD> )? | <WHILE> <PARRG> Exp() <PARRD> <ACCG>Instrs()<ACCD> }
+void InstrP(): {} {<EGAL> Exp() | <PEG> Exp() | <PP>}
+//void Listexp(): {} {Exp() <VIRGULE> Listexp() | Exp() | {}}
+void Listexp(): {} {Exp() ListexpP() | {}}
+void ListexpP(): {} {<VIRGULE> Listexp() | {}}
+//void Exp(): {} {<EXCL> Exp1() | Exp() <ET> Exp1() | Exp() <OU> Exp1() | Exp1()} /*pb rec à gauche*/
+void Exp(): {}{<EXCL>Exp1() ExpP() | Exp1() ExpP() }//corrige la rec à gauche de Exp => à vérifier
+void ExpP() : {} {<ET> Exp1() ExpP() | <OU> Exp1() ExpP() | {} } //corrige la rec à gauche de Exp => à vérifier
+//void Exp1(): {} {Exp1() <EGEG> Exp2() | Exp1() <SUP> Exp2() | Exp2()}/*pb rec à gauche*/
 void Exp1(): {}{Exp2() Exp1P()}//corrige la rec à gauche de Exp1 => à vérifier
-void Exp1P() : {}{"==" Exp2() Exp1P() | ">" Exp2() Exp1P() | "" }//corrige la rec à gauche de Exp1 => à vérifier
-//void Exp2(): {} {Exp2() "+" Terme() | Exp2() "-" Terme() | Terme()}/*pb rec à gauche*/
+void Exp1P() : {}{<EGEG> Exp2() Exp1P() | <SUP> Exp2() Exp1P() | {} }//corrige la rec à gauche de Exp1 => à vérifier
+//void Exp2(): {} {Exp2() <PLUS> Terme() | Exp2() <MOINS> Terme() | Terme()}/*pb rec à gauche*/
 void Exp2(): {} {Terme() Exp2P()}//corrige la rec à gauche de Exp2 => à vérifier
-void Exp2P(): {} {"+" Terme() Exp2P() | "-" Terme() Exp2P() | ""}//corrige la rec à gauche de Exp2 => à vérifier
-//void Terme(): {} {Terme() "*" Fact() | Terme() "/" Fact() | Fact()}/*pb rec à gauche*/
+void Exp2P(): {} {<PLUS> Terme() Exp2P() | <MOINS> Terme() Exp2P() | {}}//corrige la rec à gauche de Exp2 => à vérifier
+//void Terme(): {} {Terme() <MULT> Fact() | Terme() <DIV> Fact() | Fact()}/*pb rec à gauche*/
 void Terme(): {}{Fact() TermeP()}//corrige la rec à gauche de Exp2 => à vérifier
-void TermeP(): {}{"*" Fact() TermeP() | "/" Fact() TermeP() |""}//corrige la rec à gauche de Exp2 => à vérifier
-void Fact(): {} {Ident1() | /*<IDENT>*/ "(" Listexp() ")" | "true" |"false"/*<NOMBRE>*/|"(" Exp()")"}
-void Ident1(): {} {/*<IDENT> |<IDENT>*/ "[" Exp() "]"}
+void TermeP(): {}{<MULT> Fact() TermeP()  | <DIV> Fact() TermeP() | {} }//corrige la rec à gauche de Exp2 => à vérifier
+void Fact(): {} {<IDENT> FactP() |<VRAI> |<FAUX>|<NOMBRE>|<PARRG> Exp()<PARRD>}
+void FactP(): {}{<TABG> Exp() <TABD> | <PARRG> Listexp() <PARRD>|{}}
+void Ident1(): {} {(<TABG> Exp() <TABD>|{})}//POSE PROBLEME DANS INSTR
+void TypeMeth(): {} {<VOID> | <TYPE>}
