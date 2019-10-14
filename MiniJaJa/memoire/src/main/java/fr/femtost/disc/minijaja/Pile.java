@@ -37,7 +37,14 @@ public class Pile {
         return pile;
     }
 
-    // identVal pas trop compris sur le cours
+    Stack IdentVal (String ID, String SORTE, int S) {
+        if (S == 0) {
+            Quad q1 = pile.peek();
+            Quad q2 = new Quad(ID, q1.VAL, NatureObjet.VAR, SORTE);
+            return Empiler(q2);
+        }
+        return IdentVal(ID, SORTE, S-1);
+    }
 
     Stack DeclCst (String ID, Object VAL, String SORTE) {
         Quad q = TableDesSymboles.creerSymboles(ID, VAL, NatureObjet.VCST, SORTE);
