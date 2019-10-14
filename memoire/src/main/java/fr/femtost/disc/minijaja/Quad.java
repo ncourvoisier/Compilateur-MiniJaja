@@ -1,8 +1,5 @@
 package fr.femtost.disc.minijaja;
 
-import org.omg.CORBA.OBJ_ADAPTER;
-import sun.rmi.transport.ObjectTable;
-
 public class Quad {
 
     String ID;
