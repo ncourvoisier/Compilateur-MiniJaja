@@ -7,7 +7,7 @@ public class Pile {
     Stack<Quad> pile; //Objet pile qui stock des quad
 
 
-    public Pile(Stack pile, Memoire mem) {
+    public Pile(Stack pile) {
         this.pile = pile;
     }
 
