@@ -2,6 +2,7 @@ package fr.femtost.disc.minijaja.ast.entetes;
 
 import fr.femtost.disc.minijaja.ast.ASTEntete;
 import fr.femtost.disc.minijaja.ast.ASTEntetes;
+import fr.femtost.disc.minijaja.ast.type.Entier;
 
 public class EChain extends ASTEntetes {
     private ASTEntetes successor;
@@ -25,14 +26,11 @@ public class EChain extends ASTEntetes {
         StringBuilder sb = new StringBuilder();
 
         sb.append(node.rewrite());
-        sb.append(",");
-        sb.append(successor.rewrite());
+        if(successor instanceof EChain) {
+            sb.append(", ");
+            sb.append(successor.rewrite());
+        }
 
         return sb.toString();
-    }
-
-    public void typeCheck() {
-        //TODO : implement
-        //Probablement objet de type dictionnaire à passer en paramètre
     }
 }

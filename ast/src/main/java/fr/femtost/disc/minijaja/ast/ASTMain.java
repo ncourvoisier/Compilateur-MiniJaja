@@ -24,15 +24,10 @@ public class ASTMain extends ASTNode {
         StringBuilder sb = new StringBuilder();
         sb.append("main ");
         sb.append(" {\n");
-        sb.append(vars.rewrite()).append("\n");
-        sb.append(instrs.rewrite()).append("\n");
-        sb.append("}\n");
+        sb.append(vars.rewrite());
+        sb.append(instrs.rewrite());
+        sb.append("}");
 
         return sb.toString();
-    }
-
-    public void typeCheck() {
-        //TODO : implement
-        //Probablement objet de type dictionnaire à passer en paramètre
     }
 }

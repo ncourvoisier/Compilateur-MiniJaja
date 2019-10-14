@@ -26,13 +26,8 @@ public class ASTEntete extends ASTNode {
     public String rewrite() {
         StringBuilder sb = new StringBuilder();
         sb.append(type.rewrite()).append(" ");
-        sb.append(ident.rewrite()).append("\n");
+        sb.append(ident.rewrite());
 
         return sb.toString();
-    }
-
-    public void typeCheck() {
-        //TODO : implement
-        //Probablement objet de type dictionnaire à passer en paramètre
     }
 }

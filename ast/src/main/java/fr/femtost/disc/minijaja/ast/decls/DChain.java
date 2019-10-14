@@ -25,14 +25,9 @@ public class DChain extends ASTDecls {
         StringBuilder sb = new StringBuilder();
 
         sb.append(node.rewrite());
-        sb.append(";");
+        sb.append(";\n");
         sb.append(successor.rewrite());
 
         return sb.toString();
-    }
-
-    public void typeCheck() {
-        //TODO : implement
-        //Probablement objet de type dictionnaire à passer en paramètre
     }
 }

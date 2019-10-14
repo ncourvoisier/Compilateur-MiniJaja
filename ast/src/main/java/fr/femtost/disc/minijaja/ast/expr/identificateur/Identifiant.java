@@ -15,12 +15,6 @@ public class Identifiant extends ASTIdentGenerique {
     }
 
     public String rewrite() {
-        //TODO : implement
-        return null;
-    }
-
-    public void typeCheck() {
-        //TODO : implement
-        //Probablement objet de type dictionnaire à passer en paramètre
+        return name;
     }
 }

@@ -22,8 +22,7 @@ public class Tableau extends ASTIdentGenerique {
     }
 
     public String rewrite() {
-        //TODO : implement
-        return null;
+        return name + "[" + index.rewrite() + "]";
     }
 
     public void typeCheck() {
