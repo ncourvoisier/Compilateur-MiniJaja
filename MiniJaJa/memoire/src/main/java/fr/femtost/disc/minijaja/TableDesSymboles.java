@@ -5,7 +5,7 @@ import java.util.Map;
 
 public class TableDesSymboles {
 
-    static Map<String, Quad> tableSymbole;
+    Map<String, Quad> tableSymbole;
 
     public TableDesSymboles() {
         this.tableSymbole = new HashMap<>();
@@ -13,11 +13,12 @@ public class TableDesSymboles {
 
 
 
-    static Quad creerSymboles(String ID, Object VAL, NatureObjet OBJ, String SORTE) {
+    Quad creerSymboles(String ID, Object VAL, NatureObjet OBJ, String SORTE) {
         Quad q = new Quad(ID, VAL, OBJ, SORTE);
+        System.out.println("ID " + ID + " VAL " + VAL + " OBJ " + OBJ + " SORTE " + SORTE );
         tableSymbole.put(ID, q);
         return q;
-    };
+    }
 
 
 

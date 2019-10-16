@@ -5,7 +5,6 @@ import org.junit.Test;
 
 import java.util.Stack;
 
-import static fr.femtost.disc.minijaja.TableDesSymboles.tableSymbole;
 import static org.junit.Assert.*;
 
 public class PileTest {
@@ -82,9 +81,12 @@ public class PileTest {
 
     @Test
     public void DeclVarTest() {
-       // p.DeclVar("1", 0, "sorte");
-        //assertEquals(1, s.size());
-        //Quad q = tableSymbole.get(0);
-        //assertEquals(0, q.VAL);
+        p.DeclVar("Var", 0, "int");
+        assertEquals(1, s.size());
+        Quad q = p.tds.tableSymbole.get("Var");
+        assertEquals(0, q.VAL);
+        assertSame("Var", q.ID);
+        assertSame("int", q.SORTE);
+        assertSame(NatureObjet.VAR, q.OBJ);
     }
 }
