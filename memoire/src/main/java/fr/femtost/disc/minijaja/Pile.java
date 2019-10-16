@@ -38,6 +38,10 @@ public class Pile {
         return pile;
     }
 
+    Quad ReturnQuadWithId (String ID) {
+        return tds.chercheQuad(ID);
+    }
+
     Stack IdentVal (String ID, String SORTE, int S) {
         if (S == 0) {
             Quad q1 = pile.peek();
