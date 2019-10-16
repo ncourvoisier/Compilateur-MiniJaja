@@ -131,7 +131,7 @@ public class NoeudMemoireTest {
         assertFalse(AM1.getNoeud(A2).disponible);
 
         assertEquals(0, A1);
-        assertEquals(10, A2);
+        assertEquals(11, A2);
     }
 
     @Test
