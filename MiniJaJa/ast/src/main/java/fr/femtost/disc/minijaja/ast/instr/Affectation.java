@@ -14,14 +14,6 @@ public class Affectation extends ASTInstr {
         this.expr = expr;
     }
 
-    public ASTIdentGenerique getIdent() {
-        return ident;
-    }
-
-    public ASTExpr getExpr() {
-        return expr;
-    }
-
     @Override
     public String rewrite() {
         StringBuilder sb = new StringBuilder();

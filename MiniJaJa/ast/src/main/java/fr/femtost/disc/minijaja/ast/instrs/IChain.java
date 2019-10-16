@@ -7,14 +7,6 @@ public class IChain extends ASTInstrs {
     private ASTInstrs successor;
     private ASTInstr node;
 
-    public ASTInstrs getSuccessor() {
-        return successor;
-    }
-
-    public ASTInstr getNode() {
-        return node;
-    }
-
     public IChain(ASTInstrs successor, ASTInstr node) {
         this.successor = successor;
         this.node = node;

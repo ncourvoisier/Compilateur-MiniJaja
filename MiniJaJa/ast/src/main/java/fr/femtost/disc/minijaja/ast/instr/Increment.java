@@ -11,10 +11,6 @@ public class Increment extends ASTInstr {
         this.identGenerique = identGenerique;
     }
 
-    public ASTIdentGenerique getIdentGenerique() {
-        return identGenerique;
-    }
-
     @Override
     public String rewrite() {
         StringBuilder sb = new StringBuilder();

@@ -5,7 +5,7 @@ import fr.femtost.disc.minijaja.ast.expr.identificateur.Identifiant;
 
 public class Ecrire extends ASTInstr {
 
-    private Identifiant ident;
+    protected Identifiant ident;
 
     public Ecrire(Identifiant ident) {
         this.ident = ident;

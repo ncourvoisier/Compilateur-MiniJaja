@@ -14,14 +14,6 @@ public class appelI extends ASTInstr {
         this.listExpr = listExpr;
     }
 
-    public Identifiant getIdent() {
-        return ident;
-    }
-
-    public ASTListExpr getListExpr() {
-        return listExpr;
-    }
-
     @Override
     public String rewrite() {
         StringBuilder sb = new StringBuilder();

@@ -13,14 +13,6 @@ public class DChain extends ASTDecls {
         this.node = node;
     }
 
-    public ASTDecls getSuccessor() {
-        return successor;
-    }
-
-    public ASTDecl getNode() {
-        return node;
-    }
-
     public String rewrite() {
         StringBuilder sb = new StringBuilder();
 

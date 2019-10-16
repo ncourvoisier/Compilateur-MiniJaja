@@ -8,27 +8,20 @@ public class ExChain extends ASTListExpr {
     private ASTListExpr successor;
     private ASTExpr node;
 
-
-
     public ExChain(ASTListExpr successor, ASTExpr node) {
         this.successor = successor;
         this.node = node;
     }
 
-    public ASTListExpr getSuccessor() {
-        return successor;
-    }
-
-    public ASTExpr getNode() {
-        return node;
-    }
-
+    @Override
     public String rewrite() {
         StringBuilder sb = new StringBuilder();
 
         sb.append(node.rewrite());
-        sb.append(",");
-        sb.append(successor.rewrite());
+        if(successor instanceof ExChain) {
+            sb.append(",");
+            sb.append(successor.rewrite());
+        }
 
         return sb.toString();
     }

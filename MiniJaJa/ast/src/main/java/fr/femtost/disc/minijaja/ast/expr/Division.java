@@ -12,14 +12,6 @@ public class Division extends ASTExpr {
         this.expr2 = expr2;
     }
 
-    public ASTExpr getExpr1() {
-        return expr1;
-    }
-
-    public ASTExpr getExpr2() {
-        return expr2;
-    }
-
     @Override
     public String rewrite() {
         StringBuilder sb = new StringBuilder();

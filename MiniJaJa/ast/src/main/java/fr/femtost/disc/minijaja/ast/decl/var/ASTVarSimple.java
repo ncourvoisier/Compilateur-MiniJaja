@@ -26,9 +26,9 @@ public class ASTVarSimple extends ASTVar {
     @Override
     public String rewrite() {
         StringBuilder sb = new StringBuilder();
-        sb.append(typeMeth.rewrite()).append(" ").append(this.getIdentifiant().rewrite());
-        if(this.getExpr() != null)
-            sb.append(" = ").append(this.getExpr().rewrite());
+        sb.append(typeMeth.rewrite()).append(" ").append(this.identifiant.rewrite());
+        if(this.expr != null)
+            sb.append(" = ").append(this.expr.rewrite());
         return sb.toString();
     }
 }

@@ -11,10 +11,6 @@ public class Retour extends ASTInstr {
         this.expr = expr;
     }
 
-    public ASTExpr getExpr() {
-        return expr;
-    }
-
     @Override
     public String rewrite() {
         StringBuilder sb = new StringBuilder();

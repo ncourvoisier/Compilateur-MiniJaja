@@ -8,4 +8,9 @@ public class EcrireLn extends Ecrire {
     public EcrireLn(Identifiant ident) {
         super(ident);
     }
+
+    @Override
+    public String rewrite() {
+        return "writeln(" + ident.rewrite() + ")";
+    }
 }

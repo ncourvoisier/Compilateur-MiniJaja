@@ -15,18 +15,6 @@ public class ASTClass extends ASTNode {
         this.main = main;
     }
 
-    public Identifiant getIdent() {
-        return ident;
-    }
-
-    public ASTDecls getDecls() {
-        return decls;
-    }
-
-    public ASTMain getMain() {
-        return main;
-    }
-
     @Override
     public String rewrite() {
         StringBuilder sb = new StringBuilder();

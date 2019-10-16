@@ -19,17 +19,13 @@ public class ASTVarConst extends ASTVar {
         this.type = type;
     }
 
-    public ASTType getType() {
-        return type;
-    }
-
     @Override
     public String rewrite() {
         StringBuilder sb = new StringBuilder();
         sb.append("final ");
-        sb.append(type.rewrite()).append(" ").append(this.getIdentifiant().rewrite());
-        if(this.getExpr() != null)
-            sb.append(" = ").append(this.getExpr().rewrite());
+        sb.append(type.rewrite()).append(" ").append(this.identifiant.rewrite());
+        if(this.expr != null)
+            sb.append(" = ").append(this.expr.rewrite());
         return sb.toString();
     }
 }

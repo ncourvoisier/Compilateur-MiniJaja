@@ -13,14 +13,6 @@ public class TantQue extends ASTInstr {
         this.expr = expr;
     }
 
-    public ASTInstrs getInstrs() {
-        return instrs;
-    }
-
-    public ASTExpr getExpr() {
-        return expr;
-    }
-
     @Override
     public String rewrite() {
         StringBuilder sb = new StringBuilder();
@@ -28,7 +20,7 @@ public class TantQue extends ASTInstr {
         sb.append("(").append(expr.rewrite()).append(")");
         sb.append(" {\n");
         sb.append(instrs.rewrite());
-        sb.append("\n}");
+        sb.append("}\n");
 
         return sb.toString();
     }
