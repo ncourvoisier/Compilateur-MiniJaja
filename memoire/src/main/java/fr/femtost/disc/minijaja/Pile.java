@@ -5,10 +5,11 @@ import java.util.Stack;
 public class Pile {
 
     Stack<Quad> pile; //Objet pile qui stock des quad
-
+    TableDesSymboles tds;
 
     public Pile(Stack pile) {
         this.pile = pile;
+         tds = new TableDesSymboles();
     }
 
     Stack Empiler (Quad q) {
@@ -32,7 +33,7 @@ public class Pile {
     }
 
     Stack DeclVar (String ID, Object VAL, String SORTE) {
-        Quad q = TableDesSymboles.creerSymboles(ID, VAL, NatureObjet.VAR, SORTE);
+        Quad q = tds.creerSymboles(ID, VAL, NatureObjet.VAR, SORTE);
         Empiler(q);
         return pile;
     }
@@ -47,20 +48,20 @@ public class Pile {
     }
 
     Stack DeclCst (String ID, Object VAL, String SORTE) {
-        Quad q = TableDesSymboles.creerSymboles(ID, VAL, NatureObjet.VCST, SORTE);
+        Quad q = tds.creerSymboles(ID, VAL, NatureObjet.VCST, SORTE);
         Empiler(q);
         return pile;
     }
 
     Stack DeclTab (String ID, Object VAL, String SORTE) {
-        Quad q = TableDesSymboles.creerSymboles(ID, VAL, NatureObjet.TAB, SORTE);
+        Quad q = tds.creerSymboles(ID, VAL, NatureObjet.TAB, SORTE);
         Empiler(q);
         return pile;
     }
 
 
     Stack DeclMeth (String ID, Object VAL, String SORTE) {
-        Quad q = TableDesSymboles.creerSymboles(ID, VAL, NatureObjet.METH, SORTE);
+        Quad q = tds.creerSymboles(ID, VAL, NatureObjet.METH, SORTE);
         Empiler(q);
         return pile;
     }
