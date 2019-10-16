@@ -4,6 +4,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import fr.femtost.disc.minijaja.ast.*;
 import fr.femtost.disc.minijaja.ast.expr.identificateur.*;
+import fr.femtost.disc.minijaja.ast.type.* ;
+
 public class SyntaxChecker {
     public static void main(String[] args) {
 	System.out.println(args[0]);
