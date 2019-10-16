@@ -19,6 +19,9 @@ public class TableDesSymboles {
         return q;
     }
 
+    Quad chercheQuad(String ID) {
+        return tableSymbole.get(ID);
+    }
 
 
 

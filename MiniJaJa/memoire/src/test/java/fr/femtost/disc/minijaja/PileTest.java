@@ -155,7 +155,26 @@ public class PileTest {
         assertSame(NatureObjet.METH, q.OBJ);
     }
 
+    @Test
+    public void chercherValeurTest() {
+        p.DeclVar("Var", 0, "int");
+        assertEquals(1, s.size());
+        p.DeclVar("hauteur", 25, "int");
+        p.DeclVar("largeur", 18, "int");
+        assertEquals(3, s.size());
+
+        Quad q1 = p.ReturnQuadWithId("Var");
+        assertSame("Var", q1.ID);
+        assertSame(0, q1.VAL);
+        assertSame(NatureObjet.VAR, q1.OBJ);
+        assertSame("int", q1.SORTE);
+
+        Quad q2 = p.ReturnQuadWithId("largeur");
+        assertSame("largeur", q2.ID);
+        assertSame(18, q2.VAL);
+        assertSame(NatureObjet.VAR, q2.OBJ);
+        assertSame("int", q2.SORTE);
+    }
 
 
-    
 }
