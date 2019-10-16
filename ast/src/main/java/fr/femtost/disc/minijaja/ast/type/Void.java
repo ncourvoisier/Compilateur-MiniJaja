@@ -8,9 +8,4 @@ public final class Void extends ASTTypeMeth {
         return "void";
     }
 
-    public void typeCheck() {
-        //TODO : implement
-        //Probablement objet de type dictionnaire à passer en paramètre
-    }
-
 }

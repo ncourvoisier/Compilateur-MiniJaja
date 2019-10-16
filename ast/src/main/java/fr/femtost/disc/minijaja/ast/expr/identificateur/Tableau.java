@@ -13,20 +13,7 @@ public class Tableau extends ASTIdentGenerique {
         this.index = index;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public ASTExpr getIndex() {
-        return index;
-    }
-
     public String rewrite() {
         return name + "[" + index.rewrite() + "]";
-    }
-
-    public void typeCheck() {
-        //TODO : implement
-        //Probablement objet de type dictionnaire à passer en paramètre
     }
 }

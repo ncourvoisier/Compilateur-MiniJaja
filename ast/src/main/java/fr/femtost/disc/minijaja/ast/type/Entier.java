@@ -7,8 +7,4 @@ public final class Entier extends ASTType {
         return "int";
     }
 
-    public void typeCheck() {
-        //TODO : implement
-        //Probablement objet de type dictionnaire à passer en paramètre
-    }
 }

@@ -10,20 +10,11 @@ public class BoolVal extends ASTExpr {
         this.value = value;
     }
 
-    public boolean isValue() {
-        return value;
-    }
-
     public String rewrite() {
         if(value){
             return "true";
         }else{
             return "false";
         }
-    }
-
-    public void typeCheck() {
-        //TODO : implement
-        //Probablement objet de type dictionnaire à passer en paramètre
     }
 }

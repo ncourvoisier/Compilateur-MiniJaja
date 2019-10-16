@@ -19,26 +19,6 @@ public class ASTMethode extends ASTDecl {
         this.instrs = instrs;
     }
 
-    public ASTVars getVars() {
-        return vars;
-    }
-
-    public ASTTypeMeth getTypeMeth() {
-        return typeMeth;
-    }
-
-    public Identifiant getIdent() {
-        return ident;
-    }
-
-    public ASTEntetes getEntetes() {
-        return entetes;
-    }
-
-    public ASTInstrs getInstrs() {
-        return instrs;
-    }
-
     public String rewrite() {
         StringBuilder sb = new StringBuilder();
         sb.append("\n");

@@ -17,8 +17,8 @@ public class ASTVarTableau extends ASTVar {
     @Override
     public String rewrite() {
         StringBuilder sb = new StringBuilder();
-        sb.append(typeMeth.rewrite()).append(" ").append(this.getIdentifiant().rewrite());
-        sb.append("[").append(this.getExpr().rewrite()).append("]");
+        sb.append(typeMeth.rewrite()).append(" ").append(this.identifiant.rewrite());
+        sb.append("[").append(this.expr.rewrite()).append("]");
         return sb.toString();
     }
 }

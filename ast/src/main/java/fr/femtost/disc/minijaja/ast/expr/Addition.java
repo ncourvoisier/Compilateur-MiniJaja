@@ -12,14 +12,6 @@ public class Addition extends ASTExpr {
         this.expr2 = expr2;
     }
 
-    public ASTExpr getExpr1() {
-        return expr1;
-    }
-
-    public ASTExpr getExpr2() {
-        return expr2;
-    }
-
     public String rewrite() {
         StringBuilder sb = new StringBuilder();
         sb.append("(");
@@ -29,11 +21,6 @@ public class Addition extends ASTExpr {
         sb.append(")");
 
         return sb.toString();
-    }
-
-    public void typeCheck() {
-        //TODO : implement
-        //Probablement objet de type dictionnaire à passer en paramètre
     }
 
 }

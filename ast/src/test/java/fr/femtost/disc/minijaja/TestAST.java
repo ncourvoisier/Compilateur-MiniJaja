@@ -91,20 +91,11 @@ public class TestAST
     }
 
 
-
     @Test
     public void TestMainAST()
     {
         ASTClass astClass = genClass();
         System.out.println(astClass.rewrite());
         assertTrue(true);
-    }
-
-    @Test
-    public void ASTGetterClass() {
-        ASTClass c = genClass();
-        assertEquals("C", c.getIdent().getName());
-        assertTrue(c.getDecls() instanceof DChain);
-        assertTrue(c.getMain().getInstrs() instanceof IChain);
     }
 }

@@ -9,15 +9,8 @@ public class Nbre extends ASTExpr {
         this.expr = expr;
     }
 
-    public int getExpr() {
-        return expr;
-    }
-
     @Override
     public String rewrite() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(expr);
-
-        return sb.toString();
+        return Integer.valueOf(expr).toString();
     }
 }

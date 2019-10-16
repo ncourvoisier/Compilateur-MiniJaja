@@ -14,15 +14,6 @@ public class AppelE extends ASTExpr {
         this.listExpr = listExpr;
     }
 
-    public Identifiant getIdent() {
-        return ident;
-    }
-
-    public ASTListExpr getListExpr() {
-        return listExpr;
-    }
-
-
     public String rewrite() {
         StringBuilder sb = new StringBuilder();
         sb.append(ident.rewrite());
@@ -32,10 +23,5 @@ public class AppelE extends ASTExpr {
 
 
         return sb.toString();
-    }
-
-    public void typeCheck() {
-        //TODO : implement
-        //Probablement objet de type dictionnaire à passer en paramètre
     }
 }

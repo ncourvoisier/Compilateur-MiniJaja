@@ -12,14 +12,6 @@ public class ASTMain extends ASTNode {
         this.instrs = instrs;
     }
 
-    public ASTVars getVars() {
-        return vars;
-    }
-
-    public ASTInstrs getInstrs() {
-        return instrs;
-    }
-
     public String rewrite() {
         StringBuilder sb = new StringBuilder();
         sb.append("main ");
