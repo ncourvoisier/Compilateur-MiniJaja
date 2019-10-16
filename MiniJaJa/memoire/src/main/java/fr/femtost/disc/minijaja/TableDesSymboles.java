@@ -15,7 +15,6 @@ public class TableDesSymboles {
 
     Quad creerSymboles(String ID, Object VAL, NatureObjet OBJ, String SORTE) {
         Quad q = new Quad(ID, VAL, OBJ, SORTE);
-        System.out.println("ID " + ID + " VAL " + VAL + " OBJ " + OBJ + " SORTE " + SORTE );
         tableSymbole.put(ID, q);
         return q;
     }
