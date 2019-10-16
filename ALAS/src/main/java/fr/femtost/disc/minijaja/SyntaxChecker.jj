@@ -2,6 +2,8 @@ PARSER_BEGIN(SyntaxChecker)
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import fr.femtost.disc.minijaja.ast.*;
+import fr.femtost.disc.minijaja.ast.expr.identificateur.*;
 public class SyntaxChecker {
     public static void main(String[] args) {
 	System.out.println(args[0]);
@@ -39,7 +41,7 @@ TOKEN: {
 	<PARRD :")">{System.out.println("Fermeture d'une parenthèse");}|
 	<MAIN:"main ">{System.out.println("Méthode principale");}|
 	<FINAL:"final ">{System.out.println("méthode ou variable final");}|
-	<RETURN: "return">{System.out.println("retour attendu");}|
+	<RETURN: "return ">{System.out.println("retour attendu");}|
 	<EGAL: "=">{System.out.println("Affectation");}|
 	<TABG: "[">{System.out.println("Ouverture de crochets");}|
 	<TABD: "]">{System.out.println("Fermeture de crochets");}|
@@ -109,4 +111,4 @@ void TermeP(): {}{<MULT> Fact() TermeP()  | <DIV> Fact() TermeP() | {} }//corrig
 void Fact(): {} {<IDENT> FactP() |<VRAI> |<FAUX>|<NOMBRE>|<PARRG> Exp()<PARRD>}
 void FactP(): {}{<TABG> Exp() <TABD> | <PARRG> Listexp() <PARRD>|{}}
 void Ident1(): {} {(<TABG> Exp() <TABD>|{})}//POSE PROBLEME DANS INSTR
-void TypeMeth(): {} {<VOID> | <TYPE>}
+ASTTypeMeth TypeMeth(): {} {<VOID>{return new Void();} | <TYPE>{if (matchedToken.image == "int"){return new Entier();}else {return new Boolean();}}}
