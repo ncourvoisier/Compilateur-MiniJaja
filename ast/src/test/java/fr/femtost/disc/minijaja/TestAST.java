@@ -18,6 +18,8 @@ import fr.femtost.disc.minijaja.ast.expr.identificateur.Identifiant;
 import fr.femtost.disc.minijaja.ast.instr.Affectation;
 import fr.femtost.disc.minijaja.ast.instrs.IChain;
 import fr.femtost.disc.minijaja.ast.instrs.Inil;
+import fr.femtost.disc.minijaja.ast.listexpr.ExChain;
+import fr.femtost.disc.minijaja.ast.listexpr.Exnil;
 import fr.femtost.disc.minijaja.ast.type.ASTType;
 import fr.femtost.disc.minijaja.ast.type.Booleen;
 import fr.femtost.disc.minijaja.ast.type.Entier;
@@ -31,17 +33,32 @@ import org.junit.Test;
 public class TestAST
 {
 
-    private static ASTExpr generateExpr() {
+    private static ASTExpr generateExprSomme() {
         return new Addition(new Identifiant("x"), new Nbre(8));
     }
+    private static ASTExpr generateExprSoustraction() { return new Soustraction(new Identifiant("x"), new Nbre(8)); }
+    private static ASTExpr generateExprAnd() { return new And(new Identifiant("x"), new Identifiant("y")); }
+    private static ASTExpr generateExprOr() { return new Or(new Identifiant("x"), new Identifiant("y")); }
+    private static ASTExpr generateExprMult() { return new Multiplication(new Identifiant("x"), new Nbre(1)); }
+    private static ASTExpr generateExprDiv() { return new Division(new Identifiant("x"), new Nbre(1)); }
+    private static ASTExpr generateExprEgal(){ return new Egal(new Identifiant("x"), new Nbre(8)); }
+    private static ASTExpr generateExprSup(){ return new Superieur(new Identifiant("x"), new Nbre(8)); }
+    private static ASTExpr generateExprNot(){ return new Not(new Identifiant("x"));}
+    private static ASTExpr generateExprNegation(){ return new Not(new Identifiant("x"));}
+    private static ASTExpr generateExprBoolVak(){ return new BoolVal(true);}
 
-    private static ASTInstr generateInstr() {
-        return new Affectation(new Identifiant("max"), generateExpr());
+
+   /* private static ASTListExpr generateListExpr(){
+        //return new ExChain(new ExChain(new Exnil(), generateExprSomme()))
+    }*/
+
+    private static ASTInstr generateInstrAff() {
+        return new Affectation(new Identifiant("max"), generateExprSomme());
     }
 
     private static ASTInstrs genChainInstrs() {
-        ASTInstrs result = new IChain(new Inil(), generateInstr());
-        return new IChain(result, generateInstr());
+        ASTInstrs result = new IChain(new Inil(), generateInstrAff());
+        return new IChain(result, generateInstrAff());
     }
 
     private static ASTMain genSimpleMain() {
