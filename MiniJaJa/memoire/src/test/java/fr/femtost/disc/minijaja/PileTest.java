@@ -89,4 +89,26 @@ public class PileTest {
         assertSame("int", q.SORTE);
         assertSame(NatureObjet.VAR, q.OBJ);
     }
+
+    @Test
+    public void DeclConstTest() {
+        p.DeclCst("Var", 0, "int");
+        assertEquals(1, s.size());
+        Quad q = p.tds.tableSymbole.get("Var");
+        assertEquals(0, q.VAL);
+        assertSame("Var", q.ID);
+        assertSame("int", q.SORTE);
+        assertSame(NatureObjet.VCST, q.OBJ);
+    }
+
+    @Test
+    public void DeclMethTest() {
+        p.DeclMeth("Var", 0, "int");
+        assertEquals(1, s.size());
+        Quad q = p.tds.tableSymbole.get("Var");
+        assertEquals(0, q.VAL);
+        assertSame("Var", q.ID);
+        assertSame("int", q.SORTE);
+        assertSame(NatureObjet.METH, q.OBJ);
+    }
 }
