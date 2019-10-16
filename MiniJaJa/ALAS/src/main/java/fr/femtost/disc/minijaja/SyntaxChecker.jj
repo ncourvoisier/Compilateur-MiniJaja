@@ -66,7 +66,7 @@ TOKEN: {
 	<DIV : "/">{System.out.println("Division");}|
 	<VRAI: "true">{System.out.println("Vrai");}|
 	<FAUX: "false">{System.out.println("Faux");}|
-	<TYPE: "int " | "boolean ">{ System.out.println("Type de la variable : "+ matchedToken.image);} |
+	<TYPE: "int " | "boolean ">{if (matchedToken.image == "int"){return new Entier();}else {return new Boolean();}} |
 	<VIRGULE: ",">{} |
 
 	<IDENT: ((["a"-"z"])+|(["A"-"Z"])+)((["a"-"z"])*(["A"-"Z"])*(["0"-"9"])*)>{ System.out.println("Identificateur :"+ matchedToken.image);} |//Commence forcément par une lettre majuscule ou minuscule, modifiable
@@ -82,7 +82,7 @@ void Decl(): {} {TypeMeth() DeclP() | <FINAL> TypeMeth() <IDENT>Vexp()}
 void DeclP(): {} {<IDENT>(<PARRG>Entetes()<PARRD><ACCG>Vars() Instrs()<ACCD>| <TABG> Exp()<TABD>|Vexp())}
 void Vars(): {} {Var()<PV>Vars()|{}}
 //void Var(): {} {TypeMeth()<IDENT> Vexp() | TypeMeth()<TABG>Exp()<TABD> | "final "<TYPE> <IDENT>Vexp() } /*pb de factorisation*/
-void Var(): {} {TypeMeth()  VarP() | <FINAL> TypeMeth() <IDENT>Vexp() }
+void Var(): {System.out.println();} {TypeMeth()  VarP() | <FINAL> TypeMeth() <IDENT>Vexp() }
 void VarP(): {} {<IDENT>(<TABG> Exp()<TABD>|Vexp())}//On a inversé les deux parties du ou logique et ça marche miraculeusement
 void Vexp(): {} {<EGAL>Exp()|{}}
 void Methode(): {} {TypeMeth() <IDENT><PARRG>Entetes()<PARRD><ACCG>Vars() Instrs()<ACCD>}
@@ -113,4 +113,4 @@ void TermeP(): {}{<MULT> Fact() TermeP()  | <DIV> Fact() TermeP() | {} }//corrig
 void Fact(): {} {<IDENT> FactP() |<VRAI> |<FAUX>|<NOMBRE>|<PARRG> Exp()<PARRD>}
 void FactP(): {}{<TABG> Exp() <TABD> | <PARRG> Listexp() <PARRD>|{}}
 void Ident1(): {} {(<TABG> Exp() <TABD>|{})}//POSE PROBLEME DANS INSTR
-ASTTypeMeth TypeMeth(): {} {<VOID>{return new Void();} | <TYPE>{if (matchedToken.image == "int"){return new Entier();}else {return new Boolean();}}}
+ASTTypeMeth TypeMeth(): {} {<VOID>{return new fr.femtost.disc.minijaja.ast.type.Void();} | <TYPE>}
