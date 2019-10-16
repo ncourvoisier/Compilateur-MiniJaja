@@ -80,7 +80,7 @@ public class PileTest {
     }
 
     @Test
-    public void DeclVarTest() {
+    public void DeclVarTest1() {
         p.DeclVar("Var", 0, "int");
         assertEquals(1, s.size());
         Quad q = p.tds.tableSymbole.get("Var");
@@ -88,6 +88,33 @@ public class PileTest {
         assertSame("Var", q.ID);
         assertSame("int", q.SORTE);
         assertSame(NatureObjet.VAR, q.OBJ);
+    }
+
+    @Test
+    public void DeclVarTest2() {
+        p.DeclVar("Var", 0, "int");
+        assertEquals(1, s.size());
+        p.DeclVar("hauteur", 25, "int");
+        p.DeclVar("largeur", 18, "int");
+        assertEquals(3, s.size());
+
+        Quad q1 = p.tds.tableSymbole.get("Var");
+        assertEquals(0, q1.VAL);
+        assertSame("Var", q1.ID);
+        assertSame("int", q1.SORTE);
+        assertSame(NatureObjet.VAR, q1.OBJ);
+
+        Quad q2 = p.tds.tableSymbole.get("hauteur");
+        assertEquals(25, q2.VAL);
+        assertSame("hauteur", q2.ID);
+        assertSame("int", q2.SORTE);
+        assertSame(NatureObjet.VAR, q2.OBJ);
+
+        Quad q3 = p.tds.tableSymbole.get("largeur");
+        assertEquals(18, q3.VAL);
+        assertSame("largeur", q3.ID);
+        assertSame("int", q3.SORTE);
+        assertSame(NatureObjet.VAR, q3.OBJ);
     }
 
     @Test
