@@ -30,7 +30,7 @@ public class PileTest {
     }
 
     @Test
-    public void empilerDepilerTest() {
+    public void empilerDepilerTest() throws PileException {
         Quad q1 = new Quad("1", 0, NatureObjet.VAR, "sorte");
         p.Empiler(q1);
         p.Depiler();
@@ -55,7 +55,7 @@ public class PileTest {
     }
 
     @Test
-    public void empilerDepiler2Test() {
+    public void empilerDepiler2Test() throws PileException {
         Quad q1 = new Quad("1", 0, NatureObjet.VAR, "sorte");
         p.Empiler(q1);
         Quad q2 = new Quad("2", 0, NatureObjet.VAR, "sorte");
@@ -66,7 +66,7 @@ public class PileTest {
     }
 
     @Test
-    public void echangerTest() {
+    public void echangerTest() throws PileException {
         Quad q1 = new Quad("1", 0, NatureObjet.VAR, "sorte");
         p.Empiler(q1);
         Quad q2 = new Quad("2", 1, NatureObjet.VAR, "sorte");
@@ -134,11 +134,22 @@ public class PileTest {
     }
 
     @Test
-    public void DeclConstTest() {
+    public void DeclConstTest1() {
         p.DeclCst("Var", 0, "int");
         assertEquals(1, s.size());
         Quad q = p.tds.tableSymbole.get("Var");
         assertEquals(0, q.VAL);
+        assertSame("Var", q.ID);
+        assertSame("int", q.SORTE);
+        assertSame(NatureObjet.CST, q.OBJ);
+    }
+
+    @Test
+    public void DeclConstTest2() {
+        p.DeclCst("Var", null, "int");
+        assertEquals(1, s.size());
+        Quad q = p.tds.tableSymbole.get("Var");
+        assertEquals(null, q.VAL);
         assertSame("Var", q.ID);
         assertSame("int", q.SORTE);
         assertSame(NatureObjet.VCST, q.OBJ);

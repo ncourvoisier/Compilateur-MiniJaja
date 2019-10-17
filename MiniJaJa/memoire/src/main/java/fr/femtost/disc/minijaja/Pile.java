@@ -12,17 +12,26 @@ public class Pile {
          tds = new TableDesSymboles();
     }
 
+    public Boolean pileEstVide () {
+        return pile.isEmpty();
+    }
+
     Stack Empiler (Quad q) {
         pile.push(q);
         return pile;
     }
 
-    Stack Depiler () {
-        pile.pop();
-        return pile;
+    Quad Depiler () throws PileException {
+        if (pileEstVide()) {
+            throw new PileException("Impossible de dépiller un élément la pile est vide.");
+        }
+        return pile.pop();
     }
 
-    Stack Echanger () {
+    Stack Echanger () throws PileException {
+        if (pileEstVide()) {
+            throw new PileException("Impossible de dépiller un élément la pile est vide.");
+        }
         Quad q1;
         Quad q2;
         q1 = pile.pop();
@@ -42,17 +51,26 @@ public class Pile {
         return tds.chercheQuad(ID);
     }
 
-    Stack IdentVal (String ID, String SORTE, int S) {
-        if (S == 0) {
-            Quad q1 = pile.peek();
-            Quad q2 = new Quad(ID, q1.VAL, NatureObjet.VAR, SORTE);
-            return Empiler(q2);
+    void IdentVal (String ID, String SORTE, int S) throws PileException {
+        if (pileEstVide()) {
+            throw new PileException("La pile est vide, impossible d'utiliser la fonction IdentVal.");
         }
-        return IdentVal(ID, SORTE, S-1);
+        Quad q = Depiler();
+        if (S == 0) {
+            Empiler(new Quad(ID, q.VAL, NatureObjet.VAR, SORTE));
+        } else {
+            IdentVal(ID, SORTE, S-1);
+            Empiler(q);
+        }
     }
 
     Stack DeclCst (String ID, Object VAL, String SORTE) {
-        Quad q = tds.creerSymboles(ID, VAL, NatureObjet.VCST, SORTE);
+        Quad q;
+        if (VAL == null) {
+            q = tds.creerSymboles(ID, VAL, NatureObjet.VCST, SORTE);
+        } else {
+            q = tds.creerSymboles(ID, VAL, NatureObjet.CST, SORTE);
+        }
         Empiler(q);
         return pile;
     }
