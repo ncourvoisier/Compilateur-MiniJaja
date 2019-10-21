@@ -29,6 +29,16 @@
       <version>4.11</version>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>fr.femtost.disc.minijaja</groupId>
+      <artifactId>JajaCode</artifactId>
+      <version>1.0-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>fr.femtost.disc.minijaja</groupId>
+      <artifactId>memoire</artifactId>
+      <version>1.0-SNAPSHOT</version>
+    </dependency>
   </dependencies>
 
   <distributionManagement>
