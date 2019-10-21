@@ -10,11 +10,11 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     <modules>
-        <module>ast</module>
         <module>memoire</module>
+        <module>JajaCode</module>
+        <module>ast</module>
         <module>ALAS</module>
         <module>IHM</module>
-        <module>JajaCode</module>
     </modules>
     <distributionManagement>
         <repository>
