@@ -151,7 +151,7 @@ public class Pile {
         return "NOK_";
     }
 
-    Object Object(String ID) throws PileException {
+    NatureObjet Object(String ID) throws PileException {
         if (pileEstVide()) {
             throw new PileException("La pile est vide impossible d'obtrenir la nature objet de l'élément " + ID + ".");
         }
@@ -166,10 +166,10 @@ public class Pile {
                 }
             }
         }
-        return "NOK_";
+        return null;
     }
 
-    Object Sorte(String ID) throws PileException {
+    String Sorte(String ID) throws PileException {
         if (pileEstVide()) {
             throw new PileException("La pile est vide impossible d'obtrenir la sorte de l'élément " + ID + ".");
         }
