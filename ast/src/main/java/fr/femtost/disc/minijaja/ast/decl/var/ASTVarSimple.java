@@ -1,9 +1,12 @@
 package fr.femtost.disc.minijaja.ast.decl.var;
 
+import fr.femtost.disc.minijaja.*;
 import fr.femtost.disc.minijaja.ast.ASTExpr;
 import fr.femtost.disc.minijaja.ast.ASTTypeMeth;
 import fr.femtost.disc.minijaja.ast.decl.ASTVar;
 import fr.femtost.disc.minijaja.ast.expr.identificateur.Identifiant;
+import fr.femtost.disc.minijaja.jcode.New;
+import fr.femtost.disc.minijaja.jcval.JCNbre;
 
 public class ASTVarSimple extends ASTVar {
 
@@ -30,5 +33,11 @@ public class ASTVarSimple extends ASTVar {
         if(this.expr != null)
             sb.append(" = ").append(this.expr.rewrite());
         return sb.toString();
+    }
+
+    @Override
+    public CompilationCouple compiler(int actual) {
+        CompilationCouple e = expr.compiler(actual);
+        return new CompilationCouple(JCodes.concatRight(e.jCodes, new New(new JCIdent(identifiant.getName()), typeMeth.getType(), JCSorte.VARIABLE, new JCNbre(0))), e.taille+1);
     }
 }
