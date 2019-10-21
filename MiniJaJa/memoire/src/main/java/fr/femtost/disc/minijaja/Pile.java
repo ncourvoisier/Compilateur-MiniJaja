@@ -45,7 +45,7 @@ public class Pile {
         return pile;
     }
 
-    Stack DeclVar (String ID, Object VAL, String SORTE) {
+    Stack DeclVar (String ID, Object VAL, Sorte SORTE) {
         Quad q = tds.creerSymboles(ID, VAL, NatureObjet.VAR, SORTE);
         Empiler(q);
         return pile;
@@ -55,7 +55,7 @@ public class Pile {
         return tds.chercheQuad(ID);
     }
 
-    void IdentVal (String ID, String SORTE, int S) throws PileException {
+    void IdentVal (String ID, Sorte SORTE, int S) throws PileException {
         if (pileEstVide()) {
             throw new PileException("La pile est vide, impossible d'utiliser la fonction IdentVal.");
         }
@@ -68,7 +68,7 @@ public class Pile {
         }
     }
 
-    Stack DeclCst (String ID, Object VAL, String SORTE) {
+    Stack DeclCst (String ID, Object VAL, Sorte SORTE) {
         Quad q;
         if (VAL == null) {
             q = tds.creerSymboles(ID, VAL, NatureObjet.VCST, SORTE);
@@ -79,34 +79,33 @@ public class Pile {
         return pile;
     }
 
-    Stack DeclTab (String ID, Object VAL, String SORTE) {
+    Stack DeclTab (String ID, Object VAL, Sorte SORTE) {
         Quad q = tds.creerSymboles(ID, VAL, NatureObjet.TAB, SORTE);
         Empiler(q);
         return pile;
     }
 
 
-    Stack DeclMeth (String ID, Object VAL, String SORTE) {
+    Stack DeclMeth (String ID, Object VAL, Sorte SORTE) {
         Quad q = tds.creerSymboles(ID, VAL, NatureObjet.METH, SORTE);
         Empiler(q);
         return pile;
     }
 
-    Stack RetirerDecl (String ID) {
-        pile.pop();
-        return null; //Tas à retourner ici
-    }
-
-    Stack RetirerDecl (String ID, Quad q1) {
-         if (ID.equals(q1.ID)) {
-             if (q1.OBJ.equals(NatureObjet.TAB)) {
-                 // retirer tas
-             }
-             return pile;
-         } else {
+    void RetirerDecl (String ID) throws PileException {
+        if (pileEstVide()) {
+            throw new PileException("La pile est vide impossible d'obtrenir la nature objet de l'élément " + ID + ".");
+        }
+        Quad q = pile.peek();
+        if (ID.equals(q.ID)){
+            if (q.OBJ.equals(NatureObjet.TAB)) {
+                // RetirerTas(q.VAL, q.SORTE);
+            }
+        } else {
+            Quad qDepile = Depiler();
             RetirerDecl(ID);
-         }
-        return  pile;
+            Empiler(qDepile);
+        }
     }
 
     void AffecterVal (String ID, Object VAL) throws PileException {
@@ -169,7 +168,7 @@ public class Pile {
         return null;
     }
 
-    String Sorte(String ID) throws PileException {
+    Sorte Sorte(String ID) throws PileException {
         if (pileEstVide()) {
             throw new PileException("La pile est vide impossible d'obtrenir la sorte de l'élément " + ID + ".");
         }
@@ -184,7 +183,7 @@ public class Pile {
                 }
             }
         }
-        return "NOK_";
+        return null;
     }
 
 
