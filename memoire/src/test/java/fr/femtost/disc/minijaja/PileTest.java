@@ -371,7 +371,7 @@ public class PileTest {
         p.DeclVar("Var3", 3, "int");
 
         assertSame("NOK_", p.Val("Var"));
-        assertSame("NOK_", p.Object("Var"));
+        assertSame(null, p.Object("Var"));
         assertSame("NOK_", p.Sorte("Var"));
     }
 
