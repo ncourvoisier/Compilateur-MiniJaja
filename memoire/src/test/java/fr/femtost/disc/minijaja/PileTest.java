@@ -383,4 +383,14 @@ public class PileTest {
         assertSame(null, p.Sorte("Var"));
     }
 
+    @Test
+    public void RetirerDecl() throws PileException {
+        try {
+            p.RetirerDecl("Var");
+        } catch (Exception e) {
+            assertEquals("La pile est vide impossible de retirer la déclaration de l'élément Var.", e.getMessage());
+            assertEquals("La pile est vide impossible de retirer la déclaration de l'élément Var. -> fr.femtost.disc.minijaja.PileException", e.toString());
+        }
+    }
+
 }

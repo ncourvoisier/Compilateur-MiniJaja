@@ -94,7 +94,7 @@ public class Pile {
 
     void RetirerDecl (String ID) throws PileException {
         if (pileEstVide()) {
-            throw new PileException("La pile est vide impossible d'obtrenir la nature objet de l'élément " + ID + ".");
+            throw new PileException("La pile est vide impossible de retirer la déclaration de l'élément " + ID + ".");
         }
         Quad q = pile.peek();
         if (ID.equals(q.ID)){
