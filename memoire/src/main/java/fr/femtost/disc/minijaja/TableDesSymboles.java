@@ -13,7 +13,7 @@ public class TableDesSymboles {
 
 
 
-    Quad creerSymboles(String ID, Object VAL, NatureObjet OBJ, String SORTE) {
+    Quad creerSymboles(String ID, Object VAL, NatureObjet OBJ, Sorte SORTE) {
         Quad q = new Quad(ID, VAL, OBJ, SORTE);
         tableSymbole.put(ID, q);
         return q;
