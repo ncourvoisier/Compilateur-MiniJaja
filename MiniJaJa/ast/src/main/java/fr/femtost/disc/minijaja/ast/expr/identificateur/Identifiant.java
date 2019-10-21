@@ -1,5 +1,6 @@
 package fr.femtost.disc.minijaja.ast.expr.identificateur;
 
+import fr.femtost.disc.minijaja.CompilationCouple;
 import fr.femtost.disc.minijaja.ast.expr.ASTIdentGenerique;
 
 public class Identifiant extends ASTIdentGenerique {
@@ -12,5 +13,14 @@ public class Identifiant extends ASTIdentGenerique {
 
     public String rewrite() {
         return name;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    @Override
+    public CompilationCouple compiler(int actual) {
+        throw new IllegalArgumentException("Compilation not implemented in Identifiant");
     }
 }
