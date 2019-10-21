@@ -12,4 +12,19 @@ public class JChain extends JCodes {
         this.instruction = instruction;
         this.next = next;
     }
+
+    @Override
+    public boolean hasNext() {
+        return next instanceof JChain;
+    }
+
+    @Override
+    public JCodes next() {
+        return next;
+    }
+
+    @Override
+    public void setNext(JCodes next) {
+        this.next = next;
+    }
 }
