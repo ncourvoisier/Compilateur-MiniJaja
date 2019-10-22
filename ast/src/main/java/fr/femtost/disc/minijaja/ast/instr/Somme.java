@@ -35,7 +35,7 @@ public class Somme extends ASTInstr {
     public CompilationCouple compiler(int actual) {
         CompilationCouple e = expr.compiler(actual);
         if(ident instanceof Tableau) {
-            CompilationCouple index = ident.compiler(actual + e.taille);
+            CompilationCouple index = ((Tableau)ident).getIndex(actual + e.taille);
 
             return new CompilationCouple(JCodes.concatenate(e.jCodes, JCodes.concatRight(index.jCodes, new AInc(new JCIdent(ident.getName())))), e.taille + index.taille + 1);
         }
