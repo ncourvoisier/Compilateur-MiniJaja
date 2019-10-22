@@ -13,8 +13,10 @@ public abstract class ASTNode {
 
     public CompilationCouple compiler(int actual) {
         throw new IllegalArgumentException("Compilation not implemented in " + this.getClass().getName());
-        //Actuel + cvar done
+        //Actuel + cincT done
     }
+
+    /*public abstract CompilationCouple compiler(int actual);*/
 
     public CompilationCouple retirerCompile(int actual) {
         return new CompilationCouple(new JNil(), actual);

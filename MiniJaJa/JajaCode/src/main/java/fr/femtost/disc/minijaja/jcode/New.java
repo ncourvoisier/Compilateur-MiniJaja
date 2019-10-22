@@ -7,7 +7,7 @@ public class New extends JCode {
     private JCIdent ident;
     private JCType type;
     private JCSorte sorte;
-    private JCVal val;
+    private JCVal val; //Profondeur dans la pile où chercher la valeur
 
     public New(JCIdent ident, JCType type, JCSorte sorte, JCVal val) {
         this.ident = ident;

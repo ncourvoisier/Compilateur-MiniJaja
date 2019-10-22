@@ -1,5 +1,6 @@
 package fr.femtost.disc.minijaja.ast.expr.identificateur;
 
+import fr.femtost.disc.minijaja.CompilationCouple;
 import fr.femtost.disc.minijaja.ast.ASTExpr;
 import fr.femtost.disc.minijaja.ast.expr.ASTIdentGenerique;
 
@@ -15,5 +16,15 @@ public class Tableau extends ASTIdentGenerique {
 
     public String rewrite() {
         return name + "[" + index.rewrite() + "]";
+    }
+
+    @Override
+    public CompilationCouple compiler(int actual) {
+        return index.compiler(actual);
+    }
+
+    @Override
+    public String getName() {
+        return name;
     }
 }

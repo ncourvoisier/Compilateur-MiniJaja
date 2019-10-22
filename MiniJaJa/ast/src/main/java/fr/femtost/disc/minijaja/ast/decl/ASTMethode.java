@@ -1,7 +1,12 @@
 package fr.femtost.disc.minijaja.ast.decl;
 
+import fr.femtost.disc.minijaja.*;
 import fr.femtost.disc.minijaja.ast.*;
 import fr.femtost.disc.minijaja.ast.expr.identificateur.Identifiant;
+import fr.femtost.disc.minijaja.jcode.*;
+import fr.femtost.disc.minijaja.jcodes.JChain;
+import fr.femtost.disc.minijaja.jcodes.JNil;
+import fr.femtost.disc.minijaja.jcval.JCNbre;
 
 public class ASTMethode extends ASTDecl {
 
@@ -11,7 +16,7 @@ public class ASTMethode extends ASTDecl {
     private ASTEntetes entetes;
     private ASTInstrs instrs;
 
-    public ASTMethode(ASTVars vars, ASTTypeMeth typeMeth, Identifiant ident, ASTEntetes entetes, ASTInstrs instrs) {
+    public ASTMethode(ASTTypeMeth typeMeth, Identifiant ident, ASTEntetes entetes, ASTVars vars, ASTInstrs instrs) {
         this.vars = vars;
         this.typeMeth = typeMeth;
         this.ident = ident;
@@ -31,5 +36,28 @@ public class ASTMethode extends ASTDecl {
         sb.append("}");
 
         return sb.toString();
+    }
+
+    @Override
+    public CompilationCouple compiler(int actual) {
+        CompilationCouple ens = entetes.compiler(actual + 3);
+        CompilationCouple dvs = vars.compiler(actual + ens.taille + 3);
+        CompilationCouple iss = instrs.compiler(actual + ens.taille + dvs.taille + 3);
+        CompilationCouple retrait = vars.retirerCompile(actual + ens.taille + dvs.taille + iss.taille + 3);
+
+        JCodes init0 = JCodes.concatRight(new JNil(), new Push(new JCNbre(actual+3)));
+        JCodes init1 = JCodes.concatRight(init0, new New(new JCIdent(ident.getName()), typeMeth.getType(), JCSorte.METHODE, new JCNbre(0)));
+        JCodes init2 = JCodes.concatRight(init1, new Goto(actual + ens.taille + dvs.taille + iss.taille + retrait.taille + 5));
+        JCodes init3;
+        if (typeMeth.getType() == JCType.VOID) {
+            init3 = JCodes.concatenate(init2, JCodes.concatenate(ens.jCodes, JCodes.concatenate(dvs.jCodes, JCodes.concatenate(iss.jCodes,
+                    JCodes.concatenate(JCodes.concatLeft(new Push(new JCNbre(0)), retrait.jCodes), new JChain(new Swap(),
+                            new JChain(new Return(), new JNil())))))));
+        } else {
+            init3 = JCodes.concatenate(init2, JCodes.concatenate(ens.jCodes, JCodes.concatenate(dvs.jCodes, JCodes.concatenate(iss.jCodes,
+                    JCodes.concatenate(retrait.jCodes, new JChain(new Swap(), new JChain(new Return(), new JNil())))))));
+        }
+
+        return new CompilationCouple(init3, ens.taille + dvs.taille + iss.taille + retrait.taille + 5);
     }
 }

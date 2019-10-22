@@ -15,6 +15,7 @@ public class Identifiant extends ASTIdentGenerique {
         return name;
     }
 
+    @Override
     public String getName() {
         return this.name;
     }
