@@ -13,14 +13,10 @@ import fr.femtost.disc.minijaja.ast.decls.Dnil;
 import fr.femtost.disc.minijaja.ast.entetes.EChain;
 import fr.femtost.disc.minijaja.ast.entetes.Enil;
 import fr.femtost.disc.minijaja.ast.expr.*;
-import fr.femtost.disc.minijaja.ast.expr.identificateur.HardcodedString;
 import fr.femtost.disc.minijaja.ast.expr.identificateur.Identifiant;
 import fr.femtost.disc.minijaja.ast.instr.Affectation;
 import fr.femtost.disc.minijaja.ast.instrs.IChain;
 import fr.femtost.disc.minijaja.ast.instrs.Inil;
-import fr.femtost.disc.minijaja.ast.listexpr.ExChain;
-import fr.femtost.disc.minijaja.ast.listexpr.Exnil;
-import fr.femtost.disc.minijaja.ast.type.ASTType;
 import fr.femtost.disc.minijaja.ast.type.Booleen;
 import fr.femtost.disc.minijaja.ast.type.Entier;
 import fr.femtost.disc.minijaja.ast.vars.VChain;
@@ -57,8 +53,8 @@ public class TestAST
     }
 
     private static ASTInstrs genChainInstrs() {
-        ASTInstrs result = new IChain(new Inil(), generateInstrAff());
-        return new IChain(result, generateInstrAff());
+        ASTInstrs result = new IChain(generateInstrAff(), new Inil());
+        return new IChain(generateInstrAff(), result);
     }
 
     private static ASTMain genSimpleMain() {
@@ -83,7 +79,7 @@ public class TestAST
     }
 
     private static ASTMethode genMethode() {
-        return new ASTMethode(genChainVars(), new Entier(), new Identifiant("f"), genEntetes(), genChainInstrs());
+        return new ASTMethode(new Entier(), new Identifiant("f"), genEntetes(), genChainVars(), genChainInstrs());
     }
 
     private static ASTDecls genDecls() {

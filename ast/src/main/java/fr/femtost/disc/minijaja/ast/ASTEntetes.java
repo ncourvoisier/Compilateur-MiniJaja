@@ -4,4 +4,5 @@ import fr.femtost.disc.minijaja.ASTNode;
 
 public abstract class ASTEntetes extends ASTNode {
 
+    public abstract int getChainPosition();
 }
