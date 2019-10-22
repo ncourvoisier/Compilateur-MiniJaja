@@ -1,7 +1,10 @@
 package fr.femtost.disc.minijaja.ast.instr;
 
+import fr.femtost.disc.minijaja.CompilationCouple;
+import fr.femtost.disc.minijaja.JCodes;
 import fr.femtost.disc.minijaja.ast.ASTInstr;
 import fr.femtost.disc.minijaja.ast.expr.identificateur.Identifiant;
+import fr.femtost.disc.minijaja.jcode.Write;
 
 public class Ecrire extends ASTInstr {
 
@@ -23,5 +26,12 @@ public class Ecrire extends ASTInstr {
         sb.append(ident.rewrite());
         sb.append(")");
         return sb.toString();
+    }
+
+    @Override
+    public CompilationCouple compiler(int actual) {
+        CompilationCouple e = ident.compiler(actual);
+
+        return new CompilationCouple(JCodes.concatRight(e.jCodes, new Write()), e.taille + 1);
     }
 }

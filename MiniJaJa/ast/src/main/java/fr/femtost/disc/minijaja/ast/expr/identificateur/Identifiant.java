@@ -1,7 +1,11 @@
 package fr.femtost.disc.minijaja.ast.expr.identificateur;
 
 import fr.femtost.disc.minijaja.CompilationCouple;
+import fr.femtost.disc.minijaja.JCIdent;
 import fr.femtost.disc.minijaja.ast.expr.ASTIdentGenerique;
+import fr.femtost.disc.minijaja.jcode.Load;
+import fr.femtost.disc.minijaja.jcodes.JChain;
+import fr.femtost.disc.minijaja.jcodes.JNil;
 
 public class Identifiant extends ASTIdentGenerique {
 
@@ -22,6 +26,6 @@ public class Identifiant extends ASTIdentGenerique {
 
     @Override
     public CompilationCouple compiler(int actual) {
-        throw new IllegalArgumentException("Compilation not implemented in Identifiant");
+        return new CompilationCouple(new JChain(new Load(new JCIdent(name)), new JNil()), 1);
     }
 }

@@ -6,7 +6,7 @@ public class OpUnaire extends Oper {
 
     public enum Operandes {
         NEG,
-        Not
+        NOT
     }
 
     private Operandes op;
