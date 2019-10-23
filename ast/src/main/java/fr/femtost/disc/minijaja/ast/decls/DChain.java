@@ -32,4 +32,12 @@ public class DChain extends ASTDecls {
 
         return new CompilationCouple(JCodes.concatenate(ds.jCodes, dss.jCodes), ds.taille + dss.taille);
     }
+
+    @Override
+    public CompilationCouple retirerCompile(int actual) {
+        CompilationCouple dss = successor.retirerCompile(actual);
+        CompilationCouple ds = successor.retirerCompile(actual + dss.taille);
+
+        return new CompilationCouple(JCodes.concatenate(dss.jCodes, ds.jCodes), ds.taille + dss.taille);
+    }
 }

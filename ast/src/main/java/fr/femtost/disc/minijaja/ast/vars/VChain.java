@@ -39,4 +39,12 @@ public class VChain extends ASTVars {
 
         return new CompilationCouple(JCodes.concatenate(dv.jCodes, dvs.jCodes), dv.taille + dvs.taille);
     }
+
+    @Override
+    public CompilationCouple retirerCompile(int actual) {
+        CompilationCouple vs = vars.retirerCompile(actual);
+        CompilationCouple top = var.retirerCompile(actual + vs.taille);
+
+        return new CompilationCouple(JCodes.concatenate(vs.jCodes, top.jCodes), vs.taille + top.taille);
+    }
 }

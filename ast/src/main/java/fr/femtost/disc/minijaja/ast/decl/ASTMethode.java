@@ -60,4 +60,9 @@ public class ASTMethode extends ASTDecl {
 
         return new CompilationCouple(init3, ens.taille + dvs.taille + iss.taille + retrait.taille + 5);
     }
+
+    @Override
+    public CompilationCouple retirerCompile(int actual) {
+        return new CompilationCouple(new JChain(new Swap(), new JChain(new Pop(), new JNil())), 2);
+    }
 }
