@@ -95,3 +95,5 @@ public class TestAST
         assertTrue(true);
     }
 }
+
+//Coverage of method TO DO
