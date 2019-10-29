@@ -1,9 +1,10 @@
 package fr.femtost.disc.minijaja;
 
-import sun.reflect.generics.tree.Tree;
+//import sun.reflect.generics.tree.Tree;
 
 public class Tas {
 
+    /*
     class EntreeMemoire {
         int adresse;
         int taille;
@@ -45,25 +46,16 @@ public class Tas {
         };
 
         memoire = new Object[mem_taille];
-
-
-
     }
 
     public Tree getTas() {
-
-
-
         return tas;
-
-
     }
 
     private int allouer() {
-
         return 0;
     }
-
+*/
 
 
 }

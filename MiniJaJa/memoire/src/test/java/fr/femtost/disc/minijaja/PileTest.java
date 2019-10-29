@@ -68,7 +68,7 @@ public class PileTest {
         assertEquals(0, s.size());
     }
 
-    @Test public void Depiler() throws PileException {
+    @Test public void Depiler() {
         try {
             p.Depiler();
         } catch (Exception e) {
@@ -78,7 +78,7 @@ public class PileTest {
     }
 
     @Test
-    public void echangerTest0() throws PileException {
+    public void echangerTest0() {
         try {
             p.Echanger();
         } catch (Exception e) {
@@ -94,11 +94,10 @@ public class PileTest {
         Quad q2 = new Quad("2", 1, NatureObjet.VAR, Sorte.INT);
         p.Empiler(q2);
         assertEquals(2, s.size());
-        assertEquals(1, s.peek().VAL);
+        assertEquals(1, s.peek().getVAL());
         p.Echanger();
         assertEquals(2, s.size());
-        String ID = "1";
-        assertEquals(0, s.peek().VAL);
+        assertEquals(0, s.peek().getVAL());
     }
 
     @Test
@@ -106,10 +105,10 @@ public class PileTest {
         p.DeclVar("Var", 0, Sorte.INT);
         assertEquals(1, s.size());
         Quad q = p.tds.tableSymbole.get("Var");
-        assertEquals(0, q.VAL);
-        assertSame("Var", q.ID);
-        assertSame(Sorte.INT, q.SORTE);
-        assertSame(NatureObjet.VAR, q.OBJ);
+        assertEquals(0, q.getVAL());
+        assertSame("Var", q.getID());
+        assertSame(Sorte.INT, q.getSORTE());
+        assertSame(NatureObjet.VAR, q.getOBJ());
     }
 
     @Test
@@ -121,22 +120,22 @@ public class PileTest {
         assertEquals(3, s.size());
 
         Quad q1 = p.tds.tableSymbole.get("Var");
-        assertEquals(0, q1.VAL);
-        assertSame("Var", q1.ID);
-        assertSame(Sorte.INT, q1.SORTE);
-        assertSame(NatureObjet.VAR, q1.OBJ);
+        assertEquals(0, q1.getVAL());
+        assertSame("Var", q1.getID());
+        assertSame(Sorte.INT, q1.getSORTE());
+        assertSame(NatureObjet.VAR, q1.getOBJ());
 
         Quad q2 = p.tds.tableSymbole.get("hauteur");
-        assertEquals(25, q2.VAL);
-        assertSame("hauteur", q2.ID);
-        assertSame(Sorte.INT, q2.SORTE);
-        assertSame(NatureObjet.VAR, q2.OBJ);
+        assertEquals(25, q2.getVAL());
+        assertSame("hauteur", q2.getID());
+        assertSame(Sorte.INT, q2.getSORTE());
+        assertSame(NatureObjet.VAR, q2.getOBJ());
 
         Quad q3 = p.tds.tableSymbole.get("largeur");
-        assertEquals(18, q3.VAL);
-        assertSame("largeur", q3.ID);
-        assertSame(Sorte.INT, q3.SORTE);
-        assertSame(NatureObjet.VAR, q3.OBJ);
+        assertEquals(18, q3.getVAL());
+        assertSame("largeur", q3.getID());
+        assertSame(Sorte.INT, q3.getSORTE());
+        assertSame(NatureObjet.VAR, q3.getOBJ());
     }
 
     @Test
@@ -147,14 +146,14 @@ public class PileTest {
         assertEquals(2, s.size());
 
         Quad q1 = p.tds.tableSymbole.get("Var");
-        assertEquals(2, q1.VAL);
-        assertSame("Var", q1.ID);
-        assertSame(Sorte.INT, q1.SORTE);
-        assertSame(NatureObjet.VAR, q1.OBJ);
+        assertEquals(2, q1.getVAL());
+        assertSame("Var", q1.getID());
+        assertSame(Sorte.INT, q1.getSORTE());
+        assertSame(NatureObjet.VAR, q1.getOBJ());
     }
 
     @Test
-    public void IdentValTest1() throws PileException {
+    public void IdentValTest1() {
         try {
             p.IdentVal("Var", Sorte.INT, 15);
         } catch (Exception e) {
@@ -164,7 +163,7 @@ public class PileTest {
     }
 
     @Test
-    public void IdentValTest2() throws PileException {
+    public void IdentValTest2() {
         p.DeclVar("V", 15, Sorte.INT);
         try {
             p.IdentVal("Var", Sorte.INT, 15);
@@ -192,10 +191,10 @@ public class PileTest {
         p.DeclCst("Var", 0, Sorte.INT);
         assertEquals(1, s.size());
         Quad q = p.tds.tableSymbole.get("Var");
-        assertEquals(0, q.VAL);
-        assertSame("Var", q.ID);
-        assertSame(Sorte.INT, q.SORTE);
-        assertSame(NatureObjet.CST, q.OBJ);
+        assertEquals(0, q.getVAL());
+        assertSame("Var", q.getID());
+        assertSame(Sorte.INT, q.getSORTE());
+        assertSame(NatureObjet.CST, q.getOBJ());
     }
 
     @Test
@@ -203,10 +202,10 @@ public class PileTest {
         p.DeclCst("Var", null, Sorte.INT);
         assertEquals(1, s.size());
         Quad q = p.tds.tableSymbole.get("Var");
-        assertEquals(null, q.VAL);
-        assertSame("Var", q.ID);
-        assertSame(Sorte.INT, q.SORTE);
-        assertSame(NatureObjet.VCST, q.OBJ);
+        assertNull(q.getVAL());
+        assertSame("Var", q.getID());
+        assertSame(Sorte.INT, q.getSORTE());
+        assertSame(NatureObjet.VCST, q.getOBJ());
     }
 
     @Test
@@ -214,10 +213,10 @@ public class PileTest {
         p.DeclMeth("Var", 0, Sorte.INT);
         assertEquals(1, s.size());
         Quad q = p.tds.tableSymbole.get("Var");
-        assertEquals(0, q.VAL);
-        assertSame("Var", q.ID);
-        assertSame(Sorte.INT, q.SORTE);
-        assertSame(NatureObjet.METH, q.OBJ);
+        assertEquals(0, q.getVAL());
+        assertSame("Var", q.getID());
+        assertSame(Sorte.INT, q.getSORTE());
+        assertSame(NatureObjet.METH, q.getOBJ());
     }
 
     @Test
@@ -229,22 +228,22 @@ public class PileTest {
         assertEquals(3, s.size());
 
         Quad q1 = p.ReturnQuadWithId("Var");
-        assertSame("Var", q1.ID);
-        assertSame(0, q1.VAL);
-        assertSame(NatureObjet.VAR, q1.OBJ);
-        assertSame(Sorte.INT, q1.SORTE);
+        assertSame("Var", q1.getID());
+        assertSame(0, q1.getVAL());
+        assertSame(NatureObjet.VAR, q1.getOBJ());
+        assertSame(Sorte.INT, q1.getSORTE());
 
         Quad q2 = p.ReturnQuadWithId("largeur");
-        assertSame("largeur", q2.ID);
-        assertSame(18, q2.VAL);
-        assertSame(NatureObjet.VAR, q2.OBJ);
-        assertSame(Sorte.INT, q2.SORTE);
+        assertSame("largeur", q2.getID());
+        assertSame(18, q2.getVAL());
+        assertSame(NatureObjet.VAR, q2.getOBJ());
+        assertSame(Sorte.INT, q2.getSORTE());
     }
 
 
 
     @Test
-    public void affecterValTest0() throws  PileException {
+    public void affecterValTest0() {
         assertEquals(0, s.size());
         try {
             p.AffecterVal("Cst", 42);
@@ -260,19 +259,19 @@ public class PileTest {
         assertEquals(1, s.size());
 
         Quad q1 = p.pile.peek();
-        assertSame("Cst", q1.ID);
-        assertSame(null, q1.VAL);
-        assertSame(NatureObjet.VCST, q1.OBJ);
-        assertSame(Sorte.INT, q1.SORTE);
+        assertSame("Cst", q1.getID());
+        assertSame(null, q1.getVAL());
+        assertSame(NatureObjet.VCST, q1.getOBJ());
+        assertSame(Sorte.INT, q1.getSORTE());
 
         p.AffecterVal("Cst", 42);
         assertEquals(1, s.size());
 
         Quad q2 = p.pile.peek();
-        assertSame("Cst", q2.ID);
-        assertSame(42, q2.VAL);
-        assertSame(NatureObjet.CST, q2.OBJ);
-        assertSame(Sorte.INT, q2.SORTE);
+        assertSame("Cst", q2.getID());
+        assertSame(42, q2.getVAL());
+        assertSame(NatureObjet.CST, q2.getOBJ());
+        assertSame(Sorte.INT, q2.getSORTE());
     }
 
     @Test
@@ -281,19 +280,19 @@ public class PileTest {
         assertEquals(1, s.size());
 
         Quad q1 = p.pile.peek();
-        assertSame("Var", q1.ID);
-        assertSame(0, q1.VAL);
-        assertSame(NatureObjet.VAR, q1.OBJ);
-        assertSame(Sorte.INT, q1.SORTE);
+        assertSame("Var", q1.getID());
+        assertSame(0, q1.getVAL());
+        assertSame(NatureObjet.VAR, q1.getOBJ());
+        assertSame(Sorte.INT, q1.getSORTE());
 
         p.AffecterVal("Var", 42);
         assertEquals(1, s.size());
 
         Quad q2 = p.pile.peek();
-        assertSame("Var", q2.ID);
-        assertSame(42, q2.VAL);
-        assertSame(NatureObjet.VAR, q2.OBJ);
-        assertSame(Sorte.INT, q2.SORTE);
+        assertSame("Var", q2.getID());
+        assertSame(42, q2.getVAL());
+        assertSame(NatureObjet.VAR, q2.getOBJ());
+        assertSame(Sorte.INT, q2.getSORTE());
     }
 
     @Test
@@ -302,23 +301,23 @@ public class PileTest {
         assertEquals(1, s.size());
 
         Quad q1 = p.pile.peek();
-        assertSame("Var", q1.ID);
-        assertSame(0, q1.VAL);
-        assertSame(NatureObjet.VAR, q1.OBJ);
-        assertSame(Sorte.INT, q1.SORTE);
+        assertSame("Var", q1.getID());
+        assertSame(0, q1.getVAL());
+        assertSame(NatureObjet.VAR, q1.getOBJ());
+        assertSame(Sorte.INT, q1.getSORTE());
 
         p.AffecterVal("Faux", 42);
         assertEquals(1, s.size());
 
         Quad q2 = p.pile.peek();
-        assertSame("Var", q2.ID);
-        assertSame(0, q2.VAL);
-        assertSame(NatureObjet.VAR, q2.OBJ);
-        assertSame(Sorte.INT, q2.SORTE);
+        assertSame("Var", q2.getID());
+        assertSame(0, q2.getVAL());
+        assertSame(NatureObjet.VAR, q2.getOBJ());
+        assertSame(Sorte.INT, q2.getSORTE());
     }
 
     @Test
-    public void valObjectSorte0() throws PileException {
+    public void valObjectSorte0() {
         try {
             p.Val("Var");
         } catch (Exception e) {
@@ -384,7 +383,7 @@ public class PileTest {
     }
 
     @Test
-    public void RetirerDecl() throws PileException {
+    public void RetirerDecl() {
         try {
             p.RetirerDecl("Var");
         } catch (Exception e) {
@@ -393,4 +392,44 @@ public class PileTest {
         }
     }
 
+    @Test
+    public void AffecterType0() {
+        try {
+            p.AffecterType("Var", Sorte.INT);
+        } catch (Exception e) {
+            assertEquals("La pile est vide impossible d'affecter le type de l'ID : Var.", e.getMessage());
+        }
+    }
+
+    @Test
+    public void AffecterType1() {
+        p.DeclVar("Var", 1, Sorte.INT);
+        assertSame("Var", s.peek().getID());
+        assertSame(1, s.peek().getVAL());
+        assertSame(Sorte.INT, s.peek().getSORTE());
+        assertEquals(1, s.size());
+        try {
+            assertFalse(p.AffecterType("VarExistePas", Sorte.INT));
+        } catch (Exception e) {
+            assertEquals("La pile est vide impossible d'affecter le type de l'ID : Var.", e.getMessage());
+        }
+    }
+
+    @Test
+    public void AffecterType2() {
+        p.DeclVar("Var", 1, Sorte.INT);
+        assertSame("Var", s.peek().getID());
+        assertSame(1, s.peek().getVAL());
+        assertSame(Sorte.INT, s.peek().getSORTE());
+        assertEquals(1, s.size());
+        try {
+            assertTrue(p.AffecterType("Var", Sorte.BOOL));
+            assertEquals(1, s.size());
+            assertSame("Var", s.peek().getID());
+            assertSame(1, s.peek().getVAL());
+            assertSame(Sorte.BOOL, s.peek().getSORTE());
+        } catch (Exception e) {
+            assertEquals("La pile est vide impossible d'affecter le type de l'ID : Var.", e.getMessage());
+        }
+    }
 }
