@@ -3,6 +3,7 @@ package fr.femtost.disc.minijaja;
 public class NoeudMemoire {
 
     int taille;
+    int tailleDisponible;
     int adresse;
 
     boolean disponible;
@@ -14,6 +15,12 @@ public class NoeudMemoire {
 
     public NoeudMemoire(int adresse, int taille, boolean disponible, NoeudMemoire parent) {
         this.taille = taille;
+        if (disponible) {
+            this.tailleDisponible = taille;
+        }
+        else {
+            this.tailleDisponible = 0;
+        }
         this.adresse = adresse;
         this.disponible = disponible;
         this.parent = parent;
@@ -27,7 +34,7 @@ public class NoeudMemoire {
             return -1;
         }
 
-        if (this.taille < tailleAAllouer) {
+        if (this.tailleDisponible < tailleAAllouer) {
             return -1;
         }
 
@@ -72,7 +79,7 @@ public class NoeudMemoire {
     }
 
     void propagationTailleDisponile(int tailleAPropapger) {
-        taille += tailleAPropapger;
+        tailleDisponible += tailleAPropapger;
         if (parent != null) {
             parent.propagationTailleDisponile(tailleAPropapger);
         }
@@ -92,6 +99,7 @@ public class NoeudMemoire {
         //System.out.println("Adresse : " + courant.adresse + ", Disponible : " + Boolean.toString(courant.disponible));
         if(courant.adresse == adresse && !courant.disponible) {
             courant.disponible = true;
+            courant.tailleDisponible = courant.taille;
             if (parent != null) {  // On lance la propagation à partir du parent, si pas racine
                 parent.propagationTailleDisponile(courant.taille);
             }

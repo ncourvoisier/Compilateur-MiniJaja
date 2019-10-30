@@ -33,7 +33,7 @@ public class NoeudMemoireTest {
         assertEquals(A1, 0);
         int A2 = r1.allouerMemoire(10);
         assertEquals(A2, 10);
-        assertEquals(AM1.getRacine().taille, 80);
+        assertEquals(AM1.getRacine().tailleDisponible, 80);
     }
 
     @Test
@@ -112,13 +112,13 @@ public class NoeudMemoireTest {
         assertEquals(5, A2);
         assertEquals(15, A3);
 
-        assertEquals(65, AM1.getRacine().taille);
+        assertEquals(65, AM1.getRacine().tailleDisponible);
 
         AM1.libererMemoire(A2);
         NoeudMemoire noeud2 = AM1.getNoeud(A2);
         assertTrue(noeud2.disponible);
 
-        assertEquals(75, AM1.getRacine().taille);
+        assertEquals(75, AM1.getRacine().tailleDisponible);
     }
 
     @Test
@@ -149,7 +149,7 @@ public class NoeudMemoireTest {
         assertEquals(5, A2);
         assertEquals(15, A3);
 
-        assertEquals(65, AM1.getRacine().taille);
+        assertEquals(65, AM1.getRacine().tailleDisponible);
 
         AM1.libererMemoire(A2);
         NoeudMemoire noeud2 = AM1.getNoeud(A2);
@@ -169,7 +169,7 @@ public class NoeudMemoireTest {
         assertEquals(5, A4);
         assertEquals(10, A5);
 
-        assertEquals(65, AM1.getRacine().taille);
+        assertEquals(65, AM1.getRacine().tailleDisponible);
     }
 
     @Test
