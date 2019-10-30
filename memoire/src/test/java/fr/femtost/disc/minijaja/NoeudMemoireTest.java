@@ -2,6 +2,8 @@ package fr.femtost.disc.minijaja;
 
 import org.junit.Test;
 
+import java.io.Console;
+
 import static org.junit.Assert.*;
 
 public class NoeudMemoireTest {
@@ -170,6 +172,40 @@ public class NoeudMemoireTest {
         assertEquals(10, A5);
 
         assertEquals(65, AM1.getRacine().tailleDisponible);
+    }
+
+    @Test
+    public void fusionNoeudsDisponiblesRacineTest() {
+        ArbreMemoire AM1 = new ArbreMemoire(100);
+        NoeudMemoire r1 = AM1.getRacine();
+        int A1 = r1.allouerMemoire(50);
+        int A2 = r1.allouerMemoire(50);
+        assertEquals(0, r1.tailleDisponible);
+        assertEquals(2, AM1.getProfondeurArbre());
+        AM1.libererMemoire(A1);
+        AM1.libererMemoire(A2);
+        assertNull(r1.gauche);
+        assertNull(r1.droit);
+        assertEquals(100, r1.tailleDisponible);
+    }
+
+    @Test
+    public void fusionsNoeudsDisponiblesEnChaineTest() {
+        ArbreMemoire AM1 = new ArbreMemoire(100);
+        NoeudMemoire r1 = AM1.getRacine();
+        int A1 = r1.allouerMemoire(10);
+        int A2 = r1.allouerMemoire(10);
+        int A3 = r1.allouerMemoire(60);
+        int A4 = r1.allouerMemoire(20);
+        assertEquals(0, r1.tailleDisponible);
+        assertEquals(4, AM1.getProfondeurArbre());
+        AM1.libererMemoire(A1);
+        AM1.libererMemoire(A2);
+        AM1.libererMemoire(A3);
+        AM1.libererMemoire(A4);
+        assertNull(r1.gauche);
+        assertNull(r1.droit);
+        assertEquals(100, r1.tailleDisponible);
     }
 
     @Test
