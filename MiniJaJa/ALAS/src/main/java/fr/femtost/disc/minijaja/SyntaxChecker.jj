@@ -7,6 +7,14 @@ import fr.femtost.disc.minijaja.ast.expr.identificateur.*;
 import fr.femtost.disc.minijaja.ast.expr.*;
 import fr.femtost.disc.minijaja.ast.type.*;
 import fr.femtost.disc.minijaja.ast.listexpr.*;
+import fr.femtost.disc.minijaja.ast.instr.*;
+import fr.femtost.disc.minijaja.ast.instrs.*;
+import fr.femtost.disc.minijaja.ast.instr.ecrire.*;
+import fr.femtost.disc.minijaja.ast.entetes.*;
+import fr.femtost.disc.minijaja.ast.decl.var.*;
+import fr.femtost.disc.minijaja.ast.vars.*;
+import fr.femtost.disc.minijaja.ast.decl.*;
+import fr.femtost.disc.minijaja.ast.decls.*;
 public class SyntaxChecker {
     public static void main(String[] args) {
 	System.out.println(args[0]);
@@ -79,8 +87,8 @@ TOKEN: {
 }
 
 //void S(): {} {<CLASS> <IDENT> <ACCG> Decls() Methmain() <ACCD> <EOF>  }
-ASTClass S(Token t): {ASTDecls ds; ASTMethmain mm;}{
-    <CLASS> <IDENT> <ACCD> ds = Decls() mm = Methmain() <ACCG> <EOF>{return new ASTClass(t.image, ds, mm);}
+ASTClass S(Token t): {ASTDecls ds; ASTMain mm;}{
+    <CLASS> <IDENT> <ACCG> ds = Decls() mm = Methmain() <ACCD> <EOF>{return new ASTClass(t.image, ds, mm);}
 }
 //void Decls(): {} {Decl()<PV>Decls()| {} }
 ASTDecls Decls(): {ASTDecls ds; ASTDecl d;} {
@@ -111,7 +119,7 @@ ASTVar Var(Token t): {ASTTypeMeth tm; ASTVar vp; ASTTypeMeth tm2; ASTExpr e;}{
 //void VarP(): {} {<IDENT>(<TABG> Exp()<TABD>|Vexp())}//On a inversé les deux parties du ou logique et ça marche miraculeusement
 
 ASTVarTableau VarP(Token t): {ASTExpr e; ASTExpr ve;}{
-    <IDENT> v = Exp() ve = Vexp() {return new ASTVarP(t.image,e);}
+    t = <IDENT> v = Exp() ve = Vexp() {return new ASTVarP(t.image,e);}
 }//Verifier le return et la sont entete
 
 void Vexp(): {} {<EGAL>Exp()|{}}
@@ -121,8 +129,8 @@ void Vexp(): {} {<EGAL>Exp()|{}}
 }*/
 
 //void Methode(): {} {TypeMeth() <IDENT><PARRG>Entetes()<PARRD><ACCG>Vars() Instrs()<ACCD>}
-ASTMethode Methode(): {ASTTypeMeth tm; ASTEntetes et; ASTVars v; ASTINSTRS iss;}{
-    tm = TypeMeth() <IDENT><PARRG> et = Entetes()<PARRD><ACCG>v = Vars() iss = Instrs()<ACCD>{return new ASTMethode(tm,et,v,iss);}
+ASTMethode Methode(): {ASTTypeMeth tm; Token t; ASTEntetes et; ASTVars v; ASTInstrs iss;}{
+    tm = TypeMeth() t=<IDENT><PARRG> et = Entetes()<PARRD><ACCG>v = Vars() iss = Instrs()<ACCD>{return new ASTMethode(tm,new Identifiant(t.image),et,v,iss);}
 }
 //void Methmain(): {} {<MAIN> <ACCG> Vars() Instrs()<ACCD>}
 ASTMain Methmain(): {ASTVars v; ASTInstrs iss;}{
@@ -131,15 +139,17 @@ ASTMain Methmain(): {ASTVars v; ASTInstrs iss;}{
 //void Entetes(): {} { Entete() <VIRGULE> Entetes() | Entete() | {}}
 //void Entetes(): {} {Entete() EntetesP() | {}}
 
-ASTInstr Entetes(): {ASTEntete e; ASTEnteteP ep;}{
-     e = Entete() ep = EntetesP() {return new EChain(e,ep);}
+ASTEntetes Entetes(): {ASTEntete e; ASTEntetesP ep;}{
+     e = Entete() ep = EntetesP(e) {return ep;}
+     | {return new Enil();}
 }
 
 //void EntetesP() : {} {<VIRGULE> Entetes() | {}}
-ASTInstr EntetesP(Token t): {ASTEntete e;}{
-    <VIRGULE> e = Entete() {return new EChain(t.image,e);}
+ASTEntetes EntetesP(ASTEntete e): {ASTEntetes ep;}{
+    <VIRGULE> ep = Entetes() {return new EChain(e,ep);}
+    | {return new Enil();}
 }
-void Entete(): {} {<TYPE><IDENT>}
+ASTEntete Entete(): {Token t1; ASTType t2;} {t2 = Type() t1 = <IDENT> {return new ASTEntete(t2,new Identifiant(t1.image));}}
 /*
 ASTEntete Entete(): {ASTEntete ls;} {
     e = Entetes {return new EChain(e);}
@@ -147,33 +157,35 @@ ASTEntete Entete(): {ASTEntete ls;} {
 
 //void Instrs(): {} { Instr() <PV> Instrs() | {}}
 
-ASTInstr Instrs(): {ASTInstr is;}{
-    is = Instr() {return is;}
+ASTInstrs Instrs(): {ASTInstr is; ASTInstrs iss;}{
+    is = Instr() <PV> iss = Instrs() {return new IChain(is,iss);}
+    | {return new Inil();}
 }
 
 //void Instr(): {} {Ident1() <EGAL> Exp() | Ident1() <PEG> Exp() | Ident1() <PP> | <IDENT><PARRG> Listexp() <PARRD> | <RETURN> Exp() | <WRITE> <PARRG> <IDENT> | <STRING> */<PARRD> | <WRITELN> <PARRG> <IDENT> | <STRING> */<PARRD> | <IF> Exp() <ACCG> Instrs() <ACCD> ( <ELSE><ACCG> Instrs() <ACCD> )? | <WHILE> <PARRG> Exp() <PARRD> <ACCG>Instrs()<ACCD> }
 
 
 //void Instr(): {} {<IDENT>((Ident1()InstrP())|<PARRG> Listexp() <PARRD>) | <RETURN> Exp() | <WRITE> <PARRG> (<IDENT> | <STRING>) <PARRD> | <WRITELN> <PARRG> (<IDENT> | <STRING>) <PARRD> | <IF> Exp() <ACCG> Instrs() <ACCD> ( <ELSE><ACCG> Instrs() <ACCD> )? | <WHILE> <PARRG> Exp() <PARRD> <ACCG>Instrs()<ACCD> }
-ASTInstr Instr(): {Token t; ASTExpr e;}{
-    t = <IDENT> e = InstrP(e) {return e;}
+ASTInstr Instr(): {Token t; ASTExpr e;ASTListExpr exp; ASTInstrs instrs, instrs1; ASTInstr ins;}{
+    t = <IDENT> ins = InstrP(t) {return ins;}
     | <RETURN> e = Exp() {return new Retour(e);}
-    | <PARRG> e = ListexpP() <STRING> {return new AppelE(new Identifiant(t.image), e);}
-    | <WRITE> <PARRG> <IDENT> <PARRD> {return new Ecrire(t.image);}
-    | <WRITE> <PARRG> <STRING> <PARRD> {return new Ecrire(t.image);}
-    | <WRITELN> <PARRG> <STRING> <PARRD> {return new EcrireLn(t.image);}
-    | <WRITELN> <PARRG> <IDENT> <PARRD> {return new Ecrire(t.image);}
-    //| <IF> e = Exp() <ACCG> Instrs() <ACCD> ( <ELSE><ACCG> Instrs() <ACCD> )?
-    //| <WHILE> <PARRG> Exp() <PARRD> <ACCG>Instrs()<ACCD>
+    | t = <IDENT><PARRG> exp = ListexpP() <PARRD> {return new AppelI(new Identifiant(t.image), exp);}
+    | <WRITE> <PARRG>  t = <IDENT> <PARRD> {return new Ecrire(new Identifiant(t.image));}
+    | <WRITE> <PARRG>  t = <STRING> <PARRD> {return new Ecrire(new HardcodedString(t.image));}
+    | <WRITELN> <PARRG>  t = <STRING> <PARRD> {return new EcrireLn(new HardcodedString(t.image));}
+    | <WRITELN> <PARRG> t = <IDENT> <PARRD> {return new EcrireLn(new Identifiant(t.image));}
+    | <IF> e = Exp() <ACCG> instrs = Instrs() <ACCD> ( <ELSE><ACCG> instrs1 = Instrs() <ACCD> ){return new Si(e,instrs, instrs1);}
+    |<IF> e = Exp() <ACCG> instrs = Instrs() <ACCD> {return new Si(e,instrs, new Inil());}
+    | <WHILE> <PARRG>e =  Exp() <PARRD> <ACCG>instrs = Instrs()<ACCD>{return new TantQue(e,instrs);}
 }
 
 
 //void InstrP(): {} {<EGAL> Exp() | <PEG> Exp() | <PP>}
 
 ASTInstr InstrP(Token t): {ASTExpr e;}{
-    <EGAL> e = Exp(){return new Egal(Identifiant(t.imagine), e);}
-    | <PEG> e = Exp(){return new Somme(Identifiant(t.image), e);}
-    | <PP> {return new Increment(Identifiant(t.image));}
+    <EGAL> e = Exp(){return new Affectation(new Identifiant(t.image), e);}
+    | <PEG> e = Exp(){return new Somme(new Identifiant(t.image), e);}
+    | <PP> {return new Increment(new Identifiant(t.image));}
 }
 //void Listexp(): {} {Exp() <VIRGULE> Listexp() | Exp() | {}}
 ASTListExpr Listexp(): {ASTListExpr ls; ASTExpr e;} {
