@@ -26,6 +26,10 @@ public class ArbreMemoire {
         return Math.max(profondeurArbre(courant.droit), profondeurArbre(courant.gauche))+1;
     }
 
+    public int allouerMemoire(int taille) {
+        return racine.allouerMemoire(taille);
+    }
+
     public void libererMemoire(int adresse) {
         racine.suppressionMemoire(adresse, racine);
     }

@@ -4,58 +4,54 @@ package fr.femtost.disc.minijaja;
 
 public class Tas {
 
-    /*
-    class EntreeMemoire {
-        int adresse;
-        int taille;
-        boolean disponible;
-    }
-
-
-    private Tree tas;
+    private ArbreMemoire arbre;
     private Object[] memoire;
 
-
-    public Tas(int mem_taille) {
-
-        this.tas = new Tree() {
-            @Override
-            public int hashCode() {
-                return super.hashCode();
-            }
-
-            @Override
-            public boolean equals(Object obj) {
-                return super.equals(obj);
-            }
-
-            @Override
-            protected Object clone() throws CloneNotSupportedException {
-                return super.clone();
-            }
-
-            @Override
-            public String toString() {
-                return super.toString();
-            }
-
-            @Override
-            protected void finalize() throws Throwable {
-                super.finalize();
-            }
-        };
-
-        memoire = new Object[mem_taille];
+    public Tas(int taille) {
+        memoire = new Object[taille];
+        arbre = new ArbreMemoire(taille);
     }
 
-    public Tree getTas() {
-        return tas;
+    public int allouer(int taille) {
+        return arbre.allouerMemoire(taille);
     }
 
-    private int allouer() {
+    public void liberer(int adresse) {
+        arbre.libererMemoire(adresse);
+    }
+
+    public int ecrire(int adresse, int decalage, Object valeur) {
+        int emplacement = emplacementValide(adresse, decalage);
+        if (emplacement < 0) {
+            return emplacement;
+        }
+        memoire[emplacement] = valeur;
         return 0;
     }
-*/
 
+    public Object lire(int adresse, int decalage) {
+        int emplacement = emplacementValide(adresse, decalage);
+        if (emplacement < 0) {
+            return null;
+        }
+        return memoire[emplacement];
+    }
+
+    private int emplacementValide(int adresse, int decalage) {
+        NoeudMemoire noeud = arbre.getNoeud(adresse);
+        if (noeud == null) {
+            return -2;
+        }
+        if (noeud.estDisponible()) {
+            return -3;
+        }
+        if (decalage < 0) {
+            return -1;
+        }
+        if (decalage >= noeud.getTaille()) {
+            return -1;
+        }
+        return adresse + decalage;
+    }
 
 }
