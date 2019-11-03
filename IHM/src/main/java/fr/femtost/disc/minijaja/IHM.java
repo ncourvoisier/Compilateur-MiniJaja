@@ -1,6 +1,7 @@
 package fr.femtost.disc.minijaja;
 
 
+import fr.femtost.disc.minijaja.jcodes.JNil;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.beans.Observable;
@@ -10,12 +11,18 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.*;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+
+import java.io.*;
+import java.nio.file.Files;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 public class IHM extends Application {
@@ -24,81 +31,70 @@ public class IHM extends Application {
         launch(args);
     }
 
+
     @Override
-    public void start(Stage primaryStage) {
-
-        /*
-        // Définition du titre de la fenêtre de l'application
-        primaryStage.setTitle("Titre de la fenêtre");
-
-        // Appel d'une méthode permettant une fermeture propre de l'application
-        //primaryStage.setOnCloseRequest(e -> Platform.exit());
-        // la ligne du dessus n'est pas accepté car la version n'est requise est trop haute
-
-        // Création de la scène (avec des dimensions correspondant à une résolution HD), composé uniquement d'une étiquette affichant du texte
-        primaryStage.setScene(new Scene(new Label("Hello wold !"), 1280, 720));
-        // Affichage de la fenêtre
-        primaryStage.show();
-
-         */
-
+    public void start(final Stage primaryStage) throws Exception{
         primaryStage.setTitle("quel nom pour l'ihm ?");
-        Group root = new Group();
+
+        MenuBar menuBar = new MenuBar();
+
+        //Group root = new Group(menuBar);
+        BorderPane root = new BorderPane();
         Scene scene = new Scene(root, 600, 330, Color.WHITE);
-        /*Button btn = new Button();
-        btn.setLayoutX(100);
-        btn.setLayoutY(80);
-        btn.setText("Hello World");
-        btn.setOnAction(new EventHandler<ActionEvent>() {
-
-            public void handle(ActionEvent event) {
-                System.out.println("Hello World");
-            }
-        });
-        root.getChildren().add(btn);
-
-        */
-
-        // je laisse 30 pixels pour la hauteur du menu
-        // Sur la hauteur qui reste je laisse 2/3 pour la zone de saisie et 1/3 pour l'affichage du résultat
-
         final TextArea zoneSaisie = new TextArea();
-        zoneSaisie.setMinWidth(scene.getWidth());
-        zoneSaisie.setLayoutY(30);// on laisse de la place pour le menu
-        zoneSaisie.setMinHeight(scene.getHeight()-130); // on laisse de la place pour la fenêtre resultat et le menu
-        root.getChildren().add(zoneSaisie);
+        //zoneSaisie.setMinWidth(scene.getWidth());
+        //zoneSaisie.setLayoutY(30);// on laisse de la place pour le menu
+        //zoneSaisie.setMinHeight(scene.getHeight()-130); // on laisse de la place pour la fenêtre resultat et le menu
+        //zoneSaisie.setMaxHeight(scene.getHeight()-130);
+        //on rajoute le scroll pane pour la zone de saisie
+        ScrollPane sp1 = new ScrollPane();
+        sp1.setContent(zoneSaisie);
+        sp1.setMinWidth(scene.getWidth());
+        //sp1.setLayoutY(30);
+        sp1.setMinHeight((scene.getHeight()-30)*2/3);
+        /*sp1.setFitToWidth(true);
+        sp1.setPrefWidth(400);
+        sp1.setPrefHeight(180);*/
+        //sp1.setPrefSize(zoneSaisie.getMinWidth(),zoneSaisie.getMinHeight());
+        //root.getChildren().addCenter(zoneSaisie);
+        root.setCenter(sp1);
 
         final TextArea resultat = new TextArea();
-        resultat.setMinWidth(scene.getWidth());
-        resultat.setLayoutY(230);
-        resultat.setMinHeight(scene.getHeight()-230);
-        root.getChildren().add(resultat);
+        //resultat.setMinWidth(scene.getWidth());
+        //resultat.setLayoutY(230);
+        //resultat.setMinHeight(scene.getHeight()-230);
+        resultat.setEditable(false);
+        //on rajoute le scroll pane pour la zone de résultat
+        ScrollPane sp2 = new ScrollPane();
+        sp2.setContent(resultat);
+        sp2.setMinWidth(scene.getWidth());
+        //sp2.setLayoutY(30);
+        sp2.setMinHeight((scene.getHeight()-30)*1/3);
+        //root.getChildren().add(resultat);
+        root.setBottom(sp2);
 
-        Button fichier = new Button();
+        /*Button fichier = new Button();
         fichier.setMinHeight(30);
         fichier.setMinWidth(100);
         fichier.setText("Fichier");
-        root.getChildren().add(fichier);
+        root.getChildren().add(fichier);*/
 
-        // faire le listerner on clik sur le bouton fichier
+        Menu fichier = new Menu("fichier");
+        MenuItem openFile = new MenuItem("open");
+        MenuItem saveFile = new MenuItem("save");
+        fichier.getItems().add(openFile);
+        fichier.getItems().add(saveFile);
 
-        Button build = new Button();
-        build.setLayoutX(100);
-        build.setText("Build");
-        build.setMinHeight(30);
-        build.setMinWidth(100);
-        root.getChildren().add(build);
+        Menu go = new Menu("go");
+        MenuItem build = new MenuItem("build");
+        MenuItem run = new MenuItem("run");
+        go.getItems().add(build);
+        go.getItems().add(run);
 
-        // faire le listerner on clik sur le bouton build
+        menuBar.getMenus().add(fichier);
+        menuBar.getMenus().add(go);
+        root.setTop(menuBar);
 
-        Button run = new Button();
-        run.setLayoutX(200);
-        run.setText("run");
-        run.setMinHeight(30);
-        run.setMinWidth(100);
-        root.getChildren().add(run);
-
-        // faire le listerner on clik sur le bouton run
 
 
         /* Je voulais redimensionner les fenêtres affichage et résultat lors d'un redimensionnement de la fenêtre scnene.
@@ -122,6 +118,72 @@ public class IHM extends Application {
                 zoneSaisie.setMinHeight(zoneSaisie.getHeight()+ agrandissement*2/3);
                 resultat.setLayoutY(resultat.getLayoutY() + agrandissement*2/3);
                 resultat.setMinHeight(resultat.getHeight()+agrandissement/3);
+            }
+        });
+
+        openFile.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                FileChooser fileChooser = new FileChooser();
+                fileChooser.setTitle("Open Resource File");
+                fileChooser.getExtensionFilters().addAll(
+                        new FileChooser.ExtensionFilter("Text Files", "*.mjj"));
+                File selectedFile = fileChooser.showOpenDialog(primaryStage);
+                if (selectedFile != null) {
+                    //mainStage.display(selectedFile);
+                    try(BufferedReader reader = new BufferedReader(new FileReader(selectedFile))) {
+
+                        String line;
+                        String texte ="";
+                        while ((line = reader.readLine()) != null) {
+                            System.out.println(line);
+                            texte += line+"\n";
+                        }
+                        zoneSaisie.setText(texte);
+
+                    }catch(IOException exc)
+                    {
+                        exc.printStackTrace();
+                    }
+
+                    //System.out.println("gagné");
+                }
+            }
+        });
+        saveFile.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                FileChooser fileChooser = new FileChooser();
+                fileChooser.setTitle("Save file");
+
+                //Set extension filter for text files
+                FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Text Files", "*.mjj");
+                fileChooser.getExtensionFilters().add(extFilter);
+
+                //Show save file dialog
+                File file = fileChooser.showSaveDialog(primaryStage);
+
+                if (file != null) {
+                    try {
+                        PrintWriter writer;
+                        writer = new PrintWriter(file);
+                        writer.println(zoneSaisie.getText());
+                        writer.close();
+                    } catch (IOException ex) {
+
+                        ex.printStackTrace();
+                    }
+                }
+            }
+        });
+
+        // vm option --module-path "/path/to/javafx-sdk-11.0.2/lib/" --add-modules javafx.controls,javafx.fxml
+        build.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                //SyntaxChecker sc = new SyntaxChecker(zoneSaisie.getText());
+                //CompilationCouple cc = new CompilationCouple(new JNil(), 0);
+                //resultat.setText(cc.jCodes.toString());
             }
         });
 
