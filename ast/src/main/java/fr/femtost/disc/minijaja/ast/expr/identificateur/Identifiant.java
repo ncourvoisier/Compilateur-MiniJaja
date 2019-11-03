@@ -2,6 +2,8 @@ package fr.femtost.disc.minijaja.ast.expr.identificateur;
 
 import fr.femtost.disc.minijaja.CompilationCouple;
 import fr.femtost.disc.minijaja.JCIdent;
+import fr.femtost.disc.minijaja.Memoire;
+import fr.femtost.disc.minijaja.PileException;
 import fr.femtost.disc.minijaja.ast.expr.ASTIdentGenerique;
 import fr.femtost.disc.minijaja.jcode.Load;
 import fr.femtost.disc.minijaja.jcodes.JChain;
@@ -27,5 +29,25 @@ public class Identifiant extends ASTIdentGenerique {
     @Override
     public CompilationCouple compiler(int actual) {
         return new CompilationCouple(new JChain(new Load(new JCIdent(name)), new JNil()), 1);
+    }
+
+    @Override
+    public void interpreter(Memoire m) {
+
+    }
+
+    @Override
+    public void retirer(Memoire m) {
+
+    }
+
+    @Override
+    public Object eval(Memoire m) {
+        try {
+            return m.getPile().Val(name);
+        } catch (PileException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
