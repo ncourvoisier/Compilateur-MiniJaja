@@ -1,9 +1,6 @@
 package fr.femtost.disc.minijaja.ast;
 
-import fr.femtost.disc.minijaja.ASTNode;
-import fr.femtost.disc.minijaja.CompilationCouple;
-import fr.femtost.disc.minijaja.JCIdent;
-import fr.femtost.disc.minijaja.JCSorte;
+import fr.femtost.disc.minijaja.*;
 import fr.femtost.disc.minijaja.ast.expr.identificateur.Identifiant;
 import fr.femtost.disc.minijaja.ast.type.ASTType;
 import fr.femtost.disc.minijaja.jcode.New;
@@ -37,5 +34,19 @@ public class ASTEntete extends ASTNode {
     @Override
     public CompilationCouple compiler(int actual) {
         return new CompilationCouple(new JChain(new New(new JCIdent(ident.getName()), type.getType(), JCSorte.VARIABLE, new JCNbre(position)), new JNil()), 1);
+    }
+
+    @Override
+    public void interpreter(Memoire m) {
+        try {
+            m.getPile().RetirerDecl(ident.getName());
+        } catch (PileException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void retirer(Memoire m) {
+
     }
 }
