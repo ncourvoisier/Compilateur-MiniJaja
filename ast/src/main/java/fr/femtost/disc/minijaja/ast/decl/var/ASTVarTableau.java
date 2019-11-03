@@ -1,9 +1,6 @@
 package fr.femtost.disc.minijaja.ast.decl.var;
 
-import fr.femtost.disc.minijaja.CompilationCouple;
-import fr.femtost.disc.minijaja.JCIdent;
-import fr.femtost.disc.minijaja.JCSorte;
-import fr.femtost.disc.minijaja.JCodes;
+import fr.femtost.disc.minijaja.*;
 import fr.femtost.disc.minijaja.ast.ASTExpr;
 import fr.femtost.disc.minijaja.ast.ASTTypeMeth;
 import fr.femtost.disc.minijaja.ast.decl.ASTVar;
@@ -33,5 +30,25 @@ public class ASTVarTableau extends ASTVar {
     public CompilationCouple compiler(int actual) {
         CompilationCouple e = expr.compiler(actual);
         return new CompilationCouple(JCodes.concatRight(e.jCodes, new NewArray(new JCIdent(identifiant.getName()), typeMeth.getType())), e.taille+1);
+    }
+
+    @Override
+    public void interpreter(Memoire m) {
+        int v =expr.eval(m);
+        m.getPile().DeclTab(identifiant.getName(),v,typeMeth.getSorte());
+    }
+
+    @Override
+    public void retirer(Memoire m) {
+        try {
+            m.getPile().RetirerDecl(identifiant.getName());
+        } catch (PileException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public int eval(Memoire m) {
+        return 0;
     }
 }
