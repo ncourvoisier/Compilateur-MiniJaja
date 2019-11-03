@@ -2,6 +2,7 @@ package fr.femtost.disc.minijaja.ast.vars;
 
 import fr.femtost.disc.minijaja.CompilationCouple;
 import fr.femtost.disc.minijaja.JCodes;
+import fr.femtost.disc.minijaja.Memoire;
 import fr.femtost.disc.minijaja.ast.ASTVars;
 import fr.femtost.disc.minijaja.ast.decl.ASTVar;
 
@@ -46,5 +47,16 @@ public class VChain extends ASTVars {
         CompilationCouple top = var.retirerCompile(actual + vs.taille);
 
         return new CompilationCouple(JCodes.concatenate(vs.jCodes, top.jCodes), vs.taille + top.taille);
+    }
+
+    @Override
+    public void interpreter(Memoire m) {
+
+    }
+
+    @Override
+    public void retirer(Memoire m) {
+        vars.retirer(m);
+        var.retirer(m);
     }
 }

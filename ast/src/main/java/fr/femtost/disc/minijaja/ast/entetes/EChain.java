@@ -52,4 +52,15 @@ public class EChain extends ASTEntetes {
     public int getChainPosition() {
         return position;
     }
+
+    @Override
+    public void interpreter(Memoire m) {
+
+    }
+
+    @Override
+    public void retirer(Memoire m) {
+        successor.retirer(m);
+        node.retirer(m);
+    }
 }
