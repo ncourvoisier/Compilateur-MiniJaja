@@ -38,6 +38,6 @@ public class Nbre extends ASTExpr {
 
     @Override
     public Object eval(Memoire m) {
-        return null;
+        return Integer.valueOf(expr);
     }
 }
