@@ -25,7 +25,6 @@ public abstract class ASTNode {
 =======
     abstract public void interpreter(Memoire m);
     abstract public void retirer(Memoire m);
-    abstract public int eval(Memoire m);
 >>>>>>> .r236
 }
 
