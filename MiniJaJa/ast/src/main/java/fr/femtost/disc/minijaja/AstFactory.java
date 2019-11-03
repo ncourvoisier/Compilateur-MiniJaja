@@ -1,11 +1,16 @@
 package fr.femtost.disc.minijaja;
 
 
-public class AstFactory {
-    /*public static AstTree generateClass(AstTree ident, AstTree decls, AstTree methmain){
+import fr.femtost.disc.minijaja.ast.ASTClass;
+import fr.femtost.disc.minijaja.ast.ASTDecls;
+import fr.femtost.disc.minijaja.ast.ASTMain;
 
-        return null;
-    }
+import fr.femtost.disc.minijaja.ast.expr.identificateur.Identifiant;
+
+public class AstFactory {
+    public static ASTClass generateClass(Identifiant ident, ASTDecls decls, ASTMain methmain){
+        return new ASTClass(ident, decls, methmain);
+    }/*
     public static AstTree generateIdent(String identificateur){
 
         return null;

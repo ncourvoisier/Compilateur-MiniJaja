@@ -197,6 +197,23 @@ public class Pile {
         return "NOK_";
     }
 
+    public Object ValT(String ID, int INDEX) throws PileException {
+        if (pileEstVide()) {
+            throw new PileException("La pile est vide impossible d'obtenir la valeur de l'élément " + ID + ".");
+        }
+        int taille = returnTaillePile();
+        for (int i = 0; i < taille; i++) {
+            Quad q = pile.get(i);
+            if (q.getID().equals(ID)) {
+                if (q.getVAL() instanceof Integer) {
+                    return tas.lire((Integer) q.getVAL(), INDEX);
+                }
+                return null;
+            }
+        }
+        return null;
+    }
+
     public NatureObjet Object(String ID) throws PileException {
         if (pileEstVide()) {
             throw new PileException("La pile est vide impossible d'obtenir la nature objet de l'élément " + ID + ".");
