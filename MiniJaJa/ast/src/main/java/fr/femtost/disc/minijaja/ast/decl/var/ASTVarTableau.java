@@ -34,7 +34,7 @@ public class ASTVarTableau extends ASTVar {
 
     @Override
     public void interpreter(Memoire m) {
-        int v =expr.eval(m);
+        int v = (int)expr.eval(m);
         m.getPile().DeclTab(identifiant.getName(),v,typeMeth.getSorte());
     }
 
