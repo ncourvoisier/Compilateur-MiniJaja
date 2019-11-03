@@ -19,9 +19,6 @@ public abstract class ASTNode {
         return new CompilationCouple(new JNil(), actual);
     }
 
-
-
-
     abstract public void interpreter(Memoire m);
     abstract public void retirer(Memoire m);
 

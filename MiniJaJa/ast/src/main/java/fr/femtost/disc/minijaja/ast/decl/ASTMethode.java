@@ -68,12 +68,17 @@ public class ASTMethode extends ASTDecl {
 
     @Override
     public void interpreter(Memoire m) {
-
+        ASTMethode mth = new ASTMethode(typeMeth, ident, entetes, vars, instrs);
+        m.getPile().DeclMeth(ident.getName(), mth, null);
     }
 
     @Override
     public void retirer(Memoire m) {
-
+        try {
+            m.getPile().RetirerDecl(ident.getName());
+        } catch (PileException e) {
+            e.printStackTrace();
+        }
     }
 
 
