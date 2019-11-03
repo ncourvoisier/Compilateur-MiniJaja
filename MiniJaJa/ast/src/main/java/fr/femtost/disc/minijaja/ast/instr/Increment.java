@@ -42,7 +42,19 @@ public class Increment extends ASTInstr {
     @Override
     public void interpreter(Memoire m){
 
-
+        if(identGenerique instanceof Tableau)
+        {
+            int v = ((Tableau) identGenerique).evalIndex(m);
+            try{m.getPile().AffecterValT(identGenerique.getName(),v,);}
+            catch (PileException e){}
+        }
+        else {
+            try {
+                m.getPile().AffecterVal(identGenerique.getName(),(int)(m.getPile().Val(identGenerique.getName()))+1);
+            } catch (PileException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override
