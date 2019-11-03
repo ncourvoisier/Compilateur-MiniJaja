@@ -47,6 +47,10 @@ public class ASTEntete extends ASTNode {
 
     @Override
     public void retirer(Memoire m) {
-
+        try {
+            m.getPile().RetirerDecl(ident.getName());
+        } catch (PileException e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -43,7 +43,8 @@ public class DChain extends ASTDecls {
     }
     @Override
     public void interpreter(Memoire m) {
-
+        node.interpreter(m);
+        successor.interpreter(m);
     }
 
     @Override

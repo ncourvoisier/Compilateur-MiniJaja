@@ -51,7 +51,8 @@ public class VChain extends ASTVars {
 
     @Override
     public void interpreter(Memoire m) {
-
+        var.interpreter(m);
+        vars.interpreter(m);
     }
 
     @Override

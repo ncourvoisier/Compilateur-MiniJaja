@@ -43,9 +43,9 @@ public class BoolVal extends ASTExpr {
     @Override
     public Object eval(Memoire m) {
         if (value) {
-            return "true";
+            return true;
         } else {
-            return "false";
+            return false;
         }
     }
 }

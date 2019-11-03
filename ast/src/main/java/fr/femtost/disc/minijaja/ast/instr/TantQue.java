@@ -47,7 +47,6 @@ public class TantQue extends ASTInstr {
         if (ee) {
             instrs.interpreter(m);
             this.interpreter(m);
-        } else {
         }
     }
 

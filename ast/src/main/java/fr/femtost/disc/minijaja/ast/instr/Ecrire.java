@@ -38,8 +38,8 @@ public class Ecrire extends ASTInstr {
 
     @Override
     public void interpreter(Memoire m) {
-        ident.eval(m);
-        System.out.println(ident.toString());
+        Object v =ident.eval(m);
+        System.out.println(v);
     }
 
     @Override

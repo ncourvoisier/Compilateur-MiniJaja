@@ -1,12 +1,11 @@
 package fr.femtost.disc.minijaja.ast.expr;
 
-import fr.femtost.disc.minijaja.CompilationCouple;
-import fr.femtost.disc.minijaja.JCIdent;
-import fr.femtost.disc.minijaja.JCodes;
-import fr.femtost.disc.minijaja.Memoire;
+import fr.femtost.disc.minijaja.*;
+import fr.femtost.disc.minijaja.ast.ASTClass;
 import fr.femtost.disc.minijaja.ast.ASTExpr;
 import fr.femtost.disc.minijaja.ast.ASTListExpr;
 import fr.femtost.disc.minijaja.ast.expr.identificateur.Identifiant;
+import fr.femtost.disc.minijaja.ast.instr.AppelI;
 import fr.femtost.disc.minijaja.jcode.Invoke;
 
 public class AppelE extends ASTExpr {
@@ -51,6 +50,13 @@ public class AppelE extends ASTExpr {
 
     @Override
     public Object eval(Memoire m) {
+        new AppelI(ident, listExpr).interpreter(m);
+        try {
+            return m.getPile().Val(ASTClass.VariableClasse);
+        } catch (PileException e) {
+            e.printStackTrace();
+        }
         return null;
     }
 }
+
