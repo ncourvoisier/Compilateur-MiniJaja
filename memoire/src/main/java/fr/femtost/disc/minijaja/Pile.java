@@ -4,16 +4,14 @@ import java.util.Stack;
 
 public class Pile {
 
-    private static final int TAILLE_TAS = 1000000;
-
     Stack<Quad> pile; //Objet pile qui stock des quad
     TableDesSymboles tds;
     Tas tas;
 
-    public Pile(Stack pile) {
-        this.pile = pile;
+    public Pile(Tas tas) {
+        pile = new Stack<>();
         tds = new TableDesSymboles();
-        tas = new Tas(TAILLE_TAS);
+        this.tas = tas;
     }
 
     public int returnTaillePile() {
@@ -84,8 +82,11 @@ public class Pile {
     }
 
     public Stack DeclTab (String ID, Object VAL, Sorte SORTE) {
-        Quad q = tds.creerSymboles(ID, VAL, NatureObjet.TAB, SORTE);
-        Empiler(q);
+        int addr = AjouterRef(VAL);
+        if (addr >= 0) {
+            Quad q = tds.creerSymboles(ID, addr, NatureObjet.TAB, SORTE);
+            Empiler(q);
+        }
         return pile;
     }
 
