@@ -14,8 +14,9 @@ public class PileTest {
     Pile p;
     @Before
     public void Begin() {
-        s = new Stack<>();
-        p = new Pile(s);
+        Memoire mem = new Memoire(1000000);
+        p = mem.getPile();
+        s = p.pile;
     }
 
     @Test

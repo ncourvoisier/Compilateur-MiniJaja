@@ -14,8 +14,9 @@ public class QuadTest {
     Quad q;
     @Before
     public void Begin() {
-        s = new Stack<>();
-        p = new Pile(s);
+        Memoire mem = new Memoire(1000000);
+        p = mem.getPile();
+        s = p.pile;
         p.DeclVar("Var", 1, Sorte.INT);
         q = s.peek();
     }
