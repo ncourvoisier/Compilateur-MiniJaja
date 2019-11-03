@@ -317,24 +317,41 @@ public class PileTest {
     }
 
     @Test
+    public void affecterValTest4() throws PileException {
+        p.DeclVar("Var", 0, Sorte.INT);
+        p.DeclVar("Var2", 1, Sorte.INT);
+        assertEquals(2, s.size());
+
+        p.AffecterVal("Var", 5);
+
+        Quad q2 = p.pile.pop();
+        assertSame("Var2", q2.getID());
+        assertEquals(1, q2.getVAL());
+
+        Quad q1 = p.pile.peek();
+        assertSame("Var", q1.getID());
+        assertEquals(5, q1.getVAL());
+    }
+
+    @Test
     public void valObjectSorte0() {
         try {
             p.Val("Var");
         } catch (Exception e) {
-            assertEquals("La pile est vide impossible d'obtrenir la valeur de l'élément Var.", e.getMessage());
-            assertEquals("La pile est vide impossible d'obtrenir la valeur de l'élément Var. -> fr.femtost.disc.minijaja.PileException", e.toString());
+            assertEquals("La pile est vide impossible d'obtenir la valeur de l'élément Var.", e.getMessage());
+            assertEquals("La pile est vide impossible d'obtenir la valeur de l'élément Var. -> fr.femtost.disc.minijaja.PileException", e.toString());
         }
         try {
             p.Object("Var");
         } catch (Exception e) {
-            assertEquals("La pile est vide impossible d'obtrenir la nature objet de l'élément Var.", e.getMessage());
-            assertEquals("La pile est vide impossible d'obtrenir la nature objet de l'élément Var. -> fr.femtost.disc.minijaja.PileException", e.toString());
+            assertEquals("La pile est vide impossible d'obtenir la nature objet de l'élément Var.", e.getMessage());
+            assertEquals("La pile est vide impossible d'obtenir la nature objet de l'élément Var. -> fr.femtost.disc.minijaja.PileException", e.toString());
         }
         try {
             p.Sorte("Var");
         } catch (Exception e) {
-            assertEquals("La pile est vide impossible d'obtrenir la sorte de l'élément Var.", e.getMessage());
-            assertEquals("La pile est vide impossible d'obtrenir la sorte de l'élément Var. -> fr.femtost.disc.minijaja.PileException", e.toString());
+            assertEquals("La pile est vide impossible d'obtenir la sorte de l'élément Var.", e.getMessage());
+            assertEquals("La pile est vide impossible d'obtenir la sorte de l'élément Var. -> fr.femtost.disc.minijaja.PileException", e.toString());
         }
     }
 
