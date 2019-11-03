@@ -1,8 +1,6 @@
 package fr.femtost.disc.minijaja.ast.instr;
 
-import fr.femtost.disc.minijaja.CompilationCouple;
-import fr.femtost.disc.minijaja.JCIdent;
-import fr.femtost.disc.minijaja.JCodes;
+import fr.femtost.disc.minijaja.*;
 import fr.femtost.disc.minijaja.ast.ASTInstr;
 import fr.femtost.disc.minijaja.ast.expr.ASTIdentGenerique;
 import fr.femtost.disc.minijaja.ast.expr.identificateur.Tableau;
@@ -40,5 +38,15 @@ public class Increment extends ASTInstr {
                     index.taille + 2);
         }
         return new CompilationCouple(new JChain(new Push(new JCNbre(1)), new JChain(new Inc(new JCIdent(identGenerique.getName())), new JNil())), 2);
+    }
+    @Override
+    public void interpreter(Memoire m){
+
+
+    }
+
+    @Override
+    public void retirer(Memoire m) {
+
     }
 }

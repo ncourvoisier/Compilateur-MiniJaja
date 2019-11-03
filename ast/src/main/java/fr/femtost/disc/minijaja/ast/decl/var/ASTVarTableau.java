@@ -47,8 +47,5 @@ public class ASTVarTableau extends ASTVar {
         }
     }
 
-    @Override
-    public int eval(Memoire m) {
-        return 0;
-    }
+
 }
