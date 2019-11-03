@@ -46,17 +46,18 @@ public class Somme extends ASTInstr {
         if(ident instanceof Tableau)
         {
             int v2 = ((Tableau) ident).evalIndex(m);
-            try{m.getPile().AffecterValT(ident.getName(),v,v2);}
+            try{m.getPile().AffecterValT(ident.getName(),(int)m.getPile().ValT(ident.getName(),v2)+(int)v,v2);}
             catch (PileException e){}
         }
         else {
             try {
-                m.getPile().AffecterVal(ident.getName(),v);
+                m.getPile().AffecterVal(ident.getName(),(int)(m.getPile().Val(ident.getName()))+(int)v);
             } catch (PileException e) {
                 e.printStackTrace();
             }
         }
     }
+
 
     @Override
     public void retirer(Memoire m) {
