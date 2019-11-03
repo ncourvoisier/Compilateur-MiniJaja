@@ -65,4 +65,16 @@ public class ASTMethode extends ASTDecl {
     public CompilationCouple retirerCompile(int actual) {
         return new CompilationCouple(new JChain(new Swap(), new JChain(new Pop(), new JNil())), 2);
     }
+
+    @Override
+    public void interpreter(Memoire m) {
+
+    }
+
+    @Override
+    public void retirer(Memoire m) {
+
+    }
+
+
 }
