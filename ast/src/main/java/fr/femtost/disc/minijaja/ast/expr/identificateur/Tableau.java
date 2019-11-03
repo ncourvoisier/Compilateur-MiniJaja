@@ -42,7 +42,7 @@ public class Tableau extends ASTIdentGenerique {
         return index.compiler(actual);
     }
     public int evalIndex(Memoire m) {
-        return index.eval(m);
+        return (int)index.eval(m);
     }
 
     @Override
@@ -51,7 +51,7 @@ public class Tableau extends ASTIdentGenerique {
     }
 
     @Override
-    public int eval(Memoire m) {
+    public Object eval(Memoire m) {
         return 0;
     }
 }
