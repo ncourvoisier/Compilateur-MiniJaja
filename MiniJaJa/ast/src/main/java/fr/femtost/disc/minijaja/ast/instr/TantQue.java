@@ -42,9 +42,13 @@ public class TantQue extends ASTInstr {
         return new CompilationCouple(JCodes.concatenate(e.jCodes, builder), e.taille + iss.taille + 3);
     }
 
-    @Override
     public void interpreter(Memoire m) {
-
+        Boolean ee = (Boolean)expr.eval(m);
+        if (ee) {
+            instrs.interpreter(m);
+            this.interpreter(m);
+        } else {
+        }
     }
 
     @Override
