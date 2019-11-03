@@ -1,6 +1,7 @@
 package fr.femtost.disc.minijaja.ast.expr;
 
 import fr.femtost.disc.minijaja.CompilationCouple;
+import fr.femtost.disc.minijaja.Memoire;
 import fr.femtost.disc.minijaja.ast.ASTExpr;
 import fr.femtost.disc.minijaja.jcode.Push;
 import fr.femtost.disc.minijaja.jcodes.JChain;
@@ -27,5 +28,24 @@ public class BoolVal extends ASTExpr {
     @Override
     public CompilationCouple compiler(int actual) {
         return new CompilationCouple(new JChain(new Push(new JCBool(value)), new JNil()), 1);
+    }
+
+    @Override
+    public void interpreter(Memoire m) {
+
+    }
+
+    @Override
+    public void retirer(Memoire m) {
+
+    }
+
+    @Override
+    public Object eval(Memoire m) {
+        if (value) {
+            return "true";
+        } else {
+            return "false";
+        }
     }
 }
