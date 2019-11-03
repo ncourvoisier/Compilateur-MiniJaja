@@ -2,6 +2,7 @@ package fr.femtost.disc.minijaja.ast.decls;
 
 import fr.femtost.disc.minijaja.CompilationCouple;
 import fr.femtost.disc.minijaja.JCodes;
+import fr.femtost.disc.minijaja.Memoire;
 import fr.femtost.disc.minijaja.ast.ASTDecl;
 import fr.femtost.disc.minijaja.ast.ASTDecls;
 
@@ -40,4 +41,17 @@ public class DChain extends ASTDecls {
 
         return new CompilationCouple(JCodes.concatenate(dss.jCodes, ds.jCodes), ds.taille + dss.taille);
     }
+
+    @Override
+    public void interpreter(Memoire m) {
+
+    }
+
+    @Override
+    public void retirer(Memoire m) {
+        successor.retirer(m);
+        node.retirer(m);
+    }
+
+
 }
