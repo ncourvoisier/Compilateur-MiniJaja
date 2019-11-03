@@ -45,7 +45,7 @@ public class Increment extends ASTInstr {
         if(identGenerique instanceof Tableau)
         {
             int v = ((Tableau) identGenerique).evalIndex(m);
-            try{m.getPile().AffecterValT(identGenerique.getName(),v,);}
+            try{m.getPile().AffecterValT(identGenerique.getName(),,);}
             catch (PileException e){}
         }
         else {
