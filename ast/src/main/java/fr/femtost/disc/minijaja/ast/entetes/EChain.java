@@ -39,16 +39,6 @@ public class EChain extends ASTEntetes {
     }
 
     @Override
-    public void interpreter(Memoire m) {
-
-    }
-
-    @Override
-    public void retirer(Memoire m) {
-
-    }
-
-    @Override
     public int getChainPosition() {
         return position;
     }
