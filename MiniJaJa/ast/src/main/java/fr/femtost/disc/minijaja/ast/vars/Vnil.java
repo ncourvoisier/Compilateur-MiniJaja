@@ -16,6 +16,7 @@ public final class Vnil extends ASTVars {
         return new CompilationCouple(new JNil(), 0);
     }
 
+
     @Override
     public void interpreter(Memoire m) {
 
@@ -26,8 +27,4 @@ public final class Vnil extends ASTVars {
 
     }
 
-    @Override
-    public int eval(Memoire m) {
-        return 0;
-    }
 }

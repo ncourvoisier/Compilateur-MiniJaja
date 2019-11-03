@@ -3,6 +3,7 @@ package fr.femtost.disc.minijaja.ast;
 import fr.femtost.disc.minijaja.ASTNode;
 import fr.femtost.disc.minijaja.CompilationCouple;
 import fr.femtost.disc.minijaja.JCodes;
+import fr.femtost.disc.minijaja.Memoire;
 import fr.femtost.disc.minijaja.jcode.Push;
 import fr.femtost.disc.minijaja.jcval.JCNbre;
 
@@ -36,4 +37,17 @@ public class ASTMain extends ASTNode {
         JCodes codes = JCodes.concatenate(dvs.jCodes, JCodes.concatenate(iss.jCodes, JCodes.concatLeft(new Push(new JCNbre(0)), retrait.jCodes)));
         return new CompilationCouple(codes, dvs.taille + iss.taille + retrait.taille + 1);
     }
+
+    @Override
+    public void interpreter(Memoire m) {
+        vars.interpreter(m);
+        instrs.interpreter(m);
+        vars.retirer(m);
+    }
+
+    @Override
+    public void retirer(Memoire m) {
+
+    }
+
 }

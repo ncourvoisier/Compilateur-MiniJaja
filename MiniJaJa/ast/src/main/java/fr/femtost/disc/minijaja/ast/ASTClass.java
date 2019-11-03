@@ -51,18 +51,13 @@ public class ASTClass extends ASTNode
         decls.interpreter(m);
         main.interpreter(m);
         decls.retirer(m);
-        try {m.getPile().RetirerDecl(ident.getName());}
-        catch(PileException e){}
+        try {
+            m.getPile().RetirerDecl(ident.getName());
+        } catch (PileException e) {}
     }
 
     @Override
     public void retirer(Memoire m) {
     }
-
-    @Override
-    public int eval(Memoire m) {
-        return 0;
-    }
-
 
 }
