@@ -1,6 +1,7 @@
 package fr.femtost.disc.minijaja.ast.instr;
 
 import fr.femtost.disc.minijaja.CompilationCouple;
+import fr.femtost.disc.minijaja.Memoire;
 import fr.femtost.disc.minijaja.ast.ASTExpr;
 import fr.femtost.disc.minijaja.ast.ASTInstr;
 
@@ -25,5 +26,20 @@ public class Retour extends ASTInstr {
     @Override
     public CompilationCouple compiler(int actual) {
         return expr.compiler(actual);
+    }
+
+    @Override
+    public void interpreter(Memoire m) {
+
+    }
+
+    @Override
+    public void retirer(Memoire m) {
+
+    }
+
+    @Override
+    public int eval(Memoire m) {
+        return 0;
     }
 }

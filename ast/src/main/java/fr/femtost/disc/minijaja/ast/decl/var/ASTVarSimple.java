@@ -40,4 +40,20 @@ public class ASTVarSimple extends ASTVar {
         CompilationCouple e = expr.compiler(actual);
         return new CompilationCouple(JCodes.concatRight(e.jCodes, new New(new JCIdent(identifiant.getName()), typeMeth.getType(), JCSorte.VARIABLE, new JCNbre(0))), e.taille+1);
     }
+
+    @Override
+    public void interpreter(Memoire m) {
+        int v =expr.eval(m);
+        m.getPile().DeclVar(identifiant.getName(),v,typeMeth.getSorte());
+    }
+
+    @Override
+    public void retirer(Memoire m) {
+
+    }
+
+    @Override
+    public int eval(Memoire m) {
+        return 0;
+    }
 }
