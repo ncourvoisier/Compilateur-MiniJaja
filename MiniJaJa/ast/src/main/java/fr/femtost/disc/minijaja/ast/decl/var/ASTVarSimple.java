@@ -49,7 +49,11 @@ public class ASTVarSimple extends ASTVar {
 
     @Override
     public void retirer(Memoire m) {
-
+        try {
+            m.getPile().RetirerDecl(identifiant.getName());
+        } catch (PileException e) {
+            e.printStackTrace();
+        }
     }
 
 
