@@ -112,17 +112,18 @@ ASTVars Vars(): {ASTVar v; ASTVars vs;}{
 }//a corriger
 //void Var(): {} {TypeMeth()<IDENT> Vexp() | TypeMeth()<TABG>Exp()<TABD> | "final "<TYPE> <IDENT>Vexp() } /*pb de factorisation*/
 //void Var(): {} {TypeMeth()  VarP() | <FINAL> TypeMeth() <IDENT>Vexp() }
-ASTVar Var(Token t): {ASTTypeMeth tm; ASTVar vp; ASTTypeMeth tm2; ASTExpr e;}{
-    tm = TypeMeth() vp = VarP() {return new ASTVarSimple(t.image,e,tm2);}
-    | <FINAL> tm2 = TypeMeth() <IDENT>e = Vexp() {return new ASTVarConst(t.image,e,tm2);}
+ASTVar Var(): {ASTTypeMeth tm; ASTVarSimple vp; ASTExpr e;}{
+    tm = TypeMeth() vp = VarP(tm) {return vp;}
+    | <FINAL> tm = TypeMeth() <IDENT>e = Vexp() {return new ASTVarConst(t.image,e,tm);}
 }
 //void VarP(): {} {<IDENT>(<TABG> Exp()<TABD>|Vexp())}//On a inversé les deux parties du ou logique et ça marche miraculeusement
 
-ASTVarTableau VarP(Token t): {ASTExpr e; ASTExpr ve;}{
-    t = <IDENT> v = Exp() ve = Vexp() {return new ASTVarP(t.image,e);}
+ASTVarTableau VarP(ASTTypeMeth me): {Token t; ASTExpr e; ASTExpr ve;}{
+    t = <IDENT> e = Exp() ve = Vexp() {return new ASTVarSimple(t.image,e,me);}
 }//Verifier le return et la sont entete
 
-void Vexp(): {} {<EGAL>Exp()|{}}
+ASTExpr Vexp(): {ASTExpr e;} {<EGAL> e = Exp() {return e;}
+    |{return new Omega();}}
 /*ASTExpr Vexp(): {ASTExpr e;}{
     <EGAL> e = Exp() {return new ASTEXPR(e)}//c'est quoi Vexp?
     | {return vnil;}
@@ -139,17 +140,17 @@ ASTMain Methmain(): {ASTVars v; ASTInstrs iss;}{
 //void Entetes(): {} { Entete() <VIRGULE> Entetes() | Entete() | {}}
 //void Entetes(): {} {Entete() EntetesP() | {}}
 
-ASTEntetes Entetes(): {ASTEntete e; ASTEntetesP ep;}{
+ASTEntetes Entetes(): {ASTEntete e; ASTEntetes ep;}{
      e = Entete() ep = EntetesP(e) {return ep;}
      | {return new Enil();}
 }
 
 //void EntetesP() : {} {<VIRGULE> Entetes() | {}}
 ASTEntetes EntetesP(ASTEntete e): {ASTEntetes ep;}{
-    <VIRGULE> ep = Entetes() {return new EChain(e,ep);}
+    <VIRGULE> ep = Entetes() {return new EChain(ep,e);}
     | {return new Enil();}
 }
-ASTEntete Entete(): {Token t1; ASTType t2;} {t2 = Type() t1 = <IDENT> {return new ASTEntete(t2,new Identifiant(t1.image));}}
+ASTEntete Entete(): {Token t1; ASTType t2;} {t2 = Type() t1 = <IDENT> {return new ASTEntete(new Identifiant(t1.image),t2);}}
 /*
 ASTEntete Entete(): {ASTEntete ls;} {
     e = Entetes {return new EChain(e);}
@@ -167,15 +168,11 @@ ASTInstrs Instrs(): {ASTInstr is; ASTInstrs iss;}{
 
 //void Instr(): {} {<IDENT>((Ident1()InstrP())|<PARRG> Listexp() <PARRD>) | <RETURN> Exp() | <WRITE> <PARRG> (<IDENT> | <STRING>) <PARRD> | <WRITELN> <PARRG> (<IDENT> | <STRING>) <PARRD> | <IF> Exp() <ACCG> Instrs() <ACCD> ( <ELSE><ACCG> Instrs() <ACCD> )? | <WHILE> <PARRG> Exp() <PARRD> <ACCG>Instrs()<ACCD> }
 ASTInstr Instr(): {Token t; ASTExpr e;ASTListExpr exp; ASTInstrs instrs, instrs1; ASTInstr ins;}{
-    t = <IDENT> ins = InstrP(t) {return ins;}
+    t = <IDENT> (ins = InstrP(t) {return ins;} | <PARRG> exp = ListexpP() <PARRD> {return new AppelI(new Identifiant(t.image), exp);})
     | <RETURN> e = Exp() {return new Retour(e);}
-    | t = <IDENT><PARRG> exp = ListexpP() <PARRD> {return new AppelI(new Identifiant(t.image), exp);}
-    | <WRITE> <PARRG>  t = <IDENT> <PARRD> {return new Ecrire(new Identifiant(t.image));}
-    | <WRITE> <PARRG>  t = <STRING> <PARRD> {return new Ecrire(new HardcodedString(t.image));}
-    | <WRITELN> <PARRG>  t = <STRING> <PARRD> {return new EcrireLn(new HardcodedString(t.image));}
-    | <WRITELN> <PARRG> t = <IDENT> <PARRD> {return new EcrireLn(new Identifiant(t.image));}
-    | <IF> e = Exp() <ACCG> instrs = Instrs() <ACCD> ( <ELSE><ACCG> instrs1 = Instrs() <ACCD> ){return new Si(e,instrs, instrs1);}
-    |<IF> e = Exp() <ACCG> instrs = Instrs() <ACCD> {return new Si(e,instrs, new Inil());}
+    | <WRITE> <PARRG>  (t = <IDENT> <PARRD> {return new Ecrire(new Identifiant(t.image));} | t = <STRING> <PARRD> {return new Ecrire(new HardcodedString(t.image));})
+    | <WRITELN> <PARRG>  (t = <STRING> <PARRD> {return new EcrireLn(new HardcodedString(t.image));} |t = <IDENT> <PARRD> {return new EcrireLn(new Identifiant(t.image));})
+    | <IF> e = Exp() <ACCG> instrs = Instrs() <ACCD> ( <ELSE><ACCG> instrs1 = Instrs() <ACCD>{return new Si(e,instrs, instrs1);} | ""{return new Si(e,instrs, new Inil());})
     | <WHILE> <PARRG>e =  Exp() <PARRD> <ACCG>instrs = Instrs()<ACCD>{return new TantQue(e,instrs);}
 }
 
