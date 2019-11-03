@@ -49,5 +49,4 @@ public class ASTVarConst extends ASTVar {
 
     }
 
-
 }
