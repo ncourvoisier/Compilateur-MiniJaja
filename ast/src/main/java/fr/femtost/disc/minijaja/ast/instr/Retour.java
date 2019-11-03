@@ -36,9 +36,5 @@ public class Retour extends ASTInstr {
     public void retirer(Memoire m) {
 
     }
-
-    @Override
-    public int eval(Memoire m) {
-        return 0;
-    }
+    
 }
