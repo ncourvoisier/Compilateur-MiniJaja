@@ -261,7 +261,7 @@ ASTExpr FactP(Token t): {ASTExpr e; ASTListExpr ls;}{
 
 ASTExpr Ident1(): {ASTExpr expression;} {
       <TABG> expression = Exp() <TABD> {return expression;}
-    | {return null;}
+    | {return new Omega();}
 }
 
 ASTTypeMeth TypeMeth(): {ASTType t;} {
