@@ -43,7 +43,7 @@ public class ASTVarSimple extends ASTVar {
 
     @Override
     public void interpreter(Memoire m) {
-        int v =expr.eval(m);
+        int v =(int)expr.eval(m);
         m.getPile().DeclVar(identifiant.getName(),v,typeMeth.getSorte());
     }
 
@@ -52,8 +52,5 @@ public class ASTVarSimple extends ASTVar {
 
     }
 
-    @Override
-    public int eval(Memoire m) {
-        return 0;
-    }
+
 }
