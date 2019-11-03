@@ -40,7 +40,7 @@ public class ASTVarConst extends ASTVar {
 
     @Override
     public void interpreter(Memoire m) {
-        int v =(int)expr.eval(m);
+        int v = (int)expr.eval(m);
         m.getPile().DeclCst(identifiant.getName(),v,type.getSorte());
     }
 

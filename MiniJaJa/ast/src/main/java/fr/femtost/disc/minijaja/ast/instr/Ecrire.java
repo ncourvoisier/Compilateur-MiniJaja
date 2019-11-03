@@ -38,7 +38,8 @@ public class Ecrire extends ASTInstr {
 
     @Override
     public void interpreter(Memoire m) {
-
+        ident.eval(m);
+        System.out.println(ident.toString());
     }
 
     @Override
@@ -46,8 +47,4 @@ public class Ecrire extends ASTInstr {
 
     }
 
-    @Override
-    public int eval(Memoire m) {
-        return 0;
-    }
 }
