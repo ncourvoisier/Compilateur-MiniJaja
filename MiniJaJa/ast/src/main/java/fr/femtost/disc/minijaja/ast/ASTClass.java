@@ -1,8 +1,6 @@
 package fr.femtost.disc.minijaja.ast;
 
-import fr.femtost.disc.minijaja.ASTNode;
-import fr.femtost.disc.minijaja.CompilationCouple;
-import fr.femtost.disc.minijaja.JCodes;
+import fr.femtost.disc.minijaja.*;
 import fr.femtost.disc.minijaja.ast.expr.identificateur.Identifiant;
 import fr.femtost.disc.minijaja.jcode.Init;
 import fr.femtost.disc.minijaja.jcode.JCStop;
@@ -10,7 +8,8 @@ import fr.femtost.disc.minijaja.jcode.Pop;
 import fr.femtost.disc.minijaja.jcodes.JChain;
 import fr.femtost.disc.minijaja.jcodes.JNil;
 
-public class ASTClass extends ASTNode {
+public class ASTClass extends ASTNode
+{
 
     private Identifiant ident;
     private ASTDecls decls;
@@ -45,4 +44,25 @@ public class ASTClass extends ASTNode {
         return new CompilationCouple(JCodes.concatenate(instructions, new JChain(new Pop(), new JChain(new JCStop(), new JNil()))),
                 dss.taille + mma.taille + retrait.taille + 3);
     }
+
+    @Override
+    public void interpreter(Memoire m) {
+        m.getPile().DeclVar(ident.getName(),null,null);
+        decls.interpreter(m);
+        main.interpreter(m);
+        decls.retirer(m);
+        try {m.getPile().RetirerDecl(ident.getName());}
+        catch(PileException e){}
+    }
+
+    @Override
+    public void retirer(Memoire m) {
+    }
+
+    @Override
+    public int eval(Memoire m) {
+        return 0;
+    }
+
+
 }
