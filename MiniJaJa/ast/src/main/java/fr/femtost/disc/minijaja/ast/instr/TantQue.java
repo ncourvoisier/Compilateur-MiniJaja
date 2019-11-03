@@ -2,6 +2,7 @@ package fr.femtost.disc.minijaja.ast.instr;
 
 import fr.femtost.disc.minijaja.CompilationCouple;
 import fr.femtost.disc.minijaja.JCodes;
+import fr.femtost.disc.minijaja.Memoire;
 import fr.femtost.disc.minijaja.ast.ASTExpr;
 import fr.femtost.disc.minijaja.ast.ASTInstr;
 import fr.femtost.disc.minijaja.ast.ASTInstrs;
@@ -40,4 +41,16 @@ public class TantQue extends ASTInstr {
                 JCodes.concatRight(iss.jCodes, new Goto(actual))));
         return new CompilationCouple(JCodes.concatenate(e.jCodes, builder), e.taille + iss.taille + 3);
     }
+
+    @Override
+    public void interpreter(Memoire m) {
+
+    }
+
+    @Override
+    public void retirer(Memoire m) {
+
+    }
+
+
 }
