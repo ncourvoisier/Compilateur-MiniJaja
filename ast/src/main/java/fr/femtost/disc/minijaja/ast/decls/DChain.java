@@ -41,7 +41,6 @@ public class DChain extends ASTDecls {
 
         return new CompilationCouple(JCodes.concatenate(dss.jCodes, ds.jCodes), ds.taille + dss.taille);
     }
-
     @Override
     public void interpreter(Memoire m) {
 
@@ -52,6 +51,5 @@ public class DChain extends ASTDecls {
         successor.retirer(m);
         node.retirer(m);
     }
-
 
 }
