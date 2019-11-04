@@ -42,7 +42,6 @@ public class Si extends ASTInstr {
             sb.append(instrsElse.rewrite());
             sb.append("}");
         }
-        sb.append("\n");
         return sb.toString();
     }
 
