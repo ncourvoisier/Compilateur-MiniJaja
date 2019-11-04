@@ -40,6 +40,7 @@ public class And extends ASTExpr {
 
     @Override
     public Object eval(Memoire m) {
+        System.out.println("expr1 : "+expr1+"\nexpr2 :"+expr2);
         boolean e1 = (boolean) expr1.eval(m);
         boolean e2 = (boolean) expr2.eval(m);
         return e1 && e2;
