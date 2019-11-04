@@ -18,7 +18,6 @@ import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-
 import java.io.*;
 import java.nio.file.Files;
 import java.util.logging.Level;
@@ -34,7 +33,7 @@ public class IHM extends Application {
 
     @Override
     public void start(final Stage primaryStage) throws Exception{
-        primaryStage.setTitle("quel nom pour l'ihm ?");
+        primaryStage.setTitle("XMJJX-3000X-FX");
 
         MenuBar menuBar = new MenuBar();
 
@@ -178,12 +177,29 @@ public class IHM extends Application {
         });
 
         // vm option --module-path "/path/to/javafx-sdk-11.0.2/lib/" --add-modules javafx.controls,javafx.fxml
-        build.setOnAction(new EventHandler<ActionEvent>() {
+        run.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
                 //SyntaxChecker sc = new SyntaxChecker(zoneSaisie.getText());
                 //CompilationCouple cc = new CompilationCouple(new JNil(), 0);
                 //resultat.setText(cc.jCodes.toString());
+                SyntaxChecker sc = new SyntaxChecker(new java.io.StringReader(zoneSaisie.getText()));
+                try {
+                    fr.femtost.disc.minijaja.ast.ASTClass cla = sc.S();
+                    Memoire m = new Memoire(1000);
+                    cla.interpreter(m);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+
+            }
+        });
+
+        build.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+
             }
         });
 

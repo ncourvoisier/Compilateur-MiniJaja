@@ -1,4 +1,5 @@
 PARSER_BEGIN(SyntaxChecker)
+package fr.femtost.disc.minijaja;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -75,8 +76,7 @@ TOKEN: {
 	<DIV : "/">{System.out.println("Division");}|
 	<VRAI: "true">{System.out.println("Vrai");}|
 	<FAUX: "false">{System.out.println("Faux");}|
-	<TYPE: "int " | "boolean ">{ System.out.println("Type de la variable : "+ matchedToken.image);} |
-	<ENTIER: "int">{ System.out.println("Type entier");} |
+	<ENTIER: "int ">{ System.out.println("Type entier");} |
 	<BOOL: "boolean">{ System.out.println("Type booleen");} |
 	<VIRGULE: ",">{} |
 
@@ -92,7 +92,7 @@ ASTClass S(): {ASTDecls ds; ASTMain mm;Token t;}{
 }
 //void Decls(): {} {Decl()<PV>Decls()| {} }
 ASTDecls Decls(): {ASTDecls ds; ASTDecl d;} {
-    d = Decl() ds= Decls() {return new DChain(ds, d);}
+    d = Decl()<PV> ds= Decls() {return new DChain(ds, d);}
     | {return new fr.femtost.disc.minijaja.ast.decls.Dnil();}
 }
 //void Decl(): {} {Var() | Methode()}
@@ -171,11 +171,11 @@ ASTInstrs Instrs(): {ASTInstr is; ASTInstrs iss;}{
 
 //void Instr(): {} {<IDENT>((Ident1()InstrP())|<PARRG> Listexp() <PARRD>) | <RETURN> Exp() | <WRITE> <PARRG> (<IDENT> | <STRING>) <PARRD> | <WRITELN> <PARRG> (<IDENT> | <STRING>) <PARRD> | <IF> Exp() <ACCG> Instrs() <ACCD> ( <ELSE><ACCG> Instrs() <ACCD> )? | <WHILE> <PARRG> Exp() <PARRD> <ACCG>Instrs()<ACCD> }
 ASTInstr Instr(): {Token t; ASTExpr e;ASTListExpr exp; ASTInstrs instrs, instrs1; ASTInstr ins;}{
-    t = <IDENT> (ins = InstrP(t) {return ins;} | <PARRG> exp = ListexpP() <PARRD> {return new AppelI(new Identifiant(t.image), exp);})
+    t = <IDENT> ( e = Ident1() ins = InstrP(t) {return ins;} | <PARRG> exp = Listexp() <PARRD> {return new AppelI(new Identifiant(t.image), exp);})
     | <RETURN> e = Exp() {return new Retour(e);}
     | <WRITE> <PARRG>  (t = <IDENT> <PARRD> {return new Ecrire(new Identifiant(t.image));} | t = <STRING> <PARRD> {return new Ecrire(new HardcodedString(t.image));})
     | <WRITELN> <PARRG>  (t = <STRING> <PARRD> {return new EcrireLn(new HardcodedString(t.image));} |t = <IDENT> <PARRD> {return new EcrireLn(new Identifiant(t.image));})
-    | <IF> e = Exp() <ACCG> instrs = Instrs() <ACCD> ( <ELSE><ACCG> instrs1 = Instrs() <ACCD>{return new Si(e,instrs, instrs1);} | ""{return new Si(e,instrs, new Inil());})
+    | <IF> e = Exp() <ACCG> instrs = Instrs() <ACCD> ( <ELSE><ACCG> instrs1 = Instrs() <ACCD>{return new Si(e,instrs, instrs1);} | {return new Si(e,instrs, new Inil());})
     | <WHILE> <PARRG>e =  Exp() <PARRD> <ACCG>instrs = Instrs()<ACCD>{return new TantQue(e,instrs);}
 }
 
