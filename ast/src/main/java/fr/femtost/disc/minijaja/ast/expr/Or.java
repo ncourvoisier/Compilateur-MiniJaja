@@ -29,16 +29,6 @@ public class Or extends ASTExpr {
     }
 
     @Override
-    public void interpreter(Memoire m) {
-
-    }
-
-    @Override
-    public void retirer(Memoire m) {
-
-    }
-
-    @Override
     public Object eval(Memoire m) {
         boolean e1 = (boolean) expr1.eval(m);
         boolean e2 = (boolean) expr2.eval(m);

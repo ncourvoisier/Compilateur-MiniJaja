@@ -41,7 +41,7 @@ public class Affectation extends ASTInstr {
 
     @Override
     public void interpreter(Memoire m){
-    int v = (int)expr.eval(m);
+    Object v = expr.eval(m);
     if(ident instanceof Tableau)
         {
             int v2 = ((Tableau) ident).evalIndex(m);

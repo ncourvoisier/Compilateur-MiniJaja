@@ -31,16 +31,6 @@ public class BoolVal extends ASTExpr {
     }
 
     @Override
-    public void interpreter(Memoire m) {
-
-    }
-
-    @Override
-    public void retirer(Memoire m) {
-
-    }
-
-    @Override
     public Object eval(Memoire m) {
         if (value) {
             return true;
