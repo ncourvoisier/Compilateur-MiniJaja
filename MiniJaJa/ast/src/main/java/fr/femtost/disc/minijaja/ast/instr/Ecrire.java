@@ -39,7 +39,7 @@ public class Ecrire extends ASTInstr {
     @Override
     public void interpreter(Memoire m) {
         Object v =ident.eval(m);
-        System.out.println(v);
+        System.out.print(v);
     }
 
     @Override

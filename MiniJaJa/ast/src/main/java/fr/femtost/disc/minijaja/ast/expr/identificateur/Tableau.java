@@ -28,16 +28,6 @@ public class Tableau extends ASTIdentGenerique {
         return new CompilationCouple(JCodes.concatRight(i.jCodes, new ALoad(new JCIdent(name))), i.taille + 1);
     }
 
-    @Override
-    public void interpreter(Memoire m) {
-
-    }
-
-    @Override
-    public void retirer(Memoire m) {
-
-    }
-
     public CompilationCouple getIndex(int actual) {
         return index.compiler(actual);
     }

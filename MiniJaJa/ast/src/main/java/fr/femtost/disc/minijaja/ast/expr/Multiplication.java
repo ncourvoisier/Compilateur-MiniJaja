@@ -37,16 +37,6 @@ public class Multiplication extends ASTExpr {
     }
 
     @Override
-    public void interpreter(Memoire m) {
-
-    }
-
-    @Override
-    public void retirer(Memoire m) {
-
-    }
-
-    @Override
     public Object eval(Memoire m) {
         int e1 = (int) expr1.eval(m);
         int e2 = (int) expr2.eval(m);

@@ -32,16 +32,6 @@ public class Identifiant extends ASTIdentGenerique {
     }
 
     @Override
-    public void interpreter(Memoire m) {
-
-    }
-
-    @Override
-    public void retirer(Memoire m) {
-
-    }
-
-    @Override
     public Object eval(Memoire m) {
         try {
             return m.getPile().Val(name);
