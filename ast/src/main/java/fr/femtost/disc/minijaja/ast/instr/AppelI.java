@@ -6,6 +6,7 @@ import fr.femtost.disc.minijaja.JCodes;
 import fr.femtost.disc.minijaja.Memoire;
 import fr.femtost.disc.minijaja.ast.ASTInstr;
 import fr.femtost.disc.minijaja.ast.ASTListExpr;
+import fr.femtost.disc.minijaja.ast.decl.ASTMethode;
 import fr.femtost.disc.minijaja.ast.expr.identificateur.Identifiant;
 import fr.femtost.disc.minijaja.jcode.Invoke;
 import fr.femtost.disc.minijaja.jcode.Pop;
@@ -31,6 +32,14 @@ public class AppelI extends ASTInstr {
         return sb.toString();
     }
 
+    public void ExpParam(Memoire m)
+    {
+        ASTMethode meth = (ASTMethode) m.getPile().Parametre(ident.getName());
+        if()
+        {
+
+        }
+    }
     @Override
     public CompilationCouple compiler(int actual) {
         CompilationCouple lexp = listExpr.compiler(actual);

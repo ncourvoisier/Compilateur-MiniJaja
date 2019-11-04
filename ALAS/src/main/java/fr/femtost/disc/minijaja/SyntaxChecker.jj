@@ -164,7 +164,7 @@ ASTEntetes Entetes(): {ASTEntete e; ASTEntetes ep;}{
 //void EntetesP() : {} {<VIRGULE> Entetes() | {}}
 ASTEntetes EntetesP(ASTEntete e): {ASTEntetes ep;}{
     <VIRGULE> ep = Entetes() {return new EChain(ep,e);}
-    | {return new Enil();}
+    | {return new EChain(new Enil(), e);}
 }
 
 ASTEntete Entete(): {Token t1; ASTType t2;} {
@@ -194,7 +194,10 @@ ASTInstr Instr(): {Token t; ASTExpr e;ASTListExpr exp; ASTInstrs instrs, instrs1
     | <RETURN> e = Exp() {return new Retour(e);}
     | <WRITE> <PARRG>  (t = <IDENT> <PARRD> {return new Ecrire(new Identifiant(t.image));} | t = <STRING> <PARRD> {return new Ecrire(new HardcodedString(t.image));})
     | <WRITELN> <PARRG>  (t = <STRING> <PARRD> {return new EcrireLn(new HardcodedString(t.image));} |t = <IDENT> <PARRD> {return new EcrireLn(new Identifiant(t.image));})
-    | <IF> e = Exp() <ACCG> instrs = Instrs() <ACCD> ( <ELSE><ACCG> instrs1 = Instrs() <ACCD>{return new Si(e,instrs, instrs1);} | {return new Si(e,instrs, new Inil());})
+    | <IF> e = Exp() <ACCG> instrs = Instrs() <ACCD> (
+        <ELSE><ACCG> instrs1 = Instrs() <ACCD>{return new Si(e,instrs, instrs1);}
+        | {return new Si(e,instrs, new Inil());}
+    )
     | <WHILE> <PARRG>e =  Exp() <PARRD> <ACCG>instrs = Instrs()<ACCD>{return new TantQue(e,instrs);}
 }
 

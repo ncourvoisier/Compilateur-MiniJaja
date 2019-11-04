@@ -27,7 +27,7 @@ public class TantQue extends ASTInstr {
         sb.append("(").append(expr.rewrite()).append(")");
         sb.append(" {\n");
         sb.append(instrs.rewrite());
-        sb.append("}\n");
+        sb.append("}");
 
         return sb.toString();
     }
