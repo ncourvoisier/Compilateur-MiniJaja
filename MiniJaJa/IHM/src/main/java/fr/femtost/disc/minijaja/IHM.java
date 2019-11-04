@@ -35,6 +35,13 @@ public class IHM extends Application {
     public void start(final Stage primaryStage) throws Exception{
         primaryStage.setTitle("XMJJX-3000X-FX");
 
+        //coloration syntaxique:
+        // on va créer la table qui relie les mots clés de la grammaire avec la couleur bleu
+        // attention il va falloir utiliser une expression régulière pour les chaines de caractères qui apparaissent en vert
+        String tab [] = {"class","final","return","write","writeln","while","if","else","main","true","false","int","boolean"};
+
+
+
         MenuBar menuBar = new MenuBar();
 
         //Group root = new Group(menuBar);
@@ -199,7 +206,13 @@ public class IHM extends Application {
         build.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-
+                SyntaxChecker sc = new SyntaxChecker(new java.io.StringReader(zoneSaisie.getText()));
+                try {
+                    fr.femtost.disc.minijaja.ast.ASTClass cla = sc.S();
+                    cla.compiler(0);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
 
