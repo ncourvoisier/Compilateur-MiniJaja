@@ -450,4 +450,16 @@ public class PileTest {
             assertEquals("La pile est vide impossible d'affecter le type de l'ID : Var.", e.getMessage());
         }
     }
+
+    @Test
+    public void AjouterRef() {
+        assertEquals(-2, p.AjouterRef(true));
+        assertEquals(0, p.AjouterRef(2));
+    }
+
+    @Test
+    public void Parametre() {
+        p.DeclVar("Var", 2, Sorte.INT);
+        assertNull(p.Parametre("Var"));
+    }
 }

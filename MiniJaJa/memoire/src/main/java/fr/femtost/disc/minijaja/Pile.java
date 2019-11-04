@@ -250,15 +250,14 @@ public class Pile {
         return null;
     }
 
-    public Object Parametre(String s)
-    {
+    public Object Parametre(String s) {
         Quad qID = tds.chercheQuad(s);
-        if(qID==null || qID.getOBJ() != NatureObjet.METH)
-        {
+        if(qID==null || qID.getOBJ() != NatureObjet.METH) {
             return null;
         }
         return  qID.getVAL();
     }
+
     public boolean AffecterType(String ID, Sorte SORTE) throws PileException {
         if (pileEstVide()) {
             throw new PileException("La pile est vide impossible d'affecter le type de l'ID : " + ID + ".");
