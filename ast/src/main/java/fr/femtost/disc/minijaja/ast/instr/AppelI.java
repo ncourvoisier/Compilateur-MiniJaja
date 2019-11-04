@@ -35,10 +35,10 @@ public class AppelI extends ASTInstr {
     public void ExpParam(Memoire m)
     {
         ASTMethode meth = (ASTMethode) m.getPile().Parametre(ident.getName());
-        if()
+        /*if()
         {
 
-        }
+        }*/
     }
     @Override
     public CompilationCouple compiler(int actual) {
