@@ -10,10 +10,6 @@ public class Memoire {
         pile = new Pile(tas);
     }
 
-    public Tas getTas() {
-        return tas;
-    }
-
     public Pile getPile() {
         return pile;
     }
