@@ -39,7 +39,7 @@ public class SyntaxChecker {
                 System.out.println("Syntax is okay");
 
                 System.out.println(cl.rewrite());
-                cl.interpreter(new Memoire(128));
+                cl.interpreter(new Memoire(4096));
             } catch (Throwable e) {
                 System.out.println("Syntax check failed: " + e.getMessage());
             }
@@ -105,7 +105,7 @@ ASTDecls Decls(): {ASTDecls ds; ASTDecl d;} {
 //void Decl(): {} {Var() | Methode()}
 ASTDecl Decl(): {ASTTypeMeth me; ASTExpr e; Token t; ASTDecl d;ASTType astt;}
 {   me =TypeMeth() d =DeclP(me) {return d;}
-    |  <FINAL> astt = Type() t = <IDENT> e =Vexp(){return new ASTVarConst(new Identifiant(t.image),astt);}}
+    |  <FINAL> astt = Type() t = <IDENT> e =Vexp(){return new ASTVarConst(astt,new Identifiant(t.image),e);}}
 
 ASTDecl DeclP(ASTTypeMeth me): {Token t; ASTEntetes e; ASTVars v; ASTInstrs iss; ASTExpr ex;}
 { t = <IDENT>(<PARRG> e = Entetes()<PARRD><ACCG>v =Vars() iss =Instrs()<ACCD> {return new ASTMethode(me,new Identifiant(t.image),e,v,iss);}| <TABG> ex =Exp()<TABD> {return new ASTVarTableau(new Identifiant(t.image),ex,me);}| ex =Vexp(){return new ASTVarSimple(new Identifiant(t.image),ex,me);})}
@@ -126,7 +126,7 @@ ASTVars Vars(): {ASTVar v; ASTVars vs;}{
 //void Var(): {} {TypeMeth()  VarP() | <FINAL> TypeMeth() <IDENT>Vexp() }
 ASTVar Var(): {ASTTypeMeth tm; ASTVar vp; ASTExpr e;Token t;ASTType astt;}{
     tm = TypeMeth() vp = VarP(tm) {return vp;}
-    | <FINAL>  astt= Type() t = <IDENT> e = Vexp() {return new ASTVarConst(new Identifiant(t.image),e,astt);}
+    | <FINAL>  astt= Type() t = <IDENT> e = Vexp() {return new ASTVarConst(astt,new Identifiant(t.image),e);}
 }
 //void VarP(): {} {<IDENT>(<TABG> Exp()<TABD>|Vexp())}//On a inversé les deux parties du ou logique et ça marche miraculeusement
 
@@ -189,7 +189,7 @@ ASTInstrs Instrs(): {ASTInstr is; ASTInstrs iss;}{
 ASTInstr Instr(): {Token t; ASTExpr e;ASTListExpr exp; ASTInstrs instrs, instrs1; ASTInstr ins;}{
     t = <IDENT> (
         ins = InstrP(t) {return ins;}
-        | <PARRG> exp = ListexpP() <PARRD> {return new AppelI(new Identifiant(t.image), exp);}
+        | <PARRG> exp = Listexp() <PARRD> {return new AppelI(new Identifiant(t.image), exp);}
     )
     | <RETURN> e = Exp() {return new Retour(e);}
     | <WRITE> <PARRG>  (t = <IDENT> <PARRD> {return new Ecrire(new Identifiant(t.image));} | t = <STRING> <PARRD> {return new Ecrire(new HardcodedString(t.image));})

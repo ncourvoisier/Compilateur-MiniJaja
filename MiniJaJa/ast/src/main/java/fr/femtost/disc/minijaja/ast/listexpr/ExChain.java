@@ -19,6 +19,14 @@ public class ExChain extends ASTListExpr {
         this.node = node;
     }
 
+    public ASTListExpr getSuccessor() {
+        return successor;
+    }
+
+    public ASTExpr getNode() {
+        return node;
+    }
+
     @Override
     public String rewrite() {
         StringBuilder sb = new StringBuilder();
