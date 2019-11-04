@@ -51,7 +51,7 @@ TOKEN: {
 	<PV: ";">{System.out.println("Point virgule");}|
 	<PARRG: "(">{System.out.println("Ouverture d'une parenthèse");}|
 	<PARRD :")">{System.out.println("Fermeture d'une parenthèse");}|
-	<MAIN:"main ">{System.out.println("Méthode principale");}|
+	<MAIN:"main">{System.out.println("Méthode principale");}|
 	<FINAL:"final ">{System.out.println("méthode ou variable final");}|
 	<RETURN: "return ">{System.out.println("retour attendu");}|
 	<EGAL: "=">{System.out.println("Affectation");}|
