@@ -19,6 +19,15 @@ public class ASTEntete extends ASTNode {
         this.type = type;
     }
 
+    public Identifiant getIdent() {
+        return ident;
+    }
+
+    public ASTType getType() {
+        return type;
+    }
+
+    @Override
     public String rewrite() {
         StringBuilder sb = new StringBuilder();
         sb.append(type.rewrite()).append(" ");

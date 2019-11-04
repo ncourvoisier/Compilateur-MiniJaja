@@ -17,16 +17,6 @@ public final class Omega extends ASTExpr {
     }
 
     @Override
-    public void interpreter(Memoire m) {
-
-    }
-
-    @Override
-    public void retirer(Memoire m) {
-
-    }
-
-    @Override
     public Object eval(Memoire m) {
         return null;
     }

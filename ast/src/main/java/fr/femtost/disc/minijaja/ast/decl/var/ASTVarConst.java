@@ -12,12 +12,12 @@ public class ASTVarConst extends ASTVar {
 
     private ASTType type;
 
-    public ASTVarConst(Identifiant identifiant, ASTType type) {
+    public ASTVarConst(ASTType type, Identifiant identifiant) {
         super(identifiant);
         this.type = type;
     }
 
-    public ASTVarConst(Identifiant identifiant, ASTExpr expr, ASTType type) {
+    public ASTVarConst(ASTType type, Identifiant identifiant, ASTExpr expr) {
         super(identifiant, expr);
         this.type = type;
     }

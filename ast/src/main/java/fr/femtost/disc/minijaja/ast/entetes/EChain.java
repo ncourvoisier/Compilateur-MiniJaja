@@ -17,6 +17,15 @@ public class EChain extends ASTEntetes {
         this.node = node;
     }
 
+    public ASTEntetes getSuccessor() {
+        return successor;
+    }
+
+    public ASTEntete getNode() {
+        return node;
+    }
+
+    @Override
     public String rewrite() {
         StringBuilder sb = new StringBuilder();
 

@@ -70,7 +70,7 @@ public class TestAST
     }
 
     private static ASTVar generateVar(){
-        return new ASTVarConst(new Identifiant("variableC"), new BoolVal(true), new Booleen());
+        return new ASTVarConst(new Booleen(), new Identifiant("variableC"), new BoolVal(true));
     }
 
     private static ASTVars genChainVars() {

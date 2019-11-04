@@ -39,16 +39,6 @@ public class AppelE extends ASTExpr {
     }
 
     @Override
-    public void interpreter(Memoire m) {
-
-    }
-
-    @Override
-    public void retirer(Memoire m) {
-
-    }
-
-    @Override
     public Object eval(Memoire m) {
         new AppelI(ident, listExpr).interpreter(m);
         try {

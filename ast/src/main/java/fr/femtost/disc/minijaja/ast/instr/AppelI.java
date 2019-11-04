@@ -1,13 +1,13 @@
 package fr.femtost.disc.minijaja.ast.instr;
 
-import fr.femtost.disc.minijaja.CompilationCouple;
-import fr.femtost.disc.minijaja.JCIdent;
-import fr.femtost.disc.minijaja.JCodes;
-import fr.femtost.disc.minijaja.Memoire;
+import fr.femtost.disc.minijaja.*;
+import fr.femtost.disc.minijaja.ast.ASTEntetes;
 import fr.femtost.disc.minijaja.ast.ASTInstr;
 import fr.femtost.disc.minijaja.ast.ASTListExpr;
 import fr.femtost.disc.minijaja.ast.decl.ASTMethode;
+import fr.femtost.disc.minijaja.ast.entetes.EChain;
 import fr.femtost.disc.minijaja.ast.expr.identificateur.Identifiant;
+import fr.femtost.disc.minijaja.ast.listexpr.ExChain;
 import fr.femtost.disc.minijaja.jcode.Invoke;
 import fr.femtost.disc.minijaja.jcode.Pop;
 
@@ -32,14 +32,6 @@ public class AppelI extends ASTInstr {
         return sb.toString();
     }
 
-    public void ExpParam(Memoire m)
-    {
-        ASTMethode meth = (ASTMethode) m.getPile().Parametre(ident.getName());
-        /*if()
-        {
-
-        }*/
-    }
     @Override
     public CompilationCouple compiler(int actual) {
         CompilationCouple lexp = listExpr.compiler(actual);
@@ -51,7 +43,28 @@ public class AppelI extends ASTInstr {
 
     @Override
     public void interpreter(Memoire m) {
-//Manque ExpParam()
+        ASTMethode meth = (ASTMethode) m.getPile().Parametre(ident.getName());
+        ASTListExpr ls = listExpr;
+        ASTEntetes entetes = meth.getEntetes();
+        while(ls instanceof ExChain && entetes instanceof EChain) {
+            m.getPile().DeclVar(((EChain) entetes).getNode().getIdent().getName(),
+                    ((ExChain) ls).getNode().eval(m),
+                    ((EChain) entetes).getNode().getType().getSorte());
+            ls = ((ExChain) ls).getSuccessor();
+            entetes = ((EChain) entetes).getSuccessor();
+        }
+        meth.getVars().interpreter(m);
+        meth.getInstrs().interpreter(m);
+        meth.getVars().retirer(m);
+        entetes = meth.getEntetes();
+        while (entetes instanceof EChain) {
+            try {
+                m.getPile().RetirerDecl(((EChain) entetes).getNode().getIdent().getName());
+            } catch (PileException e) {
+                e.printStackTrace();
+            }
+            entetes = ((EChain) entetes).getSuccessor();
+        }
     }
 
     @Override
