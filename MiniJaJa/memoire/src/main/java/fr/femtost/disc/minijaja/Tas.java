@@ -1,7 +1,5 @@
 package fr.femtost.disc.minijaja;
 
-//import sun.reflect.generics.tree.Tree;
-
 public class Tas {
 
     private ArbreMemoire arbre;
