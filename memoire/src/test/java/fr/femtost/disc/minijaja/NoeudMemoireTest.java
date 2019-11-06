@@ -160,17 +160,11 @@ public class NoeudMemoireTest {
         int A4 = r1.allouerMemoire(5);
         int A5 = r1.allouerMemoire(5);
         assertFalse(AM1.getNoeud(A4).disponible);
-
-        //System.out.println("aaaaaasezqzqzz" + AM1.getNoeud(A5));
-        //System.out.println("adresse de A5 " + A5);
-
         assertFalse(AM1.getNoeud(A5).disponible);
-
         assertEquals(0, A1);
         assertEquals(15, A3);
         assertEquals(5, A4);
         assertEquals(10, A5);
-
         assertEquals(65, AM1.getRacine().tailleDisponible);
     }
 
