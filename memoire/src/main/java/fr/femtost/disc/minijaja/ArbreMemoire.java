@@ -45,7 +45,6 @@ public class ArbreMemoire {
         if (courant.droit != null) {
             return getNoeudRecursif(adresse, courant.droit);
         }
-        System.out.println("Ah merde : Addr courante : " + courant.adresse + ", adresse : " + adresse + ", gauche : " + courant.gauche + ", droit : " + courant.droit + ", taille : " + courant.taille);
         return null;
     }
 
@@ -59,4 +58,8 @@ public class ArbreMemoire {
         return getNoeudRecursif(adresse, racine);
     }
 
+    @Override
+    public String toString() {
+        return "";
+    }
 }
