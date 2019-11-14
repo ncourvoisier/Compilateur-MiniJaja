@@ -160,6 +160,8 @@ public class NoeudMemoireTest {
         int A4 = r1.allouerMemoire(5);
         int A5 = r1.allouerMemoire(5);
         assertFalse(AM1.getNoeud(A4).disponible);
+        System.out.println("Droit/Gauche/Droit : " + r1.droit.gauche.droit.disponible);
+
         assertFalse(AM1.getNoeud(A5).disponible);
         assertEquals(0, A1);
         assertEquals(15, A3);
