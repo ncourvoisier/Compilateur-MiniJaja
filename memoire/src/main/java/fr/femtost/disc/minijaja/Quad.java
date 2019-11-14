@@ -52,11 +52,11 @@ public class Quad {
     }
 
     public String toString() {
-        String q = "(";
+        String q = "<";
         q += getID() + ", ";
         q += getVAL() + ", ";
         q += getOBJ() + ", ";
-        q += getSORTE() + ")";
+        q += getSORTE() + ">";
         return q;
     }
 

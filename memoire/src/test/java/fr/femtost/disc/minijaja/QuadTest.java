@@ -52,8 +52,14 @@ public class QuadTest {
     }
 
     @Test
+    public void getTopQuad() {
+        assertNull(p.getStackTop().getTopQuad());
+    }
+
+
+    @Test
     public void toStringTest() {
-        assertEquals("(Var, 1, VAR, INT)", q.toString());
+        assertEquals("<Var, 1, VAR, INT>", q.toString());
     }
 
 }
