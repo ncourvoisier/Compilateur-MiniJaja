@@ -157,4 +157,9 @@ public class NoeudMemoire {
         return disponible;
     }
 
+    @Override
+    public String toString() {
+        return adresse + ": [" + (disponible ? "Libre" : "Allouée") + "]";
+    }
+
 }
