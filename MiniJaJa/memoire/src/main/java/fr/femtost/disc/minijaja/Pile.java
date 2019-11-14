@@ -1,7 +1,5 @@
 package fr.femtost.disc.minijaja;
 
-import java.util.Stack;
-
 public class Pile {
 
     private TableDesSymboles tds;
@@ -310,5 +308,21 @@ public class Pile {
 
     public Tas getTas() {
         return tas;
+    }
+
+    @Override
+    public String toString() {
+        String pileQuadString = "";
+        if (isEmpty()) {
+            return pileQuadString;
+        }
+        pileQuadString += stackTop.toString();
+        Quad next = stackTop;
+        while (next.getBottomQuad() != null) {
+            pileQuadString += ".";
+            pileQuadString += next.getBottomQuad();
+            next = next.getBottomQuad();
+        }
+        return pileQuadString;
     }
 }

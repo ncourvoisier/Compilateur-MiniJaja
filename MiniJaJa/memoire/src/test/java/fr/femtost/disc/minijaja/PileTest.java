@@ -87,6 +87,16 @@ public class PileTest {
     }
 
     @Test
+    public void echangerTest1() {
+        p.DeclVar("Var", 5, Sorte.INT);
+        try {
+            p.Echanger();
+        } catch (PileException e) {
+            assertEquals("Impossible d'échanger 2 éléments de la pile.", e.getMessage());
+        }
+    }
+
+    @Test
     public void echangerTest() throws PileException {
         Quad q1 = new Quad("1", 0, NatureObjet.VAR, Sorte.INT);
         p.Empiler(q1);
@@ -399,12 +409,44 @@ public class PileTest {
     }
 
     @Test
-    public void RetirerDecl() {
+    public void RetirerDecl0() {
         try {
             p.RetirerDecl("Var");
         } catch (Exception e) {
             assertEquals("La pile est vide impossible de retirer la déclaration de l'élément Var.", e.getMessage());
             assertEquals("La pile est vide impossible de retirer la déclaration de l'élément Var. -> fr.femtost.disc.minijaja.PileException", e.toString());
+        }
+    }
+
+    @Test
+    public void RetirerDecl1() {
+        p.DeclTab("t", 5, Sorte.INT);
+        assertEquals(1, p.returnTaillePile());
+        assertSame("t", p.getStackTop().getID());
+        assertSame(0, p.getStackTop().getVAL());
+        assertSame(Sorte.INT, p.getStackTop().getSORTE());
+
+        try {
+            p.RetirerDecl("t");
+            assertEquals(1, p.returnTaillePile());
+        } catch (PileException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void RetirerDecl2() {
+        p.DeclTab("c", 5, Sorte.INT);
+        p.DeclVar("Var", 2, Sorte.INT);
+        p.DeclTab("t", 5, Sorte.INT);
+
+        try {
+            p.RetirerDecl("t");
+            assertEquals(3, p.returnTaillePile());
+            p.RetirerDecl("c");
+            assertEquals(3, p.returnTaillePile());
+        } catch (PileException e) {
+            e.printStackTrace();
         }
     }
 
@@ -450,14 +492,41 @@ public class PileTest {
     }
 
     @Test
+    public void DeclTab() {
+        p.DeclTab("t", 5, Sorte.INT);
+        assertEquals(1, p.returnTaillePile());
+        assertSame("t", p.getStackTop().getID());
+        assertSame(0, p.getStackTop().getVAL());
+        assertSame(Sorte.INT, p.getStackTop().getSORTE());
+    }
+
+    @Test
     public void AjouterRef() {
         assertEquals(-2, p.AjouterRef(true));
         assertEquals(0, p.AjouterRef(2));
     }
 
     @Test
-    public void Parametre() {
+    public void Parametre0() {
         p.DeclVar("Var", 2, Sorte.INT);
         assertNull(p.Parametre("Var"));
+    }
+
+    @Test
+    public void GetTas() {
+        assertNotNull(p.getTas());
+    }
+
+    @Test
+    public void testToString0() {
+        assertEquals("", p.toString());
+    }
+
+    @Test
+    public void testToString1() {
+        p.DeclVar("Var1", 2, Sorte.INT);
+        p.DeclVar("Var2", 5, Sorte.INT);
+        p.DeclVar("Var3", 7, Sorte.INT);
+        assertEquals("<Var3, 7, VAR, INT>.<Var2, 5, VAR, INT>.<Var1, 2, VAR, INT>", p.toString());
     }
 }
