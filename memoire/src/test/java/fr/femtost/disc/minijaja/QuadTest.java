@@ -9,16 +9,14 @@ import static org.junit.Assert.*;
 
 public class QuadTest {
 
-    Stack<Quad> s;
     Pile p;
     Quad q;
     @Before
     public void Begin() {
         Memoire mem = new Memoire(1000000);
         p = mem.getPile();
-        s = p.pile;
         p.DeclVar("Var", 1, Sorte.INT);
-        q = s.peek();
+        q = p.getStackTop();
     }
 
     @Test

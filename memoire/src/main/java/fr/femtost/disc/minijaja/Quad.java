@@ -1,5 +1,7 @@
 package fr.femtost.disc.minijaja;
 
+import java.util.LinkedList;
+
 public class Quad {
 
     private String ID;
@@ -7,6 +9,8 @@ public class Quad {
     private NatureObjet OBJ;
     private Sorte SORTE;
 
+    private Quad topQuad;
+    private Quad bottomQuad;
 
     public Quad (String ID, Object VAL, NatureObjet OBJ, Sorte SORTE){
         this.ID = ID;
@@ -54,5 +58,21 @@ public class Quad {
         q += getOBJ() + ", ";
         q += getSORTE() + ")";
         return q;
+    }
+
+    public Quad getTopQuad() {
+        return topQuad;
+    }
+
+    public void setTopQuad(Quad topQuad) {
+        this.topQuad = topQuad;
+    }
+
+    public Quad getBottomQuad() {
+        return bottomQuad;
+    }
+
+    public void setBottomQuad(Quad bottomQuad) {
+        this.bottomQuad = bottomQuad;
     }
 }

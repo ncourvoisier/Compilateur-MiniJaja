@@ -4,53 +4,70 @@ import java.util.Stack;
 
 public class Pile {
 
-    Stack<Quad> pile; //Objet pile qui stock des quad
-    TableDesSymboles tds;
-    Tas tas;
+    private TableDesSymboles tds;
+    private Tas tas;
+    private Quad stackTop;
 
     public Pile(Tas tas) {
-        pile = new Stack<>();
         tds = new TableDesSymboles();
         this.tas = tas;
     }
 
     public int returnTaillePile() {
-        return pile.size();
+        int taille = 0;
+        if (isEmpty()) {
+            return taille;
+        }
+        taille = 1;
+        Quad next = stackTop;
+        while (next.getBottomQuad() != null) {
+            taille++;
+            next = next.getBottomQuad();
+        }
+        return taille;
     }
 
-    public Boolean pileEstVide () {
-        return pile.isEmpty();
+    public void Empiler (Quad q) {
+        if (stackTop == null) {
+            stackTop = q;
+            stackTop.setBottomQuad(null);
+        }
+        else {
+            stackTop.setTopQuad(q);
+            q.setBottomQuad(stackTop);
+            stackTop = q;
+        }
     }
 
-    public Stack Empiler (Quad q) {
-        pile.push(q);
-        return pile;
+    private boolean isEmpty() {
+        return stackTop == null;
     }
 
     public Quad Depiler () throws PileException {
-        if (pileEstVide()) {
+        if (isEmpty()) {
             throw new PileException("Impossible de dépiller un élément la pile est vide.");
         }
-        return pile.pop();
+        Quad oldTop = stackTop;
+        stackTop = stackTop.getBottomQuad();
+        return oldTop;
     }
 
-    public Stack Echanger () throws PileException {
-        if (pileEstVide()) {
+    public void Echanger () throws PileException {
+        if (isEmpty()) {
             throw new PileException("Impossible de dépiller un élément la pile est vide.");
         }
-        Quad q1;
-        Quad q2;
-        q1 = pile.pop();
-        q2 = pile.pop();
-        Empiler(q1);
-        Empiler(q2);
-        return pile;
+        if (stackTop.getBottomQuad() == null) {
+            throw new PileException("Impossible d'échanger 2 éléments de la pile.");
+        }
+        Quad top = Depiler();
+        Quad bottom = Depiler();
+        Empiler(top);
+        Empiler(bottom);
     }
 
-    public Stack DeclVar (String ID, Object VAL, Sorte SORTE) {
+    public void DeclVar (String ID, Object VAL, Sorte SORTE) {
         Quad q = tds.creerSymboles(ID, VAL, NatureObjet.VAR, SORTE);
         Empiler(q);
-        return pile;
     }
 
     public Quad ReturnQuadWithId (String ID) {
@@ -58,7 +75,7 @@ public class Pile {
     }
 
     public void IdentVal (String ID, Sorte SORTE, int S) throws PileException {
-        if (pileEstVide()) {
+        if (isEmpty()) {
             throw new PileException("La pile est vide, impossible d'utiliser la fonction IdentVal.");
         }
         Quad q = Depiler();
@@ -70,7 +87,7 @@ public class Pile {
         }
     }
 
-    public Stack DeclCst (String ID, Object VAL, Sorte SORTE) {
+    public void DeclCst (String ID, Object VAL, Sorte SORTE) {
         Quad q;
         if (VAL == null) {
             q = tds.creerSymboles(ID, VAL, NatureObjet.VCST, SORTE);
@@ -78,30 +95,27 @@ public class Pile {
             q = tds.creerSymboles(ID, VAL, NatureObjet.CST, SORTE);
         }
         Empiler(q);
-        return pile;
     }
 
-    public Stack DeclTab (String ID, Object VAL, Sorte SORTE) {
+    public void DeclTab (String ID, Object VAL, Sorte SORTE) {
         int addr = AjouterRef(VAL);
         if (addr >= 0) {
             Quad q = tds.creerSymboles(ID, addr, NatureObjet.TAB, SORTE);
             Empiler(q);
         }
-        return pile;
     }
 
 
-    public Stack DeclMeth (String ID, Object VAL, Sorte SORTE) {
+    public void DeclMeth (String ID, Object VAL, Sorte SORTE) {
         Quad q = tds.creerSymboles(ID, VAL, NatureObjet.METH, SORTE);
         Empiler(q);
-        return pile;
     }
 
     public void RetirerDecl (String ID) throws PileException {
-        if (pileEstVide()) {
+        if (isEmpty()) {
             return;
         }
-        Quad q = pile.peek();
+        Quad q = stackTop;
         if (ID.equals(q.getID())){
             if (q.getOBJ().equals(NatureObjet.TAB)) {
                 RetirerTas(q.getVAL());
@@ -114,7 +128,7 @@ public class Pile {
     }
 
     public void AffecterVal (String ID, Object VAL) throws PileException {
-        if (pileEstVide()) {
+        if (isEmpty()) {
             return;
         }
         Quad q1 = Depiler();
@@ -134,7 +148,7 @@ public class Pile {
                 RetirerTas(q1.getVAL());
                 Empiler(q4);
             }
-        } else {
+        } else {  // Meth
             Quad q5 = tds.creerSymboles(ID, VAL, q1.getOBJ(), q1.getSORTE());
             Empiler(q5);
         }
@@ -159,7 +173,7 @@ public class Pile {
 
     // Affectation d'une valeur à une case d'un tableau déjà existant
     public void AffecterValT (String ID, Object VAL, int INDEX) throws PileException {
-        if (pileEstVide()) {
+        if (isEmpty()) {
             return;
         }
         Quad q1 = Depiler();
@@ -180,72 +194,88 @@ public class Pile {
     }
 
     public Object Val(String ID) throws PileException {
-        if (pileEstVide()) {
+        if (isEmpty()) {
             throw new PileException("La pile est vide impossible d'obtenir la valeur de l'élément " + ID + ".");
         }
-        Quad q = pile.peek();
-        if (ID.equals(q.getID())){
-            return q.getVAL();
-        } else {
-            int taille = returnTaillePile();
-            for (int i = 0; i < taille; i++) {
-                if (pile.get(i).getID().equals(ID)) {
-                    return pile.get(i).getVAL();
-                }
-            }
+//        Quad q = stackTop;
+//        if (ID.equals(q.getID())){
+//            return q.getVAL();
+//        } else {
+//            int taille = returnTaillePile();
+//            for (int i = 0; i < taille; i++) {
+//                if (pile.get(i).getID().equals(ID)) {
+//                    return pile.get(i).getVAL();
+//                }
+//            }
+//        }
+        Quad quadV = tds.chercheQuad(ID);
+        if (quadV != null) {
+            return quadV.getVAL();
         }
         return "NOK_";
     }
 
     public Object ValT(String ID, int INDEX) throws PileException {
-        if (pileEstVide()) {
+        if (isEmpty()) {
             throw new PileException("La pile est vide impossible d'obtenir la valeur de l'élément " + ID + ".");
         }
-        int taille = returnTaillePile();
-        for (int i = 0; i < taille; i++) {
-            Quad q = pile.get(i);
-            if (q.getID().equals(ID)) {
-                if (q.getVAL() instanceof Integer) {
-                    return tas.lire((Integer) q.getVAL(), INDEX);
-                }
-                return null;
-            }
+//        int taille = returnTaillePile();
+//        for (int i = 0; i < taille; i++) {
+//            Quad q = pile.get(i);
+//            if (q.getID().equals(ID)) {
+//                if (q.getVAL() instanceof Integer) {
+//                    return tas.lire((Integer) q.getVAL(), INDEX);
+//                }
+//                return null;
+//            }
+//        }
+        Quad quadV = tds.chercheQuad(ID);
+        if (quadV != null) {
+            return tas.lire((Integer) quadV.getVAL(), INDEX);
         }
         return null;
     }
 
     public NatureObjet Object(String ID) throws PileException {
-        if (pileEstVide()) {
+        if (isEmpty()) {
             throw new PileException("La pile est vide impossible d'obtenir la nature objet de l'élément " + ID + ".");
         }
-        Quad q = pile.peek();
-        if (ID.equals(q.getID())){
-            return q.getOBJ();
-        } else {
-            int taille = returnTaillePile();
-            for (int i = 0; i < taille; i++) {
-                if (pile.get(i).getID().equals(ID)) {
-                    return pile.get(i).getOBJ();
-                }
-            }
+//        Quad q = pile.peek();
+//        if (ID.equals(q.getID())){
+//            return q.getOBJ();
+//        } else {
+//            int taille = returnTaillePile();
+//            for (int i = 0; i < taille; i++) {
+//                if (pile.get(i).getID().equals(ID)) {
+//                    return pile.get(i).getOBJ();
+//                }
+//            }
+//        }
+        Quad quadO = tds.chercheQuad(ID);
+        if (quadO != null) {
+            return quadO.getOBJ();
         }
         return null;
     }
 
     public Sorte Sorte(String ID) throws PileException {
-        if (pileEstVide()) {
+        if (isEmpty()) {
             throw new PileException("La pile est vide impossible d'obtenir la sorte de l'élément " + ID + ".");
         }
-        Quad q = pile.peek();
-        if (ID.equals(q.getID())){
-            return q.getSORTE();
-        } else {
-            int taille = returnTaillePile();
-            for (int i = 0; i < taille; i++) {
-                if (pile.get(i).getID().equals(ID)) {
-                    return pile.get(i).getSORTE();
-                }
-            }
+//        Quad q = pile.peek();
+//        if (ID.equals(q.getID())){
+//            return q.getSORTE();
+//        } else {
+//            int taille = returnTaillePile();
+//            for (int i = 0; i < taille; i++) {
+//                if (pile.get(i).getID().equals(ID)) {
+//                    return pile.get(i).getSORTE();
+//                }
+//            }
+//        }
+        Quad quadS = tds.chercheQuad(ID);
+        if (quadS != null) {
+            return quadS.getSORTE();
         }
         return null;
     }
@@ -259,7 +289,7 @@ public class Pile {
     }
 
     public boolean AffecterType(String ID, Sorte SORTE) throws PileException {
-        if (pileEstVide()) {
+        if (isEmpty()) {
             throw new PileException("La pile est vide impossible d'affecter le type de l'ID : " + ID + ".");
         }
         Quad qID = tds.chercheQuad(ID);
@@ -270,4 +300,15 @@ public class Pile {
         return true;
     }
 
+    public TableDesSymboles getTds() {
+        return tds;
+    }
+
+    public Quad getStackTop() {
+        return stackTop;
+    }
+
+    public Tas getTas() {
+        return tas;
+    }
 }
