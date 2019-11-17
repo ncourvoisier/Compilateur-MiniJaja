@@ -43,7 +43,8 @@ public class TableDesSymboles {
                     return;
                 }
                 for (int i = 1; i < taille; i++) {
-                    if (linkedList.get(i).equals(ID)) {
+                    Quad q = linkedList.get(i);
+                    if (q.equals(ID)) {
                         linkedList.remove(i);
                     }
                 }
@@ -63,7 +64,8 @@ public class TableDesSymboles {
                     return null;
                 }
                 for (int i = 1; i < taille; i++) {
-                    if (linkedList.get(i).equals(ID)) {
+                    Quad q = linkedList.get(i);
+                    if (q.equals(ID)) {
                         return linkedList.get(i);
                     }
                 }
