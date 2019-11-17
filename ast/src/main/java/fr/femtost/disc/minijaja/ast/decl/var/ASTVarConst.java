@@ -3,6 +3,7 @@ package fr.femtost.disc.minijaja.ast.decl.var;
 import fr.femtost.disc.minijaja.*;
 import fr.femtost.disc.minijaja.ast.ASTExpr;
 import fr.femtost.disc.minijaja.ast.decl.ASTVar;
+import fr.femtost.disc.minijaja.ast.expr.Omega;
 import fr.femtost.disc.minijaja.ast.expr.identificateur.Identifiant;
 import fr.femtost.disc.minijaja.ast.type.ASTType;
 import fr.femtost.disc.minijaja.jcode.New;
@@ -27,8 +28,12 @@ public class ASTVarConst extends ASTVar {
         StringBuilder sb = new StringBuilder();
         sb.append("final ");
         sb.append(type.rewrite()).append(" ").append(this.identifiant.rewrite());
-        if(this.expr != null)
-            sb.append(" = ").append(this.expr.rewrite());
+        if(this.expr != null ) {
+            if(this.expr.rewrite()!="") {
+
+                sb.append(" = ").append(this.expr.rewrite());
+            }
+        }
         return sb.toString();
     }
 

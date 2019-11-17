@@ -30,8 +30,12 @@ public class ASTVarSimple extends ASTVar {
     public String rewrite() {
         StringBuilder sb = new StringBuilder();
         sb.append(typeMeth.rewrite()).append(" ").append(this.identifiant.rewrite());
-        if(this.expr != null)
-            sb.append(" = ").append(this.expr.rewrite());
+        if(this.expr != null) {
+            if (this.expr.rewrite() != "") {
+
+                sb.append(" = ").append(this.expr.rewrite());
+            }
+        }
         return sb.toString();
     }
 
