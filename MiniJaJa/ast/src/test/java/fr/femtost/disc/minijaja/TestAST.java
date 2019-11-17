@@ -94,6 +94,7 @@ public class TestAST
         System.out.println(astClass.rewrite());
         assertTrue(true);
     }
+
 }
 
 //Coverage of method TO DO
