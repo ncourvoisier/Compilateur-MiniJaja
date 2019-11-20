@@ -235,8 +235,8 @@ ASTExpr Exp(): {ASTExpr result;}{
 }//corrige la rec à gauche de Exp => à vérifier
 
 ASTExpr ExpP(ASTExpr left) : {ASTExpr result;} {
-    <ET> result = Exp1() {result = new And(left, result);} result = ExpP(result) {return result;}
-    | <OU> result = Exp1() {result = new Or(left, result);} result = ExpP(result) {return result;}
+    <ET> result = Exp1() {result = new Binop(Binop.Operandes.AND, left, result);} result = ExpP(result) {return result;}
+    | <OU> result = Exp1() {result = new Binop(Binop.Operandes.OR, left, result);} result = ExpP(result) {return result;}
     | {return left;}
 } //corrige la rec à gauche de Exp => à vérifier
 
@@ -247,8 +247,8 @@ ASTExpr Exp1(): {ASTExpr expr;}{
 }//corrige la rec à gauche de Exp1 => à vérifier
 
 ASTExpr Exp1P(ASTExpr left) : {ASTExpr result;}{
-    <EGEG> result = Exp2() {result = new Egal(left, result);} result = Exp1P(result) {return result;}
-    | <SUP> result = Exp2() {result = new Superieur(left, result);} result = Exp1P(result) {return result;}
+    <EGEG> result = Exp2() {result = new Binop(Binop.Operandes.EGAL, left, result);} result = Exp1P(result) {return result;}
+    | <SUP> result = Exp2() {result = new Binop(Binop.Operandes.SUPERIEUR, left, result);} result = Exp1P(result) {return result;}
     | {return left;}
 }//corrige la rec à gauche de Exp1 => à vérifier
 
@@ -260,8 +260,8 @@ ASTExpr Exp2(): {ASTExpr expr;} {
 }//corrige la rec à gauche de Exp2 => à vérifier
 
 ASTExpr Exp2P(ASTExpr left): {ASTExpr result;} {
-    <PLUS> result = Terme() {result = new Addition(left, result);} result = Exp2P(result) {return result;}
-    | <MOINS> result = Terme() {result = new Soustraction(left, result);} result = Exp2P(result) {return result;}
+    <PLUS> result = Terme() {result = new Binop(Binop.Operandes.ADDITION, left, result);} result = Exp2P(result) {return result;}
+    | <MOINS> result = Terme() {result = new Binop(Binop.Operandes.SOUSTRACTION, left, result);} result = Exp2P(result) {return result;}
     | {return left;}
 }//corrige la rec à gauche de Exp2 => à vérifier
 
@@ -272,8 +272,8 @@ ASTExpr Terme(): {ASTExpr expr;}{
 }//corrige la rec à gauche de Exp2 => à vérifier
 
 ASTExpr TermeP(ASTExpr left): {ASTExpr result;}{
-    <MULT> result = Fact() {result = new Multiplication(left, result);} result = TermeP(result) {return result;}
-    | <DIV> result = Fact() {result = new Division(left, result);} result = TermeP(result) {return result;}
+    <MULT> result = Fact() {result = new Binop(Binop.Operandes.MULTIPLICATION, left, result);} result = TermeP(result) {return result;}
+    | <DIV> result = Fact() {result = new Binop(Binop.Operandes.DIVISION, left, result);} result = TermeP(result) {return result;}
     | {return left;}
 }//corrige la rec à gauche de Exp2 => à vérifier
 
