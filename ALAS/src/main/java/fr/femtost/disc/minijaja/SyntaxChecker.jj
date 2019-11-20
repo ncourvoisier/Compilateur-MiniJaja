@@ -1,9 +1,11 @@
 PARSER_BEGIN(SyntaxChecker)
 package fr.femtost.disc.minijaja;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import fr.femtost.disc.minijaja.Memoire;import fr.femtost.disc.minijaja.ast.*;
+import fr.femtost.disc.minijaja.Memoire;
+import fr.femtost.disc.minijaja.ast.*;
 import fr.femtost.disc.minijaja.ast.expr.identificateur.*;
 import fr.femtost.disc.minijaja.ast.expr.*;
 import fr.femtost.disc.minijaja.ast.type.*;
@@ -16,6 +18,7 @@ import fr.femtost.disc.minijaja.ast.decl.var.*;
 import fr.femtost.disc.minijaja.ast.vars.*;
 import fr.femtost.disc.minijaja.ast.decl.*;
 import fr.femtost.disc.minijaja.ast.decls.*;
+
 public class SyntaxChecker {
     public static void main(String[] args) {
         System.out.println(args[0]);

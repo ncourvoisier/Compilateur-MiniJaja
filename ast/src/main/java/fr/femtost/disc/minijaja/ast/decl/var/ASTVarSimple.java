@@ -4,6 +4,7 @@ import fr.femtost.disc.minijaja.*;
 import fr.femtost.disc.minijaja.ast.ASTExpr;
 import fr.femtost.disc.minijaja.ast.ASTTypeMeth;
 import fr.femtost.disc.minijaja.ast.decl.ASTVar;
+import fr.femtost.disc.minijaja.ast.expr.Omega;
 import fr.femtost.disc.minijaja.ast.expr.identificateur.Identifiant;
 import fr.femtost.disc.minijaja.jcode.New;
 import fr.femtost.disc.minijaja.jcval.JCNbre;
@@ -30,11 +31,8 @@ public class ASTVarSimple extends ASTVar {
     public String rewrite() {
         StringBuilder sb = new StringBuilder();
         sb.append(typeMeth.rewrite()).append(" ").append(this.identifiant.rewrite());
-        if(this.expr != null) {
-            if (this.expr.rewrite() != "") {
-
-                sb.append(" = ").append(this.expr.rewrite());
-            }
+        if(!(this.expr instanceof Omega)) {
+            sb.append(" = ").append(this.expr.rewrite());
         }
         return sb.toString();
     }
@@ -47,7 +45,7 @@ public class ASTVarSimple extends ASTVar {
 
     @Override
     public void interpreter(Memoire m) {
-        Object v =expr.eval(m);
+        Object v = expr.eval(m);
         m.getPile().DeclVar(identifiant.getName(),v,typeMeth.getSorte());
     }
 
