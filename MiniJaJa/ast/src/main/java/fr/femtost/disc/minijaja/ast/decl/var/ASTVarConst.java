@@ -28,11 +28,8 @@ public class ASTVarConst extends ASTVar {
         StringBuilder sb = new StringBuilder();
         sb.append("final ");
         sb.append(type.rewrite()).append(" ").append(this.identifiant.rewrite());
-        if(this.expr != null ) {
-            if(this.expr.rewrite()!="") {
-
-                sb.append(" = ").append(this.expr.rewrite());
-            }
+        if(!(expr instanceof Omega) ) {
+            sb.append(" = ").append(this.expr.rewrite());
         }
         return sb.toString();
     }
