@@ -1,5 +1,6 @@
 package fr.femtost.disc.minijaja;
 
+import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -50,7 +51,7 @@ public class TableDesSymboles {
             }
         }
     }
-
+    //Overide with Type
     public Quad chercheQuad(String ID) {
         LinkedList<Quad> linkedList = tableSymbole.get(ID);
         if(linkedList != null) {
@@ -64,6 +65,27 @@ public class TableDesSymboles {
                 }
                 for (int i = 1; i < taille; i++) {
                     if (linkedList.get(i).getID().equals(ID)) {
+                        return linkedList.get(i);
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
+    public Quad chercheQuad(String ID,Sorte No) {
+        LinkedList<Quad> linkedList = tableSymbole.get(ID);
+        if(linkedList != null) {
+            if (linkedList.getFirst().getID().equals(ID) && linkedList.getFirst().getSORTE().equals(No)) {
+                return linkedList.getFirst();
+            }
+            else {
+                int taille = linkedList.size();
+                if (taille < 2) {
+                    return null;
+                }
+                for (int i = 1; i < taille; i++) {
+                    if (linkedList.get(i).getID().equals(ID) && linkedList.getFirst().getSORTE().equals(No)) {
                         return linkedList.get(i);
                     }
                 }
