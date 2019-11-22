@@ -9,4 +9,9 @@ public class JCNbre extends JCVal {
     public JCNbre(int valeur) {
         this.valeur = valeur;
     }
+
+    @Override
+    public String rewrite() {
+        return Integer.toString(valeur);
+    }
 }

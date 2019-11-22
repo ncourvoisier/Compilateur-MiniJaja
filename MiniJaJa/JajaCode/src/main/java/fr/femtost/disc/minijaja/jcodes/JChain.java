@@ -3,6 +3,8 @@ package fr.femtost.disc.minijaja.jcodes;
 import fr.femtost.disc.minijaja.JCode;
 import fr.femtost.disc.minijaja.JCodes;
 
+import java.util.List;
+
 public class JChain extends JCodes {
 
     private JCode instruction;
@@ -26,5 +28,15 @@ public class JChain extends JCodes {
     @Override
     public void setNext(JCodes next) {
         this.next = next;
+    }
+
+    @Override
+    public JCode getContent() {
+        return instruction;
+    }
+
+    @Override
+    public String rewrite() {
+        return instruction.rewrite() + "\n" + next.rewrite();
     }
 }

@@ -10,4 +10,9 @@ public class Store extends JCode {
     public Store(JCIdent ident) {
         this.ident = ident;
     }
+
+    @Override
+    public String rewrite() {
+        return "store(" + ident.rewrite() + ")";
+    }
 }

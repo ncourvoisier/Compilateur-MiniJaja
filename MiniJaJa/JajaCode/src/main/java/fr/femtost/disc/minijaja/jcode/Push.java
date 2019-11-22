@@ -10,4 +10,9 @@ public class Push extends JCode {
     public Push(JCVal val) {
         this.val = val;
     }
+
+    @Override
+    public String rewrite() {
+        return "push(" + val.rewrite() + ")";
+    }
 }

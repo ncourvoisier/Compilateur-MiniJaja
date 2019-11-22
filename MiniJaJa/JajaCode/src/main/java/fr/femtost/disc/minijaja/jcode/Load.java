@@ -10,4 +10,9 @@ public class Load extends JCode {
     public Load(JCIdent ident) {
         this.ident = ident;
     }
+
+    @Override
+    public String rewrite() {
+        return "load(" + ident.rewrite() + ")";
+    }
 }

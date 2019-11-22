@@ -11,4 +11,9 @@ public class ALoad extends JCode {
         this.ident = ident;
     }
 
+
+    @Override
+    public String rewrite() {
+        return "aload(" + ident.rewrite() + ")";
+    }
 }

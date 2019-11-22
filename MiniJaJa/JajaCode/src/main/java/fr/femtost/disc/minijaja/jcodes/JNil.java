@@ -1,5 +1,6 @@
 package fr.femtost.disc.minijaja.jcodes;
 
+import fr.femtost.disc.minijaja.JCode;
 import fr.femtost.disc.minijaja.JCodes;
 
 public final class JNil extends JCodes {
@@ -17,5 +18,15 @@ public final class JNil extends JCodes {
     @Override
     public void setNext(JCodes next) {
         throw new NullPointerException("Usage of setNext() on end of JajaCode instruction chain");
+    }
+
+    @Override
+    public JCode getContent() {
+        return null;
+    }
+
+    @Override
+    public String rewrite() {
+        return "";
     }
 }

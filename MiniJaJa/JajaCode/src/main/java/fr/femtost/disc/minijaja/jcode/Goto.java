@@ -9,4 +9,9 @@ public class Goto extends JCode {
     public Goto(int adr) {
         this.adr = adr;
     }
+
+    @Override
+    public String rewrite() {
+        return "goto(" + adr + ")";
+    }
 }

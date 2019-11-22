@@ -9,4 +9,9 @@ public class If extends JCode {
     public If(int adr) {
         this.adr = adr;
     }
+
+    @Override
+    public String rewrite() {
+        return "if(" + adr + ")";
+    }
 }

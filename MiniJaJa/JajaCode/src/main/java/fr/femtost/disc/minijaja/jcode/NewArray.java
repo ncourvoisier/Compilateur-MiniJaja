@@ -13,4 +13,9 @@ public class NewArray extends JCode {
         this.ident = ident;
         this.type = type;
     }
+
+    @Override
+    public String rewrite() {
+        return "newarray(" + ident.rewrite() + "," + type.name() + ")";
+    }
 }
