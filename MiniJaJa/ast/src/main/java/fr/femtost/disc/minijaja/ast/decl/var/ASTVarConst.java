@@ -8,6 +8,7 @@ import fr.femtost.disc.minijaja.ast.expr.identificateur.Identifiant;
 import fr.femtost.disc.minijaja.ast.type.ASTType;
 import fr.femtost.disc.minijaja.jcode.New;
 import fr.femtost.disc.minijaja.jcval.JCNbre;
+import sun.util.resources.ext.CalendarData_da;
 
 public class ASTVarConst extends ASTVar {
 
@@ -35,6 +36,21 @@ public class ASTVarConst extends ASTVar {
     }
 
     @Override
+    public void typeCheck(Memoire m) {
+        Object v = expr.eval(m);
+        //type check
+        if( m.getPile().getTds().chercheQuad(identifiant.getName(),type.getSorte()) == null){
+            m.getPile().DeclCst(identifiant.getName(),v,type.getSorte());
+        }else{
+            System.out.println("Error "+identifiant.getName()+" already declared");
+        }
+
+        if(type.getSorte() == Sorte.VOID){
+            System.out.println("Error "+identifiant.getName()+" already declared");
+        }
+    }
+
+    @Override
     public CompilationCouple compiler(int actual) {
         CompilationCouple e = expr.compiler(actual);
         return new CompilationCouple(JCodes.concatRight(e.jCodes, new New(new JCIdent(identifiant.getName()), type.getType(), JCSorte.CONSTANTE, new JCNbre(0))), e.taille+1);
@@ -44,6 +60,7 @@ public class ASTVarConst extends ASTVar {
     public void interpreter(Memoire m) {
         Object v = expr.eval(m);
         m.getPile().DeclCst(identifiant.getName(),v,type.getSorte());
+
     }
 
     @Override
@@ -54,5 +71,8 @@ public class ASTVarConst extends ASTVar {
             e.printStackTrace();
         }
     }
+
+
+
 
 }

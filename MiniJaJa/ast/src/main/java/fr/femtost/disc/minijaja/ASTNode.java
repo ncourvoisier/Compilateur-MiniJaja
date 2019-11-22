@@ -6,10 +6,11 @@ public abstract class ASTNode {
 
    public abstract String rewrite();
 
-    public void typeCheck() {
-        //TODO : implement
-        //Probablement objet de type dictionnaire à passer en paramètre
-    }
+     public void typeCheck(Memoire m){
+         //remettre en abstract a la fin du dev
+     }
+
+
 
     public CompilationCouple compiler(int actual) {
         throw new IllegalArgumentException("Compilation not implemented in " + this.getClass().getName());

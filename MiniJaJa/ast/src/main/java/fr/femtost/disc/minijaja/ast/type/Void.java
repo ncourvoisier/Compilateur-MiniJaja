@@ -28,6 +28,6 @@ public final class Void extends ASTTypeMeth {
 
     @Override
     public Sorte getSorte() {
-        return null;
+        return Sorte.VOID;
     }
 }

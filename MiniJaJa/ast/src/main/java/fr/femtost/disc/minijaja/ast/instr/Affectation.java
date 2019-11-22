@@ -31,8 +31,8 @@ public class Affectation extends ASTInstr {
     @Override
     public CompilationCouple compiler(int actual) {
         CompilationCouple e = expr.compiler(actual);
-        if(ident instanceof Tableau) {
-            CompilationCouple index = ((Tableau)ident).getIndex(actual + e.taille);
+        if (ident instanceof Tableau) {
+            CompilationCouple index = ((Tableau) ident).getIndex(actual + e.taille);
             return new CompilationCouple(JCodes.concatenate(e.jCodes, JCodes.concatRight(index.jCodes, new AStore(new JCIdent(ident.getName())))),
                     e.taille + index.taille + 1);
         }
@@ -40,21 +40,21 @@ public class Affectation extends ASTInstr {
     }
 
     @Override
-    public void interpreter(Memoire m){
-    Object v = expr.eval(m);
-    if(ident instanceof Tableau)
-        {
+    public void interpreter(Memoire m) {
+        Object v = expr.eval(m);
+        if (ident instanceof Tableau) {
             int v2 = ((Tableau) ident).evalIndex(m);
-            try{m.getPile().AffecterValT(ident.getName(),v,v2);}
-            catch (PileException e){}
+            try {
+                m.getPile().AffecterValT(ident.getName(), v, v2);
+            } catch (PileException e) {
+            }
+        } else {
+            try {
+                m.getPile().AffecterVal(ident.getName(), v);
+            } catch (PileException e) {
+                e.printStackTrace();
+            }
         }
-    else {
-        try {
-            m.getPile().AffecterVal(ident.getName(),v);
-        } catch (PileException e) {
-            e.printStackTrace();
-        }
-    }
     }
 
     @Override
