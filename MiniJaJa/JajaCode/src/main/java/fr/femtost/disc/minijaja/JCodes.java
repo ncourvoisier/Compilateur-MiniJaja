@@ -41,6 +41,7 @@ public abstract class JCodes extends JajaNode {
             result.add(current.getContent());
             current = current.next();
         }
+        result.add(current.getContent());
 
         return result;
     }
@@ -55,7 +56,7 @@ public abstract class JCodes extends JajaNode {
         StringBuilder result = new StringBuilder();
 
         for(int i=0; i<codes.size(); ++i) {
-            result.append((i+1) + " " + codes.get(i).rewrite());
+            result.append((i+1) + " " + codes.get(i).rewrite() + "\n");
         }
 
         return result.toString();

@@ -31,6 +31,7 @@ public class SyntaxChecker {
                 System.out.println("Syntax is okay");
 
                 System.out.println(cl.rewrite());
+                System.out.println(cl.compiler(1).jCodes.rewriteWithLines());
                 cl.interpreter(new Memoire(128));
             } catch (Throwable e) {
                 System.out.println("Syntax check failed: " + e.getMessage());
@@ -42,6 +43,7 @@ public class SyntaxChecker {
                 System.out.println("Syntax is okay");
 
                 System.out.println(cl.rewrite());
+                System.out.println(cl.compiler(1).jCodes.rewriteWithLines());
                 cl.interpreter(new Memoire(4096));
             } catch (Throwable e) {
                 System.out.println("Syntax check failed: " + e.getMessage());
