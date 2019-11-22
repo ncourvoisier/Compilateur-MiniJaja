@@ -57,9 +57,11 @@ public class ASTMethode extends ASTDecl {
         CompilationCouple iss = instrs.compiler(actual + ens.taille + dvs.taille + 3);
         CompilationCouple retrait = vars.retirerCompile(actual + ens.taille + dvs.taille + iss.taille + 3);
 
+        int totalSize = typeMeth.getType() == JCType.VOID ? 6 : 5;
+
         JCodes init0 = JCodes.concatRight(new JNil(), new Push(new JCNbre(actual+3)));
         JCodes init1 = JCodes.concatRight(init0, new New(new JCIdent(ident.getName()), typeMeth.getType(), JCSorte.METHODE, new JCNbre(0)));
-        JCodes init2 = JCodes.concatRight(init1, new Goto(actual + ens.taille + dvs.taille + iss.taille + retrait.taille + 5));
+        JCodes init2 = JCodes.concatRight(init1, new Goto(actual + ens.taille + dvs.taille + iss.taille + retrait.taille + totalSize));
         JCodes init3;
         if (typeMeth.getType() == JCType.VOID) {
             init3 = JCodes.concatenate(init2, JCodes.concatenate(ens.jCodes, JCodes.concatenate(dvs.jCodes, JCodes.concatenate(iss.jCodes,
@@ -70,7 +72,7 @@ public class ASTMethode extends ASTDecl {
                     JCodes.concatenate(retrait.jCodes, new JChain(new Swap(), new JChain(new Return(), new JNil())))))));
         }
 
-        return new CompilationCouple(init3, ens.taille + dvs.taille + iss.taille + retrait.taille + 5);
+        return new CompilationCouple(init3, ens.taille + dvs.taille + iss.taille + retrait.taille + totalSize);
     }
 
     @Override

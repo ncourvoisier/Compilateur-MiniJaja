@@ -16,7 +16,7 @@ public abstract class ASTNode {
     }
 
     public CompilationCouple retirerCompile(int actual) {
-        return new CompilationCouple(new JNil(), actual);
+        return new CompilationCouple(new JNil(), 0);
     }
 
     abstract public void interpreter(Memoire m);

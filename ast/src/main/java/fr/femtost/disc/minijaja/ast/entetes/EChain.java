@@ -41,7 +41,7 @@ public class EChain extends ASTEntetes {
     @Override
     public CompilationCouple compiler(int actual) {
         CompilationCouple ens = successor.compiler(actual);
-        this.position = successor instanceof Enil ? 0 : successor.getChainPosition();
+        this.position = successor instanceof Enil ? 0 : successor.getChainPosition()+1;
         node.setPosition(position);
         CompilationCouple en = node.compiler(actual + ens.taille);
         return new CompilationCouple(JCodes.concatenate(ens.jCodes, en.jCodes), en.taille + ens.taille);
