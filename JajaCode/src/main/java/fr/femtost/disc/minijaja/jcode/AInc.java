@@ -10,4 +10,9 @@ public class AInc extends JCode {
     public AInc(JCIdent ident) {
         this.ident = ident;
     }
+
+    @Override
+    public String rewrite() {
+        return "ainc(" + ident.rewrite() + ")";
+    }
 }

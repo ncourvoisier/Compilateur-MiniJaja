@@ -9,4 +9,9 @@ public class JCChain extends JCVal {
     public JCChain(String s) {
         this.s = s;
     }
+
+    @Override
+    public String rewrite() {
+        return "\"" + s + "\"";
+    }
 }

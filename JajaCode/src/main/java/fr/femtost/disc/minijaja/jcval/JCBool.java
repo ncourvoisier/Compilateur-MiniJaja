@@ -9,4 +9,9 @@ public class JCBool extends JCVal {
     public JCBool(boolean val) {
         this.val = val;
     }
+
+    @Override
+    public String rewrite() {
+        return val ? "vrai" : "faux";
+    }
 }

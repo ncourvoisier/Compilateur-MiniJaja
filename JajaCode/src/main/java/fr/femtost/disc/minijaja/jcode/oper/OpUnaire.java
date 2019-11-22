@@ -14,4 +14,9 @@ public class OpUnaire extends Oper {
     public OpUnaire(Operandes op) {
         this.op = op;
     }
+
+    @Override
+    public String rewrite() {
+        return op.name().toLowerCase();
+    }
 }

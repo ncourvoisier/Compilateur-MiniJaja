@@ -10,4 +10,9 @@ public class Inc extends JCode {
     public Inc(JCIdent ident) {
         this.ident = ident;
     }
+
+    @Override
+    public String rewrite() {
+        return "inc(" + ident.rewrite() + ")";
+    }
 }

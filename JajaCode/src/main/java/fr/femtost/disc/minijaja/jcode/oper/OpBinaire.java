@@ -20,4 +20,9 @@ public class OpBinaire extends Oper {
     public OpBinaire(Operandes operandes) {
         this.operandes = operandes;
     }
+
+    @Override
+    public String rewrite() {
+        return operandes.name().toLowerCase();
+    }
 }

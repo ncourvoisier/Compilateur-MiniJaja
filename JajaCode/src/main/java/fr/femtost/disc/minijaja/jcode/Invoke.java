@@ -10,4 +10,9 @@ public class Invoke extends JCode {
     public Invoke(JCIdent ident) {
         this.ident = ident;
     }
+
+    @Override
+    public String rewrite() {
+        return "invoke(" + ident.rewrite() + ")";
+    }
 }

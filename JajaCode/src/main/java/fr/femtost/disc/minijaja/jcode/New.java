@@ -15,4 +15,9 @@ public class New extends JCode {
         this.sorte = sorte;
         this.val = val;
     }
+
+    @Override
+    public String rewrite() {
+        return "new(" + ident.rewrite() + "," + type.name() + "," + sorte.name() + "," + val.rewrite() + ")";
+    }
 }

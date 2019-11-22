@@ -7,4 +7,9 @@ public class JCIdent extends JajaNode {
     public JCIdent(String s) {
         this.s = s;
     }
+
+    @Override
+    public String rewrite() {
+        return s;
+    }
 }
