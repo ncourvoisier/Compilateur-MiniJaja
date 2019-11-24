@@ -2,11 +2,7 @@ package fr.femtost.disc.minijaja;
 
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
-
-import java.util.Stack;
-
 import static org.junit.Assert.*;
 
 public class PileTest {
