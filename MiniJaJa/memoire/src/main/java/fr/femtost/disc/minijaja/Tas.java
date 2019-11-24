@@ -52,4 +52,7 @@ public class Tas {
         return adresse + decalage;
     }
 
+    public TasInfos getInfos() {
+        return new TasInfos(arbre);
+    }
 }
