@@ -47,6 +47,9 @@ public class TableDesSymboles {
                     }
                 }
             }
+            if (linkedList.isEmpty()) {
+                tableSymbole.remove(ID);
+            }
         }
     }
     //Overide with Type

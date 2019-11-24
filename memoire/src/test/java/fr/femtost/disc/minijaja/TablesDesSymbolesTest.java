@@ -64,10 +64,7 @@ public class TablesDesSymbolesTest {
         assertEquals(2, tds.getTableSymbole().size());
 
         tds.enleverSymbole(q1.getID());
-
-        assertEquals(0, tds.getTableSymbole().get("var").size());
-        //assertNull(tds.chercheQuad("var"));
-        //System.out.println(tds.chercheQuad("var", Sorte.INT).getSORTE());
+        assertNull(tds.chercheQuad("var"));
     }
 
 }
