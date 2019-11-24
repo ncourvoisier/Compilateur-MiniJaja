@@ -73,4 +73,21 @@ public class TasTest {
         assertEquals(-2, t.ecrire(9999999, 1, 50));
     }
 
+    @Test
+    public void tasInfos() {
+        int a = t.allouer(200);
+        int b = t.allouer(300);
+        int c = t.allouer(400);
+        int d = t.allouer(500);
+        assertEquals(0, a);
+        assertEquals(200, b);
+        assertEquals(600, c);
+        assertEquals(-1, d);
+        TasInfos infos = t.getInfos();
+        assertEquals(1000, infos.getTaille());
+        assertEquals(100, infos.getTailleDisponible());
+        assertEquals(100, infos.getTailleMaximaleAllouable());
+        assertEquals(4, infos.getNombreBlocs());
+    }
+
 }

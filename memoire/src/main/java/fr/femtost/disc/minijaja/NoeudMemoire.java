@@ -153,6 +153,10 @@ public class NoeudMemoire {
         return taille;
     }
 
+    public int getTailleDisponible() {
+        return tailleDisponible;
+    }
+
     public boolean estDisponible() {
         return disponible;
     }
