@@ -47,5 +47,19 @@ public class ASTVarTableau extends ASTVar {
         }
     }
 
+    @Override
+    public void typeCheck(Memoire m) {
+        Object v = expr.eval(m);
+
+        if (m.getPile().getTds().chercheQuad(identifiant.getName(),typeMeth.getSorte()) == null){
+            m.getPile().DeclTab(identifiant.getName(), v, typeMeth.getSorte());
+        } else {
+            System.out.println("Error " + identifiant.getName() + " already declared");
+        }
+
+        if (typeMeth.getSorte() == Sorte.VOID){
+            System.out.println("Error " + identifiant.getName() + " void isn't type");
+        }
+    }
 
 }
