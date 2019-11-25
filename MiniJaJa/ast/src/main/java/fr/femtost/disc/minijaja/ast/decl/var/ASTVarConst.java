@@ -45,7 +45,7 @@ public class ASTVarConst extends ASTVar {
         }
 
         if(type.getSorte() == Sorte.VOID){
-            System.out.println("Error "+identifiant.getName()+" already declared");
+            System.out.println("Error "+identifiant.getName()+" void isn't type");
         }
     }
 

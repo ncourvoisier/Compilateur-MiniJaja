@@ -95,5 +95,17 @@ public class ASTMethode extends ASTDecl {
         }
     }
 
+    @Override
+    public void typeCheck(Memoire m) {
+        ASTMethode mth = new ASTMethode(typeMeth, ident, entetes, vars, instrs);
+        entetes.typeCheck(m);
+        vars.typeCheck(m);
+        instrs.typeCheck(m);
+        if (m.getPile().getTds().chercheQuad(ident.getName(),typeMeth.getSorte()) == null){
+            m.getPile().DeclMeth(ident.getName(), mth, typeMeth.getSorte());
+        } else {
+            System.out.println("Error " + ident.getName() + " already declared");
+        }
+    }
 
 }
