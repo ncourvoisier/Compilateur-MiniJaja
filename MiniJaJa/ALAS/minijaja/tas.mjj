@@ -1,0 +1,36 @@
+/************************/
+/* Programme MiniJaja	*/
+/* Validation du tas	*/
+/************************/
+
+class synonymie {
+	int taille = 512; // A changer suivant la taille du tas
+	int t[taille/2+1];
+
+	void f(int x) {
+		int t1[taille/(2*x)-1];
+		t1[x]=x;
+	};
+
+
+	void g() {
+		int t1[taille/2-5];
+
+		t1[1] = 1;
+	};
+
+	void pause() {
+	};
+
+
+	main {
+		int i = 2;
+		while (5 > i) {
+			f(i);
+			i++;
+		};
+		pause();
+		g();
+		pause();
+	}
+}
