@@ -28,6 +28,9 @@ public class AppTest {
         try {
             ASTClass astClass = new SyntaxChecker(new BufferedReader(new StringReader(s))).S();
             System.out.println(astClass.rewrite());
+            Memoire m = new Memoire(100000);
+            astClass.interpreter(m);
+            astClass.compiler(1);
         } catch (Throwable e) {
             System.out.println("Syntax check failed: " + e.getMessage());
         }
