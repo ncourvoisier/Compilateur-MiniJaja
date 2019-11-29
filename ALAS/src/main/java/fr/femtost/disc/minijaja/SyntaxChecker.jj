@@ -56,46 +56,44 @@ PARSER_END(SyntaxChecker)
 
  SKIP:  { " " | <"\t"> | <"\n"> | <"\r">|<COM1: ("//" (~["\r", "\n"])*)> | <COM2:("/*"(~["*"] | "*"~["/"])*"*/")> }
 TOKEN: {
-	<CLASS: "class"(" ")>{ System.out.println("Déclaration d'une nouvelle classe");} |
-	<VOID: "void ">{System.out.println("Déclaration d'une instance void");}|
-	<ACCG: "{">{System.out.println("Ouverture d'une accolade");}|
-	<ACCD: "}">{System.out.println("Fermeture d'une accolade");}|
-	<PV: ";">{System.out.println("Point virgule");}|
-	<PARRG: "(">{System.out.println("Ouverture d'une parenthèse");}|
-	<PARRD :")">{System.out.println("Fermeture d'une parenthèse");}|
-	<MAIN:"main">{System.out.println("Méthode principale");}|
-	<FINAL:"final">{System.out.println("méthode ou variable final");}|
-	<RETURN: "return">{System.out.println("retour attendu");}|
-	<EGAL: "=">{System.out.println("Affectation");}|
-	<TABG: "[">{System.out.println("Ouverture de crochets");}|
-	<TABD: "]">{System.out.println("Fermeture de crochets");}|
-	<WRITE: "write">{System.out.println("La console doit écrire");}|
-	<WRITELN: "writeln">{System.out.println("La console doit écrire puis revenir à la ligne");}|
-	<IF: "if">{System.out.println("Si");}|
-	<ELSE: "else">{System.out.println("Sinon");}|
-	<WHILE: "while">{System.out.println("Tant que");}|
-	<PEG: "+=">{System.out.println("Est égal à la valeur plus 1");}|
-	<PP: "++">{System.out.println("Incrémentation");}|
-	<OU: "||">{System.out.println("Ou");}|
-	<ET: "&&">{System.out.println("Et");}|
-	<EXCL: "!">{System.out.println("Point d'exclamation");}|
-	<EGEG : "==">{System.out.println("Est égal à ");}|
+	<CLASS: "class"(" ")>
+|   <VOID: "void ">
+|	<ACCG: "{">
+|	<ACCD: "}">
+|	<PV: ";">
+|	<PARRG: "(">
+|	<PARRD :")">
+|	<MAIN:"main">
+|	<FINAL:"final">
+|	<RETURN: "return">
+|	<EGAL: "=">
+|	<TABG: "[">
+|	<TABD: "]">
+|	<WRITE: "write">
+|	<WRITELN: "writeln">
+|	<IF: "if">
+|	<ELSE: "else">
+|	<WHILE: "while">
+|	<PEG: "+=">
+|	<PP: "++">
+|	<OU: "||">
+|	<ET: "&&">
+|	<EXCL: "!">
+|	<EGEG : "==">
 	//<INF>|
-	<SUP : ">">{System.out.println("Est supérieur à");}|
-	<PLUS : "+">{System.out.println("Addition");}|
-	<MOINS : "-">{System.out.println("Soustraction");}|
-	<MULT : "*">{System.out.println("Multiplication");}|
-	<DIV : "/">{System.out.println("Division");}|
-	<VRAI: "true">{System.out.println("Vrai");}|
-	<FAUX: "false">{System.out.println("Faux");}|
-	<ENTIER: "int">{ System.out.println("Type entier");} |
-	<BOOL: "boolean">{ System.out.println("Type booleen");} |
-	<VIRGULE: ",">{} |
-
-	<IDENT: ((["a"-"z"])+|(["A"-"Z"])+)((["a"-"z"])*(["A"-"Z"])*(["0"-"9"])*)>{ System.out.println("Identificateur :"+ matchedToken.image);} |//Commence forcément par une lettre majuscule ou minuscule, modifiable
-	//<TypeMeth: "void" | <TYPE>>{ System.out.println("Type de la méthode : "+ matchedToken.image);} |
-	<STRING:("\""(~["\""])*"\"")>{ System.out.println("Chaine de caractères :"+ matchedToken.image);}|
-	<NOMBRE: (["0"-"9"])+>{ System.out.println("Entier :"+ matchedToken.image);}
+|	<SUP : ">">
+|	<PLUS : "+">
+|	<MOINS : "-">
+|	<MULT : "*">
+|	<DIV : "/">
+|	<VRAI: "true">
+|	<FAUX: "false">
+|	<ENTIER: "int">
+|	<BOOL: "boolean">
+|	<VIRGULE: ",">
+|	<IDENT: ((["a"-"z"])+|(["A"-"Z"])+)((["a"-"z"])*(["A"-"Z"])*(["0"-"9"])*)>
+|	<STRING:("\""(~["\""])*"\"")>
+|	<NOMBRE: (["0"-"9"])+>
 }
 
 //void S(): {} {<CLASS> <IDENT> <ACCG> Decls() Methmain() <ACCD> <EOF>  }
