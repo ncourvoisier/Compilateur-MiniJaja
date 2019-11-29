@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+
+
+<GridPane xmlns="http://javafx.com/javafx"
+          xmlns:fx="http://javafx.com/fxml"
+          fx:controller="sample.Controller"
+          prefHeight="400.0" prefWidth="600.0">
+
+  <children>
+        <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="362.0" prefWidth="583.0">
+          <children>
+            <MenuBar layoutX="-6.0" layoutY="-4.0" prefWidth="987.0">
+              <menus>
+                <Menu mnemonicParsing="false" text="File">
+                  <items>
+                    <MenuItem mnemonicParsing="false" text="Open" onAction="#open" />
+                    <MenuItem mnemonicParsing="false" text="Save" onAction="#save" />
+                    <MenuItem mnemonicParsing="false" text="Save as" onAction="#saveAs" />
+                    <MenuItem mnemonicParsing="false" text="Exit" onAction="#quit" />
+                  </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Edit">
+                  <items>
+                    <MenuItem mnemonicParsing="false" text="Build" />
+                  </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Run/Debug">
+                  <items>
+                    <MenuItem mnemonicParsing="false" text="Run" onAction="#run"/>
+                    <MenuItem mnemonicParsing="false" text="Build" onAction="#build"/>
+                    <MenuItem mnemonicParsing="false" text="Interprétation pas à pas" />
+                  </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Help">
+                  <items>
+                    <MenuItem mnemonicParsing="false" text="Help" />
+                  </items>
+                </Menu>
+              </menus>
+            </MenuBar>
+            <TextArea layoutX="32.0" layoutY="32.0" prefHeight="395.0" prefWidth="495.0" wrapText="true" fx:id="code" />
+            <TextArea layoutX="527.0" layoutY="32.0" prefHeight="395.0" prefWidth="454.0" fx:id="memoire" />
+            <TextArea layoutX="0.0" layoutY="427.0" prefHeight="181.0" prefWidth="981.0" wrapText="true" fx:id="sortieConsole" />
+            <TextArea layoutX="0.0" layoutY="32.0" prefHeight="395.0" prefWidth="32.0" fx:id="numLine" />
+          </children>
+        </AnchorPane>
+  </children>
+</GridPane>
