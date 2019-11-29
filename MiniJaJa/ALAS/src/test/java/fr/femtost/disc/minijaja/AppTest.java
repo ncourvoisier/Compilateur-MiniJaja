@@ -75,14 +75,51 @@ public class AppTest
         }
     }
 
-    @Test
-    public void test_astKO1() {
-        String file = "./minijaja/fact.mjj";
+    @Test(expected = ParseException.class)
+    public void test_astKO_NoMain() throws ParseException {
+        String file = "./minijaja/echec1.mjj";
         try {
-            ASTClass cl = new SyntaxChecker(new BufferedReader(new FileReader(file))).S();
-            fail();
-        } catch (ParseException e) {
-            //Expected behaviour
+            new SyntaxChecker(new BufferedReader(new FileReader(file))).S();
+        } catch (FileNotFoundException e) {
+            fail("Fichier introuvable");
+        }
+    }
+
+    @Test(expected = ParseException.class)
+    public void test_astKO_SemicolonMethod() throws ParseException {
+        String file = "./minijaja/echec2.mjj";
+        try {
+            new SyntaxChecker(new BufferedReader(new FileReader(file))).S();
+        } catch (FileNotFoundException e) {
+            fail("Fichier introuvable");
+        }
+    }
+
+    @Test(expected = ParseException.class)
+    public void test_astKO_SemicolonInstr() throws ParseException {
+        String file = "./minijaja/echec3.mjj";
+        try {
+            new SyntaxChecker(new BufferedReader(new FileReader(file))).S();
+        } catch (FileNotFoundException e) {
+            fail("Fichier introuvable");
+        }
+    }
+
+    @Test(expected = ParseException.class)
+    public void test_astKO_WriteConcatenate() throws ParseException {
+        String file = "./minijaja/echec3.mjj";
+        try {
+            new SyntaxChecker(new BufferedReader(new FileReader(file))).S();
+        } catch (FileNotFoundException e) {
+            fail("Fichier introuvable");
+        }
+    }
+
+    @Test(expected = ParseException.class)
+    public void test_astKO_TEMP() throws ParseException {
+        String file = "./minijaja/echec3.mjj";
+        try {
+            new SyntaxChecker(new BufferedReader(new FileReader(file))).S();
         } catch (FileNotFoundException e) {
             fail("Fichier introuvable");
         }

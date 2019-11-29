@@ -47,7 +47,6 @@ public class Pile {
         }
         Quad oldTop = stackTop;
         stackTop = stackTop.getBottomQuad();
-        tds.enleverSymbole(oldTop.getID());
         return oldTop;
     }
 
@@ -120,6 +119,7 @@ public class Pile {
                 RetirerTas(q.getVAL());
             }
             Depiler();
+            tds.enleverSymbole(ID);
         } else {
             Quad qDepile = Depiler();
             RetirerDecl(ID);
