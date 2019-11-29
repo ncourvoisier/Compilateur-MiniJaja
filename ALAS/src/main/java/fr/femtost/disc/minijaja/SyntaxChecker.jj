@@ -100,7 +100,11 @@ TOKEN: {
 
 //void S(): {} {<CLASS> <IDENT> <ACCG> Decls() Methmain() <ACCD> <EOF>  }
 ASTClass S(): {ASTDecls ds; ASTMain mm;Token t;}{
-    <CLASS> t = <IDENT> <ACCG> ds = Decls() mm = Methmain() <ACCD> <EOF>{return new ASTClass(new Identifiant(t.image), ds, mm);}
+    <CLASS> t = <IDENT> <ACCG> ds = Decls() mm = Methmain() <ACCD> <EOF>{
+    ASTClass ret = new ASTClass(new Identifiant(t.image), ds, mm);
+    ret.setPosition(t.beginLine,t.beginColumn);
+    //return new ASTClass(new Identifiant(t.image), ds, mm) ;
+    return ret;}
 }
 //void Decls(): {} {Decl()<PV>Decls()| {} }
 ASTDecls Decls(): {ASTDecls ds; ASTDecl d;} {
