@@ -1,0 +1,30 @@
+class C {
+    int x = 0+2*3;
+    boolean t[8];
+    boolean y = (true && (false || (1 == 2)));
+
+    int f (int k, int b) {
+        return k*b;
+    };
+
+    void null() {
+        boolean g = true;
+    };
+
+    main()  {
+        final int max = 8;
+        int current = 0;
+        while(max>current){
+            t[current] = false;
+            if (!current == 10){
+                current++;
+            };
+        };
+        x=-2;
+        while(0>x) {
+            write("coucou ");
+            writeln(x);
+            x++;
+        };
+    }
+}
