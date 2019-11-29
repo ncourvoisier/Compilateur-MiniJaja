@@ -424,7 +424,7 @@ public class PileTest {
 
         try {
             p.RetirerDecl("t");
-            assertEquals(1, p.returnTaillePile());
+            assertEquals(0, p.returnTaillePile());
         } catch (PileException e) {
             e.printStackTrace();
         }
@@ -438,9 +438,9 @@ public class PileTest {
 
         try {
             p.RetirerDecl("t");
-            assertEquals(3, p.returnTaillePile());
+            assertEquals(2, p.returnTaillePile());
             p.RetirerDecl("c");
-            assertEquals(3, p.returnTaillePile());
+            assertEquals(1, p.returnTaillePile());
         } catch (PileException e) {
             e.printStackTrace();
         }
