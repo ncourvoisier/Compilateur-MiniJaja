@@ -61,7 +61,7 @@ public class AppelI extends ASTInstr {
             try {
                 m.getPile().RetirerDecl(((EChain) entetes).getNode().getIdent().getName());
             } catch (PileException e) {
-                e.printStackTrace();
+                ASTLogger.getInstance().logError(e.toString());
             }
             entetes = ((EChain) entetes).getSuccessor();
         }

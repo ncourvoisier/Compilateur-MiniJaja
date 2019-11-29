@@ -1,5 +1,6 @@
 package fr.femtost.disc.minijaja.ast.instr;
 
+import fr.femtost.disc.minijaja.ASTLogger;
 import fr.femtost.disc.minijaja.CompilationCouple;
 import fr.femtost.disc.minijaja.Memoire;
 import fr.femtost.disc.minijaja.PileException;
@@ -32,9 +33,9 @@ public class Retour extends ASTInstr {
     public void interpreter(Memoire m) {
         Object v = expr.eval(m);
         try {
-            m.getPile().AffecterVal(ASTClass.VariableClasse, v);
+            m.getPile().AffecterVal(ASTClass.getVariableClass(), v);
         } catch (PileException e) {
-            e.printStackTrace();
+            ASTLogger.getInstance().logError(e.toString());
         }
     }
 

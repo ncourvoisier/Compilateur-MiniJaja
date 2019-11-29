@@ -1,9 +1,6 @@
 package fr.femtost.disc.minijaja.ast.expr.identificateur;
 
-import fr.femtost.disc.minijaja.CompilationCouple;
-import fr.femtost.disc.minijaja.JCIdent;
-import fr.femtost.disc.minijaja.Memoire;
-import fr.femtost.disc.minijaja.PileException;
+import fr.femtost.disc.minijaja.*;
 import fr.femtost.disc.minijaja.ast.expr.ASTIdentGenerique;
 import fr.femtost.disc.minijaja.jcode.Load;
 import fr.femtost.disc.minijaja.jcodes.JChain;
@@ -36,7 +33,7 @@ public class Identifiant extends ASTIdentGenerique {
         try {
             return m.getPile().Val(name);
         } catch (PileException e) {
-            e.printStackTrace();
+            ASTLogger.getInstance().logError(e.toString());
         }
         return null;
     }

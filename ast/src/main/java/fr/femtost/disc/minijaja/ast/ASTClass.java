@@ -14,13 +14,17 @@ public class ASTClass extends ASTNode
     private Identifiant ident;
     private ASTDecls decls;
     private ASTMain main;
-    public static String VariableClasse;
+    private static String variableClasse;
+
+    public static String getVariableClass() {
+        return variableClasse;
+    }
 
     public ASTClass(Identifiant ident, ASTDecls decls, ASTMain main) {
         this.ident = ident;
         this.decls = decls;
         this.main = main;
-        VariableClasse = ident.getName();
+        variableClasse = ident.getName();
     }
 
     @Override

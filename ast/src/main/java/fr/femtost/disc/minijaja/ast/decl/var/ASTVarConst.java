@@ -67,7 +67,7 @@ public class ASTVarConst extends ASTVar {
         try {
             m.getPile().RetirerDecl(identifiant.getName());
         } catch (PileException e) {
-            e.printStackTrace();
+            ASTLogger.getInstance().logError("Impossible de retirer la variable " + identifiant.getName());
         }
     }
 

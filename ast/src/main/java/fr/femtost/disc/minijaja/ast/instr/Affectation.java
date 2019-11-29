@@ -47,12 +47,13 @@ public class Affectation extends ASTInstr {
             try {
                 m.getPile().AffecterValT(ident.getName(), v, v2);
             } catch (PileException e) {
+                ASTLogger.getInstance().logError(e.toString());
             }
         } else {
             try {
                 m.getPile().AffecterVal(ident.getName(), v);
             } catch (PileException e) {
-                e.printStackTrace();
+                ASTLogger.getInstance().logError(e.toString());
             }
         }
     }
@@ -61,6 +62,5 @@ public class Affectation extends ASTInstr {
     public void retirer(Memoire m) {
 
     }
-
 
 }

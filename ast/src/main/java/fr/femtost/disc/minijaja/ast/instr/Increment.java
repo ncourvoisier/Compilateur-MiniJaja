@@ -46,13 +46,15 @@ public class Increment extends ASTInstr {
         {
             int v = ((Tableau) identGenerique).evalIndex(m);
             try{m.getPile().AffecterValT(identGenerique.getName(),(int)m.getPile().ValT(identGenerique.getName(),v)+1,v);}
-            catch (PileException e){}
+            catch (PileException e){
+                ASTLogger.getInstance().logError(e.toString());
+            }
         }
         else {
             try {
                 m.getPile().AffecterVal(identGenerique.getName(),(int)(m.getPile().Val(identGenerique.getName()))+1);
             } catch (PileException e) {
-                e.printStackTrace();
+                ASTLogger.getInstance().logError(e.toString());
             }
         }
     }

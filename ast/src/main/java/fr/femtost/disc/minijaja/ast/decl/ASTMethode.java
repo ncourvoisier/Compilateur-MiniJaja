@@ -91,7 +91,7 @@ public class ASTMethode extends ASTDecl {
         try {
             m.getPile().RetirerDecl(ident.getName());
         } catch (PileException e) {
-            e.printStackTrace();
+            ASTLogger.getInstance().logError("Impossible de retirer la méthode " + ident.getName());
         }
     }
 
