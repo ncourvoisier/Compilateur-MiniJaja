@@ -209,7 +209,7 @@ public class IHM extends Application {
                 SyntaxChecker sc = new SyntaxChecker(new java.io.StringReader(zoneSaisie.getText()));
                 try {
                     fr.femtost.disc.minijaja.ast.ASTClass cla = sc.S();
-                    cla.compiler(0);
+                    cla.compiler(1);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
