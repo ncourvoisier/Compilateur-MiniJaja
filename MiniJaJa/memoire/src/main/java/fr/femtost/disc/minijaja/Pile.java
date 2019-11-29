@@ -47,6 +47,7 @@ public class Pile {
         }
         Quad oldTop = stackTop;
         stackTop = stackTop.getBottomQuad();
+        tds.enleverSymbole(oldTop.getID());
         return oldTop;
     }
 
