@@ -7,7 +7,7 @@ class C {
   int x;
   int y = 10;
   boolean b1 = false;
-  boolean b2;
+  boolean b2 = true;
 
   int  somme( int max) {
   	int t = 5;
@@ -41,3 +41,4 @@ class C {
 
 
 	
+
