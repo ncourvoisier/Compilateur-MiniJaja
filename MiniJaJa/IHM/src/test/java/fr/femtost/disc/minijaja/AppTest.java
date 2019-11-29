@@ -24,7 +24,7 @@ public class AppTest {
     @Test
     public void TestTotalAST() {
         String s = " class factorielle{ int x=7; void pause(){ int i;}; int fact(int x){ int retour; if (x==0) {";
-        s += "retour=1; }else{ retour=x*fact(x-1); }; return retour; }; main { int res=fact(x); pause(); // res = 5040 } }";
+        s += "retour=1; }else{ retour=x*fact(x-1); }; return retour; }; main { int res=fact(x); pause(); } }";
         try {
             ASTClass astClass = new SyntaxChecker(new BufferedReader(new StringReader(s))).S();
             System.out.println(astClass.rewrite());
