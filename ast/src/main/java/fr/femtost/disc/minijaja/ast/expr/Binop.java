@@ -80,6 +80,7 @@ public class Binop extends ASTExpr {
     public Object eval(Memoire m) {
         Object e1 = expr1.eval(m);
         Object e2 = expr2.eval(m);
+        System.out.println("e1 : " + e1 + " e2 : " + e2);
         switch (op) {
             case ADDITION:
                 return (int)e1 + (int)e2;

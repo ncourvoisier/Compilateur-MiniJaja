@@ -42,7 +42,6 @@ public class Not extends ASTExpr {
     @Override
     public Object eval(Memoire m) {
         Boolean e = (Boolean) expr.eval(m);
-        System.out.println("e : " + e);
         return !e;
     }
 }
