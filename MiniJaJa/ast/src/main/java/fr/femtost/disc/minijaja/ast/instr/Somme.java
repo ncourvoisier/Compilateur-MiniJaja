@@ -47,13 +47,15 @@ public class Somme extends ASTInstr {
         {
             int v2 = ((Tableau) ident).evalIndex(m);
             try{m.getPile().AffecterValT(ident.getName(),(int)m.getPile().ValT(ident.getName(),v2)+(int)v,v2);}
-            catch (PileException e){}
+            catch (PileException e){
+                ASTLogger.getInstance().logError(e.toString());
+            }
         }
         else {
             try {
                 m.getPile().AffecterVal(ident.getName(),(int)(m.getPile().Val(ident.getName()))+(int)v);
             } catch (PileException e) {
-                e.printStackTrace();
+                ASTLogger.getInstance().logError(e.toString());
             }
         }
     }

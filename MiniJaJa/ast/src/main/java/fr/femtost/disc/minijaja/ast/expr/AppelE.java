@@ -42,9 +42,9 @@ public class AppelE extends ASTExpr {
     public Object eval(Memoire m) {
         new AppelI(ident, listExpr).interpreter(m);
         try {
-            return m.getPile().Val(ASTClass.VariableClasse);
+            return m.getPile().Val(ASTClass.getVariableClass());
         } catch (PileException e) {
-            e.printStackTrace();
+            ASTLogger.getInstance().logError(e.toString());
         }
         return null;
     }
