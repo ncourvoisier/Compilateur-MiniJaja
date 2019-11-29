@@ -118,6 +118,7 @@ public class Pile {
             if (q.getOBJ().equals(NatureObjet.TAB)) {
                 RetirerTas(q.getVAL());
             }
+            Depiler();
         } else {
             Quad qDepile = Depiler();
             RetirerDecl(ID);

@@ -1,11 +1,13 @@
 package fr.femtost.disc.minijaja;
 
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import fr.femtost.disc.minijaja.ast.ASTClass;
 import org.junit.Test;
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.StringReader;
 
@@ -35,6 +37,55 @@ public class AppTest
 }
 
         assertTrue(true);
+    }
+
+    @Test
+    public void test_astOK1() {
+        String file = "./minijaja/fact.mjj";
+        try {
+            ASTClass cl = new SyntaxChecker(new BufferedReader(new FileReader(file))).S();
+        } catch (ParseException e) {
+            fail("Erreur de parsing");
+        } catch (FileNotFoundException e) {
+            fail("Fichier introuvable");
+        }
+    }
+
+    @Test
+    public void test_astOK2() {
+        String file = "./minijaja/quick_sort.mjj";
+        try {
+            ASTClass cl = new SyntaxChecker(new BufferedReader(new FileReader(file))).S();
+        } catch (ParseException e) {
+            fail("Erreur de parsing");
+        } catch (FileNotFoundException e) {
+            fail("Fichier introuvable");
+        }
+    }
+
+    @Test
+    public void test_astOK3() {
+        String file = "./minijaja/test.mjj";
+        try {
+            ASTClass cl = new SyntaxChecker(new BufferedReader(new FileReader(file))).S();
+        } catch (ParseException e) {
+            fail("Erreur de parsing");
+        } catch (FileNotFoundException e) {
+            fail("Fichier introuvable");
+        }
+    }
+
+    @Test
+    public void test_astKO1() {
+        String file = "./minijaja/fact.mjj";
+        try {
+            ASTClass cl = new SyntaxChecker(new BufferedReader(new FileReader(file))).S();
+            fail();
+        } catch (ParseException e) {
+            //Expected behaviour
+        } catch (FileNotFoundException e) {
+            fail("Fichier introuvable");
+        }
     }
 
 }
