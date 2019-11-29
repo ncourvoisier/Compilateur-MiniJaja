@@ -10,7 +10,8 @@ public class Identifiant extends ASTIdentGenerique {
 
     protected String name;
 
-    public Identifiant(String name) {
+
+    public Identifiant(String name ) {
         this.name = name;
     }
 
