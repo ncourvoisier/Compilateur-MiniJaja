@@ -1,16 +1,27 @@
 package fr.femtost.disc.minijaja;
 
+import fr.femtost.disc.minijaja.ast.ASTEntete;
 import fr.femtost.disc.minijaja.ast.ASTExpr;
+import fr.femtost.disc.minijaja.ast.decl.var.ASTVarConst;
+import fr.femtost.disc.minijaja.ast.entetes.EChain;
+import fr.femtost.disc.minijaja.ast.entetes.Enil;
 import fr.femtost.disc.minijaja.ast.expr.*;
 import fr.femtost.disc.minijaja.ast.expr.identificateur.HardcodedString;
 import fr.femtost.disc.minijaja.ast.expr.identificateur.Identifiant;
 import fr.femtost.disc.minijaja.ast.expr.identificateur.Tableau;
 import fr.femtost.disc.minijaja.ast.listexpr.ExChain;
 import fr.femtost.disc.minijaja.ast.listexpr.Exnil;
+import fr.femtost.disc.minijaja.ast.type.Booleen;
+import fr.femtost.disc.minijaja.ast.type.Entier;
+import fr.femtost.disc.minijaja.ast.type.Void;
 import org.junit.Assert;
 import org.junit.Test;
 
 public class TestASTRewrite {
+
+    /* ****************
+        Expressions
+    **************** */
 
     @Test
     public void test_rewrite_nbre() {
@@ -76,5 +87,42 @@ public class TestASTRewrite {
     @Test
     public void test_rewrite_appel() {
         Assert.assertEquals("meth(4)", new AppelE(new Identifiant("meth"), new ExChain(new Nbre(4), new Exnil())).rewrite());
+    }
+
+
+
+    /* ****************
+          Entetes
+    **************** */
+
+    @Test
+    public void test_rewrite_type() {
+        Assert.assertEquals("void", new Void().rewrite());
+        Assert.assertEquals("int", new Entier().rewrite());
+        Assert.assertEquals("boolean", new Booleen().rewrite());
+    }
+
+    @Test
+    public void test_rewrite_entete() {
+        Assert.assertEquals("int nombre", new ASTEntete(new Identifiant("nombre"), new Entier()).rewrite());
+    }
+
+    @Test
+    public void test_rewrite_entetes() {
+        ASTEntete entete = new ASTEntete(new Identifiant("nombre"), new Entier());
+        Assert.assertEquals("int nombre", new EChain(new Enil(), entete).rewrite());
+        Assert.assertEquals("int nombre, int nombre", new EChain(new EChain(new Enil(), entete), entete).rewrite());
+    }
+
+
+
+    /* ****************
+         Variables
+    **************** */
+
+    @Test
+    public void test_rewrite_const() {
+        Assert.assertEquals("final int nb", new ASTVarConst(new Entier(), new Identifiant("nb"), new Omega()).rewrite());
+        Assert.assertEquals("final int nb = 6", new ASTVarConst(new Entier(), new Identifiant("nb"), new Nbre(6)).rewrite());
     }
 }
