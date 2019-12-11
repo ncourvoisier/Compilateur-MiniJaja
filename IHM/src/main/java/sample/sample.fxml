@@ -36,8 +36,8 @@
                 </Menu>
                 <Menu mnemonicParsing="false" text="Run/Debug">
                   <items>
-                    <MenuItem mnemonicParsing="false" text="Run" />
-                    <MenuItem mnemonicParsing="false" text="Build" />
+                    <MenuItem mnemonicParsing="false" text="Run" onAction="#run" />
+                    <MenuItem mnemonicParsing="false" text="Build" onAction="#build" />
                     <MenuItem mnemonicParsing="false" text="Interprétation pas à pas" />
                   </items>
                 </Menu>
