@@ -5,15 +5,13 @@ import fr.femtost.disc.minijaja.ast.ASTExpr;
 import fr.femtost.disc.minijaja.ast.ASTTypeMeth;
 import fr.femtost.disc.minijaja.ast.decl.ASTVar;
 import fr.femtost.disc.minijaja.ast.expr.identificateur.Identifiant;
-import fr.femtost.disc.minijaja.jcode.New;
 import fr.femtost.disc.minijaja.jcode.NewArray;
-import fr.femtost.disc.minijaja.jcval.JCNbre;
 
 public class ASTVarTableau extends ASTVar {
 
     private ASTTypeMeth typeMeth;
 
-    public ASTVarTableau(Identifiant identifiant, ASTExpr expr, ASTTypeMeth typeMeth) {
+    public ASTVarTableau(ASTTypeMeth typeMeth, Identifiant identifiant, ASTExpr expr) {
         super(identifiant, expr);
         this.typeMeth = typeMeth;
     }
@@ -39,26 +37,17 @@ public class ASTVarTableau extends ASTVar {
     }
 
     @Override
-    public void retirer(Memoire m) {
-        try {
-            m.getPile().RetirerDecl(identifiant.getName());
-        } catch (PileException e) {
-            ASTLogger.getInstance().logError("Impossible de retirer la variable " + identifiant.getName());
-        }
-    }
-
-    @Override
     public void typeCheck(Memoire m) {
         Object v = expr.eval(m);
 
         if (m.getPile().getTds().chercheQuad(identifiant.getName(),typeMeth.getSorte()) == null){
             m.getPile().DeclTab(identifiant.getName(), v, typeMeth.getSorte());
         } else {
-            System.out.println("Error " + identifiant.getName() + " already declared");
+            ASTLogger.getInstance().logWarning("Error " + identifiant.getName() + " already declared");
         }
 
         if (typeMeth.getSorte() == Sorte.VOID){
-            System.out.println("Error " + identifiant.getName() + " void isn't type");
+            ASTLogger.getInstance().logError("Error " + identifiant.getName() + " void isn't type");
         }
     }
 

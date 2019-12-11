@@ -7,6 +7,7 @@ import fr.femtost.disc.minijaja.jcodes.JNil;
 
 public final class Inil extends ASTInstrs {
 
+    @Override
     public String rewrite() {
         return "";
     }
@@ -18,16 +19,11 @@ public final class Inil extends ASTInstrs {
 
     @Override
     public void interpreter(Memoire m) {
-
-    }
-
-    @Override
-    public void retirer(Memoire m) {
-
+        //noop
     }
 
     @Override
     public void typeCheck(Memoire m) {
-
+        //noop
     }
 }

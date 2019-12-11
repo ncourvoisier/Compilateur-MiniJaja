@@ -43,12 +43,6 @@ public class Ecrire extends ASTInstr {
     }
 
     @Override
-    public void retirer(Memoire m) {
-
-    }
-
-
-    @Override
     public void typeCheck(Memoire m) {
 
     }

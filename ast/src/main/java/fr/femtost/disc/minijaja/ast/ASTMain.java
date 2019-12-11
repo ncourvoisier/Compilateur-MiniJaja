@@ -17,10 +17,10 @@ public class ASTMain extends ASTNode {
         this.instrs = instrs;
     }
 
+    @Override
     public String rewrite() {
         StringBuilder sb = new StringBuilder();
-        sb.append("main ");
-        sb.append(" {\n");
+        sb.append("main {\n");
         sb.append(vars.rewrite());
         sb.append(instrs.rewrite());
         sb.append("}");

@@ -1,19 +1,30 @@
 package fr.femtost.disc.minijaja;
 
-import fr.femtost.disc.minijaja.ast.ASTEntete;
-import fr.femtost.disc.minijaja.ast.ASTExpr;
+import fr.femtost.disc.minijaja.ast.*;
+import fr.femtost.disc.minijaja.ast.decl.ASTMethode;
+import fr.femtost.disc.minijaja.ast.decl.ASTVar;
 import fr.femtost.disc.minijaja.ast.decl.var.ASTVarConst;
+import fr.femtost.disc.minijaja.ast.decl.var.ASTVarSimple;
+import fr.femtost.disc.minijaja.ast.decl.var.ASTVarTableau;
+import fr.femtost.disc.minijaja.ast.decls.DChain;
+import fr.femtost.disc.minijaja.ast.decls.Dnil;
 import fr.femtost.disc.minijaja.ast.entetes.EChain;
 import fr.femtost.disc.minijaja.ast.entetes.Enil;
 import fr.femtost.disc.minijaja.ast.expr.*;
 import fr.femtost.disc.minijaja.ast.expr.identificateur.HardcodedString;
 import fr.femtost.disc.minijaja.ast.expr.identificateur.Identifiant;
 import fr.femtost.disc.minijaja.ast.expr.identificateur.Tableau;
+import fr.femtost.disc.minijaja.ast.instr.*;
+import fr.femtost.disc.minijaja.ast.instr.ecrire.EcrireLn;
+import fr.femtost.disc.minijaja.ast.instrs.IChain;
+import fr.femtost.disc.minijaja.ast.instrs.Inil;
 import fr.femtost.disc.minijaja.ast.listexpr.ExChain;
 import fr.femtost.disc.minijaja.ast.listexpr.Exnil;
 import fr.femtost.disc.minijaja.ast.type.Booleen;
 import fr.femtost.disc.minijaja.ast.type.Entier;
 import fr.femtost.disc.minijaja.ast.type.Void;
+import fr.femtost.disc.minijaja.ast.vars.VChain;
+import fr.femtost.disc.minijaja.ast.vars.Vnil;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -124,5 +135,95 @@ public class TestASTRewrite {
     public void test_rewrite_const() {
         Assert.assertEquals("final int nb", new ASTVarConst(new Entier(), new Identifiant("nb"), new Omega()).rewrite());
         Assert.assertEquals("final int nb = 6", new ASTVarConst(new Entier(), new Identifiant("nb"), new Nbre(6)).rewrite());
+    }
+
+    @Test
+    public void test_rewrite_var() {
+        Assert.assertEquals("int nb", new ASTVarSimple(new Entier(), new Identifiant("nb"), new Omega()).rewrite());
+        Assert.assertEquals("int nb = 6", new ASTVarSimple(new Entier(), new Identifiant("nb"), new Nbre(6)).rewrite());
+    }
+
+    @Test
+    public void test_rewrite_dec_tab() {
+        Assert.assertEquals("int nb[6]", new ASTVarTableau(new Entier(), new Identifiant("nb"), new Nbre(6)).rewrite());
+    }
+
+    @Test
+    public void test_rewrite_varChain() {
+        ASTVar var = new ASTVarSimple(new Entier(), new Identifiant("nb"), new Nbre(6));
+        Assert.assertEquals("int nb = 6;\n", new VChain(var, new Vnil()).rewrite());
+    }
+
+
+
+    /* ****************
+       Instructions
+    **************** */
+
+    @Test
+    public void test_rewrite_affectation() {
+        Assert.assertEquals("x=6", new Affectation(new Identifiant("x"), new Nbre(6)).rewrite());
+    }
+
+    @Test
+    public void test_rewrite_appelI() {
+        Assert.assertEquals("meth()", new AppelI(new Identifiant("meth"), new Exnil()).rewrite());
+    }
+
+    @Test
+    public void test_rewrite_ecrire() {
+        Assert.assertEquals("write(v)", new Ecrire(new Identifiant("v")).rewrite());
+    }
+
+    @Test
+    public void test_rewrite_ecrireln() {
+        Assert.assertEquals("writeln(v)", new EcrireLn(new Identifiant("v")).rewrite());
+    }
+
+    @Test
+    public void test_rewrite_increment() {
+        Assert.assertEquals("x++", new Increment(new Identifiant("x")).rewrite());
+    }
+
+    @Test
+    public void test_rewrite_retour() {
+        Assert.assertEquals("return x", new Retour(new Identifiant("x")).rewrite());
+    }
+
+    @Test
+    public void test_rewrite_si() {
+        ASTInstr instr = new Increment(new Identifiant("x"));
+        Assert.assertEquals("if (true) {\nx++;\n} else {\nx++;\n}", new Si(new BoolVal(true), new IChain(instr, new Inil()), new IChain(instr, new Inil())).rewrite());
+    }
+
+    @Test
+    public void test_rewrite_somme() {
+        Assert.assertEquals("x+=y", new Somme(new Identifiant("x"), new Identifiant("y")).rewrite());
+    }
+
+    @Test
+    public void test_rewrite_while() {
+        Assert.assertEquals("while(true) {\nx++;\n}", new TantQue(new BoolVal(true), new IChain(new Increment(new Identifiant("x")), new Inil())).rewrite());
+    }
+
+
+
+    /* ****************
+          Classe
+    **************** */
+
+    @Test
+    public void test_rewrite_main() {
+        Assert.assertEquals("main {\n}", new ASTMain(new Vnil(), new Inil()).rewrite());
+    }
+
+    @Test
+    public void test_rewrite_methode() {
+        Assert.assertEquals("\nvoid meth() {\n}", new ASTMethode(new Void(), new Identifiant("meth"), new Enil(), new Vnil(), new Inil()).rewrite());
+    }
+
+    @Test
+    public void test_rewrite_class() {
+        Assert.assertEquals("class b {\nint x;\n\nmain {\n}\n}\n", new ASTClass(new Identifiant("b"), new DChain(new Dnil(), new ASTVarSimple(new Entier(), new Identifiant("x"), new Omega())), new ASTMain(new Vnil(), new Inil())).rewrite());
     }
 }

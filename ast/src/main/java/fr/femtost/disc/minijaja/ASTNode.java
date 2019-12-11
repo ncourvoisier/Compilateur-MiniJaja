@@ -12,7 +12,7 @@ public abstract class ASTNode {
 //    public void typeCheck(Memoire m){
 //        //remettre en abstract a la fin du dev
 //    }
-    abstract public void typeCheck(Memoire m);
+    public abstract void typeCheck(Memoire m);
 
     public int getLine(){
         return this.line;
@@ -45,8 +45,8 @@ public abstract class ASTNode {
     return new CompilationCouple(new JNil(), 0);
     }
 
-    abstract public void interpreter(Memoire m);
-    abstract public void retirer(Memoire m);
+    public abstract void interpreter(Memoire m);
+    public abstract void retirer(Memoire m);
 
 }
 

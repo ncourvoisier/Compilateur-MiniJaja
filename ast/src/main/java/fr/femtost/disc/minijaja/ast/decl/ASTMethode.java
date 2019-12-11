@@ -40,8 +40,8 @@ public class ASTMethode extends ASTDecl {
         StringBuilder sb = new StringBuilder();
         sb.append("\n");
         sb.append(typeMeth.rewrite()).append((" "));
-        sb.append(ident.rewrite()).append(" ");
-        sb.append("( ").append(entetes.rewrite()).append(" )");
+        sb.append(ident.rewrite());
+        sb.append("(").append(entetes.rewrite()).append(") ");
         sb.append("{\n");
         sb.append(vars.rewrite());
         sb.append(instrs.rewrite());
