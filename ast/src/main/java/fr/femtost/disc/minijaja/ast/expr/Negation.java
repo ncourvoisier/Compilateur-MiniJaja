@@ -41,6 +41,13 @@ public class Negation extends ASTExpr {
     }
 
     @Override
+    public void typeCheck(Memoire m) {
+        if (expr.eval(m) == null) {
+            System.out.println(expr.eval(m) + "is not initialize.");
+        }
+    }
+
+    @Override
     public Object eval(Memoire m) {
         int e = (int) expr.eval(m);
         return -e;

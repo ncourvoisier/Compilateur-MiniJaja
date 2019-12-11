@@ -64,4 +64,9 @@ public class ExChain extends ASTListExpr {
     public void retirer(Memoire m) {
 
     }
+
+    @Override
+    public void typeCheck(Memoire m) {
+
+    }
 }

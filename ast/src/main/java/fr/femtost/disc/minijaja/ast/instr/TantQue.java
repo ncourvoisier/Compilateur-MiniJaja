@@ -55,5 +55,8 @@ public class TantQue extends ASTInstr {
 
     }
 
+    @Override
+    public void typeCheck(Memoire m) {
 
+    }
 }

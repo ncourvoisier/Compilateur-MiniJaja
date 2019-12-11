@@ -27,4 +27,10 @@ public final class Vnil extends ASTVars {
 
     }
 
+
+    @Override
+    public void typeCheck(Memoire m) {
+
+    }
+
 }

@@ -37,6 +37,11 @@ public class Nbre extends ASTExpr {
     }
 
     @Override
+    public void typeCheck(Memoire m) {
+
+    }
+
+    @Override
     public Object eval(Memoire m) {
         return Integer.valueOf(expr);
     }

@@ -62,7 +62,7 @@ public class ASTVarSimple extends ASTVar {
     public void typeCheck(Memoire m) {
         Object v = expr.eval(m);
 
-        if ( m.getPile().getTds().chercheQuad(identifiant.getName(),typeMeth.getSorte()) == null){
+        if (m.getPile().getTds().chercheQuad(identifiant.getName(),typeMeth.getSorte()) == null) {
             m.getPile().DeclVar(identifiant.getName(), v, typeMeth.getSorte());
         } else {
             System.out.println("Error " + identifiant.getName() + " already declared");

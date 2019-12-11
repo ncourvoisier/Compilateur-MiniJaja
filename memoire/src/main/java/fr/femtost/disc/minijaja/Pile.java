@@ -26,6 +26,7 @@ public class Pile {
     }
 
     public void Empiler (Quad q) {
+        System.out.println("EMPILER "+ q);
         if (stackTop == null) {
             stackTop = q;
             stackTop.setBottomQuad(null);
@@ -42,10 +43,12 @@ public class Pile {
     }
 
     public Quad Depiler () throws PileException {
+
         if (isEmpty()) {
             throw new PileException("Impossible de dépiller un élément la pile est vide.");
         }
         Quad oldTop = stackTop;
+        System.out.println("DEPILER " + oldTop);
         stackTop = stackTop.getBottomQuad();
         return oldTop;
     }
@@ -316,6 +319,7 @@ public class Pile {
     public String toString() {
         String pileQuadString = "";
         if (isEmpty()) {
+            System.out.println("IS EMPTY");
             return pileQuadString;
         }
         pileQuadString += stackTop.toString();
@@ -325,6 +329,7 @@ public class Pile {
             pileQuadString += next.getBottomQuad();
             next = next.getBottomQuad();
         }
+        System.out.println("FIN TS");
         return pileQuadString;
     }
 }

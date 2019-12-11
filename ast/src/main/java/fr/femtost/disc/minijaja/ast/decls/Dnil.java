@@ -11,6 +11,7 @@ public final class Dnil extends ASTDecls {
         return "";
     }
 
+
     @Override
     public CompilationCouple compiler(int actual) {
         return new CompilationCouple(new JNil(), 0);
@@ -18,6 +19,11 @@ public final class Dnil extends ASTDecls {
 
     @Override
     public void interpreter(Memoire m) {
+
+    }
+
+    @Override
+    public void typeCheck(Memoire m) {
 
     }
 

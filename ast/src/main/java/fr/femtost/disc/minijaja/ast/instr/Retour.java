@@ -44,4 +44,9 @@ public class Retour extends ASTInstr {
 
     }
 
+
+    @Override
+    public void typeCheck(Memoire m) {
+
+    }
 }

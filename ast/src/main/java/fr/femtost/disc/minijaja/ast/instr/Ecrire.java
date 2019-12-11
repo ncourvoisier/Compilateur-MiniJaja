@@ -47,4 +47,9 @@ public class Ecrire extends ASTInstr {
 
     }
 
+
+    @Override
+    public void typeCheck(Memoire m) {
+
+    }
 }

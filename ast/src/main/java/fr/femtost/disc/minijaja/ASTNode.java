@@ -9,9 +9,10 @@ public abstract class ASTNode {
 
     public abstract String rewrite();
 
-    public void typeCheck(Memoire m){
-        //remettre en abstract a la fin du dev
-    }
+//    public void typeCheck(Memoire m){
+//        //remettre en abstract a la fin du dev
+//    }
+    abstract public void typeCheck(Memoire m);
 
     public int getLine(){
         return this.line;

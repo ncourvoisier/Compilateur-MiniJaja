@@ -62,4 +62,10 @@ public class EChain extends ASTEntetes {
         successor.retirer(m);
         node.retirer(m);
     }
+
+
+    @Override
+    public void typeCheck(Memoire m) {
+
+    }
 }

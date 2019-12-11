@@ -140,10 +140,6 @@ public class Controller implements Initializable {
         }
     }
 
-
-
-
-
     private static void stringToFile(File file, String code) {
         try {
             PrintWriter pw = new PrintWriter(file);
@@ -174,6 +170,7 @@ public class Controller implements Initializable {
             ASTClass cla = sc.S();
             Memoire m = new Memoire(1000);
             cla.interpreter(m);
+            System.out.println("Affichage de la pile :" + m.getPile().toString());
         } catch (Exception e) {
             e.printStackTrace();
         }

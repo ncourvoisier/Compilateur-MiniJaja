@@ -22,6 +22,11 @@ public final class Entier extends ASTType {
     }
 
     @Override
+    public void typeCheck(Memoire m) {
+
+    }
+
+    @Override
     public JCType getType() {
         return JCType.ENTIER;
     }

@@ -53,4 +53,9 @@ public class DChain extends ASTDecls {
         node.retirer(m);
     }
 
+    @Override
+    public void typeCheck(Memoire m) {
+        node.typeCheck(m);
+        successor.typeCheck(m);
+    }
 }

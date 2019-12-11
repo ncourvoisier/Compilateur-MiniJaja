@@ -30,4 +30,10 @@ public final class Enil extends ASTEntetes {
     public int getChainPosition() {
         return 0;
     }
+
+
+    @Override
+    public void typeCheck(Memoire m) {
+
+    }
 }

@@ -40,6 +40,14 @@ public class Not extends ASTExpr {
     }
 
     @Override
+    public void typeCheck(Memoire m) {
+        Boolean e = (Boolean) expr.eval(m);
+        if (e == null) {
+            System.out.println(e + "is not initialize.");
+        }
+    }
+
+    @Override
     public Object eval(Memoire m) {
         Boolean e = (Boolean) expr.eval(m);
         return !e;
