@@ -27,16 +27,6 @@ public class Nbre extends ASTExpr {
     }
 
     @Override
-    public void interpreter(Memoire m) {
-
-    }
-
-    @Override
-    public void retirer(Memoire m) {
-
-    }
-
-    @Override
     public void typeCheck(Memoire m) {
 
     }

@@ -6,6 +6,7 @@ import fr.femtost.disc.minijaja.ast.ASTVars;
 import fr.femtost.disc.minijaja.jcodes.JNil;
 
 public final class Vnil extends ASTVars {
+
     @Override
     public String rewrite() {
         return "";
@@ -19,12 +20,12 @@ public final class Vnil extends ASTVars {
 
     @Override
     public void interpreter(Memoire m) {
-
+        //noop
     }
 
     @Override
     public void retirer(Memoire m) {
-
+        //noop
     }
 
 

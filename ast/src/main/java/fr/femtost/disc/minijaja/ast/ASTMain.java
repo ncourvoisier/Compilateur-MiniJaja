@@ -47,7 +47,7 @@ public class ASTMain extends ASTNode {
 
     @Override
     public void retirer(Memoire m) {
-
+        throw new UnsupportedOperationException("Retrait de methode");
     }
 
     @Override
