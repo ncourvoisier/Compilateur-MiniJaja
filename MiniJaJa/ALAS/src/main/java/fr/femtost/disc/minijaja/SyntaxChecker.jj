@@ -175,7 +175,7 @@ ASTEntetes EntetesP(ASTEntete e): {ASTEntetes ep;}{
 }
 
 ASTEntete Entete(): {Token t1; ASTType t2;} {
-     t2 = Type() t1 = <IDENT> {ASTEntete =  new ASTEntete(new Identifiant(t1.image),t2); ret.setPosition(t.beginLine,t.beginColumn); return ret;}
+     t2 = Type() t1 = <IDENT> {ASTEntete ret =  new ASTEntete(new Identifiant(t1.image),t2); ret.setPosition(t1.beginLine,t1.beginColumn); return ret;}
 }
 /*
 ASTEntete Entete(): {ASTEntete ls;} {
@@ -204,17 +204,17 @@ ASTInstr Instr(): {Token t; ASTExpr e;ASTListExpr exp; ASTInstrs instrs, instrs1
     )
     | <RETURN> e = Exp() {
         ASTInstr ret = new Retour(e);
-        ret.setPosition(t.beginLine,t.beginColumn);
+        //ret.setPosition(t.beginLine,t.beginColumn);
         return ret;
     }
     | <WRITE> <PARRG>  (t = <IDENT> <PARRD> {ASTInstr ret = new Ecrire(new Identifiant(t.image)); ret.setPosition(t.beginLine,t.beginColumn); return ret;}
     | t = <STRING> <PARRD> {ASTInstr ret = new Ecrire(new HardcodedString(t.image)); ret.setPosition(t.beginLine,t.beginColumn); return ret;})
     | <WRITELN> <PARRG>  (t = <STRING> <PARRD> {ASTInstr ret = new EcrireLn(new HardcodedString(t.image));ret.setPosition(t.beginLine,t.beginColumn); return ret; } |t = <IDENT> <PARRD> {ASTInstr ret = new EcrireLn(new Identifiant(t.image)); ret.setPosition(t.beginLine,t.beginColumn); return ret;})
     | <IF> e = Exp() <ACCG> instrs = Instrs() <ACCD> (
-        <ELSE><ACCG> instrs1 = Instrs() <ACCD>{ASTInstr ret = new Si(e,instrs, instrs1); ret.setPosition(t.beginLine,t.beginColumn); return ret;}
-        | {ASTInstr ret = new Si(e,instrs, new Inil());ret.setPosition(t.beginLine,t.beginColumn); return ret;}
+        <ELSE><ACCG> instrs1 = Instrs() <ACCD>{ASTInstr ret = new Si(e,instrs, instrs1); /*ret.setPosition(t.beginLine,t.beginColumn);*/ return ret;}
+        | {ASTInstr ret = new Si(e,instrs, new Inil());/*ret.setPosition(t.beginLine,t.beginColumn)*/; return ret;}
     )
-    | <WHILE> <PARRG>e =  Exp() <PARRD> <ACCG>instrs = Instrs()<ACCD>{ASTInstr ret = new TantQue(e,instrs);ret.setPosition(t.beginLine,t.beginColumn); return ret;}
+    | <WHILE> <PARRG>e =  Exp() <PARRD> <ACCG>instrs = Instrs()<ACCD>{ASTInstr ret = new TantQue(e,instrs);/*ret.setPosition(t.beginLine,t.beginColumn)*/; return ret;}
 }
 
 
@@ -306,12 +306,12 @@ ASTExpr Fact(): {Token t; ASTExpr e;} {
     }
     |<VRAI> {
         ASTExpr ret = new BoolVal(true);
-        ret.setPosition(t.beginLine,t.beginColumn);
+        //ret.setPosition(t.beginLine,t.beginColumn);
         return ret;
     }
     |<FAUX> {
         ASTExpr ret = new BoolVal(false);
-         ret.setPosition(t.beginLine,t.beginColumn);
+         //ret.setPosition(t.beginLine,t.beginColumn);
         return ret;
     }
     |t = <NOMBRE> {
@@ -320,7 +320,7 @@ ASTExpr Fact(): {Token t; ASTExpr e;} {
         return ret;
     }
     |<PARRG> e = Exp()<PARRD> {
-        e.setPosition(t.beginLine,t.beginColumn);
+        //e.setPosition(t.beginLine,t.beginColumn);
         return e;
     }
 }
