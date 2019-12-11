@@ -3,6 +3,7 @@ package fr.femtost.disc.minijaja.ast.listexpr;
 
 import fr.femtost.disc.minijaja.CompilationCouple;
 import fr.femtost.disc.minijaja.JCodes;
+import fr.femtost.disc.minijaja.Memoire;
 import fr.femtost.disc.minijaja.ast.ASTExpr;
 import fr.femtost.disc.minijaja.ast.ASTListExpr;
 import fr.femtost.disc.minijaja.jcode.Pop;
