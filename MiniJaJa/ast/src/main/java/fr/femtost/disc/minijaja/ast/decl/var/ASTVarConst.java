@@ -13,11 +13,6 @@ public class ASTVarConst extends ASTVar {
 
     private ASTType type;
 
-    public ASTVarConst(ASTType type, Identifiant identifiant) {
-        super(identifiant);
-        this.type = type;
-    }
-
     public ASTVarConst(ASTType type, Identifiant identifiant, ASTExpr expr) {
         super(identifiant, expr);
         this.type = type;
@@ -70,8 +65,5 @@ public class ASTVarConst extends ASTVar {
             ASTLogger.getInstance().logError("Impossible de retirer la variable " + identifiant.getName());
         }
     }
-
-
-
 
 }
