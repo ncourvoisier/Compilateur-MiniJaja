@@ -165,10 +165,12 @@ public class Controller implements Initializable {
     }
 
     public void run(ActionEvent actionEvent) {
+        System.out.println("Affichage de la pile :");
         SyntaxChecker sc = new SyntaxChecker(new java.io.StringReader(code.getText()));
         try {
             ASTClass cla = sc.S();
             Memoire m = new Memoire(1000);
+            //cla.typecheck(m);
             cla.interpreter(m);
             System.out.println("Affichage de la pile :" + m.getPile().toString());
         } catch (Exception e) {
