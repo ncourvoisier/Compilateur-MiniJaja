@@ -16,27 +16,13 @@ public class Not extends ASTExpr {
 
     @Override
     public String rewrite() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("!");
-        sb.append(expr.rewrite());
-
-        return sb.toString();
+        return "!" + expr.rewrite();
     }
 
     @Override
     public CompilationCouple compiler(int actual) {
         CompilationCouple e = expr.compiler(actual);
         return new CompilationCouple(JCodes.concatRight(e.jCodes, new OpUnaire(OpUnaire.Operandes.NOT)), e.taille + 1);
-    }
-
-    @Override
-    public void interpreter(Memoire m) {
-
-    }
-
-    @Override
-    public void retirer(Memoire m) {
-
     }
 
     @Override

@@ -8,11 +8,11 @@ public abstract class ASTExpr extends ASTNode {
 
     @Override
     public void interpreter(Memoire m) {
-
+        throw new UnsupportedOperationException("Interpretation sur expression");
     }
 
     @Override
     public void retirer(Memoire m) {
-
+        throw new UnsupportedOperationException("Retrait sur expression");
     }
 }

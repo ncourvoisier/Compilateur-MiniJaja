@@ -6,19 +6,9 @@ import fr.femtost.disc.minijaja.Sorte;
 
 public final class Entier extends ASTType {
 
-
+    @Override
     public String rewrite() {
         return "int";
-    }
-
-    @Override
-    public void interpreter(Memoire m) {
-
-    }
-
-    @Override
-    public void retirer(Memoire m) {
-
     }
 
     @Override

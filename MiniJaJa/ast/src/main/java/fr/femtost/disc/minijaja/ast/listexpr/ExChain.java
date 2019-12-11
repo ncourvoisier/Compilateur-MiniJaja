@@ -3,7 +3,6 @@ package fr.femtost.disc.minijaja.ast.listexpr;
 
 import fr.femtost.disc.minijaja.CompilationCouple;
 import fr.femtost.disc.minijaja.JCodes;
-import fr.femtost.disc.minijaja.Memoire;
 import fr.femtost.disc.minijaja.ast.ASTExpr;
 import fr.femtost.disc.minijaja.ast.ASTListExpr;
 import fr.femtost.disc.minijaja.jcode.Pop;
@@ -53,16 +52,6 @@ public class ExChain extends ASTListExpr {
         CompilationCouple retrait = successor.retirerCompile(actual);
 
         return new CompilationCouple(JCodes.concatLeft(new Swap(), JCodes.concatLeft(new Pop(), retrait.jCodes)), retrait.taille + 2);
-    }
-
-    @Override
-    public void interpreter(Memoire m) {
-
-    }
-
-    @Override
-    public void retirer(Memoire m) {
-
     }
 
     @Override
