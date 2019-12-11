@@ -112,10 +112,10 @@ ASTDecls Decls(): {ASTDecls ds; ASTDecl d;} {
 //void Decl(): {} {Var() | Methode()}
 ASTDecl Decl(): {ASTTypeMeth me; ASTExpr e; Token t; ASTDecl d;ASTType astt;}
 {   me =TypeMeth() d =DeclP(me) {return d;}
-    |  <FINAL> astt = Type() t = <IDENT> e =Vexp(){return new ASTVarConst(astt,new Identifiant(t.image),e);}}
+    |  <FINAL> astt = Type() t = <IDENT> e =Vexp(){ASTDecl ret =  new ASTVarConst(astt,new Identifiant(t.image),e);ret.setPosition(t.beginLine,t.beginColumn); return ret;}}
 
 ASTDecl DeclP(ASTTypeMeth me): {Token t; ASTEntetes e; ASTVars v; ASTInstrs iss; ASTExpr ex;}
-{ t = <IDENT>(<PARRG> e = Entetes()<PARRD><ACCG>v =Vars() iss =Instrs()<ACCD> {return new ASTMethode(me,new Identifiant(t.image),e,v,iss);}| <TABG> ex =Exp()<TABD> {return new ASTVarTableau(new Identifiant(t.image),ex,me);}| ex =Vexp(){return new ASTVarSimple(new Identifiant(t.image),ex,me);})}
+{ t = <IDENT>(<PARRG> e = Entetes()<PARRD><ACCG>v =Vars() iss =Instrs()<ACCD> {ASTDecl ret =  new ASTMethode(me,new Identifiant(t.image),e,v,iss);ret.setPosition(t.beginLine,t.beginColumn); return ret;}| <TABG> ex =Exp()<TABD> {ASTDecl ret = new ASTVarTableau(new Identifiant(t.image),ex,me);ret.setPosition(t.beginLine,t.beginColumn); return ret;}| ex =Vexp(){ASTDecl ret =  new ASTVarSimple(new Identifiant(t.image),ex,me);ret.setPosition(t.beginLine,t.beginColumn); return ret;})}
 
 /*ASTDecl DeclP(Token t): {ASTEntetes es; ASTVars vs; ASTInstrs iss; ASTExp e; ASTExp ve}{
         <IDENT> <PARRG>es = Entetes()<PARRD> <ACCG> vs = Vars() iss=Instrs() <ACCD>{return new ASTMethode()}
@@ -133,14 +133,14 @@ ASTVars Vars(): {ASTVar v; ASTVars vs;}{
 //void Var(): {} {TypeMeth()  VarP() | <FINAL> TypeMeth() <IDENT>Vexp() }
 ASTVar Var(): {ASTTypeMeth tm; ASTVar vp; ASTExpr e;Token t;ASTType astt;}{
     tm = TypeMeth() vp = VarP(tm) {return vp;}
-    | <FINAL>  astt= Type() t = <IDENT> e = Vexp() {return new ASTVarConst(astt,new Identifiant(t.image),e);}
+    | <FINAL>  astt= Type() t = <IDENT> e = Vexp() {ASTVar ret = new ASTVarConst(astt,new Identifiant(t.image),e);ret.setPosition(t.beginLine,t.beginColumn); return ret;}
 }
 //void VarP(): {} {<IDENT>(<TABG> Exp()<TABD>|Vexp())}//On a inversé les deux parties du ou logique et ça marche miraculeusement
 
 ASTVar VarP(ASTTypeMeth me): {Token t; ASTExpr e;}{
     t = <IDENT>
-        (<TABG> e = Exp() <TABD> {return new ASTVarTableau(new Identifiant(t.image),e,me);}
-          | e = Vexp() {return new ASTVarSimple(new Identifiant(t.image),e,me);}
+        (<TABG> e = Exp() <TABD> {ASTVar ret =  new ASTVarTableau(new Identifiant(t.image),e,me); ret.setPosition(t.beginLine,t.beginColumn); return ret;}
+          | e = Vexp() {ASTVar ret = new ASTVarSimple(new Identifiant(t.image),e,me);ret.setPosition(t.beginLine,t.beginColumn); return ret;}
         )
 }//Verifier le return et la sont entete
 
@@ -154,7 +154,7 @@ ASTExpr Vexp(): {ASTExpr e;} {
 
 //void Methode(): {} {TypeMeth() <IDENT><PARRG>Entetes()<PARRD><ACCG>Vars() Instrs()<ACCD>}
 ASTMethode Methode(): {ASTTypeMeth tm; Token t; ASTEntetes et; ASTVars v; ASTInstrs iss;}{
-    tm = TypeMeth() t=<IDENT><PARRG> et = Entetes()<PARRD><ACCG>v = Vars() iss = Instrs()<ACCD>{return new ASTMethode(tm,new Identifiant(t.image),et,v,iss);}
+    tm = TypeMeth() t=<IDENT><PARRG> et = Entetes()<PARRD><ACCG>v = Vars() iss = Instrs()<ACCD>{ASTMethode ret = new ASTMethode(tm,new Identifiant(t.image),et,v,iss);ret.setPosition(t.beginLine,t.beginColumn); return ret;}
 }
 //void Methmain(): {} {<MAIN> <ACCG> Vars() Instrs()<ACCD>}
 ASTMain Methmain(): {ASTVars v; ASTInstrs iss;}{
@@ -175,7 +175,7 @@ ASTEntetes EntetesP(ASTEntete e): {ASTEntetes ep;}{
 }
 
 ASTEntete Entete(): {Token t1; ASTType t2;} {
-     t2 = Type() t1 = <IDENT> {return new ASTEntete(new Identifiant(t1.image),t2);}
+     t2 = Type() t1 = <IDENT> {ASTEntete =  new ASTEntete(new Identifiant(t1.image),t2); ret.setPosition(t.beginLine,t.beginColumn); return ret;}
 }
 /*
 ASTEntete Entete(): {ASTEntete ls;} {
@@ -195,17 +195,26 @@ ASTInstrs Instrs(): {ASTInstr is; ASTInstrs iss;}{
 //void Instr(): {} {<IDENT>((Ident1()InstrP())|<PARRG> Listexp() <PARRD>) | <RETURN> Exp() | <WRITE> <PARRG> (<IDENT> | <STRING>) <PARRD> | <WRITELN> <PARRG> (<IDENT> | <STRING>) <PARRD> | <IF> Exp() <ACCG> Instrs() <ACCD> ( <ELSE><ACCG> Instrs() <ACCD> )? | <WHILE> <PARRG> Exp() <PARRD> <ACCG>Instrs()<ACCD> }
 ASTInstr Instr(): {Token t; ASTExpr e;ASTListExpr exp; ASTInstrs instrs, instrs1; ASTInstr ins;}{
     t = <IDENT> (
-        ins = InstrP(t) {return ins;}
-        | <PARRG> exp = Listexp() <PARRD> {return new AppelI(new Identifiant(t.image), exp);}
+        ins = InstrP(t) {ins.setPosition(t.beginLine,t.beginColumn);return ins;}
+        | <PARRG> exp = Listexp() <PARRD> {
+            ASTInstr ret =  new AppelI(new Identifiant(t.image), exp);
+            ret.setPosition(t.beginLine,t.beginColumn);
+            return ret;
+        }
     )
-    | <RETURN> e = Exp() {return new Retour(e);}
-    | <WRITE> <PARRG>  (t = <IDENT> <PARRD> {return new Ecrire(new Identifiant(t.image));} | t = <STRING> <PARRD> {return new Ecrire(new HardcodedString(t.image));})
-    | <WRITELN> <PARRG>  (t = <STRING> <PARRD> {return new EcrireLn(new HardcodedString(t.image));} |t = <IDENT> <PARRD> {return new EcrireLn(new Identifiant(t.image));})
+    | <RETURN> e = Exp() {
+        ASTInstr ret = new Retour(e);
+        ret.setPosition(t.beginLine,t.beginColumn);
+        return ret;
+    }
+    | <WRITE> <PARRG>  (t = <IDENT> <PARRD> {ASTInstr ret = new Ecrire(new Identifiant(t.image)); ret.setPosition(t.beginLine,t.beginColumn); return ret;}
+    | t = <STRING> <PARRD> {ASTInstr ret = new Ecrire(new HardcodedString(t.image)); ret.setPosition(t.beginLine,t.beginColumn); return ret;})
+    | <WRITELN> <PARRG>  (t = <STRING> <PARRD> {ASTInstr ret = new EcrireLn(new HardcodedString(t.image));ret.setPosition(t.beginLine,t.beginColumn); return ret; } |t = <IDENT> <PARRD> {ASTInstr ret = new EcrireLn(new Identifiant(t.image)); ret.setPosition(t.beginLine,t.beginColumn); return ret;})
     | <IF> e = Exp() <ACCG> instrs = Instrs() <ACCD> (
-        <ELSE><ACCG> instrs1 = Instrs() <ACCD>{return new Si(e,instrs, instrs1);}
-        | {return new Si(e,instrs, new Inil());}
+        <ELSE><ACCG> instrs1 = Instrs() <ACCD>{ASTInstr ret = new Si(e,instrs, instrs1); ret.setPosition(t.beginLine,t.beginColumn); return ret;}
+        | {ASTInstr ret = new Si(e,instrs, new Inil());ret.setPosition(t.beginLine,t.beginColumn); return ret;}
     )
-    | <WHILE> <PARRG>e =  Exp() <PARRD> <ACCG>instrs = Instrs()<ACCD>{return new TantQue(e,instrs);}
+    | <WHILE> <PARRG>e =  Exp() <PARRD> <ACCG>instrs = Instrs()<ACCD>{ASTInstr ret = new TantQue(e,instrs);ret.setPosition(t.beginLine,t.beginColumn); return ret;}
 }
 
 
@@ -267,7 +276,12 @@ ASTExpr Exp2(): {ASTExpr expr;} {
 }//corrige la rec à gauche de Exp2 => à vérifier
 
 ASTExpr Exp2P(ASTExpr left): {ASTExpr result;} {
-    <PLUS> result = Terme() {result = new Binop(Binop.Operandes.ADDITION, left, result);} result = Exp2P(result) {return result;}
+    <PLUS> result = Terme() {result = new Binop(Binop.Operandes.ADDITION, left, result);} result = Exp2P(result) {
+    int posL = left.getLine();
+    int posC = left.getColumn();
+    result.setPosition(posL,posC);
+    return result;
+    }
     | <MOINS> result = Terme() {result = new Binop(Binop.Operandes.SOUSTRACTION, left, result);} result = Exp2P(result) {return result;}
     | {return left;}
 }//corrige la rec à gauche de Exp2 => à vérifier
@@ -285,11 +299,30 @@ ASTExpr TermeP(ASTExpr left): {ASTExpr result;}{
 }//corrige la rec à gauche de Exp2 => à vérifier
 
 ASTExpr Fact(): {Token t; ASTExpr e;} {
-    t = <IDENT> e = FactP(t) {return e;}
-    |<VRAI> {return new BoolVal(true);}
-    |<FAUX> {return new BoolVal(false);}
-    |t = <NOMBRE> {return new Nbre(Integer.parseInt(t.image));}
-    |<PARRG> e = Exp()<PARRD> {return e;}
+    t = <IDENT> e = FactP(t) {
+        ASTExpr ret  = e;
+        ret.setPosition(t.beginLine,t.beginColumn);
+        return e;
+    }
+    |<VRAI> {
+        ASTExpr ret = new BoolVal(true);
+        ret.setPosition(t.beginLine,t.beginColumn);
+        return ret;
+    }
+    |<FAUX> {
+        ASTExpr ret = new BoolVal(false);
+         ret.setPosition(t.beginLine,t.beginColumn);
+        return ret;
+    }
+    |t = <NOMBRE> {
+        ASTExpr ret = new Nbre(Integer.parseInt(t.image));
+        ret.setPosition(t.beginLine,t.beginColumn);
+        return ret;
+    }
+    |<PARRG> e = Exp()<PARRD> {
+        e.setPosition(t.beginLine,t.beginColumn);
+        return e;
+    }
 }
 
 ASTExpr FactP(Token t): {ASTExpr e; ASTListExpr ls;}{
