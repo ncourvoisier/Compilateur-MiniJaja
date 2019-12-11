@@ -13,7 +13,8 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("../../../sample/sample.fxml"));
+//        Parent root = FXMLLoader.load(getClass().getResource("../../../sample/sample.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("../../../sample.fxml"));
         primaryStage.setTitle("Compilateur 5");
         Scene sc = new Scene(root, 995, 660);
         primaryStage.setScene(sc);

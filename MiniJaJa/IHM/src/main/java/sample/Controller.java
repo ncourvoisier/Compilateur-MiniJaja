@@ -170,7 +170,9 @@ public class Controller implements Initializable {
         try {
             ASTClass cla = sc.S();
             Memoire m = new Memoire(1000);
-            //cla.typecheck(m);
+            System.out.println("TypeCheck");
+            cla.typeCheck(m);
+            System.out.println("Interpreter");
             cla.interpreter(m);
             System.out.println("Affichage de la pile :" + m.getPile().toString());
         } catch (Exception e) {
