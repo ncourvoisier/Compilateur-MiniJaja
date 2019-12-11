@@ -112,8 +112,10 @@ ASTDecl Decl(): {ASTTypeMeth me; ASTExpr e; Token t; ASTDecl d;ASTType astt;}
 {   me =TypeMeth() d =DeclP(me) {return d;}
     |  <FINAL> astt = Type() t = <IDENT> e =Vexp(){ASTDecl ret =  new ASTVarConst(astt,new Identifiant(t.image),e);ret.setPosition(t.beginLine,t.beginColumn); return ret;}}
 
-ASTDecl DeclP(ASTTypeMeth me): {Token t; ASTEntetes e; ASTVars v; ASTInstrs iss; ASTExpr ex;}
-{ t = <IDENT>(<PARRG> e = Entetes()<PARRD><ACCG>v =Vars() iss =Instrs()<ACCD> {ASTDecl ret =  new ASTMethode(me,new Identifiant(t.image),e,v,iss);ret.setPosition(t.beginLine,t.beginColumn); return ret;}| <TABG> ex =Exp()<TABD> {ASTDecl ret = new ASTVarTableau(new Identifiant(t.image),ex,me);ret.setPosition(t.beginLine,t.beginColumn); return ret;}| ex =Vexp(){ASTDecl ret =  new ASTVarSimple(new Identifiant(t.image),ex,me);ret.setPosition(t.beginLine,t.beginColumn); return ret;})}
+ASTDecl DeclP(ASTTypeMeth me): {Token t; ASTEntetes e; ASTVars v; ASTInstrs iss; ASTExpr ex;}{
+    t = <IDENT>(<PARRG> e = Entetes()<PARRD><ACCG>v =Vars() iss =Instrs()<ACCD> {ASTDecl ret =  new ASTMethode(me,new Identifiant(t.image),e,v,iss);ret.setPosition(t.beginLine,t.beginColumn); return ret;}
+|   <TABG> ex =Exp()<TABD> {ASTDecl ret = new ASTVarTableau(me, new Identifiant(t.image),ex);ret.setPosition(t.beginLine,t.beginColumn); return ret;}
+|   ex =Vexp(){ASTDecl ret =  new ASTVarSimple(me, new Identifiant(t.image),ex);ret.setPosition(t.beginLine,t.beginColumn); return ret;})}
 
 ASTVars Vars(): {ASTVar v; ASTVars vs;}{
     v = Var() <PV> vs = Vars() {return new VChain(v,vs);}
@@ -127,8 +129,8 @@ ASTVar Var(): {ASTTypeMeth tm; ASTVar vp; ASTExpr e;Token t;ASTType astt;}{
 
 ASTVar VarP(ASTTypeMeth me): {Token t; ASTExpr e;}{
     t = <IDENT>
-        (<TABG> e = Exp() <TABD> {ASTVar ret =  new ASTVarTableau(new Identifiant(t.image),e,me); ret.setPosition(t.beginLine,t.beginColumn); return ret;}
-          | e = Vexp() {ASTVar ret = new ASTVarSimple(new Identifiant(t.image),e,me);ret.setPosition(t.beginLine,t.beginColumn); return ret;}
+        (<TABG> e = Exp() <TABD> {ASTVar ret =  new ASTVarTableau(me, new Identifiant(t.image),e); ret.setPosition(t.beginLine,t.beginColumn); return ret;}
+          | e = Vexp() {ASTVar ret = new ASTVarSimple(me, new Identifiant(t.image),e);ret.setPosition(t.beginLine,t.beginColumn); return ret;}
         )
 }
 

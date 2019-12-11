@@ -13,18 +13,9 @@ public class ASTVarSimple extends ASTVar {
 
     private ASTTypeMeth typeMeth;
 
-    public ASTVarSimple(Identifiant identifiant, ASTTypeMeth typeMeth) {
-        super(identifiant);
-        this.typeMeth = typeMeth;
-    }
-
-    public ASTVarSimple(Identifiant identifiant, ASTExpr expr, ASTTypeMeth typeMeth) {
+    public ASTVarSimple(ASTTypeMeth typeMeth, Identifiant identifiant, ASTExpr expr) {
         super(identifiant, expr);
         this.typeMeth = typeMeth;
-    }
-
-    public ASTTypeMeth getTypeMeth() {
-        return typeMeth;
     }
 
     @Override
@@ -47,15 +38,6 @@ public class ASTVarSimple extends ASTVar {
     public void interpreter(Memoire m) {
         Object v = expr.eval(m);
         m.getPile().DeclVar(identifiant.getName(),v,typeMeth.getSorte());
-    }
-
-    @Override
-    public void retirer(Memoire m) {
-        try {
-            m.getPile().RetirerDecl(identifiant.getName());
-        } catch (PileException e) {
-            ASTLogger.getInstance().logError("Impossible de retirer la variable " + identifiant.getName());
-        }
     }
 
     @Override

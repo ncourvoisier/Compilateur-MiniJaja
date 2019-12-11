@@ -12,8 +12,8 @@ import fr.femtost.disc.minijaja.jcode.oper.OpUnaire;
 
 public class TantQue extends ASTInstr {
 
-    ASTInstrs instrs;
-    ASTExpr expr;
+    private ASTInstrs instrs;
+    private ASTExpr expr;
 
     public TantQue(ASTExpr expr, ASTInstrs instrs) {
         this.instrs = instrs;
@@ -48,11 +48,6 @@ public class TantQue extends ASTInstr {
             instrs.interpreter(m);
             this.interpreter(m);
         }
-    }
-
-    @Override
-    public void retirer(Memoire m) {
-
     }
 
     @Override

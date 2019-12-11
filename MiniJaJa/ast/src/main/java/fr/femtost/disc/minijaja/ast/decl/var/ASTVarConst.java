@@ -54,16 +54,6 @@ public class ASTVarConst extends ASTVar {
     public void interpreter(Memoire m) {
         Object v = expr.eval(m);
         m.getPile().DeclCst(identifiant.getName(),v,type.getSorte());
-
-    }
-
-    @Override
-    public void retirer(Memoire m) {
-        try {
-            m.getPile().RetirerDecl(identifiant.getName());
-        } catch (PileException e) {
-            ASTLogger.getInstance().logError("Impossible de retirer la variable " + identifiant.getName());
-        }
     }
 
 }

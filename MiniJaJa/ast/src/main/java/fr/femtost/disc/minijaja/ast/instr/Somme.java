@@ -21,11 +21,9 @@ public class Somme extends ASTInstr {
     @Override
     public String rewrite() {
         StringBuilder sb = new StringBuilder();
-        sb.append("(");
         sb.append(ident.rewrite());
         sb.append("+=");
         sb.append(expr.rewrite());
-        sb.append(")");
         return sb.toString();
     }
 
@@ -46,24 +44,19 @@ public class Somme extends ASTInstr {
         if(ident instanceof Tableau)
         {
             int v2 = ((Tableau) ident).evalIndex(m);
-            try{m.getPile().AffecterValT(ident.getName(),(int)m.getPile().ValT(ident.getName(),v2)+(int)v,v2);}
-            catch (PileException e){
-                ASTLogger.getInstance().logError(e.toString());
+            try {
+                m.getPile().AffecterValT(ident.getName(),(int)m.getPile().ValT(ident.getName(),v2)+(int)v,v2);
+            } catch (PileException e){
+                ASTLogger.getInstance().logError(e.getMessage());
             }
         }
         else {
             try {
                 m.getPile().AffecterVal(ident.getName(),(int)(m.getPile().Val(ident.getName()))+(int)v);
             } catch (PileException e) {
-                ASTLogger.getInstance().logError(e.toString());
+                ASTLogger.getInstance().logError(e.getMessage());
             }
         }
-    }
-
-
-    @Override
-    public void retirer(Memoire m) {
-
     }
 
     @Override

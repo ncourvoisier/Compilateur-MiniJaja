@@ -15,6 +15,7 @@ public class IChain extends ASTInstrs {
         this.node = node;
     }
 
+    @Override
     public String rewrite() {
         StringBuilder sb = new StringBuilder();
 
@@ -35,13 +36,8 @@ public class IChain extends ASTInstrs {
 
     @Override
     public void interpreter(Memoire m) {
-    node.interpreter(m);
-    successor.interpreter(m);
-    }
-
-    @Override
-    public void retirer(Memoire m) {
-
+        node.interpreter(m);
+        successor.interpreter(m);
     }
 
     @Override

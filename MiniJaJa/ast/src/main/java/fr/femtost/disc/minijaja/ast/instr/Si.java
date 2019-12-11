@@ -1,15 +1,12 @@
 package fr.femtost.disc.minijaja.ast.instr;
 
 import fr.femtost.disc.minijaja.CompilationCouple;
-import fr.femtost.disc.minijaja.JCode;
 import fr.femtost.disc.minijaja.JCodes;
 import fr.femtost.disc.minijaja.Memoire;
 import fr.femtost.disc.minijaja.ast.ASTExpr;
 import fr.femtost.disc.minijaja.ast.ASTInstr;
 import fr.femtost.disc.minijaja.ast.ASTInstrs;
-import fr.femtost.disc.minijaja.ast.expr.ASTIdentGenerique;
 import fr.femtost.disc.minijaja.ast.instrs.IChain;
-import fr.femtost.disc.minijaja.ast.instrs.Inil;
 import fr.femtost.disc.minijaja.jcode.Goto;
 import fr.femtost.disc.minijaja.jcode.If;
 
@@ -18,12 +15,6 @@ public class Si extends ASTInstr {
     private ASTExpr expr;
     private ASTInstrs instrsIf;
     private ASTInstrs instrsElse;
-
-    public Si(ASTExpr expr, ASTInstrs instrsIf) {
-        this.expr = expr;
-        this.instrsIf = instrsIf;
-        this.instrsElse = new Inil();
-    }
 
     public Si(ASTExpr expr, ASTInstrs instrsIf, ASTInstrs instrsElse) {
         this.expr = expr;
@@ -34,8 +25,8 @@ public class Si extends ASTInstr {
     @Override
     public String rewrite() {
         StringBuilder sb = new StringBuilder();
-        sb.append("if");
-        sb.append(expr.rewrite()).append(" {\n");
+        sb.append("if (");
+        sb.append(expr.rewrite()).append(") {\n");
         sb.append(instrsIf.rewrite()).append("}");
         if (instrsElse instanceof IChain) {
             sb.append(" else {\n");
@@ -66,11 +57,6 @@ public class Si extends ASTInstr {
         } else {
             instrsElse.interpreter(m);
         }
-    }
-
-    @Override
-    public void retirer(Memoire m) {
-
     }
 
     @Override

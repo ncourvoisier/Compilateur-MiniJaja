@@ -19,7 +19,7 @@ public class Retour extends ASTInstr {
     @Override
     public String rewrite() {
         StringBuilder sb = new StringBuilder();
-        sb.append("return");
+        sb.append("return ");
         sb.append(expr.rewrite());
         return sb.toString();
     }
@@ -37,11 +37,6 @@ public class Retour extends ASTInstr {
         } catch (PileException e) {
             ASTLogger.getInstance().logError(e.toString());
         }
-    }
-
-    @Override
-    public void retirer(Memoire m) {
-
     }
 
 

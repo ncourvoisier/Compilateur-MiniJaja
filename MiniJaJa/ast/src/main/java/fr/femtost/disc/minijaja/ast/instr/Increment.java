@@ -45,23 +45,19 @@ public class Increment extends ASTInstr {
         if(identGenerique instanceof Tableau)
         {
             int v = ((Tableau) identGenerique).evalIndex(m);
-            try{m.getPile().AffecterValT(identGenerique.getName(),(int)m.getPile().ValT(identGenerique.getName(),v)+1,v);}
-            catch (PileException e){
-                ASTLogger.getInstance().logError(e.toString());
+            try{
+                m.getPile().AffecterValT(identGenerique.getName(),(int)m.getPile().ValT(identGenerique.getName(),v)+1,v);
+            } catch (PileException e){
+                ASTLogger.getInstance().logError(e.getMessage());
             }
         }
         else {
             try {
                 m.getPile().AffecterVal(identGenerique.getName(),(int)(m.getPile().Val(identGenerique.getName()))+1);
             } catch (PileException e) {
-                ASTLogger.getInstance().logError(e.toString());
+                ASTLogger.getInstance().logError(e.getMessage());
             }
         }
-    }
-
-    @Override
-    public void retirer(Memoire m) {
-
     }
 
 
