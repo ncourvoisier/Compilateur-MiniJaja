@@ -44,4 +44,9 @@ public class Tableau extends ASTIdentGenerique {
     public Object eval(Memoire m) {
         return 0;
     }
+
+    @Override
+    public void typeCheck(Memoire m) {
+
+    }
 }

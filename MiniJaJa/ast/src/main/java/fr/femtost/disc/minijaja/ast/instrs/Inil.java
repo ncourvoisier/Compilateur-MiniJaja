@@ -25,4 +25,9 @@ public final class Inil extends ASTInstrs {
     public void retirer(Memoire m) {
 
     }
+
+    @Override
+    public void typeCheck(Memoire m) {
+
+    }
 }

@@ -48,5 +48,11 @@ public class AppelE extends ASTExpr {
         }
         return null;
     }
+
+
+    @Override
+    public void typeCheck(Memoire m) {
+
+    }
 }
 

@@ -76,11 +76,26 @@ public class Binop extends ASTExpr {
         return new CompilationCouple(JCodes.concatenate(e1.jCodes, JCodes.concatRight(e2.jCodes, new OpBinaire(op.getOperande()))), e1.taille + e2.taille + 1);
     }
 
+
+    @Override
+    public void typeCheck (Memoire m) {
+        Object e1 = expr1.eval(m);
+        Object e2 = expr2.eval(m);
+
+        if (e1 == null) {
+            System.out.println(e1 + "is not initialize.");
+        }
+
+        if (e2 == null) {
+            System.out.println(e1 + "is not initialize.");
+        }
+    }
+
     @Override
     public Object eval(Memoire m) {
         Object e1 = expr1.eval(m);
         Object e2 = expr2.eval(m);
-        System.out.println("e1 : " + e1 + " e2 : " + e2);
+
         switch (op) {
             case ADDITION:
                 return (int)e1 + (int)e2;

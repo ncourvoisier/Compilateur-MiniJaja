@@ -20,4 +20,10 @@ public final class Omega extends ASTExpr {
     public Object eval(Memoire m) {
         return null;
     }
+
+
+    @Override
+    public void typeCheck(Memoire m) {
+
+    }
 }

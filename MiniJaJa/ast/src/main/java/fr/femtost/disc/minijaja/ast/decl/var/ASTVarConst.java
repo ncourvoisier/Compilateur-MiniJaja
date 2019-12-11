@@ -38,9 +38,9 @@ public class ASTVarConst extends ASTVar {
     public void typeCheck(Memoire m) {
         Object v = expr.eval(m);
         //type check
-        if( m.getPile().getTds().chercheQuad(identifiant.getName(),type.getSorte()) == null ){
+        if (m.getPile().getTds().chercheQuad(identifiant.getName(),type.getSorte()) == null) {
             m.getPile().DeclCst(identifiant.getName(),v,type.getSorte());
-        }else{
+        } else {
             System.out.println("Error "+identifiant.getName()+" already declared");
         }
 

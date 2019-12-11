@@ -50,4 +50,10 @@ public class ASTMain extends ASTNode {
 
     }
 
+    @Override
+    public void typeCheck(Memoire m) {
+        vars.typeCheck(m);
+        instrs.typeCheck(m);
+    }
+
 }

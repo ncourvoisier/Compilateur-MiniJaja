@@ -66,4 +66,9 @@ public class ASTClass extends ASTNode
     public void retirer(Memoire m) {
     }
 
+    @Override
+    public void typeCheck(Memoire m) {
+
+    }
+
 }

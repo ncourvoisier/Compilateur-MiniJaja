@@ -58,7 +58,13 @@ public class Affectation extends ASTInstr {
         }
     }
 
-
+    @Override
+    public void typeCheck(Memoire m) {
+        Object v = expr.eval(m);
+        if (v == null) {
+            System.out.println(expr + "is not initialize.");
+        }
+    }
 
     @Override
     public void retirer(Memoire m) {

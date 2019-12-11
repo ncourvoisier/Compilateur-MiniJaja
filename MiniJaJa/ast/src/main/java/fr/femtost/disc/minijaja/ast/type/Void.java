@@ -22,6 +22,11 @@ public final class Void extends ASTTypeMeth {
     }
 
     @Override
+    public void typeCheck(Memoire m) {
+
+    }
+
+    @Override
     public JCType getType() {
         return JCType.VOID;
     }

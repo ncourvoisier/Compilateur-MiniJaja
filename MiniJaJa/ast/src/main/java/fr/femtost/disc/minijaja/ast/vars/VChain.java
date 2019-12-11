@@ -61,4 +61,11 @@ public class VChain extends ASTVars {
         vars.retirer(m);
         var.retirer(m);
     }
+
+
+    @Override
+    public void typeCheck(Memoire m) {
+        vars.typeCheck(m);
+        var.typeCheck(m);
+    }
 }

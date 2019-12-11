@@ -21,6 +21,11 @@ public final class Booleen extends ASTType {
     }
 
     @Override
+    public void typeCheck(Memoire m) {
+
+    }
+
+    @Override
     public JCType getType() {
         return JCType.BOOLEEN;
     }

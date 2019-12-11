@@ -62,4 +62,9 @@ public class ASTEntete extends ASTNode {
             ASTLogger.getInstance().logError(e.getMessage());
         }
     }
+
+    @Override
+    public void typeCheck(Memoire m) {
+
+    }
 }

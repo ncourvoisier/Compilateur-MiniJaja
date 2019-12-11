@@ -38,4 +38,9 @@ public class Identifiant extends ASTIdentGenerique {
         }
         return null;
     }
+
+    @Override
+    public void typeCheck(Memoire m) {
+
+    }
 }
