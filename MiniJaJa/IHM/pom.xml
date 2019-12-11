@@ -8,7 +8,6 @@
     <artifactId>parent</artifactId>
     <version>1.0-SNAPSHOT</version>
   </parent>
-  <groupId>fr.femtost.disc.minijaja</groupId>
   <artifactId>IHM</artifactId>
   <version>1.0-SNAPSHOT</version>
 
@@ -31,6 +30,11 @@
     </dependency>
     <dependency>
       <groupId>fr.femtost.disc.minijaja</groupId>
+      <artifactId>utils</artifactId>
+      <version>1.0-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>fr.femtost.disc.minijaja</groupId>
       <artifactId>ast</artifactId>
       <version>1.0-SNAPSHOT</version>
     </dependency>
@@ -44,23 +48,6 @@
       <artifactId>javafx-controls</artifactId>
       <version>11.0.2</version>
     </dependency>
-      <dependency>
-          <groupId>fr.femtost.disc.minijaja</groupId>
-          <artifactId>ALAS</artifactId>
-          <version>1.0-SNAPSHOT</version>
-      </dependency>
-    <dependency>
-      <groupId>fr.femtost.disc.minijaja</groupId>
-      <artifactId>ALAS</artifactId>
-      <version>1.0-SNAPSHOT</version>
-      <scope>compile</scope>
-    </dependency>
-      <dependency>
-          <groupId>fr.femtost.disc.minijaja</groupId>
-          <artifactId>ALAS</artifactId>
-          <version>1.0-SNAPSHOT</version>
-          <scope>compile</scope>
-      </dependency>
     <dependency>
       <groupId>fr.femtost.disc.minijaja</groupId>
       <artifactId>ALAS</artifactId>

@@ -9,9 +9,9 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>JajaCode</artifactId>
+    <artifactId>utils</artifactId>
 
-    <name>JajaCode</name>
+    <name>utils</name>
     <!-- FIXME change it to the project's website -->
     <url>http://www.example.com</url>
 
@@ -21,22 +21,27 @@
         <maven.compiler.target>1.7</maven.compiler.target>
     </properties>
 
+    <distributionManagement>
+        <repository>
+            <id>nexus-deptinfo</id>
+            <url>
+                https://disc.univ-fcomte.fr/m1gl-nexus/content/repositories/releases/
+            </url>
+        </repository>
+        <snapshotRepository>
+            <id>nexus-deptinfo-snapshots</id>
+            <url>
+                https://disc.univ-fcomte.fr/m1gl-nexus/content/repositories/snapshots/
+            </url>
+        </snapshotRepository>
+    </distributionManagement>
+
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.11</version>
             <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>fr.femtost.disc.minijaja</groupId>
-            <artifactId>utils</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>fr.femtost.disc.minijaja</groupId>
-            <artifactId>memoire</artifactId>
-            <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
 

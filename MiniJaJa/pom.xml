@@ -15,6 +15,7 @@
         <module>ast</module>
         <module>ALAS</module>
         <module>IHM</module>
+        <module>utils</module>
     </modules>
     <distributionManagement>
         <repository>
