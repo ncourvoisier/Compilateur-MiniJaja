@@ -8,12 +8,7 @@ public abstract class ASTNode {
     private int column ;
 
     public abstract String rewrite();
-
-//    public void typeCheck(Memoire m){
-//        //remettre en abstract a la fin du dev
-//    }
     public abstract void typeCheck(Memoire m);
-
     public int getLine(){
         return this.line;
     }
@@ -21,11 +16,9 @@ public abstract class ASTNode {
     {
         return this.column;
     }
-
     public void setLine(int line){
         this.line = line;
     }
-
     public void setColumn(int column){
         this.column = column;
     }
@@ -33,9 +26,7 @@ public abstract class ASTNode {
     public void setPosition (int line , int column){
         this.column = column;
         this.line = line;
-
     }
-
 
     public CompilationCouple compiler(int actual) {
         throw new IllegalArgumentException("Compilation not implemented in " + this.getClass().getName());
@@ -44,7 +35,6 @@ public abstract class ASTNode {
     public CompilationCouple retirerCompile(int actual) {
     return new CompilationCouple(new JNil(), 0);
     }
-
     public abstract void interpreter(Memoire m);
     public abstract void retirer(Memoire m);
 
