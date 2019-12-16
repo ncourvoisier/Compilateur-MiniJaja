@@ -71,6 +71,14 @@ public class Controller implements Initializable {
             }
         });
 
+        ASTLogger log = ASTLogger.getInstance();
+        log.addListener(new ASTLogger.ASTListener() {
+            @Override
+            public void receiveMessage(String message, ASTLogger.MessageLevel level) {
+                sortieConsole.setText(sortieConsole.getText()+"\n"+level+" : "+message);
+            }
+        });
+
     }
 
 
@@ -163,10 +171,12 @@ public class Controller implements Initializable {
         return sRet;
     }
 
+
     public void run(ActionEvent actionEvent) {
         System.out.println("Affichage de la pile :");
         SyntaxChecker sc = new SyntaxChecker(new java.io.StringReader(code.getText()));
         try {
+
             ASTClass cla = sc.S();
             Memoire m = new Memoire(1000);
             System.out.println("TypeCheck");
@@ -174,6 +184,7 @@ public class Controller implements Initializable {
             System.out.println("Interpreter");
             cla.interpreter(m);
             System.out.println("Affichage de la pile :" + m.getPile().toString());
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -186,6 +197,7 @@ public class Controller implements Initializable {
             CompilationCouple cc= cla.compiler(1);
             String result = cc.jCodes.rewriteWithLines();
             sortieConsole.setText(result);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
