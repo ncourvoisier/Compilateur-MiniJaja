@@ -29,6 +29,10 @@ public class Controller implements Initializable {
     public TextArea memoire;
     @FXML
     public TextArea sortieConsole;
+    @FXML
+    public TextArea jajacode;
+    @FXML
+    public TextArea sortieJajacode;
 
     public File pathFile;
 
@@ -61,6 +65,10 @@ public class Controller implements Initializable {
         memoire.setText("memoire");
         memoire.setEditable(false);
         sortieConsole.setText("sortiConsole");
+        jajacode.setText("jajacode");
+        jajacode.setEditable(false);
+        sortieJajacode.setText("sortiejajacode");
+        sortieJajacode.setEditable(false);
 
         Platform.runLater(new Runnable() {
             @Override
@@ -71,11 +79,11 @@ public class Controller implements Initializable {
             }
         });
 
-        ASTLogger log = ASTLogger.getInstance();
-        log.addListener(new ASTLogger.ASTListener() {
+
+        ASTLogger.getInstance().addListener(new ASTLogger.ASTListener() {
             @Override
             public void receiveMessage(String message, ASTLogger.MessageLevel level) {
-                sortieConsole.setText(sortieConsole.getText()+"\n"+level+" : "+message);
+                sortieConsole.setText(sortieConsole.getText() + "\n" + message);
             }
         });
 
@@ -183,7 +191,11 @@ public class Controller implements Initializable {
             cla.typeCheck(m);
             System.out.println("Interpreter");
             cla.interpreter(m);
-            System.out.println("Affichage de la pile :" + m.getPile().toString());
+            if (m.getPile().returnTaillePile() == 0) {
+                memoire.setText("La mémoire est vide.");
+            } else {
+                memoire.setText("Affichage de la pile :" + m.getPile().toString());
+            }
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -196,7 +208,7 @@ public class Controller implements Initializable {
             ASTClass cla = sc.S();
             CompilationCouple cc= cla.compiler(1);
             String result = cc.jCodes.rewriteWithLines();
-            sortieConsole.setText(result);
+            jajacode.setText(result);
 
         } catch (Exception e) {
             e.printStackTrace();

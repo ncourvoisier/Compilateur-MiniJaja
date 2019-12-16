@@ -1,9 +1,11 @@
 package fr.femtost.disc.minijaja.ast.instr;
 
+import fr.femtost.disc.minijaja.ASTLogger;
 import fr.femtost.disc.minijaja.CompilationCouple;
 import fr.femtost.disc.minijaja.JCodes;
 import fr.femtost.disc.minijaja.Memoire;
 import fr.femtost.disc.minijaja.ast.ASTInstr;
+import fr.femtost.disc.minijaja.ast.ASTMain;
 import fr.femtost.disc.minijaja.ast.expr.identificateur.Identifiant;
 import fr.femtost.disc.minijaja.jcode.Write;
 
@@ -40,6 +42,7 @@ public class Ecrire extends ASTInstr {
     public void interpreter(Memoire m) {
         Object v =ident.eval(m);
         System.out.print(v);
+        ASTLogger.getInstance().logInfo(v.toString());
     }
 
     @Override

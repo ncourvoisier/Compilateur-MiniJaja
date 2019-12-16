@@ -1,5 +1,6 @@
 package fr.femtost.disc.minijaja.ast.instr.ecrire;
 
+import fr.femtost.disc.minijaja.ASTLogger;
 import fr.femtost.disc.minijaja.CompilationCouple;
 import fr.femtost.disc.minijaja.JCodes;
 import fr.femtost.disc.minijaja.Memoire;
@@ -30,5 +31,6 @@ public class EcrireLn extends Ecrire {
     public void interpreter(Memoire m) {
         Object v =ident.eval(m);
         System.out.println(v);
+        ASTLogger.getInstance().logInfo(v.toString() + "\n");
     }
 }
