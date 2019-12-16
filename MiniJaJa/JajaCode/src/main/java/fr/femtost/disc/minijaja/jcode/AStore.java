@@ -1,18 +1,30 @@
 package fr.femtost.disc.minijaja.jcode;
 
-import fr.femtost.disc.minijaja.JCIdent;
-import fr.femtost.disc.minijaja.JCode;
+import fr.femtost.disc.minijaja.*;
 
 public class AStore extends JCode {
 
-    JCIdent ident;
+    private String ident;
 
-    public AStore(JCIdent ident) {
+    public AStore(String ident) {
         this.ident = ident;
     }
 
     @Override
     public String rewrite() {
-        return "astore(" + ident.rewrite() + ")";
+        return "astore(" + ident + ")";
+    }
+
+    @Override
+    public int interpreter(Memoire m, int current) {
+        try {
+            Object v = m.getPile().Depiler().getVAL();
+            int index = (int) m.getPile().Depiler().getVAL();
+            m.getPile().AffecterValT(ident, v, index);
+            return current+1;
+        } catch (PileException e) {
+            ASTLogger.getInstance().logError(e.getMessage());
+            return -1;
+        }
     }
 }

@@ -5,7 +5,6 @@ import fr.femtost.disc.minijaja.Memoire;
 import fr.femtost.disc.minijaja.jcode.Push;
 import fr.femtost.disc.minijaja.jcodes.JChain;
 import fr.femtost.disc.minijaja.jcodes.JNil;
-import fr.femtost.disc.minijaja.jcval.JCChain;
 
 public class HardcodedString extends Identifiant {
 
@@ -20,7 +19,7 @@ public class HardcodedString extends Identifiant {
 
     @Override
     public CompilationCouple compiler(int actual) {
-        return new CompilationCouple(new JChain(new Push(new JCChain(name)), new JNil()), 1);
+        return new CompilationCouple(new JChain(new Push(name), new JNil()), 1);
     }
 
     @Override

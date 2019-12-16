@@ -37,7 +37,7 @@ public class AppelI extends ASTInstr {
         CompilationCouple lexp = listExpr.compiler(actual);
         CompilationCouple retrait = listExpr.retirerCompile(actual + lexp.taille + 1);
 
-        return new CompilationCouple(JCodes.concatenate(lexp.jCodes, JCodes.concatLeft(new Invoke(new JCIdent(ident.getName())), JCodes.concatRight(retrait.jCodes, new Pop()))),
+        return new CompilationCouple(JCodes.concatenate(lexp.jCodes, JCodes.concatLeft(new Invoke(ident.getName()), JCodes.concatRight(retrait.jCodes, new Pop()))),
                 lexp.taille + retrait.taille + 2);
     }
 

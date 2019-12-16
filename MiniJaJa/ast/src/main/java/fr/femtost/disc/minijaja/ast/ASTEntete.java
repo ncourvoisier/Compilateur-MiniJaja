@@ -6,7 +6,6 @@ import fr.femtost.disc.minijaja.ast.type.ASTType;
 import fr.femtost.disc.minijaja.jcode.New;
 import fr.femtost.disc.minijaja.jcodes.JChain;
 import fr.femtost.disc.minijaja.jcodes.JNil;
-import fr.femtost.disc.minijaja.jcval.JCNbre;
 
 public class ASTEntete extends ASTNode {
     private Identifiant ident;
@@ -42,7 +41,7 @@ public class ASTEntete extends ASTNode {
 
     @Override
     public CompilationCouple compiler(int actual) {
-        return new CompilationCouple(new JChain(new New(new JCIdent(ident.getName()), type.getType(), JCSorte.VARIABLE, new JCNbre(position)), new JNil()), 1);
+        return new CompilationCouple(new JChain(new New(ident.getName(), type.getSorte(), JCSorte.VARIABLE, position), new JNil()), 1);
     }
 
     @Override

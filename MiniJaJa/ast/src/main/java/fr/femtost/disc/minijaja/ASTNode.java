@@ -29,7 +29,7 @@ public abstract class ASTNode {
     }
 
     public CompilationCouple compiler(int actual) {
-        throw new IllegalArgumentException("Compilation not implemented in " + this.getClass().getName());
+        throw new UnsupportedOperationException("Compilation not implemented in " + this.getClass().getName());
     }
 
     public CompilationCouple retirerCompile(int actual) {

@@ -7,7 +7,6 @@ import fr.femtost.disc.minijaja.ast.expr.Omega;
 import fr.femtost.disc.minijaja.ast.expr.identificateur.Identifiant;
 import fr.femtost.disc.minijaja.ast.type.ASTType;
 import fr.femtost.disc.minijaja.jcode.New;
-import fr.femtost.disc.minijaja.jcval.JCNbre;
 
 public class ASTVarConst extends ASTVar {
 
@@ -47,7 +46,7 @@ public class ASTVarConst extends ASTVar {
     @Override
     public CompilationCouple compiler(int actual) {
         CompilationCouple e = expr.compiler(actual);
-        return new CompilationCouple(JCodes.concatRight(e.jCodes, new New(new JCIdent(identifiant.getName()), type.getType(), JCSorte.CONSTANTE, new JCNbre(0))), e.taille+1);
+        return new CompilationCouple(JCodes.concatRight(e.jCodes, new New(identifiant.getName(), type.getSorte(), JCSorte.CONSTANTE, 0)), e.taille+1);
     }
 
     @Override

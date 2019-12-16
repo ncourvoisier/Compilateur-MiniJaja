@@ -1,5 +1,9 @@
 package fr.femtost.disc.minijaja.jcode.oper;
 
+import fr.femtost.disc.minijaja.ASTLogger;
+import fr.femtost.disc.minijaja.Memoire;
+import fr.femtost.disc.minijaja.PileException;
+import fr.femtost.disc.minijaja.Sorte;
 import fr.femtost.disc.minijaja.jcode.Oper;
 
 public class OpUnaire extends Oper {
@@ -18,5 +22,25 @@ public class OpUnaire extends Oper {
     @Override
     public String rewrite() {
         return op.name().toLowerCase();
+    }
+
+    @Override
+    public int interpreter(Memoire m, int current) {
+        try {
+            Object v = m.getPile().Depiler().getVAL();
+            switch (op) {
+                case NOT:
+                    m.getPile().DeclCst(null, !((boolean)v), Sorte.VOID);
+                    return current+1;
+                case NEG:
+                    m.getPile().DeclCst(null, -((int)v), Sorte.VOID);
+                    return current+1;
+            }
+            ASTLogger.getInstance().logWarning("Unexpected operator:" + op.name());
+            return -1;
+        } catch (PileException e) {
+            ASTLogger.getInstance().logError(e.getMessage());
+            return -1;
+        }
     }
 }

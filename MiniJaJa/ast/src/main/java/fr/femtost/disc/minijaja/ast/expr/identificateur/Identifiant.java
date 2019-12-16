@@ -26,7 +26,7 @@ public class Identifiant extends ASTIdentGenerique {
 
     @Override
     public CompilationCouple compiler(int actual) {
-        return new CompilationCouple(new JChain(new Load(new JCIdent(name)), new JNil()), 1);
+        return new CompilationCouple(new JChain(new Load(name), new JNil()), 1);
     }
 
     @Override

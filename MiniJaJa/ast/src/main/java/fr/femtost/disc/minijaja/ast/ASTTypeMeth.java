@@ -4,7 +4,6 @@ import fr.femtost.disc.minijaja.*;
 
 public abstract class ASTTypeMeth extends ASTNode {
 
-    public abstract JCType getType();
     public abstract Sorte getSorte();
 
     @Override

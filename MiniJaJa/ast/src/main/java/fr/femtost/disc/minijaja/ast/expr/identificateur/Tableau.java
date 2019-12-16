@@ -1,7 +1,6 @@
 package fr.femtost.disc.minijaja.ast.expr.identificateur;
 
 import fr.femtost.disc.minijaja.CompilationCouple;
-import fr.femtost.disc.minijaja.JCIdent;
 import fr.femtost.disc.minijaja.JCodes;
 import fr.femtost.disc.minijaja.Memoire;
 import fr.femtost.disc.minijaja.ast.ASTExpr;
@@ -25,7 +24,7 @@ public class Tableau extends ASTIdentGenerique {
     @Override
     public CompilationCouple compiler(int actual) {
         CompilationCouple i = index.compiler(actual);
-        return new CompilationCouple(JCodes.concatRight(i.jCodes, new ALoad(new JCIdent(name))), i.taille + 1);
+        return new CompilationCouple(JCodes.concatRight(i.jCodes, new ALoad(name)), i.taille + 1);
     }
 
     public CompilationCouple getIndex(int actual) {

@@ -61,4 +61,13 @@ public abstract class JCodes extends JajaNode {
 
         return result.toString();
     }
+
+    public void interpreterFull() {
+        List<JCode> codes = JCodes.asArray(this);
+        int current = 1;
+        Memoire m = new Memoire(4096);
+        while (current > 0) {
+            current = codes.get(current-1).interpreter(m, current);
+        }
+    }
 }
