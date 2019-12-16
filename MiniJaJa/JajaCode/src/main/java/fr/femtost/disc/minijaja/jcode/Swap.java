@@ -18,7 +18,7 @@ public class Swap extends JCode {
             m.getPile().Echanger();
             return current+1;
         } catch (PileException e) {
-            ASTLogger.getInstance().logError(e.getMessage());
+            ASTLogger.getInstance().logErrorJJC(e.getMessage());
             return -1;
         }
     }

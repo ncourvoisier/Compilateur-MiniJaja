@@ -23,7 +23,7 @@ public class AInc extends JCode {
             m.getPile().AffecterValT(ident, (int) m.getPile().ValT(ident, index) + v, index);
             return current+1;
         } catch (PileException e) {
-            ASTLogger.getInstance().logError(e.getMessage());
+            ASTLogger.getInstance().logErrorJJC(e.getMessage());
             return -1;
         }
     }

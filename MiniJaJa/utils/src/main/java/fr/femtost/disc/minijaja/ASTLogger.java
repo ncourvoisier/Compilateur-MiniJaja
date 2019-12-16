@@ -9,7 +9,10 @@ public class ASTLogger {
         INFO,
         DEBUG,
         WARNING,
-        ERROR
+        ERROR,
+        JJC,
+        WARNINGJJC,
+        ERRORJJC
     }
 
     public interface ASTListener {
@@ -51,7 +54,18 @@ public class ASTLogger {
         log(message, MessageLevel.WARNING);
     }
 
+    public void logWarningJJC (String message) {
+        log(message, MessageLevel.WARNINGJJC);
+    }
+
+    public void logJJC (String message) {
+        log(message, MessageLevel.JJC);
+    }
+
     public void logError(String message) {
         log(message, MessageLevel.ERROR);
+    }
+    public void logErrorJJC(String message) {
+        log(message, MessageLevel.ERRORJJC);
     }
 }

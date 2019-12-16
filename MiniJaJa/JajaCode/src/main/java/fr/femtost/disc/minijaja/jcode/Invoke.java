@@ -21,7 +21,7 @@ public class Invoke extends JCode {
         try {
             return (int) m.getPile().Val(ident);
         } catch (PileException e) {
-            ASTLogger.getInstance().logError(e.getMessage());
+            ASTLogger.getInstance().logErrorJJC(e.getMessage());
             return -1;
         }
     }

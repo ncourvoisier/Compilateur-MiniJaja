@@ -23,7 +23,7 @@ public class NewArray extends JCode {
             m.getPile().DeclTab(ident, m.getPile().Depiler().getVAL(),type);
             return current+1;
         } catch (PileException e) {
-            ASTLogger.getInstance().logError(e.getMessage());
+            ASTLogger.getInstance().logErrorJJC(e.getMessage());
             return -1;
         }
     }

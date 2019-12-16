@@ -83,7 +83,29 @@ public class Controller implements Initializable {
         ASTLogger.getInstance().addListener(new ASTLogger.ASTListener() {
             @Override
             public void receiveMessage(String message, ASTLogger.MessageLevel level) {
-                sortieConsole.setText(sortieConsole.getText() + "\n" + message);
+                if (level.equals(ASTLogger.MessageLevel.INFO)) {
+                    sortieConsole.setText(sortieConsole.getText() + "\n" + message);
+                }
+                if(level.equals(ASTLogger.MessageLevel.JJC))
+                {
+                    sortieJajacode.setText(sortieJajacode.getText() + "\n" + message);
+                }
+                if(level.equals(ASTLogger.MessageLevel.WARNINGJJC))
+                {
+                    sortieJajacode.setText(sortieJajacode.getText() + "\n" + message);
+                }
+                if(level.equals(ASTLogger.MessageLevel.WARNING))
+                {
+                    sortieConsole.setText(sortieConsole.getText() + "\n" + message);
+                }
+                if(level.equals(ASTLogger.MessageLevel.ERRORJJC))
+                {
+                    sortieJajacode.setText(sortieJajacode.getText() + "\n" + message);
+                }
+                if(level.equals(ASTLogger.MessageLevel.ERROR))
+                {
+                    sortieConsole.setText(sortieConsole.getText() + "\n" + message);
+                }
             }
         });
 
@@ -191,6 +213,7 @@ public class Controller implements Initializable {
             cla.typeCheck(m);
             System.out.println("Interpreter");
             cla.interpreter(m);
+
             if (m.getPile().returnTaillePile() == 0) {
                 memoire.setText("La mémoire est vide.");
             } else {
@@ -209,6 +232,7 @@ public class Controller implements Initializable {
             CompilationCouple cc= cla.compiler(1);
             String result = cc.jCodes.rewriteWithLines();
             jajacode.setText(result);
+            cc.jCodes.interpreterFull();
 
         } catch (Exception e) {
             e.printStackTrace();

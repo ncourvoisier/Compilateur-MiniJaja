@@ -17,7 +17,7 @@ public class Return extends JCode {
         try {
             return (int)m.getPile().Depiler().getVAL();
         } catch (PileException e) {
-            ASTLogger.getInstance().logError(e.getMessage());
+            ASTLogger.getInstance().logErrorJJC(e.getMessage());
             return -1;
         }
     }
