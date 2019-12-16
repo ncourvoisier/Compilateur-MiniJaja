@@ -35,7 +35,7 @@ public class Retour extends ASTInstr {
         try {
             m.getPile().AffecterVal(ASTClass.getVariableClass(), v);
         } catch (PileException e) {
-            ASTLogger.getInstance().logError(e.toString());
+            ASTLogger.getInstance().logError(this,e.toString());
         }
     }
 

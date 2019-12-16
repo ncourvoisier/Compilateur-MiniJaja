@@ -47,13 +47,13 @@ public class Affectation extends ASTInstr {
             try {
                 m.getPile().AffecterValT(ident.getName(), v, v2);
             } catch (PileException e) {
-                ASTLogger.getInstance().logError(e.toString());
+                ASTLogger.getInstance().logError(this,e.toString());
             }
         } else {
             try {
                 m.getPile().AffecterVal(ident.getName(), v);
             } catch (PileException e) {
-                ASTLogger.getInstance().logError(e.toString());
+                ASTLogger.getInstance().logError(this,e.toString());
             }
         }
     }

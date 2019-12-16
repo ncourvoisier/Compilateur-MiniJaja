@@ -2,20 +2,25 @@ package fr.femtost.disc.minijaja;
 
 import fr.femtost.disc.minijaja.jcodes.JNil;
 
-public abstract class ASTNode {
+public abstract class ASTNode implements Positionable {
 
     private int line ;
     private int column ;
 
     public abstract String rewrite();
     public abstract void typeCheck(Memoire m);
+
+    @Override
     public int getLine(){
         return this.line;
     }
+
+    @Override
     public int getColumn()
     {
         return this.column;
     }
+
     public void setLine(int line){
         this.line = line;
     }

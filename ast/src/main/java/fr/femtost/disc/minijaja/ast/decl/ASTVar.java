@@ -33,7 +33,7 @@ public abstract class ASTVar extends ASTDecl {
         try {
             m.getPile().RetirerDecl(identifiant.getName());
         } catch (PileException e) {
-            ASTLogger.getInstance().logError(e.getMessage());
+            ASTLogger.getInstance().logError(this,e.getMessage());
         }
     }
 }

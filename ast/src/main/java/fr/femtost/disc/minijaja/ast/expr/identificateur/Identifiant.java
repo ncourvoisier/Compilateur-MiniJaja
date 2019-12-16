@@ -34,7 +34,7 @@ public class Identifiant extends ASTIdentGenerique {
         try {
             return m.getPile().Val(name);
         } catch (PileException e) {
-            ASTLogger.getInstance().logError(e.getMessage());
+            ASTLogger.getInstance().logError(this,e.getMessage());
         }
         return null;
     }
