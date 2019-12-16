@@ -15,10 +15,10 @@ public class Write extends JCode {
     @Override
     public int interpreter(Memoire m, int current) {
         try {
-            ASTLogger.getInstance().logInfo(m.getPile().Depiler().getVAL().toString());
+            ASTLogger.getInstance().logJJC(m.getPile().Depiler().getVAL().toString());
             return current+1;
         } catch (PileException e) {
-            ASTLogger.getInstance().logError(e.getMessage());
+            ASTLogger.getInstance().logErrorJJC(e.getMessage());
             return -1;
         }
     }

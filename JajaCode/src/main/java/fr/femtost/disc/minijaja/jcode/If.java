@@ -27,7 +27,7 @@ public class If extends JCode {
             else
                 return current+1;
         } catch (PileException e) {
-            ASTLogger.getInstance().logError(e.getMessage());
+            ASTLogger.getInstance().logErrorJJC(e.getMessage());
             return -1;
         }
     }

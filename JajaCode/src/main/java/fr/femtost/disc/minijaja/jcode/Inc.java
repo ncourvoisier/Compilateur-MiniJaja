@@ -22,7 +22,7 @@ public class Inc extends JCode {
             m.getPile().AffecterVal(ident, (int)m.getPile().Val(ident) + v);
             return current+1;
         } catch (PileException e) {
-            ASTLogger.getInstance().logError(e.getMessage());
+            ASTLogger.getInstance().logErrorJJC(e.getMessage());
             return -1;
         }
     }

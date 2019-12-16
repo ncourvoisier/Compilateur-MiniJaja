@@ -35,10 +35,10 @@ public class New extends JCode {
                     m.getPile().DeclMeth(ident, m.getPile().Depiler().getVAL(), type);
                     return current + 1;
             }
-            ASTLogger.getInstance().logWarning("Unexpected sort for new: " + type.name());
+            ASTLogger.getInstance().logWarningJJC("Unexpected sort for new: " + type.name());
             return -1;
         } catch (PileException e) {
-            ASTLogger.getInstance().logError(e.getMessage());
+            ASTLogger.getInstance().logErrorJJC(e.getMessage());
             return -1;
         }
     }

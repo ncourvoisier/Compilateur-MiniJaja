@@ -25,7 +25,7 @@ public class Store extends JCode {
             m.getPile().AffecterVal(ident, v);
             return current+1;
         } catch (PileException e) {
-            ASTLogger.getInstance().logError(e.getMessage());
+            ASTLogger.getInstance().logErrorJJC(e.getMessage());
             return -1;
         }
     }

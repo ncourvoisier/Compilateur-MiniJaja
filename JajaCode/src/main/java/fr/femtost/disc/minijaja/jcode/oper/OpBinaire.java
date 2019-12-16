@@ -61,10 +61,10 @@ public class OpBinaire extends Oper {
                     m.getPile().DeclCst(null, (int)v1 > (int)v2, Sorte.VOID);
                     return current+1;
             }
-            ASTLogger.getInstance().logWarning("Unexpected operator:" + operandes.name());
+            ASTLogger.getInstance().logWarningJJC("Unexpected operator:" + operandes.name());
             return -1;
         } catch (PileException e) {
-            ASTLogger.getInstance().logError(e.getMessage());
+            ASTLogger.getInstance().logErrorJJC(e.getMessage());
             return -1;
         }
     }

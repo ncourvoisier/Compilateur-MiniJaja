@@ -22,7 +22,7 @@ public class ALoad extends JCode {
             m.getPile().DeclCst(null, m.getPile().ValT(ident, index), Sorte.VOID);
             return current+1;
         } catch (PileException e) {
-            ASTLogger.getInstance().logError(e.getMessage());
+            ASTLogger.getInstance().logErrorJJC(e.getMessage());
             return -1;
         }
     }

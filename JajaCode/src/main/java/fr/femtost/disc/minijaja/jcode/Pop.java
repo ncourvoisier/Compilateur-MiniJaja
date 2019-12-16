@@ -18,7 +18,7 @@ public class Pop extends JCode {
             m.getPile().Depiler();
             return current+1;
         } catch (PileException e) {
-            ASTLogger.getInstance().logError(e.getMessage());
+            ASTLogger.getInstance().logErrorJJC(e.getMessage());
             return -1;
         }
     }
