@@ -1,7 +1,6 @@
 package sample;
 
-import fr.femtost.disc.minijaja.Memoire;
-import fr.femtost.disc.minijaja.SyntaxChecker;
+import fr.femtost.disc.minijaja.*;
 import fr.femtost.disc.minijaja.ast.ASTClass;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -184,7 +183,9 @@ public class Controller implements Initializable {
         SyntaxChecker sc = new SyntaxChecker(new java.io.StringReader(code.getText()));
         try {
             ASTClass cla = sc.S();
-            cla.compiler(1);
+            CompilationCouple cc= cla.compiler(1);
+            String result = cc.jCodes.rewriteWithLines();
+            sortieConsole.setText(result);
         } catch (Exception e) {
             e.printStackTrace();
         }
