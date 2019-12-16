@@ -65,7 +65,18 @@ public class ASTLogger {
     public void logError(String message) {
         log(message, MessageLevel.ERROR);
     }
+
+    public void logError(Positionable a, String message) {
+        log("at ("+a.getLine()+" , "+a.getColumn()+") "+message, MessageLevel.ERROR);
+    }
+
+    public void logWarning(Positionable a, String message) {
+        log("at ("+a.getLine()+" , "+a.getColumn()+") "+message, MessageLevel.WARNING);
+    }
+
+
     public void logErrorJJC(String message) {
         log(message, MessageLevel.ERRORJJC);
     }
+
 }

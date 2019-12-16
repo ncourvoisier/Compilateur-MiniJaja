@@ -49,7 +49,7 @@ public class ASTEntete extends ASTNode {
         try {
             m.getPile().RetirerDecl(ident.getName());
         } catch (PileException e) {
-            ASTLogger.getInstance().logError(e.getMessage());
+            ASTLogger.getInstance().logError(this,e.getMessage());
         }
     }
 
@@ -58,7 +58,7 @@ public class ASTEntete extends ASTNode {
         try {
             m.getPile().RetirerDecl(ident.getName());
         } catch (PileException e) {
-            ASTLogger.getInstance().logError(e.getMessage());
+            ASTLogger.getInstance().logError(this,e.getMessage());
         }
     }
 

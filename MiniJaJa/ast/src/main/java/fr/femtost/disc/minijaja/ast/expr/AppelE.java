@@ -44,7 +44,7 @@ public class AppelE extends ASTExpr {
         try {
             return m.getPile().Val(ASTClass.getVariableClass());
         } catch (PileException e) {
-            ASTLogger.getInstance().logError(e.toString());
+            ASTLogger.getInstance().logError(this,e.toString());
         }
         return null;
     }
