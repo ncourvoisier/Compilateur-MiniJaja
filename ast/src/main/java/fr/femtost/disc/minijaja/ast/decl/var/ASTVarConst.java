@@ -36,9 +36,9 @@ public class ASTVarConst extends ASTVar {
         if (m.getPile().getTds().chercheQuad(identifiant.getName(),type.getSorte()) == null) {
             m.getPile().DeclCst(identifiant.getName(),v,type.getSorte());
         } else {
-            System.out.println("Error "+identifiant.getName()+" already declared");
+            System.out.print("Error "+identifiant.getName()+" already declared");
+            System.out.print(" in line : "+ getLine()+" and column : "+getColumn());
         }
-
         if(type.getSorte() == Sorte.VOID){
             System.out.println("Error "+identifiant.getName()+" void isn't type");
         }
