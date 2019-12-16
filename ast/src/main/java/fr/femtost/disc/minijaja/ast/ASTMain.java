@@ -5,7 +5,6 @@ import fr.femtost.disc.minijaja.CompilationCouple;
 import fr.femtost.disc.minijaja.JCodes;
 import fr.femtost.disc.minijaja.Memoire;
 import fr.femtost.disc.minijaja.jcode.Push;
-import fr.femtost.disc.minijaja.jcval.JCNbre;
 
 public class ASTMain extends ASTNode {
 
@@ -34,7 +33,7 @@ public class ASTMain extends ASTNode {
         CompilationCouple iss = instrs.compiler(actual + dvs.taille);
         CompilationCouple retrait = vars.retirerCompile(actual + dvs.taille + iss.taille + 1);
 
-        JCodes codes = JCodes.concatenate(dvs.jCodes, JCodes.concatenate(iss.jCodes, JCodes.concatLeft(new Push(new JCNbre(0)), retrait.jCodes)));
+        JCodes codes = JCodes.concatenate(dvs.jCodes, JCodes.concatenate(iss.jCodes, JCodes.concatLeft(new Push(0), retrait.jCodes)));
         return new CompilationCouple(codes, dvs.taille + iss.taille + retrait.taille + 1);
     }
 

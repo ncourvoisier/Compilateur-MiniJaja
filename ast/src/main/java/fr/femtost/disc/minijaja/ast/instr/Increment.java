@@ -9,7 +9,6 @@ import fr.femtost.disc.minijaja.jcode.Inc;
 import fr.femtost.disc.minijaja.jcode.Push;
 import fr.femtost.disc.minijaja.jcodes.JChain;
 import fr.femtost.disc.minijaja.jcodes.JNil;
-import fr.femtost.disc.minijaja.jcval.JCNbre;
 
 public class Increment extends ASTInstr {
 
@@ -34,10 +33,10 @@ public class Increment extends ASTInstr {
             CompilationCouple index = ((Tableau)identGenerique).getIndex(actual);
 
             return new CompilationCouple(JCodes.concatenate(index.jCodes,
-                    new JChain(new Push(new JCNbre(1)), new JChain(new AInc(new JCIdent(identGenerique.getName())), new JNil()))),
+                    new JChain(new Push(1), new JChain(new AInc(identGenerique.getName()), new JNil()))),
                     index.taille + 2);
         }
-        return new CompilationCouple(new JChain(new Push(new JCNbre(1)), new JChain(new Inc(new JCIdent(identGenerique.getName())), new JNil())), 2);
+        return new CompilationCouple(new JChain(new Push(1), new JChain(new Inc(identGenerique.getName()), new JNil())), 2);
     }
     @Override
     public void interpreter(Memoire m){

@@ -33,10 +33,10 @@ public class Affectation extends ASTInstr {
         CompilationCouple e = expr.compiler(actual);
         if (ident instanceof Tableau) {
             CompilationCouple index = ((Tableau) ident).getIndex(actual + e.taille);
-            return new CompilationCouple(JCodes.concatenate(e.jCodes, JCodes.concatRight(index.jCodes, new AStore(new JCIdent(ident.getName())))),
+            return new CompilationCouple(JCodes.concatenate(e.jCodes, JCodes.concatRight(index.jCodes, new AStore(ident.getName()))),
                     e.taille + index.taille + 1);
         }
-        return new CompilationCouple(JCodes.concatRight(e.jCodes, new Store(new JCIdent(ident.getName()))), e.taille + 1);
+        return new CompilationCouple(JCodes.concatRight(e.jCodes, new Store(ident.getName())), e.taille + 1);
     }
 
     @Override

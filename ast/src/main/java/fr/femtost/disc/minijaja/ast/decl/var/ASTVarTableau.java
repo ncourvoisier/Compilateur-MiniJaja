@@ -27,7 +27,7 @@ public class ASTVarTableau extends ASTVar {
     @Override
     public CompilationCouple compiler(int actual) {
         CompilationCouple e = expr.compiler(actual);
-        return new CompilationCouple(JCodes.concatRight(e.jCodes, new NewArray(new JCIdent(identifiant.getName()), typeMeth.getType())), e.taille+1);
+        return new CompilationCouple(JCodes.concatRight(e.jCodes, new NewArray(identifiant.getName(), typeMeth.getSorte())), e.taille+1);
     }
 
     @Override

@@ -6,7 +6,6 @@ import fr.femtost.disc.minijaja.ast.expr.identificateur.Identifiant;
 import fr.femtost.disc.minijaja.jcode.*;
 import fr.femtost.disc.minijaja.jcodes.JChain;
 import fr.femtost.disc.minijaja.jcodes.JNil;
-import fr.femtost.disc.minijaja.jcval.JCNbre;
 
 public class ASTMethode extends ASTDecl {
 
@@ -57,15 +56,15 @@ public class ASTMethode extends ASTDecl {
         CompilationCouple iss = instrs.compiler(actual + ens.taille + dvs.taille + 3);
         CompilationCouple retrait = vars.retirerCompile(actual + ens.taille + dvs.taille + iss.taille + 3);
 
-        int totalSize = typeMeth.getType() == JCType.VOID ? 6 : 5;
+        int totalSize = typeMeth.getSorte() == Sorte.VOID ? 6 : 5;
 
-        JCodes init0 = JCodes.concatRight(new JNil(), new Push(new JCNbre(actual+3)));
-        JCodes init1 = JCodes.concatRight(init0, new New(new JCIdent(ident.getName()), typeMeth.getType(), JCSorte.METHODE, new JCNbre(0)));
+        JCodes init0 = JCodes.concatRight(new JNil(), new Push(actual+3));
+        JCodes init1 = JCodes.concatRight(init0, new New(ident.getName(), typeMeth.getSorte(), JCSorte.METHODE, 0));
         JCodes init2 = JCodes.concatRight(init1, new Goto(actual + ens.taille + dvs.taille + iss.taille + retrait.taille + totalSize));
         JCodes init3;
-        if (typeMeth.getType() == JCType.VOID) {
+        if (typeMeth.getSorte() == Sorte.VOID) {
             init3 = JCodes.concatenate(init2, JCodes.concatenate(ens.jCodes, JCodes.concatenate(dvs.jCodes, JCodes.concatenate(iss.jCodes,
-                    JCodes.concatenate(JCodes.concatLeft(new Push(new JCNbre(0)), retrait.jCodes), new JChain(new Swap(),
+                    JCodes.concatenate(JCodes.concatLeft(new Push(0), retrait.jCodes), new JChain(new Swap(),
                             new JChain(new Return(), new JNil())))))));
         } else {
             init3 = JCodes.concatenate(init2, JCodes.concatenate(ens.jCodes, JCodes.concatenate(dvs.jCodes, JCodes.concatenate(iss.jCodes,

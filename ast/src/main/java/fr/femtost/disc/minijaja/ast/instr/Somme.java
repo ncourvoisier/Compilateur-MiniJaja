@@ -33,9 +33,9 @@ public class Somme extends ASTInstr {
         if(ident instanceof Tableau) {
             CompilationCouple index = ((Tableau)ident).getIndex(actual + e.taille);
 
-            return new CompilationCouple(JCodes.concatenate(e.jCodes, JCodes.concatRight(index.jCodes, new AInc(new JCIdent(ident.getName())))), e.taille + index.taille + 1);
+            return new CompilationCouple(JCodes.concatenate(e.jCodes, JCodes.concatRight(index.jCodes, new AInc(ident.getName()))), e.taille + index.taille + 1);
         }
-        return new CompilationCouple(JCodes.concatRight(e.jCodes, new Inc(new JCIdent(ident.getName()))), e.taille + 1);
+        return new CompilationCouple(JCodes.concatRight(e.jCodes, new Inc(ident.getName())), e.taille + 1);
     }
 
     @Override

@@ -34,7 +34,7 @@ public class AppelE extends ASTExpr {
         CompilationCouple lexp = listExpr.compiler(actual);
         CompilationCouple retrait = listExpr.retirerCompile(actual + lexp.taille + 1);
 
-        return new CompilationCouple(JCodes.concatenate(lexp.jCodes, JCodes.concatLeft(new Invoke(new JCIdent(ident.getName())), retrait.jCodes)),
+        return new CompilationCouple(JCodes.concatenate(lexp.jCodes, JCodes.concatLeft(new Invoke(ident.getName()), retrait.jCodes)),
                 lexp.taille + retrait.taille + 1);
     }
 
