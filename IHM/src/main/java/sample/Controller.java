@@ -14,6 +14,7 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.scene.web.WebView;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import org.fxmisc.richtext.CodeArea;
 import org.fxmisc.richtext.LineNumberFactory;
 import org.fxmisc.richtext.model.StyleSpans;
@@ -49,6 +50,7 @@ public class Controller implements Initializable {
     public TextArea jajacode;
     @FXML
     public TextArea sortieJajacode;
+
 
     public File pathFile;
 
@@ -101,6 +103,8 @@ public class Controller implements Initializable {
                     + "|(?<COMMENT>" + COMMENT_PATTERN + ")"
     );
 
+
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         String num = "";
@@ -119,7 +123,6 @@ public class Controller implements Initializable {
         sp3a.setContent(pile);
         sp3b.setContent(tas);
         sp4.setContent(sortieConsole);
-
 
 
         pathFile = null;
@@ -182,7 +185,7 @@ public class Controller implements Initializable {
             @Override
             public void receiveMessage(String message, ASTLogger.MessageLevel level) {
                 if (level.equals(ASTLogger.MessageLevel.INFO)) {
-                    sortieConsole.setText(sortieConsole.getText() + "\n" + message);
+                    sortieConsole.setText(sortieConsole.getText() + "\n" +"INFO : "+message);
                 }
                 if(level.equals(ASTLogger.MessageLevel.JJC))
                 {
@@ -194,7 +197,7 @@ public class Controller implements Initializable {
                 }
                 if(level.equals(ASTLogger.MessageLevel.WARNING))
                 {
-                    sortieConsole.setText(sortieConsole.getText() + "\n" + message);
+                    sortieConsole.setText(sortieConsole.getText() + "\n" +"WARNING : "+message);
                 }
                 if(level.equals(ASTLogger.MessageLevel.ERRORJJC))
                 {
@@ -202,7 +205,7 @@ public class Controller implements Initializable {
                 }
                 if(level.equals(ASTLogger.MessageLevel.ERROR))
                 {
-                    sortieConsole.setText(sortieConsole.getText() + "\n" + message);
+                    sortieConsole.setText(sortieConsole.getText() + "\n" +"ERROR : "+message);
                 }
             }
         });
