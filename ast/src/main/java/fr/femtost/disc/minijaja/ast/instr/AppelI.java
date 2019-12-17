@@ -68,7 +68,12 @@ public class AppelI extends ASTInstr {
     }
 
     @Override
-    public void typeCheck(Memoire m) {
-
+    public boolean typeCheck(Memoire global, Memoire local) {
+        if (!global.containsSymbol(ident.getName())) {
+            ASTLogger.getInstance().logError(this, "Fonction non déclarée : " + ident.getName());
+            return false;
+        }
+        ASTMethode methode = (ASTMethode) global.getPile().Parametre(ident.getName());
+        return listExpr.typeCheck(global, local, methode.getEntetes());
     }
 }

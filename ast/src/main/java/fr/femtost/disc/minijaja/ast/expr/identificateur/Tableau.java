@@ -1,8 +1,6 @@
 package fr.femtost.disc.minijaja.ast.expr.identificateur;
 
-import fr.femtost.disc.minijaja.CompilationCouple;
-import fr.femtost.disc.minijaja.JCodes;
-import fr.femtost.disc.minijaja.Memoire;
+import fr.femtost.disc.minijaja.*;
 import fr.femtost.disc.minijaja.ast.ASTExpr;
 import fr.femtost.disc.minijaja.ast.expr.ASTIdentGenerique;
 import fr.femtost.disc.minijaja.jcode.ALoad;
@@ -45,7 +43,30 @@ public class Tableau extends ASTIdentGenerique {
     }
 
     @Override
-    public void typeCheck(Memoire m) {
+    public boolean typeCheck(Memoire global, Memoire local, Sorte expected) {
+        Quad decl;
+        if (local.containsSymbol(name)) {
+            decl = local.getPile().ReturnQuadWithId(name);
+        } else {
+            if (global.containsSymbol(name)) {
+                decl = global.getPile().ReturnQuadWithId(name);
+            } else {
+                ASTLogger.getInstance().logError(this, "Variable non déclarée : " + name);
+                return false;
+            }
+        }
+        if (checkIndex(global, local)) {
+            if (expected != Sorte.VOID && decl.getSORTE() != expected) {
+                ASTLogger.getInstance().logError(this, "Type incorrect, attendu " + expected.name() + " trouvé " + decl.getSORTE().name());
+                return false;
+            } else {
+                return true;
+            }
+        }
+        return false;
+    }
 
+    public boolean checkIndex(Memoire global, Memoire local) {
+        return index.typeCheck(global, local, Sorte.INT);
     }
 }

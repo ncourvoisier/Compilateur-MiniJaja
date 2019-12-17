@@ -7,8 +7,6 @@ public abstract class ASTNode implements Positionable {
     private int line ;
     private int column ;
 
-    public abstract String rewrite();
-    public abstract void typeCheck(Memoire m);
 
     @Override
     public int getLine(){
@@ -33,6 +31,8 @@ public abstract class ASTNode implements Positionable {
         this.line = line;
     }
 
+    public abstract String rewrite();
+
     public CompilationCouple compiler(int actual) {
         throw new UnsupportedOperationException("Compilation not implemented in " + this.getClass().getName());
     }
@@ -41,7 +41,6 @@ public abstract class ASTNode implements Positionable {
     return new CompilationCouple(new JNil(), 0);
     }
     public abstract void interpreter(Memoire m);
-    public abstract void retirer(Memoire m);
 
 }
 

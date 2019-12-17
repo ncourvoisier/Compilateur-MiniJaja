@@ -56,7 +56,7 @@ public abstract class JCodes extends JajaNode {
         StringBuilder result = new StringBuilder();
 
         for(int i=0; i<codes.size(); ++i) {
-            result.append((i+1) + " " + codes.get(i).rewrite() + "\n");
+            result.append(i+1).append("\t").append(codes.get(i).rewrite()).append("\n");
         }
 
         return result.toString();

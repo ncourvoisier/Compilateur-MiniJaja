@@ -29,21 +29,6 @@ public class ASTVarConst extends ASTVar {
     }
 
     @Override
-    public void typeCheck(Memoire m) {
-        Object v = expr.eval(m);
-        //type check
-        if (m.getPile().getTds().chercheQuad(identifiant.getName(),type.getSorte()) == null) {
-            m.getPile().DeclCst(identifiant.getName(),v,type.getSorte());
-        } else {
-            System.out.print("Error "+identifiant.getName()+" already declared");
-            System.out.print(" in line : "+ getLine()+" and column : "+getColumn());
-        }
-        if(type.getSorte() == Sorte.VOID){
-            System.out.println("Error "+identifiant.getName()+" void isn't type");
-        }
-    }
-
-    @Override
     public CompilationCouple compiler(int actual) {
         CompilationCouple e = expr.compiler(actual);
         return new CompilationCouple(JCodes.concatRight(e.jCodes, new New(identifiant.getName(), type.getSorte(), JCSorte.CONSTANTE, 0)), e.taille+1);
@@ -55,4 +40,40 @@ public class ASTVarConst extends ASTVar {
         m.getPile().DeclCst(identifiant.getName(),v,type.getSorte());
     }
 
+    @Override
+    public boolean typeCheck(Memoire global, Memoire local) {
+        if (local.containsSymbol(identifiant.getName())) {
+            ASTLogger.getInstance().logError(this, "Variable déjà définie " + identifiant.getName());
+            return false;
+        }
+        if (expr instanceof Omega) {
+            ASTLogger.getInstance().logError(this, "Variable constante non-initialisée " + identifiant.getName());
+            return false;
+        }
+        if (expr.typeCheck(global, local, type.getSorte())) {
+            if (global.containsSymbol(identifiant.getName())) {
+                ASTLogger.getInstance().logWarning(this, "Local variable shadowing global: " + identifiant.getName());
+            }
+            local.getPile().DeclCst(identifiant.getName(), null, type.getSorte());
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean firstCheck(Memoire global) {
+        if (global.containsSymbol(identifiant.getName())) {
+            ASTLogger.getInstance().logError(this, "Variable déjà définie " + identifiant.getName());
+            return false;
+        }
+        if (expr instanceof Omega) {
+            ASTLogger.getInstance().logError(this, "Variable constante non-initialisée " + identifiant.getName());
+            return false;
+        }
+        if (expr.typeCheck(global, new Memoire(128), type.getSorte())) {
+            global.getPile().DeclCst(identifiant.getName(), null, type.getSorte());
+            return true;
+        }
+        return false;
+    }
 }

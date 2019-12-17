@@ -17,4 +17,8 @@ public class Memoire {
     public Tas getTas() {
         return tas;
     }
+
+    public boolean containsSymbol(String symbol) {
+        return pile.ReturnQuadWithId(symbol) != null;
+    }
 }

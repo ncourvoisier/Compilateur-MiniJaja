@@ -243,7 +243,7 @@ public class Controller implements Initializable {
             ASTClass cla = sc.S();
             Memoire m = new Memoire(1000);
             System.out.println("TypeCheck");
-            cla.typeCheck(m);
+            cla.typeCheck();
             System.out.println("Interpreter");
             cla.interpreter(m);
 

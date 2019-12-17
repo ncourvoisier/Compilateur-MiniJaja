@@ -2,6 +2,7 @@ package fr.femtost.disc.minijaja.ast;
 
 import fr.femtost.disc.minijaja.ASTNode;
 import fr.femtost.disc.minijaja.Memoire;
+import fr.femtost.disc.minijaja.Sorte;
 
 public abstract class ASTExpr extends ASTNode {
     abstract public Object eval(Memoire m);
@@ -11,8 +12,5 @@ public abstract class ASTExpr extends ASTNode {
         throw new UnsupportedOperationException("Interpretation sur expression");
     }
 
-    @Override
-    public void retirer(Memoire m) {
-        throw new UnsupportedOperationException("Retrait sur expression");
-    }
+    public abstract boolean typeCheck(Memoire global, Memoire local, Sorte expected);
 }

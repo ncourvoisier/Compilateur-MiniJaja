@@ -2,6 +2,7 @@ package fr.femtost.disc.minijaja.ast.instrs;
 
 import fr.femtost.disc.minijaja.CompilationCouple;
 import fr.femtost.disc.minijaja.Memoire;
+import fr.femtost.disc.minijaja.Sorte;
 import fr.femtost.disc.minijaja.ast.ASTInstrs;
 import fr.femtost.disc.minijaja.jcodes.JNil;
 
@@ -19,11 +20,16 @@ public final class Inil extends ASTInstrs {
 
     @Override
     public void interpreter(Memoire m) {
-        //noop
+        //fin de chaine
     }
 
     @Override
-    public void typeCheck(Memoire m) {
-        //noop
+    public boolean typeCheck(Memoire global, Memoire local) {
+        return true;
+    }
+
+    @Override
+    public void forwardTypeRetour(Sorte sorte) {
+        //fin de chaine
     }
 }

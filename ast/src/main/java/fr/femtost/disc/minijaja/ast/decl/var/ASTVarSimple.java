@@ -10,17 +10,17 @@ import fr.femtost.disc.minijaja.jcode.New;
 
 public class ASTVarSimple extends ASTVar {
 
-    private ASTTypeMeth typeMeth;
+    private ASTTypeMeth type;
 
-    public ASTVarSimple(ASTTypeMeth typeMeth, Identifiant identifiant, ASTExpr expr) {
+    public ASTVarSimple(ASTTypeMeth type, Identifiant identifiant, ASTExpr expr) {
         super(identifiant, expr);
-        this.typeMeth = typeMeth;
+        this.type = type;
     }
 
     @Override
     public String rewrite() {
         StringBuilder sb = new StringBuilder();
-        sb.append(typeMeth.rewrite()).append(" ").append(this.identifiant.rewrite());
+        sb.append(type.rewrite()).append(" ").append(this.identifiant.rewrite());
         if(!(this.expr instanceof Omega)) {
             sb.append(" = ").append(this.expr.rewrite());
         }
@@ -30,29 +30,50 @@ public class ASTVarSimple extends ASTVar {
     @Override
     public CompilationCouple compiler(int actual) {
         CompilationCouple e = expr.compiler(actual);
-        return new CompilationCouple(JCodes.concatRight(e.jCodes, new New(identifiant.getName(), typeMeth.getSorte(), JCSorte.VARIABLE, 0)), e.taille+1);
+        return new CompilationCouple(JCodes.concatRight(e.jCodes, new New(identifiant.getName(), type.getSorte(), JCSorte.VARIABLE, 0)), e.taille+1);
     }
 
     @Override
     public void interpreter(Memoire m) {
         Object v = expr.eval(m);
-        m.getPile().DeclVar(identifiant.getName(),v,typeMeth.getSorte());
+        m.getPile().DeclVar(identifiant.getName(),v, type.getSorte());
     }
 
     @Override
-    public void typeCheck(Memoire m) {
-        Object v = expr.eval(m);
-
-        if (m.getPile().getTds().chercheQuad(identifiant.getName(),typeMeth.getSorte()) == null) {
-            m.getPile().DeclVar(identifiant.getName(), v, typeMeth.getSorte());
-        } else {
-            System.out.println("Error " + identifiant.getName() + " already declared");
+    public boolean typeCheck(Memoire global, Memoire local) {
+        if (type.getSorte() == Sorte.VOID) {
+            ASTLogger.getInstance().logError(this, "Type invalide : void");
+            return false;
         }
-
-        if (typeMeth.getSorte() == Sorte.VOID){
-            System.out.println("Error " + identifiant.getName() + " void isn't type");
+        if (local.containsSymbol(identifiant.getName())) {
+            ASTLogger.getInstance().logError(this, "Variable déjà définie " + identifiant.getName());
+            return false;
         }
+        if (expr.typeCheck(global, local, type.getSorte())) {
+            if (global.containsSymbol(identifiant.getName())) {
+                ASTLogger.getInstance().logWarning(this, "Local variable shadowing global: " + identifiant.getName());
+            }
+            local.getPile().DeclVar(identifiant.getName(), null, type.getSorte());
+            return true;
+        }
+        return false;
     }
 
+    @Override
+    public boolean firstCheck(Memoire global) {
+        if (type.getSorte() == Sorte.VOID) {
+            ASTLogger.getInstance().logError(this, "Type invalide : void");
+            return false;
+        }
+        if (global.containsSymbol(identifiant.getName())) {
+            ASTLogger.getInstance().logError(this, "Variable déjà définie " + identifiant.getName());
+            return false;
+        }
+        if (expr.typeCheck(global, new Memoire(128), type.getSorte())) {
+            global.getPile().DeclVar(identifiant.getName(), null, type.getSorte());
+            return true;
+        }
+        return false;
+    }
 
 }

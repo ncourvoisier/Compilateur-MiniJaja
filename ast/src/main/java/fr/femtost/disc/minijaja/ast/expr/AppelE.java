@@ -4,6 +4,7 @@ import fr.femtost.disc.minijaja.*;
 import fr.femtost.disc.minijaja.ast.ASTClass;
 import fr.femtost.disc.minijaja.ast.ASTExpr;
 import fr.femtost.disc.minijaja.ast.ASTListExpr;
+import fr.femtost.disc.minijaja.ast.decl.ASTMethode;
 import fr.femtost.disc.minijaja.ast.expr.identificateur.Identifiant;
 import fr.femtost.disc.minijaja.ast.instr.AppelI;
 import fr.femtost.disc.minijaja.jcode.Invoke;
@@ -49,10 +50,20 @@ public class AppelE extends ASTExpr {
         return null;
     }
 
-
     @Override
-    public void typeCheck(Memoire m) {
-
+    public boolean typeCheck(Memoire global, Memoire local, Sorte expected) {
+        if (!global.containsSymbol(ident.getName())) {
+            ASTLogger.getInstance().logError(this, "Fonction non déclarée : " + ident.getName());
+            return false;
+        }
+        ASTMethode methode = (ASTMethode) global.getPile().Parametre(ident.getName());
+        boolean b1 = methode.getTypeMeth().getSorte() == expected  || expected == Sorte.VOID;
+        if (!b1) {
+            ASTLogger.getInstance().logError(this, "Type mismatch: expected " + expected.name() + " got "
+                    + methode.getTypeMeth().getSorte().name());
+        }
+        boolean b2 = listExpr.typeCheck(global, local, methode.getEntetes());
+        return b1 && b2;
     }
 }
 

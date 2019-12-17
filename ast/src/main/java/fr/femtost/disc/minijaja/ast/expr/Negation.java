@@ -1,8 +1,6 @@
 package fr.femtost.disc.minijaja.ast.expr;
 
-import fr.femtost.disc.minijaja.CompilationCouple;
-import fr.femtost.disc.minijaja.JCodes;
-import fr.femtost.disc.minijaja.Memoire;
+import fr.femtost.disc.minijaja.*;
 import fr.femtost.disc.minijaja.ast.ASTExpr;
 import fr.femtost.disc.minijaja.jcode.oper.OpUnaire;
 
@@ -25,15 +23,18 @@ public class Negation extends ASTExpr {
     }
 
     @Override
-    public void typeCheck(Memoire m) {
-        if (expr.eval(m) == null) {
-            System.out.println(expr.eval(m) + "is not initialize.");
-        }
-    }
-
-    @Override
     public Object eval(Memoire m) {
         int e = (int) expr.eval(m);
         return -e;
+    }
+
+    @Override
+    public boolean typeCheck(Memoire global, Memoire local, Sorte expected) {
+        boolean b1 = expected == Sorte.INT || expected == Sorte.VOID;
+        if (!b1) {
+            ASTLogger.getInstance().logError(this, "Type mismatch: expected " + expected.name() + " got " + Sorte.INT.name());
+        }
+        boolean b2 = expr.typeCheck(global, local, Sorte.INT);
+        return b1 && b2;
     }
 }

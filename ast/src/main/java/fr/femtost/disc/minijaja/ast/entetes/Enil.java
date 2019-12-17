@@ -19,12 +19,12 @@ public final class Enil extends ASTEntetes {
 
     @Override
     public void interpreter(Memoire m) {
-
+        //noop
     }
 
     @Override
     public void retirer(Memoire m) {
-
+        //noop
     }
 
     @Override
@@ -32,9 +32,9 @@ public final class Enil extends ASTEntetes {
         return 0;
     }
 
-
     @Override
-    public void typeCheck(Memoire m) {
-
+    public boolean typeCheck(Memoire global, Memoire local) {
+        return true;
     }
+
 }

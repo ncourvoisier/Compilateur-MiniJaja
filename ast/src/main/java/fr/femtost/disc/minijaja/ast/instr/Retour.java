@@ -1,9 +1,6 @@
 package fr.femtost.disc.minijaja.ast.instr;
 
-import fr.femtost.disc.minijaja.ASTLogger;
-import fr.femtost.disc.minijaja.CompilationCouple;
-import fr.femtost.disc.minijaja.Memoire;
-import fr.femtost.disc.minijaja.PileException;
+import fr.femtost.disc.minijaja.*;
 import fr.femtost.disc.minijaja.ast.ASTClass;
 import fr.femtost.disc.minijaja.ast.ASTExpr;
 import fr.femtost.disc.minijaja.ast.ASTInstr;
@@ -11,9 +8,15 @@ import fr.femtost.disc.minijaja.ast.ASTInstr;
 public class Retour extends ASTInstr {
 
     private ASTExpr expr;
+    private Sorte typeRetour;
 
     public Retour(ASTExpr expr) {
         this.expr = expr;
+    }
+
+    @Override
+    public void forwardTypeRetour(Sorte sorte) {
+        this.typeRetour = sorte;
     }
 
     @Override
@@ -39,9 +42,12 @@ public class Retour extends ASTInstr {
         }
     }
 
-
     @Override
-    public void typeCheck(Memoire m) {
-
+    public boolean typeCheck(Memoire global, Memoire local) {
+        if (typeRetour == null) {
+            ASTLogger.getInstance().logError(this, "Utilisation de retour dans le main");
+            return false;
+        }
+        return expr.typeCheck(global, local, typeRetour);
     }
 }

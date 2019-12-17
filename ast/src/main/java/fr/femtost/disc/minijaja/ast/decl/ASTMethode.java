@@ -35,6 +35,10 @@ public class ASTMethode extends ASTDecl {
         return instrs;
     }
 
+    public ASTTypeMeth getTypeMeth() {
+        return typeMeth;
+    }
+
     public String rewrite() {
         StringBuilder sb = new StringBuilder();
         sb.append("\n");
@@ -95,13 +99,25 @@ public class ASTMethode extends ASTDecl {
     }
 
     @Override
-    public void typeCheck(Memoire m) {
-        ASTMethode mth = new ASTMethode(typeMeth, ident, entetes, vars, instrs);
-        if (m.getPile().getTds().chercheQuad(ident.getName(),typeMeth.getSorte()) == null){
-            m.getPile().DeclMeth(ident.getName(), mth, typeMeth.getSorte());
-        } else {
-            System.out.println("Error " + ident.getName() + " already declared");
+    public boolean typeCheck(Memoire global, Memoire local) {
+        local = new Memoire(128);
+        boolean b1 = entetes.typeCheck(global, local);
+        boolean b2 = vars.typeCheck(global, local);
+        if (b1 && b2) {
+            instrs.forwardTypeRetour(typeMeth.getSorte());
+            return instrs.typeCheck(global, local);
         }
+        return false;
+    }
+
+    @Override
+    public boolean firstCheck(Memoire global) {
+        if (global.containsSymbol(ident.getName())) {
+            ASTLogger.getInstance().logError(this, "Nom déjà utilisé pour la méthode " + ident.getName());
+            return false;
+        }
+        global.getPile().DeclMeth(ident.getName(), this, typeMeth.getSorte());
+        return true;
     }
 
 }

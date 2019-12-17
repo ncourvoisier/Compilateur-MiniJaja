@@ -60,7 +60,46 @@ public class Somme extends ASTInstr {
     }
 
     @Override
-    public void typeCheck(Memoire m) {
+    public boolean typeCheck(Memoire global, Memoire local) {
+        Quad decl;
+        if (local.containsSymbol(ident.getName())) {
+            decl = local.getPile().ReturnQuadWithId(ident.getName());
+        } else {
+            if (global.containsSymbol(ident.getName())) {
+                decl = global.getPile().ReturnQuadWithId(ident.getName());
+            } else {
+                ASTLogger.getInstance().logError(this, "Variable non déclarée : " + ident.getName());
+                return false;
+            }
+        }
+        if (decl.getOBJ() == NatureObjet.CST) {
+            ASTLogger.getInstance().logError(this, "Affectation d'une constante : " + ident.getName());
+            return false;
+        }
+        if (decl.getOBJ() == NatureObjet.METH) {
+            ASTLogger.getInstance().logError(this, "Affectation d'un nom de méthode : " + ident.getName());
+            return false;
+        }
+        if (decl.getOBJ() == NatureObjet.TAB) {
+            if (!(ident instanceof Tableau)) {
+                ASTLogger.getInstance().logError(this, "Affectation d'une adresse de tableau : " + ident.getName());
+                return false;
+            } else {
+                if (! ((Tableau) ident).checkIndex(global, local)) {
+                    return false;
+                }
+            }
+        }
 
+        if (decl.getOBJ() == NatureObjet.VAR && ident instanceof Tableau) {
+            ASTLogger.getInstance().logError(this, "Variable simple utilisée comme tableau " + ident.getName());
+            return false;
+        }
+        if (decl.getSORTE() == Sorte.INT) {
+            return expr.typeCheck(global, local, decl.getSORTE());
+        } else {
+            ASTLogger.getInstance().logError(this, "Somme sur variable non-int " + ident.getName());
+            return false;
+        }
     }
 }

@@ -44,15 +44,13 @@ public class ASTMain extends ASTNode {
         vars.retirer(m);
     }
 
-    @Override
-    public void retirer(Memoire m) {
-        throw new UnsupportedOperationException("Retrait de methode");
-    }
-
-    @Override
-    public void typeCheck(Memoire m) {
-        vars.typeCheck(m);
-        instrs.typeCheck(m);
+    public boolean typeCheck(Memoire m) {
+        Memoire locale = new Memoire(128);
+        if (vars.typeCheck(m, locale)) {
+            instrs.forwardTypeRetour(null);
+            return instrs.typeCheck(m, locale);
+        }
+        return false;
     }
 
 }

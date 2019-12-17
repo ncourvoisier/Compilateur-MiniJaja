@@ -3,6 +3,7 @@ package fr.femtost.disc.minijaja.ast.instrs;
 import fr.femtost.disc.minijaja.CompilationCouple;
 import fr.femtost.disc.minijaja.JCodes;
 import fr.femtost.disc.minijaja.Memoire;
+import fr.femtost.disc.minijaja.Sorte;
 import fr.femtost.disc.minijaja.ast.ASTInstr;
 import fr.femtost.disc.minijaja.ast.ASTInstrs;
 
@@ -41,7 +42,15 @@ public class IChain extends ASTInstrs {
     }
 
     @Override
-    public void typeCheck(Memoire m) {
+    public boolean typeCheck(Memoire global, Memoire local) {
+        boolean b1 = node.typeCheck(global, local);
+        boolean b2 = successor.typeCheck(global, local);
+        return b1 && b2;
+    }
 
+    @Override
+    public void forwardTypeRetour(Sorte sorte) {
+        node.forwardTypeRetour(sorte);
+        successor.forwardTypeRetour(sorte);
     }
 }

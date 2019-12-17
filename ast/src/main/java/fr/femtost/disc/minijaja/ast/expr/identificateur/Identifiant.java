@@ -10,7 +10,6 @@ public class Identifiant extends ASTIdentGenerique {
 
     protected String name;
 
-
     public Identifiant(String name ) {
         this.name = name;
     }
@@ -40,7 +39,25 @@ public class Identifiant extends ASTIdentGenerique {
     }
 
     @Override
-    public void typeCheck(Memoire m) {
+    public boolean typeCheck(Memoire global, Memoire local, Sorte expected) {
+        Quad decl;
+        if (local.containsSymbol(name)) {
+            decl = local.getPile().ReturnQuadWithId(name);
+        } else {
+            if (global.containsSymbol(name)) {
+                decl = global.getPile().ReturnQuadWithId(name);
+            } else {
+                ASTLogger.getInstance().logError(this, "Variable non déclarée : " + name);
+                return false;
+            }
+        }
 
+        if (decl.getSORTE() == expected || expected == Sorte.VOID) {
+            return true;
+        } else {
+            ASTLogger.getInstance().logError(this, "Type mismatch: expected " + expected.name() + " got " + decl.getSORTE().name());
+            return false;
+        }
     }
+
 }

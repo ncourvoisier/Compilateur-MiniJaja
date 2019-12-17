@@ -2,6 +2,7 @@ package fr.femtost.disc.minijaja.ast.expr;
 
 import fr.femtost.disc.minijaja.CompilationCouple;
 import fr.femtost.disc.minijaja.Memoire;
+import fr.femtost.disc.minijaja.Sorte;
 import fr.femtost.disc.minijaja.ast.ASTExpr;
 import fr.femtost.disc.minijaja.jcodes.JNil;
 
@@ -21,9 +22,9 @@ public final class Omega extends ASTExpr {
         return null;
     }
 
-
     @Override
-    public void typeCheck(Memoire m) {
-
+    public boolean typeCheck(Memoire global, Memoire local, Sorte expected) {
+        return true;
     }
+
 }

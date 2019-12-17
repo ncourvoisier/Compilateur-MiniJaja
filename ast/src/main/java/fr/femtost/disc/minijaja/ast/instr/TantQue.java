@@ -1,11 +1,10 @@
 package fr.femtost.disc.minijaja.ast.instr;
 
-import fr.femtost.disc.minijaja.CompilationCouple;
-import fr.femtost.disc.minijaja.JCodes;
-import fr.femtost.disc.minijaja.Memoire;
+import fr.femtost.disc.minijaja.*;
 import fr.femtost.disc.minijaja.ast.ASTExpr;
 import fr.femtost.disc.minijaja.ast.ASTInstr;
 import fr.femtost.disc.minijaja.ast.ASTInstrs;
+import fr.femtost.disc.minijaja.ast.expr.BoolVal;
 import fr.femtost.disc.minijaja.jcode.Goto;
 import fr.femtost.disc.minijaja.jcode.If;
 import fr.femtost.disc.minijaja.jcode.oper.OpUnaire;
@@ -51,7 +50,17 @@ public class TantQue extends ASTInstr {
     }
 
     @Override
-    public void typeCheck(Memoire m) {
+    public void forwardTypeRetour(Sorte sorte) {
+        instrs.forwardTypeRetour(sorte);
+    }
 
+    @Override
+    public boolean typeCheck(Memoire global, Memoire local) {
+        boolean b1 = expr.typeCheck(global, local, Sorte.BOOL);
+        boolean b2 = instrs.typeCheck(global, local);
+        if (expr instanceof BoolVal) {
+            ASTLogger.getInstance().logWarning(expr, "Utilisation d'une constante dans une boucle while");
+        }
+        return b1 && b2;
     }
 }
