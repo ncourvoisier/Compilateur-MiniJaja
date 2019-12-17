@@ -1,5 +1,6 @@
 package sample;
 
+import com.sun.deploy.util.Property;
 import fr.femtost.disc.minijaja.*;
 import fr.femtost.disc.minijaja.ast.ASTClass;
 import javafx.application.Platform;
@@ -27,7 +28,9 @@ public class Controller implements Initializable {
     @FXML
     public TextArea code;
     @FXML
-    public TextArea memoire;
+    public TextArea pile;
+    @FXML
+    public TextArea tas;
     @FXML
     public TextArea sortieConsole;
     @FXML
@@ -39,7 +42,8 @@ public class Controller implements Initializable {
 
     public ScrollPane sp1;
     public ScrollPane sp2;
-    public ScrollPane sp3;
+    public ScrollPane sp3a;
+    public ScrollPane sp3b;
     public ScrollPane sp4;
 
     @Override
@@ -51,20 +55,24 @@ public class Controller implements Initializable {
 
         sp1 = new ScrollPane();
         sp2 = new ScrollPane();
-        sp3 = new ScrollPane();
+        sp3a = new ScrollPane();
+        sp3b = new ScrollPane();
         sp4 = new ScrollPane();
 
         sp1.setContent(numLine);
         sp2.setContent(code);
-        sp3.setContent(memoire);
+        sp3a.setContent(pile);
+        sp3b.setContent(tas);
         sp4.setContent(sortieConsole);
 
         pathFile = null;
         numLine.setText(num);
         numLine.setEditable(false);
         code.setText("code");
-        memoire.setText("memoire");
-        memoire.setEditable(false);
+        pile.setText("pile");
+        tas.setText("tas");
+        pile.setEditable(false);
+        tas.setEditable(false);
         sortieConsole.setText("sortiConsole");
         jajacode.setText("jajacode");
         jajacode.setEditable(false);
@@ -202,6 +210,30 @@ public class Controller implements Initializable {
         return sRet;
     }
 
+    private String getTasString(TasInfos i) {
+        StringBuilder sb = new StringBuilder();
+        String lsp = System.getProperty("line.separator");
+        sb.append("Tas:").append(lsp);
+        for (TasInfos.BlocInfos bi : i.getBlocs()) {
+            sb.append(bi.toString()).append(lsp);
+        }
+        return sb.toString();
+    }
+
+    private void affichageMemoire(Memoire m) {
+        if (m.getPile().returnTaillePile() == 0) {
+            pile.setText("La mémoire est vide.");
+        } else {
+            pile.setText("Pile:" + System.getProperty("line.separator") + m.getPile().toString());
+        }
+        TasInfos i = m.getTas().getInfos();
+        if (i.getTaille() > 1) {
+            tas.setText(getTasString(i));
+        }
+        else {
+            tas.setText("Tas vide");
+        }
+    }
 
     public void run(ActionEvent actionEvent) {
         System.out.println("Affichage de la pile :");
@@ -215,11 +247,7 @@ public class Controller implements Initializable {
             System.out.println("Interpreter");
             cla.interpreter(m);
 
-            if (m.getPile().returnTaillePile() == 0) {
-                memoire.setText("La mémoire est vide.");
-            } else {
-                memoire.setText("Affichage de la pile :" + m.getPile().toString());
-            }
+            affichageMemoire(m);  // Pile vide après le run, normal
 
         } catch (Exception e) {
             e.printStackTrace();

@@ -14,4 +14,7 @@ public class Memoire {
         return pile;
     }
 
+    public Tas getTas() {
+        return tas;
+    }
 }
