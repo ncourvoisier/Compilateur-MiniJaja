@@ -36,6 +36,9 @@ public class Pile {
             q.setBottomQuad(stackTop);
             stackTop = q;
         }
+        if (q.getID() != null) {
+            tds.creerSymboles(q.getID(), q.getVAL(), q.getOBJ(), q.getSORTE());
+        }
     }
 
     private boolean isEmpty() {
