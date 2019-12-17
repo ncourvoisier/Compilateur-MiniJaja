@@ -9,24 +9,38 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
+import javafx.scene.web.WebView;
 import javafx.stage.FileChooser;
+import org.fxmisc.richtext.CodeArea;
+import org.fxmisc.richtext.LineNumberFactory;
+import org.fxmisc.richtext.model.StyleSpans;
+import org.fxmisc.richtext.model.StyleSpansBuilder;
+import org.reactfx.Subscription;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.PrintWriter;
 import java.net.URL;
+import java.time.Duration;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Controller implements Initializable {
 
     @FXML
     public TextArea numLine;
     @FXML
-    public TextArea code;
+    public CodeArea code;
     @FXML
     public TextArea pile;
     @FXML
@@ -45,6 +59,38 @@ public class Controller implements Initializable {
     public ScrollPane sp3a;
     public ScrollPane sp3b;
     public ScrollPane sp4;
+
+
+    private static final String[] KEYWORDS = new String[] {
+            "abstract", "assert", "boolean", "break", "byte",
+            "case", "catch", "char", "class", "const",
+            "continue", "default", "do", "double", "else",
+            "enum", "extends", "final", "finally", "float",
+            "for", "goto", "if", "implements", "import",
+            "instanceof", "int", "interface", "long", "native",
+            "new", "package", "private", "protected", "public",
+            "return", "short", "static", "strictfp", "super",
+            "switch", "synchronized", "this", "throw", "throws",
+            "transient", "try", "void", "volatile", "while","bool","write","writeln"
+    };
+
+    private static final String KEYWORD_PATTERN = "\\b(" + String.join("|", KEYWORDS) + ")\\b";
+    private static final String PAREN_PATTERN = "\\(|\\)";
+    private static final String BRACE_PATTERN = "\\{|\\}";
+    private static final String BRACKET_PATTERN = "\\[|\\]";
+    private static final String SEMICOLON_PATTERN = "\\;";
+    private static final String STRING_PATTERN = "\"([^\"\\\\]|\\\\.)*\"";
+    private static final String COMMENT_PATTERN = "//[^\n]*" + "|" + "/\\*(.|\\R)*?\\*/";
+
+    private static final Pattern PATTERN = Pattern.compile(
+            "(?<KEYWORD>" + KEYWORD_PATTERN + ")"
+                    + "|(?<PAREN>" + PAREN_PATTERN + ")"
+                    + "|(?<BRACE>" + BRACE_PATTERN + ")"
+                    + "|(?<BRACKET>" + BRACKET_PATTERN + ")"
+                    + "|(?<SEMICOLON>" + SEMICOLON_PATTERN + ")"
+                    + "|(?<STRING>" + STRING_PATTERN + ")"
+                    + "|(?<COMMENT>" + COMMENT_PATTERN + ")"
+    );
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -65,10 +111,49 @@ public class Controller implements Initializable {
         sp3b.setContent(tas);
         sp4.setContent(sortieConsole);
 
+
+
         pathFile = null;
         numLine.setText(num);
         numLine.setEditable(false);
-        code.setText("code");
+
+        // add line numbers to the left of area
+        code.setParagraphGraphicFactory(LineNumberFactory.get(code));
+
+
+        // recompute the syntax highlighting 500 ms after user stops editing area
+        Subscription cleanupWhenNoLongerNeedIt = code
+                // plain changes = ignore style changes that are emitted when syntax highlighting is reapplied
+                // multi plain changes = save computation by not rerunning the code multiple times
+                //   when making multiple changes (e.g. renaming a method at multiple parts in file)
+                .multiPlainChanges()
+
+                // do not emit an event until 500 ms have passed since the last emission of previous stream
+                .successionEnds(Duration.ofMillis(500))
+
+                // run the following code block when previous stream emits an event
+                .subscribe(ignore -> code.setStyleSpans(0, computeHighlighting(code.getText())));
+
+        // when no longer need syntax highlighting and wish to clean up memory leaks
+        // run: `cleanupWhenNoLongerNeedIt.unsubscribe();`
+
+        // auto-indent: insert previous line's indents on enter
+        final Pattern whiteSpace = Pattern.compile( "^\\s+" );
+        code.addEventHandler( KeyEvent.KEY_PRESSED, KE ->
+        {
+            if ( KE.getCode() == KeyCode.ENTER ) {
+                int caretPosition = code.getCaretPosition();
+                int currentParagraph = code.getCurrentParagraph();
+                Matcher m0 = whiteSpace.matcher( code.getParagraph( currentParagraph-1 ).getSegments().get( 0 ) );
+                if ( m0.find() ) Platform.runLater( () -> code.insertText( caretPosition, m0.group() ) );
+            }
+        });
+
+
+        //code.setText("code");
+        code.replaceText("code");
+        //code.setStyle(0,3,"-fx-font-weight: bold;");
+
         pile.setText("pile");
         tas.setText("tas");
         pile.setEditable(false);
@@ -78,6 +163,7 @@ public class Controller implements Initializable {
         jajacode.setEditable(false);
         sortieJajacode.setText("sortiejajacode");
         sortieJajacode.setEditable(false);
+        //code.setStyle("-fx-text-inner-color: red;");
 
         Platform.runLater(new Runnable() {
             @Override
@@ -87,6 +173,8 @@ public class Controller implements Initializable {
                 scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
             }
         });
+
+
 
 
         ASTLogger.getInstance().addListener(new ASTLogger.ASTListener() {
@@ -135,14 +223,15 @@ public class Controller implements Initializable {
         pathFile = file;
 //        System.out.println("file : " + pathFile);
         if (file != null) {
-            code.setText(fileToString(file.toString()));
+            //code.setText(fileToString(file.toString()));
+            code.replaceText(fileToString(file.toString()));
         }
 
     }
 
     public void save(ActionEvent actionEvent) {
         if (pathFile != null) {
-            stringToFile(pathFile, code.getText());
+            //stringToFile(pathFile, code.getText());
         } else {
             saveAs(actionEvent);
         }
@@ -157,7 +246,7 @@ public class Controller implements Initializable {
         File file = fc.showSaveDialog(null);
         pathFile = file;
         if (file != null) {
-            stringToFile(file, code.getText());
+            //stringToFile(file, code.getText());
         }
     }
 
@@ -266,5 +355,28 @@ public class Controller implements Initializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private static StyleSpans<Collection<String>> computeHighlighting(String text) {
+        Matcher matcher = PATTERN.matcher(text);
+        int lastKwEnd = 0;
+        StyleSpansBuilder<Collection<String>> spansBuilder
+                = new StyleSpansBuilder<>();
+        while(matcher.find()) {
+            String styleClass =
+                    matcher.group("KEYWORD") != null ? "keyword" :
+                            matcher.group("PAREN") != null ? "paren" :
+                                    matcher.group("BRACE") != null ? "brace" :
+                                            matcher.group("BRACKET") != null ? "bracket" :
+                                                    matcher.group("SEMICOLON") != null ? "semicolon" :
+                                                            matcher.group("STRING") != null ? "string" :
+                                                                    matcher.group("COMMENT") != null ? "comment" :
+                                                                            null; /* never happens */ assert styleClass != null;
+            spansBuilder.add(Collections.emptyList(), matcher.start() - lastKwEnd);
+            spansBuilder.add(Collections.singleton(styleClass), matcher.end() - matcher.start());
+            lastKwEnd = matcher.end();
+        }
+        spansBuilder.add(Collections.emptyList(), text.length() - lastKwEnd);
+        return spansBuilder.create();
     }
 }
