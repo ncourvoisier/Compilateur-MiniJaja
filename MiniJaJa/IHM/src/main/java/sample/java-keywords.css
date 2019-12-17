@@ -2,6 +2,10 @@
     -fx-fill: purple;
     -fx-font-weight: bold;
 }
+.jajacode{
+    -fx-fill: #b30000;
+    -fx-font-weight: bold;
+}
 .semicolon {
     -fx-font-weight: bold;
 }

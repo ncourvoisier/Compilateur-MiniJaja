@@ -35,8 +35,8 @@ import java.util.regex.Pattern;
 
 public class Controller implements Initializable {
 
-    @FXML
-    public TextArea numLine;
+    //@FXML
+    //public TextArea numLine;
     @FXML
     public CodeArea code;
     @FXML
@@ -52,7 +52,7 @@ public class Controller implements Initializable {
 
     public File pathFile;
 
-    public ScrollPane sp1;
+    //public ScrollPane sp1;
     public ScrollPane sp2;
     public ScrollPane sp3a;
     public ScrollPane sp3b;
@@ -64,15 +64,25 @@ public class Controller implements Initializable {
             "case", "catch", "char", "class", "const",
             "continue", "default", "do", "double", "else",
             "enum", "extends", "final", "finally", "float",
+
             "for", "goto", "if", "implements", "import",
             "instanceof", "int", "interface", "long", "native",
             "new", "package", "private", "protected", "public",
-            "return", "short", "static", "strictfp", "super",
+            "return", "short", "static", "strictfp",
             "switch", "synchronized", "this", "throw", "throws",
-            "transient", "try", "void", "volatile", "while","bool","write","writeln"
+            "transient", "try", "void", "volatile", "while",
+            "super"
     };
 
+    private static final String[] JAJACODE = new String[] {
+            "boolean", "write", "writeln"
+
+    };
+
+
+
     private static final String KEYWORD_PATTERN = "\\b(" + String.join("|", KEYWORDS) + ")\\b";
+    private static final String JAJACODE_PATTERN = "\\b(" + String.join("|", JAJACODE) + ")\\b";
     private static final String PAREN_PATTERN = "\\(|\\)";
     private static final String BRACE_PATTERN = "\\{|\\}";
     private static final String BRACKET_PATTERN = "\\[|\\]";
@@ -82,6 +92,7 @@ public class Controller implements Initializable {
 
     private static final Pattern PATTERN = Pattern.compile(
             "(?<KEYWORD>" + KEYWORD_PATTERN + ")"
+                    + "|(?<JAJACODE>" + JAJACODE_PATTERN + ")"
                     + "|(?<PAREN>" + PAREN_PATTERN + ")"
                     + "|(?<BRACE>" + BRACE_PATTERN + ")"
                     + "|(?<BRACKET>" + BRACKET_PATTERN + ")"
@@ -97,13 +108,13 @@ public class Controller implements Initializable {
             num += i +"\n";
         }
 
-        sp1 = new ScrollPane();
+        //sp1 = new ScrollPane();
         sp2 = new ScrollPane();
         sp3a = new ScrollPane();
         sp3b = new ScrollPane();
         sp4 = new ScrollPane();
 
-        sp1.setContent(numLine);
+        //sp1.setContent(numLine);
         sp2.setContent(code);
         sp3a.setContent(pile);
         sp3b.setContent(tas);
@@ -112,8 +123,8 @@ public class Controller implements Initializable {
 
 
         pathFile = null;
-        numLine.setText(num);
-        numLine.setEditable(false);
+        /*numLine.setText(num);
+        numLine.setEditable(false);*/
 
         // add line numbers to the left of area
         code.setParagraphGraphicFactory(LineNumberFactory.get(code));
@@ -163,14 +174,6 @@ public class Controller implements Initializable {
         sortieJajacode.setEditable(false);
         //code.setStyle("-fx-text-inner-color: red;");
 
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-                ScrollPane scrollPane = (ScrollPane)numLine.lookup(".scroll-pane");
-                scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-                scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-            }
-        });
 
 
 
@@ -330,11 +333,12 @@ public class Controller implements Initializable {
             ASTClass cla = sc.S();
             Memoire m = new Memoire(1000);
             System.out.println("TypeCheck");
-            cla.typeCheck();
-            System.out.println("Interpreter");
-            cla.interpreter(m);
-
-            affichageMemoire(m);  // Pile vide après le run, normal
+            if(cla.typeCheck()){
+                //interpretation si le typeCheck est bon
+                System.out.println("Interpreter");
+                cla.interpreter(m);
+                affichageMemoire(m);  // Pile vide après le run, normal
+            }
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -355,6 +359,7 @@ public class Controller implements Initializable {
         }
     }
 
+
     private static StyleSpans<Collection<String>> computeHighlighting(String text) {
         Matcher matcher = PATTERN.matcher(text);
         int lastKwEnd = 0;
@@ -363,13 +368,15 @@ public class Controller implements Initializable {
         while(matcher.find()) {
             String styleClass =
                     matcher.group("KEYWORD") != null ? "keyword" :
-                            matcher.group("PAREN") != null ? "paren" :
-                                    matcher.group("BRACE") != null ? "brace" :
-                                            matcher.group("BRACKET") != null ? "bracket" :
-                                                    matcher.group("SEMICOLON") != null ? "semicolon" :
-                                                            matcher.group("STRING") != null ? "string" :
-                                                                    matcher.group("COMMENT") != null ? "comment" :
-                                                                            null; /* never happens */ assert styleClass != null;
+                            matcher.group("JAJACODE") != null ? "jajacode" :
+                                    matcher.group("PAREN") != null ? "paren" :
+                                            matcher.group("BRACE") != null ? "brace" :
+                                                    matcher.group("BRACKET") != null ? "bracket" :
+                                                            matcher.group("SEMICOLON") != null ? "semicolon" :
+                                                                    matcher.group("STRING") != null ? "string" :
+                                                                            matcher.group("COMMENT") != null ? "comment" :
+                                                                                    null; /* never happens */
+            assert styleClass != null;
             spansBuilder.add(Collections.emptyList(), matcher.start() - lastKwEnd);
             spansBuilder.add(Collections.singleton(styleClass), matcher.end() - matcher.start());
             lastKwEnd = matcher.end();
