@@ -5,7 +5,7 @@ import java.util.List;
 
 public class TasInfos {
 
-    private class BlocInfos {
+    public class BlocInfos {
 
         private int adresse;
         private int taille;

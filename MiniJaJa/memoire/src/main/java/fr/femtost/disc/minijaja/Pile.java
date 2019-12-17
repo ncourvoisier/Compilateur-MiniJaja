@@ -320,19 +320,18 @@ public class Pile {
 
     @Override
     public String toString() {
-        String pileQuadString = "";
+        StringBuilder pileQuadString = new StringBuilder();
         if (isEmpty()) {
             System.out.println("IS EMPTY");
-            return pileQuadString;
+            return "";
         }
-        pileQuadString += stackTop.toString();
+        pileQuadString.append(stackTop.toString());
         Quad next = stackTop;
         while (next.getBottomQuad() != null) {
-            pileQuadString += ".";
-            pileQuadString += next.getBottomQuad();
+            pileQuadString.append(".").append(next.getBottomQuad());
             next = next.getBottomQuad();
         }
         System.out.println("FIN TS");
-        return pileQuadString;
+        return pileQuadString.toString();
     }
 }
