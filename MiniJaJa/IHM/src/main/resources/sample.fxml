@@ -36,7 +36,9 @@
                 <MenuItem mnemonicParsing="false" text="Run" onAction="#run" />
                 <MenuItem mnemonicParsing="false" text="Build" onAction="#build" />
                 <MenuItem mnemonicParsing="false" text="Build and run" onAction="#buildAndRun" />
+                <MenuItem mnemonicParsing="false" text="Point d'arrêt" onAction="#ptArret" />
                 <MenuItem mnemonicParsing="false" text="Interprétation pas à pas" />
+                <MenuItem mnemonicParsing="false" text="Instruction suivante" onAction="#instrsSuiv" />
               </items>
             </Menu>
             <Menu mnemonicParsing="false" text="Help">
