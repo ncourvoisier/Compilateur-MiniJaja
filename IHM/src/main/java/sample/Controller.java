@@ -1,11 +1,9 @@
 package sample;
 
-import com.sun.deploy.util.Property;
 import fr.femtost.disc.minijaja.*;
 import fr.femtost.disc.minijaja.ast.ASTClass;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
