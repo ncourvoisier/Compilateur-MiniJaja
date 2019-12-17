@@ -53,6 +53,9 @@ public class Pile {
         Quad oldTop = stackTop;
         System.out.println("DEPILER " + oldTop);
         stackTop = stackTop.getBottomQuad();
+        if(oldTop.getID() != null) {
+            tds.enleverSymbole(oldTop.getID());
+        }
         return oldTop;
     }
 
