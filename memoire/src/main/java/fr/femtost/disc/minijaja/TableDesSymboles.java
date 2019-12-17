@@ -33,7 +33,7 @@ public class TableDesSymboles {
     public void enleverSymbole(String ID) {
         LinkedList<Quad> linkedList = tableSymbole.get(ID);
         if(linkedList != null) {
-            if (linkedList.getFirst().getID().equals(ID)) {
+            if ((ID == null && linkedList.getFirst().getID() == null) || linkedList.getFirst().getID().equals(ID)) {
                 linkedList.removeFirst();
             }
             else {
