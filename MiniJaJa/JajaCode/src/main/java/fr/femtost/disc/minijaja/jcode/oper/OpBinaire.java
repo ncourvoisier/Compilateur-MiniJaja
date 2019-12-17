@@ -58,6 +58,13 @@ public class OpBinaire extends Oper {
                     m.getPile().DeclCst(null, (int)v1 - (int)v2, Sorte.VOID);
                     return current+1;
                 case SUP:
+                    /*System.out.println("v1 : "+v1);
+                    System.out.println("v2 : "+v2);
+
+                    int intValue1 = Integer.parseInt((String) v1);
+                    int intValue2 = Integer.parseInt((String) v2);
+                    m.getPile().DeclCst(null, intValue1 > intValue2, Sorte.VOID);*/
+                    //Build quicksort renvoie exception
                     m.getPile().DeclCst(null, (int)v1 > (int)v2, Sorte.VOID);
                     return current+1;
             }
