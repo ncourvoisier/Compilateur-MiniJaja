@@ -415,4 +415,12 @@ public class Controller implements Initializable {
             e.printStackTrace();
         }
     }
+
+    public void ptArret(ActionEvent actionEvent) {
+        ASTLogger.getInstance().logInfo("Interprétation par point d'arrêt");
+    }
+
+    public void instrsSuiv(ActionEvent actionEvent) {
+        ASTLogger.getInstance().logInfo("Instruction suivante.");
+    }
 }
