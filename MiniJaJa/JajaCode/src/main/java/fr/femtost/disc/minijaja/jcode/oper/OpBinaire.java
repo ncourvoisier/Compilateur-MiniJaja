@@ -33,8 +33,8 @@ public class OpBinaire extends Oper {
     @Override
     public int interpreter(Memoire m, int current) {
         try {
-            Object v1 = m.getPile().Depiler().getVAL();
             Object v2 = m.getPile().Depiler().getVAL();
+            Object v1 = m.getPile().Depiler().getVAL();
             switch (operandes) {
                 case OR:
                     m.getPile().DeclCst(null, (boolean)v1 || (boolean)v2, Sorte.VOID);
@@ -58,13 +58,6 @@ public class OpBinaire extends Oper {
                     m.getPile().DeclCst(null, (int)v1 - (int)v2, Sorte.VOID);
                     return current+1;
                 case SUP:
-                    /*System.out.println("v1 : "+v1);
-                    System.out.println("v2 : "+v2);
-
-                    int intValue1 = Integer.parseInt((String) v1);
-                    int intValue2 = Integer.parseInt((String) v2);
-                    m.getPile().DeclCst(null, intValue1 > intValue2, Sorte.VOID);*/
-                    //Build quicksort renvoie exception
                     m.getPile().DeclCst(null, (int)v1 > (int)v2, Sorte.VOID);
                     return current+1;
             }

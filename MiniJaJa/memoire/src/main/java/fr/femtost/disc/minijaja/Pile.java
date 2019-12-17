@@ -26,7 +26,7 @@ public class Pile {
     }
 
     public void Empiler (Quad q) {
-        System.out.println("EMPILER "+ q);
+        ASTLogger.getInstance().logDebug("EMPILER & CREATE "+ q);
         if (stackTop == null) {
             stackTop = q;
             stackTop.setBottomQuad(null);
@@ -36,8 +36,19 @@ public class Pile {
             q.setBottomQuad(stackTop);
             stackTop = q;
         }
-        if (q.getID() != null) {
-            tds.creerSymboles(q.getID(), q.getVAL(), q.getOBJ(), q.getSORTE());
+        tds.creerSymboles(q.getID(), q.getVAL(), q.getOBJ(), q.getSORTE());
+    }
+
+    private void empilerNoCreate(Quad q) {
+        ASTLogger.getInstance().logDebug("EMPILER "+ q);
+        if (stackTop == null) {
+            stackTop = q;
+            stackTop.setBottomQuad(null);
+        }
+        else {
+            stackTop.setTopQuad(q);
+            q.setBottomQuad(stackTop);
+            stackTop = q;
         }
     }
 
@@ -48,33 +59,41 @@ public class Pile {
     public Quad Depiler () throws PileException {
 
         if (isEmpty()) {
-            throw new PileException("Impossible de dépiller un élément la pile est vide.");
+            throw new PileException("Impossible de dépiler un élément la pile est vide.");
         }
         Quad oldTop = stackTop;
-        System.out.println("DEPILER " + oldTop);
+        ASTLogger.getInstance().logDebug("DEPILER & DELETE " + oldTop);
         stackTop = stackTop.getBottomQuad();
-        if(oldTop.getID() != null) {
-            tds.enleverSymbole(oldTop.getID());
+        tds.enleverSymbole(oldTop.getID());
+        return oldTop;
+    }
+
+    private Quad depilerNoRemove() throws PileException {
+        if (isEmpty()) {
+            throw new PileException("Impossible de dépiler un élément la pile est vide.");
         }
+        Quad oldTop = stackTop;
+        ASTLogger.getInstance().logDebug("DEPILER " + oldTop);
+        stackTop = stackTop.getBottomQuad();
         return oldTop;
     }
 
     public void Echanger () throws PileException {
         if (isEmpty()) {
-            throw new PileException("Impossible de dépiller un élément la pile est vide.");
+            throw new PileException("Impossible de dépiler un élément la pile est vide.");
         }
         if (stackTop.getBottomQuad() == null) {
             throw new PileException("Impossible d'échanger 2 éléments de la pile.");
         }
-        Quad top = Depiler();
-        Quad bottom = Depiler();
-        Empiler(top);
-        Empiler(bottom);
+        Quad top = depilerNoRemove();
+        Quad bottom = depilerNoRemove();
+        empilerNoCreate(top);
+        empilerNoCreate(bottom);
     }
 
     public void DeclVar (String ID, Object VAL, Sorte SORTE) {
         Quad q = tds.creerSymboles(ID, VAL, NatureObjet.VAR, SORTE);
-        Empiler(q);
+        empilerNoCreate(q);
     }
 
     public Quad ReturnQuadWithId (String ID) {
@@ -101,21 +120,21 @@ public class Pile {
         } else {
             q = tds.creerSymboles(ID, VAL, NatureObjet.CST, SORTE);
         }
-        Empiler(q);
+        empilerNoCreate(q);
     }
 
     public void DeclTab (String ID, Object VAL, Sorte SORTE) {
         int addr = AjouterRef(VAL);
         if (addr >= 0) {
             Quad q = tds.creerSymboles(ID, addr, NatureObjet.TAB, SORTE);
-            Empiler(q);
+            empilerNoCreate(q);
         }
     }
 
 
     public void DeclMeth (String ID, Object VAL, Sorte SORTE) {
         Quad q = tds.creerSymboles(ID, VAL, NatureObjet.METH, SORTE);
-        Empiler(q);
+        empilerNoCreate(q);
     }
 
     public void RetirerDecl (String ID) throws PileException {
@@ -128,11 +147,10 @@ public class Pile {
                 RetirerTas(q.getVAL());
             }
             Depiler();
-            tds.enleverSymbole(ID);
         } else {
-            Quad qDepile = Depiler();
+            Quad qDepile = depilerNoRemove();
             RetirerDecl(ID);
-            Empiler(qDepile);
+            empilerNoCreate(qDepile);
         }
     }
 
@@ -146,20 +164,20 @@ public class Pile {
             Empiler(q1);
         } else if (q1.getOBJ().equals(NatureObjet.VCST)) {
             Quad q2 = tds.creerSymboles(q1.getID(), VAL, NatureObjet.CST, q1.getSORTE());
-            Empiler(q2);
+            empilerNoCreate(q2);
         } else if (!q1.getOBJ().equals(NatureObjet.CST)) {
             Quad q3 = tds.creerSymboles(ID, VAL, q1.getOBJ(), q1.getSORTE());
-            Empiler(q3);
+            empilerNoCreate(q3);
         } else if (q1.getOBJ().equals(NatureObjet.TAB)) {
             int addr = AjouterRef(VAL);
             if (addr >= 0) {
                 Quad q4 = tds.creerSymboles(ID, addr, q1.getOBJ(), q1.getSORTE());
                 RetirerTas(q1.getVAL());
-                Empiler(q4);
+                empilerNoCreate(q4);
             }
         } else {  // Meth
             Quad q5 = tds.creerSymboles(ID, VAL, q1.getOBJ(), q1.getSORTE());
-            Empiler(q5);
+            empilerNoCreate(q5);
         }
     }
 
@@ -185,14 +203,14 @@ public class Pile {
         if (isEmpty()) {
             return;
         }
-        Quad q1 = Depiler();
+        Quad q1 = depilerNoRemove();
         if (!ID.equals(q1.getID())) {
             AffecterValT(ID, VAL, INDEX);
         }
         else {
             AffecterTas(q1.getVAL(), INDEX, VAL);
         }
-        Empiler(q1);
+        empilerNoCreate(q1);
     }
 
     // VALT: Adresse du tableau dans le tas | VAL: Valeur à affecter à l'index INDEX du tableau
@@ -206,17 +224,6 @@ public class Pile {
         if (isEmpty()) {
             throw new PileException("La pile est vide impossible d'obtenir la valeur de l'élément " + ID + ".");
         }
-//        Quad q = stackTop;
-//        if (ID.equals(q.getID())){
-//            return q.getVAL();
-//        } else {
-//            int taille = returnTaillePile();
-//            for (int i = 0; i < taille; i++) {
-//                if (pile.get(i).getID().equals(ID)) {
-//                    return pile.get(i).getVAL();
-//                }
-//            }
-//        }
         Quad quadV = tds.chercheQuad(ID);
         if (quadV != null) {
             return quadV.getVAL();
@@ -228,16 +235,6 @@ public class Pile {
         if (isEmpty()) {
             throw new PileException("La pile est vide impossible d'obtenir la valeur de l'élément " + ID + ".");
         }
-//        int taille = returnTaillePile();
-//        for (int i = 0; i < taille; i++) {
-//            Quad q = pile.get(i);
-//            if (q.getID().equals(ID)) {
-//                if (q.getVAL() instanceof Integer) {
-//                    return tas.lire((Integer) q.getVAL(), INDEX);
-//                }
-//                return null;
-//            }
-//        }
         Quad quadV = tds.chercheQuad(ID);
         if (quadV != null) {
             return tas.lire((Integer) quadV.getVAL(), INDEX);
@@ -249,17 +246,6 @@ public class Pile {
         if (isEmpty()) {
             throw new PileException("La pile est vide impossible d'obtenir la nature objet de l'élément " + ID + ".");
         }
-//        Quad q = pile.peek();
-//        if (ID.equals(q.getID())){
-//            return q.getOBJ();
-//        } else {
-//            int taille = returnTaillePile();
-//            for (int i = 0; i < taille; i++) {
-//                if (pile.get(i).getID().equals(ID)) {
-//                    return pile.get(i).getOBJ();
-//                }
-//            }
-//        }
         Quad quadO = tds.chercheQuad(ID);
         if (quadO != null) {
             return quadO.getOBJ();
@@ -271,17 +257,6 @@ public class Pile {
         if (isEmpty()) {
             throw new PileException("La pile est vide impossible d'obtenir la sorte de l'élément " + ID + ".");
         }
-//        Quad q = pile.peek();
-//        if (ID.equals(q.getID())){
-//            return q.getSORTE();
-//        } else {
-//            int taille = returnTaillePile();
-//            for (int i = 0; i < taille; i++) {
-//                if (pile.get(i).getID().equals(ID)) {
-//                    return pile.get(i).getSORTE();
-//                }
-//            }
-//        }
         Quad quadS = tds.chercheQuad(ID);
         if (quadS != null) {
             return quadS.getSORTE();

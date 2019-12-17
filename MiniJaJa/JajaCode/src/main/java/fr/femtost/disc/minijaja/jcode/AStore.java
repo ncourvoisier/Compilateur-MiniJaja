@@ -18,8 +18,8 @@ public class AStore extends JCode {
     @Override
     public int interpreter(Memoire m, int current) {
         try {
-            Object v = m.getPile().Depiler().getVAL();
             int index = (int) m.getPile().Depiler().getVAL();
+            Object v = m.getPile().Depiler().getVAL();
             m.getPile().AffecterValT(ident, v, index);
             return current+1;
         } catch (PileException e) {
