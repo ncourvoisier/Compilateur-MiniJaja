@@ -46,11 +46,11 @@ public class ASTVarTableau extends ASTVar {
             ASTLogger.getInstance().logError(this, "Variable déjà définie " + identifiant.getName());
             return false;
         }
+        local.getPile().DeclTab(identifiant.getName(), 0, type.getSorte());
         if (expr.typeCheck(global, local, Sorte.INT)) {
             if (global.containsSymbol(identifiant.getName())) {
                 ASTLogger.getInstance().logWarning(this, "Local variable shadowing global: " + identifiant.getName());
             }
-            local.getPile().DeclTab(identifiant.getName(), 0, type.getSorte());
             return true;
         }
         return false;
@@ -66,11 +66,8 @@ public class ASTVarTableau extends ASTVar {
             ASTLogger.getInstance().logError(this, "Variable déjà définie " + identifiant.getName());
             return false;
         }
-        if (expr.typeCheck(global, new Memoire(128), Sorte.INT)) {
-            global.getPile().DeclTab(identifiant.getName(), 0, type.getSorte());
-            return true;
-        }
-        return false;
+        global.getPile().DeclTab(identifiant.getName(), 0, type.getSorte());
+        return expr.typeCheck(global, new Memoire(128), Sorte.INT);
     }
 
 }

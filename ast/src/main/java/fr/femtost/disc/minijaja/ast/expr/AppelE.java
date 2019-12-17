@@ -57,6 +57,10 @@ public class AppelE extends ASTExpr {
             return false;
         }
         ASTMethode methode = (ASTMethode) global.getPile().Parametre(ident.getName());
+        if (methode.getTypeMeth().getSorte() == Sorte.VOID) {
+            ASTLogger.getInstance().logError(this, "Usage d'une fonction sans retour dans une expression");
+            return false;
+        }
         boolean b1 = methode.getTypeMeth().getSorte() == expected  || expected == Sorte.VOID;
         if (!b1) {
             ASTLogger.getInstance().logError(this, "Type mismatch: expected " + expected.name() + " got "
