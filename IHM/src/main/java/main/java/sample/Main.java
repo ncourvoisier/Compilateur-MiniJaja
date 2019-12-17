@@ -28,6 +28,15 @@ public class Main extends Application {
                 ctl.quit(null);
             }
         });
+
+        primaryStage.widthProperty().addListener((obs, oldVal, newVal) -> {
+            primaryStage.setWidth(primaryStage.getMaxWidth()+50);
+            System.out.println("yoloooooooooooooo");
+        });
+
+        primaryStage.heightProperty().addListener((obs, oldVal, newVal) -> {
+
+        });
     }
 
 

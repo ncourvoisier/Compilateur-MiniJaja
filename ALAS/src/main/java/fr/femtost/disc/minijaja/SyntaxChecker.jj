@@ -193,6 +193,7 @@ ASTInstr Instr(): {Token t; ASTExpr e;ASTListExpr exp; ASTInstrs instrs, instrs1
 
 
 ASTInstr InstrP(Token t): {ASTExpr e; ASTIdentGenerique ident; ASTInstr inst;}{
+
     <EGAL> e = Exp(){return new Affectation(new Identifiant(t.image), e);}
     | <PEG> e = Exp(){return new Somme(new Identifiant(t.image), e);}
     | <PP> {return new Increment(new Identifiant(t.image));}
@@ -222,8 +223,8 @@ ASTExpr Exp(): {ASTExpr result;}{
 }
 
 ASTExpr ExpP(ASTExpr left) : {ASTExpr result;} {
-    <ET> result = Exp1() {result = new Binop(Binop.Operandes.AND, left, result);} result = ExpP(result) {return result;}
-    | <OU> result = Exp1() {result = new Binop(Binop.Operandes.OR, left, result);} result = ExpP(result) {return result;}
+    <ET> result = Exp1() {result = new Binop(Binop.Operandes.AND, left, result);} result = ExpP(result) {result.setPosition(left.getLine(),left.getColumn());return result;}
+    | <OU> result = Exp1() {result = new Binop(Binop.Operandes.OR, left, result);} result = ExpP(result) {result.setPosition(left.getLine(),left.getColumn());return result;}
     | {return left;}
 }
 
