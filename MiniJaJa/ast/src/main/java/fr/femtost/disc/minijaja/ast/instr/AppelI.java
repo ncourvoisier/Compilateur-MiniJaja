@@ -43,11 +43,11 @@ public class AppelI extends ASTInstr {
 
     @Override
     public void interpreter(Memoire m) {
-        ASTMethode meth = (ASTMethode) m.getPile().Parametre(ident.getName());
+        ASTMethode meth = (ASTMethode) m.getPile().parametre(ident.getName());
         ASTListExpr ls = listExpr;
         ASTEntetes entetes = meth.getEntetes();
         while(ls instanceof ExChain && entetes instanceof EChain) {
-            m.getPile().DeclVar(((EChain) entetes).getNode().getIdent().getName(),
+            m.getPile().declVar(((EChain) entetes).getNode().getIdent().getName(),
                     ((ExChain) ls).getNode().eval(m),
                     ((EChain) entetes).getNode().getType().getSorte());
             ls = ((ExChain) ls).getSuccessor();
@@ -59,7 +59,7 @@ public class AppelI extends ASTInstr {
         entetes = meth.getEntetes();
         while (entetes instanceof EChain) {
             try {
-                m.getPile().RetirerDecl(((EChain) entetes).getNode().getIdent().getName());
+                m.getPile().retirerDecl(((EChain) entetes).getNode().getIdent().getName());
             } catch (PileException e) {
                 ASTLogger.getInstance().logError(this,e.toString());
             }
@@ -73,7 +73,7 @@ public class AppelI extends ASTInstr {
             ASTLogger.getInstance().logError(this, "Fonction non déclarée : " + ident.getName());
             return false;
         }
-        ASTMethode methode = (ASTMethode) global.getPile().Parametre(ident.getName());
+        ASTMethode methode = (ASTMethode) global.getPile().parametre(ident.getName());
         return listExpr.typeCheck(global, local, methode.getEntetes());
     }
 }

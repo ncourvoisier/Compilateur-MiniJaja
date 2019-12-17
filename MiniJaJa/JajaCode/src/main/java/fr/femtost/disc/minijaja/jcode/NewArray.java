@@ -20,7 +20,7 @@ public class NewArray extends JCode {
     @Override
     public int interpreter(Memoire m, int current) {
         try {
-            m.getPile().DeclTab(ident, m.getPile().Depiler().getVAL(),type);
+            m.getPile().declTab(ident, m.getPile().depiler().getVAL(),type);
             return current+1;
         } catch (PileException e) {
             ASTLogger.getInstance().logErrorJJC(e.getMessage());

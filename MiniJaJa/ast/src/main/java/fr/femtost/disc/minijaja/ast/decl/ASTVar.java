@@ -31,7 +31,7 @@ public abstract class ASTVar extends ASTDecl {
     @Override
     public void retirer(Memoire m) {
         try {
-            m.getPile().RetirerDecl(identifiant.getName());
+            m.getPile().retirerDecl(identifiant.getName());
         } catch (PileException e) {
             ASTLogger.getInstance().logError(this,e.getMessage());
         }

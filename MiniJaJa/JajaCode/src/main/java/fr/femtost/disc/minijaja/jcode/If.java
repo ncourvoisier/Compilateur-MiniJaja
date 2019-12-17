@@ -21,7 +21,7 @@ public class If extends JCode {
     @Override
     public int interpreter(Memoire m, int current) {
         try {
-            boolean b = (boolean) m.getPile().Depiler().getVAL();
+            boolean b = (boolean) m.getPile().depiler().getVAL();
             if (b)
                 return adr;
             else

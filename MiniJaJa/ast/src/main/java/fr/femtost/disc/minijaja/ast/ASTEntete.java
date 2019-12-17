@@ -47,7 +47,7 @@ public class ASTEntete extends ASTNode {
     @Override
     public void interpreter(Memoire m) {
         try {
-            m.getPile().RetirerDecl(ident.getName());
+            m.getPile().retirerDecl(ident.getName());
         } catch (PileException e) {
             ASTLogger.getInstance().logError(this,e.getMessage());
         }
@@ -55,7 +55,7 @@ public class ASTEntete extends ASTNode {
 
     public void retirer(Memoire m) {
         try {
-            m.getPile().RetirerDecl(ident.getName());
+            m.getPile().retirerDecl(ident.getName());
         } catch (PileException e) {
             ASTLogger.getInstance().logError(this,e.getMessage());
         }
@@ -69,7 +69,7 @@ public class ASTEntete extends ASTNode {
         if (globale.containsSymbol(ident.getName())) {
             ASTLogger.getInstance().logWarning(this, "Local variable shadowing global: " + ident.getName());
         }
-        locale.getPile().DeclVar(ident.getName(), null, type.getSorte());
+        locale.getPile().declVar(ident.getName(), null, type.getSorte());
         return true;
     }
 }

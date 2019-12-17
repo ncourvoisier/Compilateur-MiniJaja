@@ -36,7 +36,7 @@ public class ASTVarSimple extends ASTVar {
     @Override
     public void interpreter(Memoire m) {
         Object v = expr.eval(m);
-        m.getPile().DeclVar(identifiant.getName(),v, type.getSorte());
+        m.getPile().declVar(identifiant.getName(),v, type.getSorte());
     }
 
     @Override
@@ -49,7 +49,7 @@ public class ASTVarSimple extends ASTVar {
             ASTLogger.getInstance().logError(this, "Variable déjà définie " + identifiant.getName());
             return false;
         }
-        local.getPile().DeclVar(identifiant.getName(), null, type.getSorte());
+        local.getPile().declVar(identifiant.getName(), null, type.getSorte());
         if (expr.typeCheck(global, local, type.getSorte())) {
             if (global.containsSymbol(identifiant.getName())) {
                 ASTLogger.getInstance().logWarning(this, "Local variable shadowing global: " + identifiant.getName());
@@ -69,7 +69,7 @@ public class ASTVarSimple extends ASTVar {
             ASTLogger.getInstance().logError(this, "Variable déjà définie " + identifiant.getName());
             return false;
         }
-        global.getPile().DeclVar(identifiant.getName(), null, type.getSorte());
+        global.getPile().declVar(identifiant.getName(), null, type.getSorte());
         return expr.typeCheck(global, new Memoire(128), type.getSorte());
     }
 

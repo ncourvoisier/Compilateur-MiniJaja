@@ -33,32 +33,32 @@ public class OpBinaire extends Oper {
     @Override
     public int interpreter(Memoire m, int current) {
         try {
-            Object v2 = m.getPile().Depiler().getVAL();
-            Object v1 = m.getPile().Depiler().getVAL();
+            Object v2 = m.getPile().depiler().getVAL();
+            Object v1 = m.getPile().depiler().getVAL();
             switch (operandes) {
                 case OR:
-                    m.getPile().DeclCst(null, (boolean)v1 || (boolean)v2, Sorte.VOID);
+                    m.getPile().declCst(null, (boolean)v1 || (boolean)v2, Sorte.VOID);
                     return current+1;
                 case ADD:
-                    m.getPile().DeclCst(null, (int)v1 + (int)v2, Sorte.VOID);
+                    m.getPile().declCst(null, (int)v1 + (int)v2, Sorte.VOID);
                     return current+1;
                 case AND:
-                    m.getPile().DeclCst(null, (boolean)v1 && (boolean)v2, Sorte.VOID);
+                    m.getPile().declCst(null, (boolean)v1 && (boolean)v2, Sorte.VOID);
                     return current+1;
                 case CMP:
-                    m.getPile().DeclCst(null, v1.equals(v2), Sorte.VOID);
+                    m.getPile().declCst(null, v1.equals(v2), Sorte.VOID);
                     return current+1;
                 case DIV:
-                    m.getPile().DeclCst(null, (int)v1 / (int)v2, Sorte.VOID);
+                    m.getPile().declCst(null, (int)v1 / (int)v2, Sorte.VOID);
                     return current+1;
                 case MUL:
-                    m.getPile().DeclCst(null, (int)v1 * (int)v2, Sorte.VOID);
+                    m.getPile().declCst(null, (int)v1 * (int)v2, Sorte.VOID);
                     return current+1;
                 case SUB:
-                    m.getPile().DeclCst(null, (int)v1 - (int)v2, Sorte.VOID);
+                    m.getPile().declCst(null, (int)v1 - (int)v2, Sorte.VOID);
                     return current+1;
                 case SUP:
-                    m.getPile().DeclCst(null, (int)v1 > (int)v2, Sorte.VOID);
+                    m.getPile().declCst(null, (int)v1 > (int)v2, Sorte.VOID);
                     return current+1;
             }
             ASTLogger.getInstance().logWarningJJC("Unexpected operator:" + operandes.name());

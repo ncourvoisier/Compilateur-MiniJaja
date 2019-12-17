@@ -86,13 +86,13 @@ public class ASTMethode extends ASTDecl {
     @Override
     public void interpreter(Memoire m) {
         ASTMethode mth = new ASTMethode(typeMeth, ident, entetes, vars, instrs);
-        m.getPile().DeclMeth(ident.getName(), mth, null);
+        m.getPile().declMeth(ident.getName(), mth, null);
     }
 
     @Override
     public void retirer(Memoire m) {
         try {
-            m.getPile().RetirerDecl(ident.getName());
+            m.getPile().retirerDecl(ident.getName());
         } catch (PileException e) {
             ASTLogger.getInstance().logError(this,"Impossible de retirer la méthode " + ident.getName());
         }
@@ -116,7 +116,7 @@ public class ASTMethode extends ASTDecl {
             ASTLogger.getInstance().logError(this, "Nom déjà utilisé pour la méthode " + ident.getName());
             return false;
         }
-        global.getPile().DeclMeth(ident.getName(), this, typeMeth.getSorte());
+        global.getPile().declMeth(ident.getName(), this, typeMeth.getSorte());
         return true;
     }
 

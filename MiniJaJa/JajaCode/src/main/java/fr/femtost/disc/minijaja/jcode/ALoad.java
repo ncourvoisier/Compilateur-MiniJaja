@@ -18,8 +18,8 @@ public class ALoad extends JCode {
     @Override
     public int interpreter(Memoire m, int current) {
         try {
-            int index = (int) m.getPile().Depiler().getVAL();
-            m.getPile().DeclCst(null, m.getPile().ValT(ident, index), Sorte.VOID);
+            int index = (int) m.getPile().depiler().getVAL();
+            m.getPile().declCst(null, m.getPile().valT(ident, index), Sorte.VOID);
             return current+1;
         } catch (PileException e) {
             ASTLogger.getInstance().logErrorJJC(e.getMessage());

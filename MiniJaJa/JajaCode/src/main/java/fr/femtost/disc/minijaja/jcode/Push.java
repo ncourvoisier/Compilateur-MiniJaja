@@ -18,7 +18,7 @@ public class Push extends JCode {
 
     @Override
     public int interpreter(Memoire m, int current) {
-        m.getPile().DeclCst(null, val, null);
+        m.getPile().declCst(null, val, null);
         return current+1;
     }
 }

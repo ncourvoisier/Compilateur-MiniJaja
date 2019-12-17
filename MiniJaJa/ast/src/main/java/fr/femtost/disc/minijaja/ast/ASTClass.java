@@ -53,12 +53,12 @@ public class ASTClass extends ASTNode
 
     @Override
     public void interpreter(Memoire m) {
-        m.getPile().DeclVar(ident.getName(),null,null);
+        m.getPile().declVar(ident.getName(),null,null);
         decls.interpreter(m);
         main.interpreter(m);
         decls.retirer(m);
         try {
-            m.getPile().RetirerDecl(ident.getName());
+            m.getPile().retirerDecl(ident.getName());
         } catch (PileException e) {
             ASTLogger.getInstance().logError(this,"Var not found for removal: " + ident.getName());
         }

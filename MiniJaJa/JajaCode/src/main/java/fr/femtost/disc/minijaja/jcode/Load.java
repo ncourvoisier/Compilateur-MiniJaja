@@ -18,7 +18,7 @@ public class Load extends JCode {
     @Override
     public int interpreter(Memoire m, int current) {
         try {
-            m.getPile().DeclCst(null, m.getPile().Val(ident), Sorte.VOID);
+            m.getPile().declCst(null, m.getPile().val(ident), Sorte.VOID);
             return current+1;
         } catch (PileException e) {
             ASTLogger.getInstance().logErrorJJC(e.getMessage());

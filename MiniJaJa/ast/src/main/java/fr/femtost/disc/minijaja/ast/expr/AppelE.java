@@ -43,7 +43,7 @@ public class AppelE extends ASTExpr {
     public Object eval(Memoire m) {
         new AppelI(ident, listExpr).interpreter(m);
         try {
-            return m.getPile().Val(ASTClass.getVariableClass());
+            return m.getPile().val(ASTClass.getVariableClass());
         } catch (PileException e) {
             ASTLogger.getInstance().logError(this,e.toString());
         }
@@ -56,7 +56,7 @@ public class AppelE extends ASTExpr {
             ASTLogger.getInstance().logError(this, "Fonction non déclarée : " + ident.getName());
             return false;
         }
-        ASTMethode methode = (ASTMethode) global.getPile().Parametre(ident.getName());
+        ASTMethode methode = (ASTMethode) global.getPile().parametre(ident.getName());
         if (methode.getTypeMeth().getSorte() == Sorte.VOID) {
             ASTLogger.getInstance().logError(this, "Usage d'une fonction sans retour dans une expression");
             return false;
