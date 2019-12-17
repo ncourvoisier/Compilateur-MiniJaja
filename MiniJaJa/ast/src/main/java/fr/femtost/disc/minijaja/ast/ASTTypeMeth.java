@@ -16,9 +16,4 @@ public abstract class ASTTypeMeth extends ASTNode {
         throw new UnsupportedOperationException("Interpretation not implemented in Type");
     }
 
-    @Override
-    public void retirer(Memoire m) {
-        throw new UnsupportedOperationException("Interpretation not implemented in Type");
-    }
-
 }

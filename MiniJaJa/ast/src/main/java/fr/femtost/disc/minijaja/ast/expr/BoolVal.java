@@ -1,7 +1,9 @@
 package fr.femtost.disc.minijaja.ast.expr;
 
+import fr.femtost.disc.minijaja.ASTLogger;
 import fr.femtost.disc.minijaja.CompilationCouple;
 import fr.femtost.disc.minijaja.Memoire;
+import fr.femtost.disc.minijaja.Sorte;
 import fr.femtost.disc.minijaja.ast.ASTExpr;
 import fr.femtost.disc.minijaja.jcode.Push;
 import fr.femtost.disc.minijaja.jcodes.JChain;
@@ -29,12 +31,17 @@ public class BoolVal extends ASTExpr {
     }
 
     @Override
-    public void typeCheck(Memoire m) {
-
+    public Object eval(Memoire m) {
+        return value;
     }
 
     @Override
-    public Object eval(Memoire m) {
-        return value;
+    public boolean typeCheck(Memoire global, Memoire local, Sorte expected) {
+        if (expected == Sorte.BOOL || expected == Sorte.VOID)
+            return true;
+        else {
+            ASTLogger.getInstance().logError(this, "Type mismatch: expected " + expected.name() + " got " + Sorte.BOOL.name());
+            return false;
+        }
     }
 }

@@ -53,7 +53,6 @@ public class ASTEntete extends ASTNode {
         }
     }
 
-    @Override
     public void retirer(Memoire m) {
         try {
             m.getPile().RetirerDecl(ident.getName());
@@ -62,8 +61,15 @@ public class ASTEntete extends ASTNode {
         }
     }
 
-    @Override
-    public void typeCheck(Memoire m) {
-
+    public boolean typeCheck(Memoire globale, Memoire locale) {
+        if (locale.containsSymbol(ident.getName())) {
+            ASTLogger.getInstance().logError(this, "Duplicated declaration of " + ident.getName());
+            return false;
+        }
+        if (globale.containsSymbol(ident.getName())) {
+            ASTLogger.getInstance().logWarning(this, "Local variable shadowing global: " + ident.getName());
+        }
+        locale.getPile().DeclVar(ident.getName(), null, type.getSorte());
+        return true;
     }
 }

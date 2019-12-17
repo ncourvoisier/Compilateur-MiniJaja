@@ -5,6 +5,7 @@ import fr.femtost.disc.minijaja.JCodes;
 import fr.femtost.disc.minijaja.Memoire;
 import fr.femtost.disc.minijaja.ast.ASTDecl;
 import fr.femtost.disc.minijaja.ast.ASTDecls;
+import fr.femtost.disc.minijaja.ast.decl.ASTMethode;
 
 public class DChain extends ASTDecls {
 
@@ -48,14 +49,26 @@ public class DChain extends ASTDecls {
     }
 
     @Override
+    public boolean firstCheck(Memoire global) {
+        boolean b1 = node.firstCheck(global);
+        boolean b2 = successor.firstCheck(global);
+        return b1 && b2;
+    }
+
+    @Override
+    public boolean typeCheck(Memoire global) {
+        boolean b1 = true;
+        if(node instanceof ASTMethode){
+            b1 = node.typeCheck(global, null);
+        }
+        boolean b2 = successor.typeCheck(global);
+        return b1 && b2;
+    }
+
+    @Override
     public void retirer(Memoire m) {
         successor.retirer(m);
         node.retirer(m);
     }
 
-    @Override
-    public void typeCheck(Memoire m) {
-        node.typeCheck(m);
-        successor.typeCheck(m);
-    }
 }

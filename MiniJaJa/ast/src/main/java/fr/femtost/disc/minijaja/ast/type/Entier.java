@@ -1,6 +1,5 @@
 package fr.femtost.disc.minijaja.ast.type;
 
-import fr.femtost.disc.minijaja.Memoire;
 import fr.femtost.disc.minijaja.Sorte;
 
 public final class Entier extends ASTType {
@@ -10,10 +9,6 @@ public final class Entier extends ASTType {
         return "int";
     }
 
-    @Override
-    public void typeCheck(Memoire m) {
-
-    }
 
     @Override
     public Sorte getSorte() {

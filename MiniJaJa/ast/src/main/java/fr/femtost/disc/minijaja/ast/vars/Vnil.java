@@ -28,10 +28,8 @@ public final class Vnil extends ASTVars {
         //noop
     }
 
-
     @Override
-    public void typeCheck(Memoire m) {
-
+    public boolean typeCheck(Memoire global, Memoire local) {
+        return true;
     }
-
 }

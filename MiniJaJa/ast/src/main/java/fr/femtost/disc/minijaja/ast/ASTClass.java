@@ -64,13 +64,14 @@ public class ASTClass extends ASTNode
         }
     }
 
-    @Override
-    public void retirer(Memoire m) {
-    }
-
-    @Override
-    public void typeCheck(Memoire m) {
-
+    public boolean typeCheck() {
+        Memoire global = new Memoire(128);
+        if (decls.firstCheck(global)) {
+            boolean b1 = decls.typeCheck(global);
+            boolean b2 = main.typeCheck(global);
+            return b1 && b2;
+        }
+        return false;
     }
 
 }

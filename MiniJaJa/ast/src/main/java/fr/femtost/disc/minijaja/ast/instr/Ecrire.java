@@ -1,11 +1,9 @@
 package fr.femtost.disc.minijaja.ast.instr;
 
-import fr.femtost.disc.minijaja.ASTLogger;
-import fr.femtost.disc.minijaja.CompilationCouple;
-import fr.femtost.disc.minijaja.JCodes;
-import fr.femtost.disc.minijaja.Memoire;
+import fr.femtost.disc.minijaja.*;
 import fr.femtost.disc.minijaja.ast.ASTInstr;
 import fr.femtost.disc.minijaja.ast.ASTMain;
+import fr.femtost.disc.minijaja.ast.expr.identificateur.HardcodedString;
 import fr.femtost.disc.minijaja.ast.expr.identificateur.Identifiant;
 import fr.femtost.disc.minijaja.jcode.Write;
 
@@ -46,7 +44,19 @@ public class Ecrire extends ASTInstr {
     }
 
     @Override
-    public void typeCheck(Memoire m) {
+    public boolean typeCheck(Memoire global, Memoire local) {
+        if (ident instanceof HardcodedString)
+            return true;
 
+        if (local.containsSymbol(ident.getName())) {
+            return true;
+        } else {
+            if (global.containsSymbol(ident.getName())) {
+                return true;
+            } else {
+                ASTLogger.getInstance().logError(this, "Variable non déclarée : " + ident.getName());
+                return false;
+            }
+        }
     }
 }

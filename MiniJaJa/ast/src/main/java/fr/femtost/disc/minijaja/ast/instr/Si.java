@@ -1,12 +1,11 @@
 package fr.femtost.disc.minijaja.ast.instr;
 
-import fr.femtost.disc.minijaja.CompilationCouple;
-import fr.femtost.disc.minijaja.JCodes;
-import fr.femtost.disc.minijaja.Memoire;
+import fr.femtost.disc.minijaja.*;
 import fr.femtost.disc.minijaja.ast.ASTExpr;
 import fr.femtost.disc.minijaja.ast.ASTInstr;
 import fr.femtost.disc.minijaja.ast.ASTInstrs;
 import fr.femtost.disc.minijaja.ast.instrs.IChain;
+import fr.femtost.disc.minijaja.ast.instrs.Inil;
 import fr.femtost.disc.minijaja.jcode.Goto;
 import fr.femtost.disc.minijaja.jcode.If;
 
@@ -60,7 +59,19 @@ public class Si extends ASTInstr {
     }
 
     @Override
-    public void typeCheck(Memoire m) {
+    public void forwardTypeRetour(Sorte sorte) {
+        instrsIf.forwardTypeRetour(sorte);
+        instrsElse.forwardTypeRetour(sorte);
+    }
 
+    @Override
+    public boolean typeCheck(Memoire global, Memoire local) {
+        boolean b1 = expr.typeCheck(global, local, Sorte.BOOL);
+        boolean b2 = instrsIf.typeCheck(global, local);
+        boolean b3 = instrsElse.typeCheck(global, local);
+        if (instrsIf instanceof Inil) {
+            ASTLogger.getInstance().logWarning(instrsIf, "Bloc if vide");
+        }
+        return b1 && b2 && b3;
     }
 }

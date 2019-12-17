@@ -12,16 +12,16 @@ import fr.femtost.disc.minijaja.jcodes.JNil;
 
 public class Increment extends ASTInstr {
 
-    private ASTIdentGenerique identGenerique;
+    private ASTIdentGenerique ident;
 
-    public Increment(ASTIdentGenerique identGenerique) {
-        this.identGenerique = identGenerique;
+    public Increment(ASTIdentGenerique ident) {
+        this.ident = ident;
     }
 
     @Override
     public String rewrite() {
         StringBuilder sb = new StringBuilder();
-        sb.append(identGenerique.rewrite());
+        sb.append(ident.rewrite());
         sb.append("++");
 
         return sb.toString();
@@ -29,39 +29,78 @@ public class Increment extends ASTInstr {
 
     @Override
     public CompilationCouple compiler(int actual) {
-        if (identGenerique instanceof Tableau) {
-            CompilationCouple index = ((Tableau)identGenerique).getIndex(actual);
+        if (ident instanceof Tableau) {
+            CompilationCouple index = ((Tableau) ident).getIndex(actual);
 
             return new CompilationCouple(JCodes.concatenate(index.jCodes,
-                    new JChain(new Push(1), new JChain(new AInc(identGenerique.getName()), new JNil()))),
+                    new JChain(new Push(1), new JChain(new AInc(ident.getName()), new JNil()))),
                     index.taille + 2);
         }
-        return new CompilationCouple(new JChain(new Push(1), new JChain(new Inc(identGenerique.getName()), new JNil())), 2);
+        return new CompilationCouple(new JChain(new Push(1), new JChain(new Inc(ident.getName()), new JNil())), 2);
     }
     @Override
     public void interpreter(Memoire m){
 
-        if(identGenerique instanceof Tableau)
+        if(ident instanceof Tableau)
         {
-            int v = ((Tableau) identGenerique).evalIndex(m);
+            int v = ((Tableau) ident).evalIndex(m);
             try{
-                m.getPile().AffecterValT(identGenerique.getName(),(int)m.getPile().ValT(identGenerique.getName(),v)+1,v);
+                m.getPile().AffecterValT(ident.getName(),(int)m.getPile().ValT(ident.getName(),v)+1,v);
             } catch (PileException e){
                 ASTLogger.getInstance().logError(this,e.getMessage());
             }
         }
         else {
             try {
-                m.getPile().AffecterVal(identGenerique.getName(),(int)(m.getPile().Val(identGenerique.getName()))+1);
+                m.getPile().AffecterVal(ident.getName(),(int)(m.getPile().Val(ident.getName()))+1);
             } catch (PileException e) {
                 ASTLogger.getInstance().logError(this,e.getMessage());
             }
         }
     }
 
-
     @Override
-    public void typeCheck(Memoire m) {
+    public boolean typeCheck(Memoire global, Memoire local) {
+        Quad decl;
+        if (local.containsSymbol(ident.getName())) {
+            decl = local.getPile().ReturnQuadWithId(ident.getName());
+        } else {
+            if (global.containsSymbol(ident.getName())) {
+                decl = global.getPile().ReturnQuadWithId(ident.getName());
+            } else {
+                ASTLogger.getInstance().logError(this, "Variable non déclarée : " + ident.getName());
+                return false;
+            }
+        }
+        if (decl.getOBJ() == NatureObjet.CST) {
+            ASTLogger.getInstance().logError(this, "Incrément d'une constante : " + ident.getName());
+            return false;
+        }
+        if (decl.getOBJ() == NatureObjet.METH) {
+            ASTLogger.getInstance().logError(this, "Incrément d'un nom de méthode : " + ident.getName());
+            return false;
+        }
+        if (decl.getOBJ() == NatureObjet.TAB) {
+            if (!(ident instanceof Tableau)) {
+                ASTLogger.getInstance().logError(this, "Incrément d'une adresse de tableau : " + ident.getName());
+                return false;
+            } else {
+                if (! ((Tableau) ident).checkIndex(global, local)) {
+                    return false;
+                }
+            }
+        }
 
+        if (decl.getOBJ() == NatureObjet.VAR && ident instanceof Tableau) {
+            ASTLogger.getInstance().logError(this, "Variable simple utilisée comme tableau " + ident.getName());
+            return false;
+        }
+
+        if (decl.getSORTE() == Sorte.INT) {
+            return true;
+        } else {
+            ASTLogger.getInstance().logError(this, "Incrément sur variable non-int " + ident.getName());
+            return false;
+        }
     }
 }

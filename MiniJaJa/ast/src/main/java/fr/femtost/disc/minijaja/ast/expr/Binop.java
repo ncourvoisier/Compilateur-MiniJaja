@@ -1,8 +1,6 @@
 package fr.femtost.disc.minijaja.ast.expr;
 
-import fr.femtost.disc.minijaja.CompilationCouple;
-import fr.femtost.disc.minijaja.JCodes;
-import fr.femtost.disc.minijaja.Memoire;
+import fr.femtost.disc.minijaja.*;
 import fr.femtost.disc.minijaja.ast.ASTExpr;
 import fr.femtost.disc.minijaja.jcode.oper.OpBinaire;
 
@@ -76,21 +74,6 @@ public class Binop extends ASTExpr {
         return new CompilationCouple(JCodes.concatenate(e1.jCodes, JCodes.concatRight(e2.jCodes, new OpBinaire(op.getOperande()))), e1.taille + e2.taille + 1);
     }
 
-
-    @Override
-    public void typeCheck (Memoire m) {
-        Object e1 = expr1.eval(m);
-        Object e2 = expr2.eval(m);
-
-        if (e1 == null) {
-            System.out.println(e1 + "is not initialize.");
-        }
-
-        if (e2 == null) {
-            System.out.println(e1 + "is not initialize.");
-        }
-    }
-
     @Override
     public Object eval(Memoire m) {
         Object e1 = expr1.eval(m);
@@ -115,5 +98,43 @@ public class Binop extends ASTExpr {
                 return (int)e1 > (int)e2;
         }
         return null;
+    }
+
+    @Override
+    public boolean typeCheck(Memoire global, Memoire local, Sorte expected) {
+        Sorte s1;
+        Sorte retour;
+
+        switch (op) {
+            case ADDITION:
+            case SOUSTRACTION:
+            case MULTIPLICATION:
+            case DIVISION:
+                s1 = Sorte.INT;
+                retour = Sorte.INT;
+                break;
+            case OR:
+            case AND:
+                s1 = Sorte.BOOL;
+                retour = Sorte.BOOL;
+                break;
+            case SUPERIEUR:
+                s1 = Sorte.INT;
+                retour = Sorte.BOOL;
+                break;
+            default:
+                s1 = Sorte.VOID;
+                retour = Sorte.BOOL;
+                break;
+        }
+
+        boolean b1 = expected == retour || expected == Sorte.VOID;
+        if (!b1) {
+            ASTLogger.getInstance().logError(this, "Type mismatch: expected " + expected.name() + " got " + retour.name());
+        }
+        boolean b2 = expr1.typeCheck(global, local, s1);
+        boolean b3 = expr2.typeCheck(global, local, s1);
+
+        return b1 && b2 && b3;
     }
 }

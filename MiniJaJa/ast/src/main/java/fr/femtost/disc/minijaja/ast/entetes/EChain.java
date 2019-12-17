@@ -53,19 +53,20 @@ public class EChain extends ASTEntetes {
     }
 
     @Override
-    public void interpreter(Memoire m) {
+    public boolean typeCheck(Memoire global, Memoire local) {
+        boolean b1 = node.typeCheck(global, local);
+        boolean b2 = successor.typeCheck(global, local);
+        return b1 && b2;
+    }
 
+    @Override
+    public void interpreter(Memoire m) {
+        //noop
     }
 
     @Override
     public void retirer(Memoire m) {
         successor.retirer(m);
         node.retirer(m);
-    }
-
-
-    @Override
-    public void typeCheck(Memoire m) {
-
     }
 }
