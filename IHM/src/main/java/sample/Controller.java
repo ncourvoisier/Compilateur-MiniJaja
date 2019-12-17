@@ -189,7 +189,7 @@ public class Controller implements Initializable {
                 }
                 if(level.equals(ASTLogger.MessageLevel.JJC))
                 {
-                    sortieJajacode.setText(sortieJajacode.getText() + "\n" + message);
+                    sortieJajacode.setText(sortieJajacode.getText() + message);
                 }
                 if(level.equals(ASTLogger.MessageLevel.WARNINGJJC))
                 {
@@ -355,8 +355,6 @@ public class Controller implements Initializable {
             CompilationCouple cc= cla.compiler(1);
             String result = cc.jCodes.rewriteWithLines();
             jajacode.setText(result);
-            cc.jCodes.interpreterFull();
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -386,5 +384,35 @@ public class Controller implements Initializable {
         }
         spansBuilder.add(Collections.emptyList(), text.length() - lastKwEnd);
         return spansBuilder.create();
+    }
+
+
+    public void clearConsole(ActionEvent actionEvent) {
+        sortieConsole.clear();
+    }
+
+    public void clearAll(ActionEvent actionEvent) {
+        sortieConsole.clear();
+        jajacode.clear();
+        sortieJajacode.clear();
+        pile.clear();
+        tas.clear();
+    }
+
+    public void buildAndRun(ActionEvent actionEvent) {
+        ASTLogger.getInstance().logJJC("Debut");
+        System.out.println("Out");
+
+        SyntaxChecker sc = new SyntaxChecker(new java.io.StringReader(code.getText()));
+        try {
+            ASTClass cla = sc.S();
+            CompilationCouple cc= cla.compiler(1);
+            String result = cc.jCodes.rewriteWithLines();
+            jajacode.setText(result);
+            cc.jCodes.interpreterFull();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
