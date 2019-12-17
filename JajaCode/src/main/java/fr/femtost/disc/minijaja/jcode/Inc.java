@@ -18,8 +18,8 @@ public class Inc extends JCode {
     @Override
     public int interpreter(Memoire m, int current) {
         try {
-            int v = (int) m.getPile().Depiler().getVAL();
-            m.getPile().AffecterVal(ident, (int)m.getPile().Val(ident) + v);
+            int v = (int) m.getPile().depiler().getVAL();
+            m.getPile().affecterVal(ident, (int)m.getPile().val(ident) + v);
             return current+1;
         } catch (PileException e) {
             ASTLogger.getInstance().logErrorJJC(e.getMessage());

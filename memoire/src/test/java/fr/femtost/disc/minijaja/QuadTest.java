@@ -3,8 +3,6 @@ package fr.femtost.disc.minijaja;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Stack;
-
 import static org.junit.Assert.*;
 
 public class QuadTest {
@@ -15,7 +13,7 @@ public class QuadTest {
     public void Begin() {
         Memoire mem = new Memoire(1000000);
         p = mem.getPile();
-        p.DeclVar("Var", 1, Sorte.INT);
+        p.declVar("Var", 1, Sorte.INT);
         q = p.getStackTop();
     }
 

@@ -15,7 +15,7 @@ public class Pop extends JCode {
     @Override
     public int interpreter(Memoire m, int current) {
         try {
-            m.getPile().Depiler();
+            m.getPile().depiler();
             return current+1;
         } catch (PileException e) {
             ASTLogger.getInstance().logErrorJJC(e.getMessage());

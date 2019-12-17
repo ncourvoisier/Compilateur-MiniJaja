@@ -17,9 +17,9 @@ public class Invoke extends JCode {
 
     @Override
     public int interpreter(Memoire m, int current) {
-        m.getPile().DeclCst(null, current+1, Sorte.VOID);
+        m.getPile().declCst(null, current+1, Sorte.VOID);
         try {
-            return (int) m.getPile().Val(ident);
+            return (int) m.getPile().val(ident);
         } catch (PileException e) {
             ASTLogger.getInstance().logErrorJJC(e.getMessage());
             return -1;

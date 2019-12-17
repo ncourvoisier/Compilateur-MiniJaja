@@ -15,7 +15,7 @@ public class Return extends JCode {
     @Override
     public int interpreter(Memoire m, int current) {
         try {
-            return (int)m.getPile().Depiler().getVAL();
+            return (int)m.getPile().depiler().getVAL();
         } catch (PileException e) {
             ASTLogger.getInstance().logErrorJJC(e.getMessage());
             return -1;

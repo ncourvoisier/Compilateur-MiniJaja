@@ -19,6 +19,6 @@ public class Memoire {
     }
 
     public boolean containsSymbol(String symbol) {
-        return pile.ReturnQuadWithId(symbol) != null;
+        return pile.returnQuadWithId(symbol) != null;
     }
 }

@@ -33,7 +33,7 @@ public class ASTVarTableau extends ASTVar {
     @Override
     public void interpreter(Memoire m) {
         int v = (int)expr.eval(m);
-        m.getPile().DeclTab(identifiant.getName(),v, type.getSorte());
+        m.getPile().declTab(identifiant.getName(),v, type.getSorte());
     }
 
     @Override
@@ -46,7 +46,7 @@ public class ASTVarTableau extends ASTVar {
             ASTLogger.getInstance().logError(this, "Variable déjà définie " + identifiant.getName());
             return false;
         }
-        local.getPile().DeclTab(identifiant.getName(), 0, type.getSorte());
+        local.getPile().declTab(identifiant.getName(), 0, type.getSorte());
         if (expr.typeCheck(global, local, Sorte.INT)) {
             if (global.containsSymbol(identifiant.getName())) {
                 ASTLogger.getInstance().logWarning(this, "Local variable shadowing global: " + identifiant.getName());
@@ -66,7 +66,7 @@ public class ASTVarTableau extends ASTVar {
             ASTLogger.getInstance().logError(this, "Variable déjà définie " + identifiant.getName());
             return false;
         }
-        global.getPile().DeclTab(identifiant.getName(), 0, type.getSorte());
+        global.getPile().declTab(identifiant.getName(), 0, type.getSorte());
         return expr.typeCheck(global, new Memoire(128), Sorte.INT);
     }
 

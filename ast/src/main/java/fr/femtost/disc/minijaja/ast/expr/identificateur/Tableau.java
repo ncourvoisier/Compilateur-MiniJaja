@@ -46,10 +46,10 @@ public class Tableau extends ASTIdentGenerique {
     public boolean typeCheck(Memoire global, Memoire local, Sorte expected) {
         Quad decl;
         if (local.containsSymbol(name)) {
-            decl = local.getPile().ReturnQuadWithId(name);
+            decl = local.getPile().returnQuadWithId(name);
         } else {
             if (global.containsSymbol(name)) {
-                decl = global.getPile().ReturnQuadWithId(name);
+                decl = global.getPile().returnQuadWithId(name);
             } else {
                 ASTLogger.getInstance().logError(this, "Variable non déclarée : " + name);
                 return false;

@@ -15,7 +15,7 @@ public class Write extends JCode {
     @Override
     public int interpreter(Memoire m, int current) {
         try {
-            ASTLogger.getInstance().logJJC(m.getPile().Depiler().getVAL().toString());
+            ASTLogger.getInstance().logJJC(m.getPile().depiler().getVAL().toString());
             return current+1;
         } catch (PileException e) {
             ASTLogger.getInstance().logErrorJJC(e.getMessage());

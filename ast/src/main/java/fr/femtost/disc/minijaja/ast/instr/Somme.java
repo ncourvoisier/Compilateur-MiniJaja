@@ -45,14 +45,14 @@ public class Somme extends ASTInstr {
         {
             int v2 = ((Tableau) ident).evalIndex(m);
             try {
-                m.getPile().AffecterValT(ident.getName(),(int)m.getPile().ValT(ident.getName(),v2)+(int)v,v2);
+                m.getPile().affecterValT(ident.getName(),(int)m.getPile().valT(ident.getName(),v2)+(int)v,v2);
             } catch (PileException e){
                 ASTLogger.getInstance().logError(this,e.getMessage());
             }
         }
         else {
             try {
-                m.getPile().AffecterVal(ident.getName(),(int)(m.getPile().Val(ident.getName()))+(int)v);
+                m.getPile().affecterVal(ident.getName(),(int)(m.getPile().val(ident.getName()))+(int)v);
             } catch (PileException e) {
                 ASTLogger.getInstance().logError(this,e.getMessage());
             }
@@ -63,10 +63,10 @@ public class Somme extends ASTInstr {
     public boolean typeCheck(Memoire global, Memoire local) {
         Quad decl;
         if (local.containsSymbol(ident.getName())) {
-            decl = local.getPile().ReturnQuadWithId(ident.getName());
+            decl = local.getPile().returnQuadWithId(ident.getName());
         } else {
             if (global.containsSymbol(ident.getName())) {
-                decl = global.getPile().ReturnQuadWithId(ident.getName());
+                decl = global.getPile().returnQuadWithId(ident.getName());
             } else {
                 ASTLogger.getInstance().logError(this, "Variable non déclarée : " + ident.getName());
                 return false;

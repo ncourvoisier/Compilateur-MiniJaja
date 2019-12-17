@@ -27,13 +27,13 @@ public class OpUnaire extends Oper {
     @Override
     public int interpreter(Memoire m, int current) {
         try {
-            Object v = m.getPile().Depiler().getVAL();
+            Object v = m.getPile().depiler().getVAL();
             switch (op) {
                 case NOT:
-                    m.getPile().DeclCst(null, !((boolean)v), Sorte.VOID);
+                    m.getPile().declCst(null, !((boolean)v), Sorte.VOID);
                     return current+1;
                 case NEG:
-                    m.getPile().DeclCst(null, -((int)v), Sorte.VOID);
+                    m.getPile().declCst(null, -((int)v), Sorte.VOID);
                     return current+1;
             }
             ASTLogger.getInstance().logWarning("Unexpected operator:" + op.name());

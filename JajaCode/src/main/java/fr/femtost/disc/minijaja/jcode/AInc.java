@@ -18,9 +18,9 @@ public class AInc extends JCode {
     @Override
     public int interpreter(Memoire m, int current) {
         try {
-            int v = (int) m.getPile().Depiler().getVAL();
-            int index = (int) m.getPile().Depiler().getVAL();
-            m.getPile().AffecterValT(ident, (int) m.getPile().ValT(ident, index) + v, index);
+            int v = (int) m.getPile().depiler().getVAL();
+            int index = (int) m.getPile().depiler().getVAL();
+            m.getPile().affecterValT(ident, (int) m.getPile().valT(ident, index) + v, index);
             return current+1;
         } catch (PileException e) {
             ASTLogger.getInstance().logErrorJJC(e.getMessage());

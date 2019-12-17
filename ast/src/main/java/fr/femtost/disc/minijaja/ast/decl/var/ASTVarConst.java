@@ -37,7 +37,7 @@ public class ASTVarConst extends ASTVar {
     @Override
     public void interpreter(Memoire m) {
         Object v = expr.eval(m);
-        m.getPile().DeclCst(identifiant.getName(),v,type.getSorte());
+        m.getPile().declCst(identifiant.getName(),v,type.getSorte());
     }
 
     @Override
@@ -50,7 +50,7 @@ public class ASTVarConst extends ASTVar {
             ASTLogger.getInstance().logError(this, "Variable constante non-initialisée " + identifiant.getName());
             return false;
         }
-        local.getPile().DeclCst(identifiant.getName(), null, type.getSorte());
+        local.getPile().declCst(identifiant.getName(), null, type.getSorte());
         if (expr.typeCheck(global, local, type.getSorte())) {
             if (global.containsSymbol(identifiant.getName())) {
                 ASTLogger.getInstance().logWarning(this, "Local variable shadowing global: " + identifiant.getName());
@@ -70,7 +70,7 @@ public class ASTVarConst extends ASTVar {
             ASTLogger.getInstance().logError(this, "Variable constante non-initialisée " + identifiant.getName());
             return false;
         }
-        global.getPile().DeclCst(identifiant.getName(), null, type.getSorte());
+        global.getPile().declCst(identifiant.getName(), null, type.getSorte());
         return expr.typeCheck(global, new Memoire(128), type.getSorte());
     }
 }

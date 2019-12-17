@@ -18,9 +18,9 @@ public class AStore extends JCode {
     @Override
     public int interpreter(Memoire m, int current) {
         try {
-            int index = (int) m.getPile().Depiler().getVAL();
-            Object v = m.getPile().Depiler().getVAL();
-            m.getPile().AffecterValT(ident, v, index);
+            int index = (int) m.getPile().depiler().getVAL();
+            Object v = m.getPile().depiler().getVAL();
+            m.getPile().affecterValT(ident, v, index);
             return current+1;
         } catch (PileException e) {
             ASTLogger.getInstance().logErrorJJC(e.getMessage());

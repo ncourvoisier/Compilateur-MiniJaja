@@ -15,7 +15,7 @@ public class Swap extends JCode {
     @Override
     public int interpreter(Memoire m, int current) {
         try {
-            m.getPile().Echanger();
+            m.getPile().echanger();
             return current+1;
         } catch (PileException e) {
             ASTLogger.getInstance().logErrorJJC(e.getMessage());

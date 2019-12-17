@@ -26,13 +26,13 @@ public class New extends JCode {
         try {
             switch (sorte) {
                 case VARIABLE:
-                    m.getPile().IdentVal(ident, type, val);
+                    m.getPile().identVal(ident, type, val);
                     return current + 1;
                 case CONSTANTE:
-                    m.getPile().DeclCst(ident, m.getPile().Depiler().getVAL(), type);
+                    m.getPile().declCst(ident, m.getPile().depiler().getVAL(), type);
                     return current + 1;
                 case METHODE:
-                    m.getPile().DeclMeth(ident, m.getPile().Depiler().getVAL(), type);
+                    m.getPile().declMeth(ident, m.getPile().depiler().getVAL(), type);
                     return current + 1;
             }
             ASTLogger.getInstance().logWarningJJC("Unexpected sort for new: " + type.name());

@@ -31,7 +31,7 @@ public class Identifiant extends ASTIdentGenerique {
     @Override
     public Object eval(Memoire m) {
         try {
-            return m.getPile().Val(name);
+            return m.getPile().val(name);
         } catch (PileException e) {
             ASTLogger.getInstance().logError(this,e.getMessage());
         }
@@ -42,10 +42,10 @@ public class Identifiant extends ASTIdentGenerique {
     public boolean typeCheck(Memoire global, Memoire local, Sorte expected) {
         Quad decl;
         if (local.containsSymbol(name)) {
-            decl = local.getPile().ReturnQuadWithId(name);
+            decl = local.getPile().returnQuadWithId(name);
         } else {
             if (global.containsSymbol(name)) {
-                decl = global.getPile().ReturnQuadWithId(name);
+                decl = global.getPile().returnQuadWithId(name);
             } else {
                 ASTLogger.getInstance().logError(this, "Variable non déclarée : " + name);
                 return false;

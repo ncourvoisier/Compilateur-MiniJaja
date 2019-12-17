@@ -45,13 +45,13 @@ public class Affectation extends ASTInstr {
         if (ident instanceof Tableau) {
             int v2 = ((Tableau) ident).evalIndex(m);
             try {
-                m.getPile().AffecterValT(ident.getName(), v, v2);
+                m.getPile().affecterValT(ident.getName(), v, v2);
             } catch (PileException e) {
                 ASTLogger.getInstance().logError(this,e.toString());
             }
         } else {
             try {
-                m.getPile().AffecterVal(ident.getName(), v);
+                m.getPile().affecterVal(ident.getName(), v);
             } catch (PileException e) {
                 ASTLogger.getInstance().logError(this,e.toString());
             }
@@ -62,10 +62,10 @@ public class Affectation extends ASTInstr {
     public boolean typeCheck(Memoire global, Memoire local) {
         Quad decl;
         if (local.containsSymbol(ident.getName())) {
-            decl = local.getPile().ReturnQuadWithId(ident.getName());
+            decl = local.getPile().returnQuadWithId(ident.getName());
         } else {
             if (global.containsSymbol(ident.getName())) {
-                decl = global.getPile().ReturnQuadWithId(ident.getName());
+                decl = global.getPile().returnQuadWithId(ident.getName());
             } else {
                 ASTLogger.getInstance().logError(this, "Variable non déclarée : " + ident.getName());
                 return false;
