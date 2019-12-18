@@ -68,7 +68,7 @@ public class TasTest {
     }
 
     @Test
-    public void ecritureFausse() {
+    public void ecritureFausseTest() {
         assertEquals(-2, t.ecrire(-1, 1, 50));
         assertEquals(-2, t.ecrire(9999999, 1, 50));
     }

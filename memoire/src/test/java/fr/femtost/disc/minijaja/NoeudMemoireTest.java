@@ -205,27 +205,50 @@ public class NoeudMemoireTest {
     }
 
     @Test
-    public void debugTest() {
+    public void memoireTropFragmenteTest() {
         ArbreMemoire AM1 = new ArbreMemoire(100);
         NoeudMemoire r1 = AM1.getRacine();
-        int a1 = r1.allouerMemoire(10);
-        int a2 = r1.allouerMemoire(46);
-        System.out.println("add 1: " + a1 + ", add 2: " + a2);
-        NoeudMemoire n1 = AM1.getNoeud(a1);
-        NoeudMemoire n2 = AM1.getNoeud(a2);
-        if (r1.droit.gauche == null) {  // LES 2 FILS PAS NULL
-            System.out.println("fils droit/gauche null");
-        }
-        else {
-            System.out.println("fils droit/gauche addr: " + r1.droit.gauche.adresse + " (disp:" + r1.droit.gauche.disponible + ")");  // ADRESSES DES 2 FILS BONNES
-        }
-        if (r1.droit.droit == null) {
-            System.out.println("fils droit/droit null");
-        }
-        else {
-            System.out.println("fils droit/droit addr: " + r1.droit.droit.adresse + " (disp:" + r1.droit.droit.disponible + ")");
-        }
-        if (n1 == null) { System.out.println("n1 null"); }
-        if (n2 == null) { System.out.println("n2 null"); }
+        int A1 = r1.allouerMemoire(20);
+        int A2 = r1.allouerMemoire(20);
+        AM1.libererMemoire(A1);
+        assertEquals(-1, r1.allouerMemoire(80));
+    }
+
+    @Test
+    public void suppressionMemoireAdressesInvalidesTest() {
+        ArbreMemoire AM1 = new ArbreMemoire(100);
+        NoeudMemoire r1 = AM1.getRacine();
+        int A1 = r1.allouerMemoire(20);
+        AM1.libererMemoire(-1);
+        AM1.libererMemoire(100);
+        assertEquals(2, AM1.getProfondeurArbre());
+    }
+
+    @Test
+    public void suppressionNoeudRacineTest() {
+        ArbreMemoire AM1 = new ArbreMemoire(100);
+        NoeudMemoire r1 = AM1.getRacine();
+        int A1 = r1.allouerMemoire(100);
+        AM1.libererMemoire(A1);
+        assertEquals(1, AM1.getProfondeurArbre());
+    }
+
+    @Test
+    public void noeudMemoireStringTest() {
+        ArbreMemoire AM1 = new ArbreMemoire(100);
+        NoeudMemoire r1 = AM1.getRacine();
+        int A1 = r1.allouerMemoire(100);
+        assertEquals("0: [Allouée]", r1.toString());
+    }
+
+    @Test
+    public void fusionNoeudsCorrompusTest() {
+        ArbreMemoire AM1 = new ArbreMemoire(100);
+        NoeudMemoire r1 = AM1.getRacine();
+        int A1 = r1.allouerMemoire(20);
+        int A2 = r1.allouerMemoire(20);
+        r1.droit = null;
+        AM1.libererMemoire(A1);
+        assertEquals(2, AM1.getProfondeurArbre());
     }
 }

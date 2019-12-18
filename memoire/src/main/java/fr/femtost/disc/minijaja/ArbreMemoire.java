@@ -57,9 +57,4 @@ public class ArbreMemoire {
         }
         return getNoeudRecursif(adresse, racine);
     }
-
-    @Override
-    public String toString() {
-        return "";
-    }
 }
