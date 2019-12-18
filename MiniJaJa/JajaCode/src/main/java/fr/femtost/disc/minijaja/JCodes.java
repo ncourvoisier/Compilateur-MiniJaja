@@ -9,18 +9,15 @@ import java.util.List;
 public abstract class JCodes extends JajaNode {
 
     public static JCodes concatenate(JCodes left, JCodes right) {
-
         if(left instanceof JNil)
             return right;
 
         if(right instanceof JNil)
             return left;
 
-        JCodes current = left;
-        while(current.hasNext()) {
-            current = current.next();
-        }
-        current.setNext(right);
+        JChain st = (JChain) left;
+        st.getLast().setNext(right);
+        st.setLast(((JChain)right).getLast());
 
         return left;
     }
@@ -30,7 +27,14 @@ public abstract class JCodes extends JajaNode {
     }
 
     public static JCodes concatRight(JCodes left, JCode right) {
-        return concatenate(left, new JChain(right, new JNil()));
+        JChain temp = new JChain(right, new JNil());
+        if (left instanceof JNil) {
+            return temp;
+        }
+        JChain st = (JChain)left;
+        st.getLast().setNext(temp);
+        st.setLast(temp);
+        return st;
     }
 
     public static List<JCode> asArray(JCodes source) {

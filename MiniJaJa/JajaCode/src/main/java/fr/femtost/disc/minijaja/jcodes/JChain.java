@@ -10,9 +10,15 @@ public class JChain extends JCodes {
     private JCode instruction;
     private JCodes next;
 
+    private JCodes last;
+
     public JChain(JCode instruction, JCodes next) {
         this.instruction = instruction;
         this.next = next;
+        if(next instanceof JNil)
+            this.last = this;
+        else
+            this.last = ((JChain)next).getLast();
     }
 
     @Override
@@ -23,6 +29,14 @@ public class JChain extends JCodes {
     @Override
     public JCodes next() {
         return next;
+    }
+
+    public JCodes getLast() {
+        return last;
+    }
+
+    public void setLast(JCodes last) {
+        this.last = last;
     }
 
     @Override
