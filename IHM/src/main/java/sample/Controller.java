@@ -138,14 +138,14 @@ public class Controller implements Initializable {
         //code.setStyle("-fx-background-color: #383838;");
         //code.setStyle(0,3,"-fx-font-weight: bold;");
 
-        pile.setText("pile");
-        tas.setText("tas");
+        pile.setText("Etat de la pile");
+        tas.setText("Etat du tas");
         pile.setEditable(false);
         tas.setEditable(false);
-        sortieConsole.setText("sortiConsole");
-        jajacode.setText("jajacode");
+        sortieConsole.setText("");
+        jajacode.setText("Compilation JajaCode");
         jajacode.setEditable(false);
-        sortieJajacode.setText("sortiejajacode");
+        sortieJajacode.setText("");
         sortieJajacode.setEditable(false);
         //code.setStyle("-fx-text-inner-color: red;");
 
@@ -340,7 +340,7 @@ public class Controller implements Initializable {
         spansBuilder.add(Collections.emptyList(), text.length() - lastKwEnd);
         return spansBuilder.create();
     }
-    
+
     public void clearConsole(ActionEvent actionEvent) {
         sortieConsole.clear();
     }
