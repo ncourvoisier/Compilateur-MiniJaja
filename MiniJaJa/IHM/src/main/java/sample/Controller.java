@@ -1,31 +1,24 @@
 package sample;
 
-import com.sun.org.apache.bcel.internal.classfile.Code;
 import fr.femtost.disc.minijaja.*;
 import fr.femtost.disc.minijaja.ast.ASTClass;
-import fr.femtost.disc.minijaja.jcode.Init;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Cursor;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-import main.java.sample.Main;
 import org.fxmisc.richtext.CodeArea;
 import org.fxmisc.richtext.LineNumberFactory;
 import org.fxmisc.richtext.model.StyleSpans;
 import org.fxmisc.richtext.model.StyleSpansBuilder;
-import org.fxmisc.richtext.model.TwoDimensional;
 import org.reactfx.Subscription;
 
 import java.io.BufferedReader;
@@ -42,19 +35,13 @@ import java.util.regex.Pattern;
 
 import java.util.function.IntFunction;
 
-import javafx.application.Application;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
-import javafx.stage.Stage;
 
-import org.fxmisc.richtext.CodeArea;
-import org.fxmisc.richtext.LineNumberFactory;
 import org.reactfx.value.Val;
 
 public class Controller implements Initializable {
@@ -80,7 +67,6 @@ public class Controller implements Initializable {
 
     public File pathFile;
 
-    //public ScrollPane sp1;
     public ScrollPane sp2;
     public ScrollPane sp3a;
     public ScrollPane sp3b;
@@ -91,7 +77,7 @@ public class Controller implements Initializable {
             "boolean", "int", "final", "void", "true", "false", "null"
 
     };
-    //instruction
+
     private static final String[] JAJACODE = new String[]{
             "if", "while", "else", "return"
     };
@@ -147,54 +133,20 @@ public class Controller implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        String num = "";
-        for (int i = 1; i < 1000; i++) {
-            num += i + "\n";
-        }
-
-        /*BorderPane root = new BorderPane();
-        BorderPane bottom = new BorderPane();
-        BorderPane right = new BorderPane();
-
-        bottom.setLeft(sortieConsole);
-        bottom.setRight(sortieJajacode);
-
-        BorderPane compiJaja = new BorderPane();
-        BorderPane state = new BorderPane();
-        compiJaja.setCenter(jajacode);
-        state.setTop(pile);
-        state.setCenter(tas);
-        right.setLeft(state);
-        right.setRight(compiJaja);
-
-        root.setTop(MB);
-        root.setLeft(code);
-        root.setBottom(bottom);
-        root.setRight(right);*/
-
-        
-
-        /*stage.widthProperty().addListener((obs, oldVal, newVal) -> {
-            //ctl2.sortieConsole.setMinWidth(50);
-            System.out.println("yoloooooooooooooo");
-        });*/
 
 
-        //sp1 = new ScrollPane();
         sp2 = new ScrollPane();
         sp3a = new ScrollPane();
         sp3b = new ScrollPane();
         sp4 = new ScrollPane();
 
-        //sp1.setContent(numLine);
         sp2.setContent(code);
         sp3a.setContent(pile);
         sp3b.setContent(tas);
         sp4.setContent(sortieConsole);
 
         pathFile = null;
-        /*numLine.setText(num);
-        numLine.setEditable(false);*/
+
 
         Subscription cleanupWhenNoLongerNeedIt = code
                 .multiPlainChanges()
@@ -212,9 +164,7 @@ public class Controller implements Initializable {
             }
         });
 
-        //code.setText("code");
-        code.setStyle("-fx-text-fill: red;");
-        code.replaceText("");
+
 
         //MODE NUIT
         //code.setStyle("-fx-background-color: #383838;");
@@ -229,7 +179,6 @@ public class Controller implements Initializable {
         jajacode.setEditable(false);
         sortieJajacode.setText("");
         sortieJajacode.setEditable(false);
-        //code.setStyle("-fx-text-inner-color: red;");
 
         ASTLogger.getInstance().addListener(new ASTLogger.ASTListener() {
             @Override
@@ -368,7 +317,10 @@ public class Controller implements Initializable {
         primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
             public void handle(WindowEvent event) {
-                quit(null);
+                if(quit(null))
+                {
+                    event.consume();
+                }
             }
         });
     }
@@ -391,7 +343,7 @@ public class Controller implements Initializable {
 
     public void save(ActionEvent actionEvent) {
         if (pathFile != null) {
-            //stringToFile(pathFile, code.getText());
+            stringToFile(pathFile, code.getText());
         } else {
             saveAs(actionEvent);
         }
@@ -406,11 +358,11 @@ public class Controller implements Initializable {
         File file = fc.showSaveDialog(null);
         pathFile = file;
         if (file != null) {
-            //stringToFile(file, code.getText());
+            stringToFile(file, code.getText());
         }
     }
 
-    public void quit(ActionEvent actionEvent) {
+    public boolean quit(ActionEvent actionEvent) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Sauvegarder");
         alert.setHeaderText("Sauvegarder le fichier .mjj");
@@ -422,16 +374,24 @@ public class Controller implements Initializable {
         if (pathFile == null) {
             alert.getButtonTypes().setAll(boutonSauvegarder, boutonQuitter, buttonTypeCancel);
             Optional<ButtonType> result = alert.showAndWait();
-            if (result.get() == boutonSauvegarder) {
-                saveAs(actionEvent);
-                System.exit(0);
-            } else if (result.get() == boutonQuitter) {
-                System.exit(0);
+            if(result.get() == buttonTypeCancel)
+            {
+                return true;
             }
+            else{
+                if (result.get() == boutonSauvegarder) {
+                    saveAs(actionEvent);
+                    System.exit(0);
+                } else if (result.get() == boutonQuitter) {
+                    System.exit(0);
+                }
+            }
+
         } else {
             save(actionEvent);
             System.exit(0);
         }
+        return false;
     }
 
     private static void stringToFile(File file, String code) {
