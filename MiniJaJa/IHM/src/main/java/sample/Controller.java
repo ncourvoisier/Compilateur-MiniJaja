@@ -9,12 +9,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Text;
-import javafx.scene.text.TextFlow;
-import javafx.scene.web.WebView;
 import javafx.stage.FileChooser;
-import javafx.stage.Stage;
 import org.fxmisc.richtext.CodeArea;
 import org.fxmisc.richtext.LineNumberFactory;
 import org.fxmisc.richtext.model.StyleSpans;
@@ -36,8 +31,6 @@ import java.util.regex.Pattern;
 
 public class Controller implements Initializable {
 
-    //@FXML
-    //public TextArea numLine;
     @FXML
     public CodeArea code;
     @FXML
@@ -53,7 +46,6 @@ public class Controller implements Initializable {
 
 
     public File pathFile;
-
 
     //public ScrollPane sp1;
     public ScrollPane sp2;
@@ -75,18 +67,15 @@ public class Controller implements Initializable {
             "write", "writeln"
     };
 
-
     private static final String KEYWORD_PATTERN = "\\b(" + String.join("|", KEYWORDS) + ")\\b";
     private static final String JAJACODE_PATTERN = "\\b(" + String.join("|", JAJACODE) + ")\\b";
     private static final String JAJACODE_PATTERN_WRITE = "\\b(" + String.join("|", JAJACODEWrite) + ")\\b";
-
     private static final String PAREN_PATTERN = "\\(|\\)";
     private static final String BRACE_PATTERN = "\\{|\\}";
     private static final String BRACKET_PATTERN = "\\[|\\]";
     private static final String SEMICOLON_PATTERN = "\\;";
     private static final String STRING_PATTERN = "\"([^\"\\\\]|\\\\.)*\"";
     private static final String COMMENT_PATTERN = "//[^\n]*" + "|" + "/\\*(.|\\R)*?\\*/";
-
     private static final Pattern PATTERN = Pattern.compile(
             "(?<KEYWORD>" + KEYWORD_PATTERN + ")"
                     + "|(?<JAJACODE>" + JAJACODE_PATTERN + ")"
@@ -119,32 +108,17 @@ public class Controller implements Initializable {
         sp3b.setContent(tas);
         sp4.setContent(sortieConsole);
 
-
         pathFile = null;
         /*numLine.setText(num);
         numLine.setEditable(false);*/
 
-        // add line numbers to the left of area
         code.setParagraphGraphicFactory(LineNumberFactory.get(code));
 
-
-        // recompute the syntax highlighting 500 ms after user stops editing area
         Subscription cleanupWhenNoLongerNeedIt = code
-                // plain changes = ignore style changes that are emitted when syntax highlighting is reapplied
-                // multi plain changes = save computation by not rerunning the code multiple times
-                //   when making multiple changes (e.g. renaming a method at multiple parts in file)
                 .multiPlainChanges()
-
-                // do not emit an event until 500 ms have passed since the last emission of previous stream
                 .successionEnds(Duration.ofMillis(500))
-
-                // run the following code block when previous stream emits an event
                 .subscribe(ignore -> code.setStyleSpans(0, computeHighlighting(code.getText())));
 
-        // when no longer need syntax highlighting and wish to clean up memory leaks
-        // run: `cleanupWhenNoLongerNeedIt.unsubscribe();`
-
-        // auto-indent: insert previous line's indents on enter
         final Pattern whiteSpace = Pattern.compile("^\\s+");
         code.addEventHandler(KeyEvent.KEY_PRESSED, KE ->
         {
@@ -156,16 +130,12 @@ public class Controller implements Initializable {
             }
         });
 
-
         //code.setText("code");
         code.setStyle("-fx-text-fill: red;");
         code.replaceText("code");
 
-
         //MODE NUIT
         //code.setStyle("-fx-background-color: #383838;");
-
-
         //code.setStyle(0,3,"-fx-font-weight: bold;");
 
         pile.setText("pile");
@@ -178,7 +148,6 @@ public class Controller implements Initializable {
         sortieJajacode.setText("sortiejajacode");
         sortieJajacode.setEditable(false);
         //code.setStyle("-fx-text-inner-color: red;");
-
 
         ASTLogger.getInstance().addListener(new ASTLogger.ASTListener() {
             @Override
@@ -203,9 +172,7 @@ public class Controller implements Initializable {
                 }
             }
         });
-
     }
-
 
     @FXML
     public void open(ActionEvent actionEvent) {
@@ -218,14 +185,9 @@ public class Controller implements Initializable {
 
         File file = fc.showOpenDialog(null);
         pathFile = file;
-//        System.out.println("file : " + pathFile);
         if (file != null) {
-            //code.setText(fileToString(file.toString()));
-
             code.replaceText(fileToString(file.toString()));
-
         }
-
     }
 
     public void save(ActionEvent actionEvent) {
@@ -258,7 +220,6 @@ public class Controller implements Initializable {
         ButtonType boutonQuitter = new ButtonType("Quitter");
         ButtonType buttonTypeCancel = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
 
-//        System.out.println("pth f " + pathFile);
         if (pathFile == null) {
             alert.getButtonTypes().setAll(boutonSauvegarder, boutonQuitter, buttonTypeCancel);
             Optional<ButtonType> result = alert.showAndWait();
@@ -297,7 +258,6 @@ public class Controller implements Initializable {
         }
         return sRet;
     }
-    
 
     private String getTasString(TasInfos i) {
         StringBuilder sb = new StringBuilder();
@@ -324,16 +284,16 @@ public class Controller implements Initializable {
     }
 
     public void run(ActionEvent actionEvent) {
-        System.out.println("Affichage de la pile :");
+//        System.out.println("Affichage de la pile :");
         SyntaxChecker sc = new SyntaxChecker(new java.io.StringReader(code.getText()));
         try {
 
             ASTClass cla = sc.S();
             Memoire m = new Memoire(1000);
-            System.out.println("TypeCheck");
+//            System.out.println("TypeCheck");
             if (cla.typeCheck()) {
                 //interpretation si le typeCheck est bon
-                System.out.println("Interpreter");
+//                System.out.println("Interpreter");
                 cla.interpreter(m);
                 affichageMemoire(m);  // Pile vide après le run, normal
             }
@@ -354,7 +314,6 @@ public class Controller implements Initializable {
             e.printStackTrace();
         }
     }
-
 
     private static StyleSpans<Collection<String>> computeHighlighting(String text) {
         Matcher matcher = PATTERN.matcher(text);
@@ -381,8 +340,7 @@ public class Controller implements Initializable {
         spansBuilder.add(Collections.emptyList(), text.length() - lastKwEnd);
         return spansBuilder.create();
     }
-
-
+    
     public void clearConsole(ActionEvent actionEvent) {
         sortieConsole.clear();
     }
@@ -396,9 +354,6 @@ public class Controller implements Initializable {
     }
 
     public void buildAndRun(ActionEvent actionEvent) {
-        ASTLogger.getInstance().logJJC("Debut");
-        System.out.println("Out");
-
         SyntaxChecker sc = new SyntaxChecker(new java.io.StringReader(code.getText()));
         try {
             ASTClass cla = sc.S();
