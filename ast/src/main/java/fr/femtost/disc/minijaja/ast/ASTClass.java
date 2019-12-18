@@ -66,6 +66,7 @@ public class ASTClass extends ASTNode
 
     public boolean typeCheck() {
         Memoire global = new Memoire(128);
+        global.getPile().declVar(ident.getName(),null,null);
         if (decls.firstCheck(global)) {
             boolean b1 = decls.typeCheck(global);
             boolean b2 = main.typeCheck(global);
