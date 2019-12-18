@@ -54,6 +54,7 @@ public class Controller implements Initializable {
 
     public File pathFile;
 
+
     //public ScrollPane sp1;
     public ScrollPane sp2;
     public ScrollPane sp3a;
@@ -61,30 +62,24 @@ public class Controller implements Initializable {
     public ScrollPane sp4;
 
 
-    private static final String[] KEYWORDS = new String[] {
-            "abstract", "assert", "boolean", "break", "byte",
-            "case", "catch", "char", "class", "const",
-            "continue", "default", "do", "double", "else",
-            "enum", "extends", "final", "finally", "float",
-
-            "for", "goto", "if", "implements", "import",
-            "instanceof", "int", "interface", "long", "native",
-            "new", "package", "private", "protected", "public",
-            "return", "short", "static", "strictfp",
-            "switch", "synchronized", "this", "throw", "throws",
-            "transient", "try", "void", "volatile", "while",
-            "super"
-    };
-
-    private static final String[] JAJACODE = new String[] {
-            "boolean", "write", "writeln"
+    private static final String[] KEYWORDS = new String[]{
+            "boolean", "int", "final", "void", "true", "false", "null"
 
     };
+    //instruction
+    private static final String[] JAJACODE = new String[]{
+            "if", "while", "else", "return"
+    };
 
+    private static final String[] JAJACODEWrite = new String[]{
+            "write", "writeln"
+    };
 
 
     private static final String KEYWORD_PATTERN = "\\b(" + String.join("|", KEYWORDS) + ")\\b";
     private static final String JAJACODE_PATTERN = "\\b(" + String.join("|", JAJACODE) + ")\\b";
+    private static final String JAJACODE_PATTERN_WRITE = "\\b(" + String.join("|", JAJACODEWrite) + ")\\b";
+
     private static final String PAREN_PATTERN = "\\(|\\)";
     private static final String BRACE_PATTERN = "\\{|\\}";
     private static final String BRACKET_PATTERN = "\\[|\\]";
@@ -95,6 +90,7 @@ public class Controller implements Initializable {
     private static final Pattern PATTERN = Pattern.compile(
             "(?<KEYWORD>" + KEYWORD_PATTERN + ")"
                     + "|(?<JAJACODE>" + JAJACODE_PATTERN + ")"
+                    + "|(?<JAJACODEWrite>" + JAJACODE_PATTERN_WRITE + ")"
                     + "|(?<PAREN>" + PAREN_PATTERN + ")"
                     + "|(?<BRACE>" + BRACE_PATTERN + ")"
                     + "|(?<BRACKET>" + BRACKET_PATTERN + ")"
@@ -104,12 +100,11 @@ public class Controller implements Initializable {
     );
 
 
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         String num = "";
         for (int i = 1; i < 1000; i++) {
-            num += i +"\n";
+            num += i + "\n";
         }
 
         //sp1 = new ScrollPane();
@@ -150,20 +145,27 @@ public class Controller implements Initializable {
         // run: `cleanupWhenNoLongerNeedIt.unsubscribe();`
 
         // auto-indent: insert previous line's indents on enter
-        final Pattern whiteSpace = Pattern.compile( "^\\s+" );
-        code.addEventHandler( KeyEvent.KEY_PRESSED, KE ->
+        final Pattern whiteSpace = Pattern.compile("^\\s+");
+        code.addEventHandler(KeyEvent.KEY_PRESSED, KE ->
         {
-            if ( KE.getCode() == KeyCode.ENTER ) {
+            if (KE.getCode() == KeyCode.ENTER) {
                 int caretPosition = code.getCaretPosition();
                 int currentParagraph = code.getCurrentParagraph();
-                Matcher m0 = whiteSpace.matcher( code.getParagraph( currentParagraph-1 ).getSegments().get( 0 ) );
-                if ( m0.find() ) Platform.runLater( () -> code.insertText( caretPosition, m0.group() ) );
+                Matcher m0 = whiteSpace.matcher(code.getParagraph(currentParagraph - 1).getSegments().get(0));
+                if (m0.find()) Platform.runLater(() -> code.insertText(caretPosition, m0.group()));
             }
         });
 
 
         //code.setText("code");
+        code.setStyle("-fx-text-fill: red;");
         code.replaceText("code");
+
+
+        //MODE NUIT
+        //code.setStyle("-fx-background-color: #383838;");
+
+
         //code.setStyle(0,3,"-fx-font-weight: bold;");
 
         pile.setText("pile");
@@ -178,40 +180,31 @@ public class Controller implements Initializable {
         //code.setStyle("-fx-text-inner-color: red;");
 
 
-
-
-
         ASTLogger.getInstance().addListener(new ASTLogger.ASTListener() {
             @Override
             public void receiveMessage(String message, ASTLogger.MessageLevel level) {
                 if (level.equals(ASTLogger.MessageLevel.INFO)) {
-                    sortieConsole.setText(sortieConsole.getText() + "\n" +"INFO : "+message);
+                    sortieConsole.setText(sortieConsole.getText() + "\n" + "INFO : " + message);
                 }
-                if(level.equals(ASTLogger.MessageLevel.JJC))
-                {
+                if (level.equals(ASTLogger.MessageLevel.JJC)) {
                     sortieJajacode.setText(sortieJajacode.getText() + message);
                 }
-                if(level.equals(ASTLogger.MessageLevel.WARNINGJJC))
-                {
+                if (level.equals(ASTLogger.MessageLevel.WARNINGJJC)) {
                     sortieJajacode.setText(sortieJajacode.getText() + "\n" + message);
                 }
-                if(level.equals(ASTLogger.MessageLevel.WARNING))
-                {
-                    sortieConsole.setText(sortieConsole.getText() + "\n" +"WARNING : "+message);
+                if (level.equals(ASTLogger.MessageLevel.WARNING)) {
+                    sortieConsole.setText(sortieConsole.getText() + "\n" + "WARNING : " + message);
                 }
-                if(level.equals(ASTLogger.MessageLevel.ERRORJJC))
-                {
+                if (level.equals(ASTLogger.MessageLevel.ERRORJJC)) {
                     sortieJajacode.setText(sortieJajacode.getText() + "\n" + message);
                 }
-                if(level.equals(ASTLogger.MessageLevel.ERROR))
-                {
-                    sortieConsole.setText(sortieConsole.getText() + "\n" +"ERROR : "+message);
+                if (level.equals(ASTLogger.MessageLevel.ERROR)) {
+                    sortieConsole.setText(sortieConsole.getText() + "\n" + "ERROR : " + message);
                 }
             }
         });
 
     }
-
 
 
     @FXML
@@ -228,7 +221,9 @@ public class Controller implements Initializable {
 //        System.out.println("file : " + pathFile);
         if (file != null) {
             //code.setText(fileToString(file.toString()));
+
             code.replaceText(fileToString(file.toString()));
+
         }
 
     }
@@ -302,6 +297,7 @@ public class Controller implements Initializable {
         }
         return sRet;
     }
+    
 
     private String getTasString(TasInfos i) {
         StringBuilder sb = new StringBuilder();
@@ -322,8 +318,7 @@ public class Controller implements Initializable {
         TasInfos i = m.getTas().getInfos();
         if (i.getTaille() > 1) {
             tas.setText(getTasString(i));
-        }
-        else {
+        } else {
             tas.setText("Tas vide");
         }
     }
@@ -336,7 +331,7 @@ public class Controller implements Initializable {
             ASTClass cla = sc.S();
             Memoire m = new Memoire(1000);
             System.out.println("TypeCheck");
-            if(cla.typeCheck()){
+            if (cla.typeCheck()) {
                 //interpretation si le typeCheck est bon
                 System.out.println("Interpreter");
                 cla.interpreter(m);
@@ -352,7 +347,7 @@ public class Controller implements Initializable {
         SyntaxChecker sc = new SyntaxChecker(new java.io.StringReader(code.getText()));
         try {
             ASTClass cla = sc.S();
-            CompilationCouple cc= cla.compiler(1);
+            CompilationCouple cc = cla.compiler(1);
             String result = cc.jCodes.rewriteWithLines();
             jajacode.setText(result);
         } catch (Exception e) {
@@ -366,17 +361,18 @@ public class Controller implements Initializable {
         int lastKwEnd = 0;
         StyleSpansBuilder<Collection<String>> spansBuilder
                 = new StyleSpansBuilder<>();
-        while(matcher.find()) {
+        while (matcher.find()) {
             String styleClass =
                     matcher.group("KEYWORD") != null ? "keyword" :
                             matcher.group("JAJACODE") != null ? "jajacode" :
-                                    matcher.group("PAREN") != null ? "paren" :
-                                            matcher.group("BRACE") != null ? "brace" :
-                                                    matcher.group("BRACKET") != null ? "bracket" :
-                                                            matcher.group("SEMICOLON") != null ? "semicolon" :
-                                                                    matcher.group("STRING") != null ? "string" :
-                                                                            matcher.group("COMMENT") != null ? "comment" :
-                                                                                    null; /* never happens */
+                                    matcher.group("JAJACODEWrite") != null ? "jajacodeWrite" :
+                                            matcher.group("PAREN") != null ? "paren" :
+                                                    matcher.group("BRACE") != null ? "brace" :
+                                                            matcher.group("BRACKET") != null ? "bracket" :
+                                                                    matcher.group("SEMICOLON") != null ? "semicolon" :
+                                                                            matcher.group("STRING") != null ? "string" :
+                                                                                    matcher.group("COMMENT") != null ? "comment" :
+                                                                                            null; /* never happens */
             assert styleClass != null;
             spansBuilder.add(Collections.emptyList(), matcher.start() - lastKwEnd);
             spansBuilder.add(Collections.singleton(styleClass), matcher.end() - matcher.start());
@@ -406,7 +402,7 @@ public class Controller implements Initializable {
         SyntaxChecker sc = new SyntaxChecker(new java.io.StringReader(code.getText()));
         try {
             ASTClass cla = sc.S();
-            CompilationCouple cc= cla.compiler(1);
+            CompilationCouple cc = cla.compiler(1);
             String result = cc.jCodes.rewriteWithLines();
             jajacode.setText(result);
             cc.jCodes.interpreterFull();

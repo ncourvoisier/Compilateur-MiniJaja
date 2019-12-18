@@ -6,6 +6,10 @@
     -fx-fill: #b30000;
     -fx-font-weight: bold;
 }
+.jajacodeWrite{
+    -fx-fill: #FFA500;
+    -fx-font-weight: bold;
+}
 .semicolon {
     -fx-font-weight: bold;
 }
