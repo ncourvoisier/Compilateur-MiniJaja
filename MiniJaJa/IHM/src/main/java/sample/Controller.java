@@ -2,6 +2,7 @@ package sample;
 
 import fr.femtost.disc.minijaja.*;
 import fr.femtost.disc.minijaja.ast.ASTClass;
+import fr.femtost.disc.minijaja.jcode.Init;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -22,12 +23,28 @@ import java.io.FileReader;
 import java.io.PrintWriter;
 import java.net.URL;
 import java.time.Duration;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Optional;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+
+
+import java.util.function.IntFunction;
+
+import javafx.application.Application;
+import javafx.beans.value.ObservableValue;
+import javafx.geometry.Pos;
+import javafx.scene.Node;
+import javafx.scene.Scene;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Polygon;
+import javafx.stage.Stage;
+
+import org.fxmisc.richtext.CodeArea;
+import org.fxmisc.richtext.LineNumberFactory;
+import org.reactfx.value.Val;
 
 public class Controller implements Initializable {
 
@@ -88,6 +105,33 @@ public class Controller implements Initializable {
                     + "|(?<COMMENT>" + COMMENT_PATTERN + ")"
     );
 
+    Set<Integer> breakPointLines = new HashSet<>();
+
+    class ArrowFactory implements IntFunction<Node> {
+        private final ObservableValue<Integer> shownLine;
+
+        ArrowFactory(ObservableValue<Integer> shownLine) {
+            this.shownLine = shownLine;
+        }
+
+
+
+        @Override
+        public Node apply(int lineNumber) {
+            Polygon triangle = new Polygon(0.0, 0.0, 10.0, 5.0, 0.0, 10.0);
+            triangle.setFill(Color.RED);
+
+            ObservableValue<Boolean> visible = Val.map(
+                    shownLine,
+                    //sl -> sl == lineNumber;
+                    sl -> breakPointLines.contains(lineNumber));
+            System.out.println("lineNumber = " + lineNumber);
+
+            triangle.visibleProperty().bind(Val.conditionOnShowing(visible, triangle));
+            return triangle;
+        }
+    }
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -112,7 +156,20 @@ public class Controller implements Initializable {
         /*numLine.setText(num);
         numLine.setEditable(false);*/
 
-        code.setParagraphGraphicFactory(LineNumberFactory.get(code));
+        breakPointLines.add(3);
+        breakPointLines.add(5);
+
+        IntFunction<Node> numberFactory = LineNumberFactory.get(code);
+        IntFunction<Node> arrowFactory = new ArrowFactory(code.currentParagraphProperty());
+        IntFunction<Node> graphicFactory = line -> {
+            HBox hbox = new HBox(
+                    numberFactory.apply(line),
+                    arrowFactory.apply(line));
+            hbox.setAlignment(Pos.CENTER_LEFT);
+            return hbox;
+        };
+        code.setParagraphGraphicFactory(graphicFactory);
+
 
         Subscription cleanupWhenNoLongerNeedIt = code
                 .multiPlainChanges()
