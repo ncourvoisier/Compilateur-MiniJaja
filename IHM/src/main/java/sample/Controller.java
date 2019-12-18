@@ -5,11 +5,16 @@ import fr.femtost.disc.minijaja.ast.ASTClass;
 import fr.femtost.disc.minijaja.jcode.Init;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Cursor;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
 import org.fxmisc.richtext.CodeArea;
 import org.fxmisc.richtext.LineNumberFactory;
@@ -120,13 +125,9 @@ public class Controller implements Initializable {
         public Node apply(int lineNumber) {
             Polygon triangle = new Polygon(0.0, 0.0, 10.0, 5.0, 0.0, 10.0);
             triangle.setFill(Color.RED);
-
             ObservableValue<Boolean> visible = Val.map(
                     shownLine,
-                    //sl -> sl == lineNumber;
                     sl -> breakPointLines.contains(lineNumber));
-            System.out.println("lineNumber = " + lineNumber);
-
             triangle.visibleProperty().bind(Val.conditionOnShowing(visible, triangle));
             return triangle;
         }
@@ -155,21 +156,6 @@ public class Controller implements Initializable {
         pathFile = null;
         /*numLine.setText(num);
         numLine.setEditable(false);*/
-
-        breakPointLines.add(3);
-        breakPointLines.add(5);
-
-        IntFunction<Node> numberFactory = LineNumberFactory.get(code);
-        IntFunction<Node> arrowFactory = new ArrowFactory(code.currentParagraphProperty());
-        IntFunction<Node> graphicFactory = line -> {
-            HBox hbox = new HBox(
-                    numberFactory.apply(line),
-                    arrowFactory.apply(line));
-            hbox.setAlignment(Pos.CENTER_LEFT);
-            return hbox;
-        };
-        code.setParagraphGraphicFactory(graphicFactory);
-
 
         Subscription cleanupWhenNoLongerNeedIt = code
                 .multiPlainChanges()
@@ -226,6 +212,31 @@ public class Controller implements Initializable {
                 }
                 if (level.equals(ASTLogger.MessageLevel.ERROR)) {
                     sortieConsole.setText(sortieConsole.getText() + "\n" + "ERROR : " + message);
+                }
+            }
+        });
+
+        IntFunction<Node> numberFactory = LineNumberFactory.get(code);
+        IntFunction<Node> arrowFactory = new ArrowFactory(code.currentParagraphProperty());
+        IntFunction<Node> graphicFactory = line -> {
+            HBox hbox = new HBox(
+                    numberFactory.apply(line),
+                    arrowFactory.apply(line));
+            hbox.setAlignment(Pos.CENTER_LEFT);
+            return hbox;
+        };
+        code.setParagraphGraphicFactory(graphicFactory);
+
+        code.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                if (mouseEvent.getButton() == MouseButton.SECONDARY) {
+                    System.out.println("Right button clicked" + code.getCaretPosition());
+                    if (!breakPointLines.contains(code.getCaretPosition())) {
+                        breakPointLines.add(code.getCaretPosition());
+                    } else {
+                        breakPointLines.remove(code.getCaretPosition());
+                    }
                 }
             }
         });
