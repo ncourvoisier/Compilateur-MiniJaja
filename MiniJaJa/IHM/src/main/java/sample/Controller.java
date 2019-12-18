@@ -132,7 +132,7 @@ public class Controller implements Initializable {
 
         //code.setText("code");
         code.setStyle("-fx-text-fill: red;");
-        code.replaceText("code");
+        code.replaceText("");
 
         //MODE NUIT
         //code.setStyle("-fx-background-color: #383838;");
