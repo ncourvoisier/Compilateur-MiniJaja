@@ -74,12 +74,12 @@ public class ASTVarConst extends ASTVar {
         return expr.typeCheck(global, new Memoire(128), type.getSorte());
     }
 
-    @Override
-    public EtatArret interpreterPasAPas(Memoire m, int indice, int stop) {
-        if (indice >= stop) {
-            return new EtatArret(this, indice);
-        }
-        Object v = expr.eval(m);
-        m.getPile().declCst(identifiant.getName(),v,type.getSorte());
-    }
+//    @Override
+//    public EtatArret interpreterPasAPas(Memoire m, int indice, int stop) {
+//        if (indice >= stop) {
+//            return new EtatArret(this, indice);
+//        }
+//        Object v = expr.eval(m);
+//        m.getPile().declCst(identifiant.getName(),v,type.getSorte());
+//    }
 }

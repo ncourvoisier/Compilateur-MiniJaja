@@ -25,6 +25,6 @@ public class PasAPasManager {
         else {
             currentIndex = arret.getIndex();
         }
-        arret = arret.getNode().interpreterPasAPas(memoire, currentIndex, breakPoints);
+        //arret = arret.getNode().interpreterPasAPas(memoire, currentIndex, breakPoints);
     }
 }
