@@ -71,8 +71,12 @@ public abstract class JCodes extends JajaNode {
         int current = 1;
         Memoire m = new Memoire(4096);
         while (current > 0) {
-            ASTLogger.getInstance().logJJC("ins " + current + "\n");
             current = codes.get(current-1).interpreter(m, current);
         }
+    }
+
+    public int interpreterNext(int current, Memoire m) {
+        List<JCode> codes = JCodes.asArray(this);
+        return codes.get(current-1).interpreter(m, current);
     }
 }
