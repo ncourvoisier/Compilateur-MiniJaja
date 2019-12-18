@@ -39,7 +39,12 @@ public class Tableau extends ASTIdentGenerique {
 
     @Override
     public Object eval(Memoire m) {
-        return 0;
+        try {
+            return m.getPile().valT(name, evalIndex(m));
+        } catch (PileException e) {
+            ASTLogger.getInstance().logError(this,e.getMessage());
+        }
+        return null;
     }
 
     @Override
