@@ -17,6 +17,7 @@ public class DChain extends ASTDecls {
         this.node = node;
     }
 
+    @Override
     public String rewrite() {
         StringBuilder sb = new StringBuilder();
 

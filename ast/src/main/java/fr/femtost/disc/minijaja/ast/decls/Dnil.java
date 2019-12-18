@@ -7,6 +7,7 @@ import fr.femtost.disc.minijaja.jcodes.JNil;
 
 public final class Dnil extends ASTDecls {
 
+    @Override
     public String rewrite() {
         return "";
     }
