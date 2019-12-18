@@ -1,5 +1,6 @@
 package sample;
 
+import com.sun.org.apache.bcel.internal.classfile.Code;
 import fr.femtost.disc.minijaja.*;
 import fr.femtost.disc.minijaja.ast.ASTClass;
 import fr.femtost.disc.minijaja.jcode.Init;
@@ -15,7 +16,11 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
+import main.java.sample.Main;
 import org.fxmisc.richtext.CodeArea;
 import org.fxmisc.richtext.LineNumberFactory;
 import org.fxmisc.richtext.model.StyleSpans;
@@ -66,6 +71,11 @@ public class Controller implements Initializable {
     public TextArea jajacode;
     @FXML
     public TextArea sortieJajacode;
+
+    @FXML
+    public MenuBar MB;
+
+    public Stage primaryStage;
 
 
     public File pathFile;
@@ -141,6 +151,34 @@ public class Controller implements Initializable {
         for (int i = 1; i < 1000; i++) {
             num += i + "\n";
         }
+
+        /*BorderPane root = new BorderPane();
+        BorderPane bottom = new BorderPane();
+        BorderPane right = new BorderPane();
+
+        bottom.setLeft(sortieConsole);
+        bottom.setRight(sortieJajacode);
+
+        BorderPane compiJaja = new BorderPane();
+        BorderPane state = new BorderPane();
+        compiJaja.setCenter(jajacode);
+        state.setTop(pile);
+        state.setCenter(tas);
+        right.setLeft(state);
+        right.setRight(compiJaja);
+
+        root.setTop(MB);
+        root.setLeft(code);
+        root.setBottom(bottom);
+        root.setRight(right);*/
+
+        
+
+        /*stage.widthProperty().addListener((obs, oldVal, newVal) -> {
+            //ctl2.sortieConsole.setMinWidth(50);
+            System.out.println("yoloooooooooooooo");
+        });*/
+
 
         //sp1 = new ScrollPane();
         sp2 = new ScrollPane();
@@ -252,6 +290,85 @@ public class Controller implements Initializable {
                     }
                     code.displaceCaret(oldPosition);
                 }
+            }
+        });
+    }
+
+    public void setStage(Stage s)
+    {
+        primaryStage = s;
+
+        TextArea sc = (TextArea) primaryStage.getScene().lookup("#sortieConsole");
+        CodeArea ca = (CodeArea) primaryStage.getScene().lookup("#code");
+        MenuBar mb = (MenuBar) primaryStage.getScene().lookup("#MB");
+        TextArea p = (TextArea) primaryStage.getScene().lookup("#pile");
+        TextArea t = (TextArea) primaryStage.getScene().lookup("#tas");
+        TextArea sjjc = (TextArea) primaryStage.getScene().lookup("#sortieJajacode");
+        TextArea jjc = (TextArea) primaryStage.getScene().lookup("#jajacode");
+
+        primaryStage.widthProperty().addListener((obs, oldVal, newVal) -> {
+
+            double agrandissementCa = ca.getPrefWidth();
+            ca.setPrefWidth(527.0 + (newVal.doubleValue()-1000)*((double) 527/1000));
+            agrandissementCa =  ca.getPrefWidth() - agrandissementCa;
+
+            p.setLayoutX(p.getLayoutX()+agrandissementCa);
+            t.setLayoutX(t.getLayoutX()+agrandissementCa);
+
+
+            double agrandissementPT = p.getPrefWidth();
+            p.setPrefWidth(236.0 + (newVal.doubleValue()-1000)*((double) 236/1000));
+            agrandissementPT = p.getPrefWidth() - agrandissementPT;
+            t.setPrefWidth(236.0 + (newVal.doubleValue()-1000)*((double) 236/1000));
+
+            jjc.setLayoutX(jjc.getLayoutX()+agrandissementCa+agrandissementPT);
+
+            jjc.setPrefWidth(newVal.doubleValue()- (ca.getPrefWidth()+p.getPrefWidth()));
+
+            double agrandissemntSC = sc.getPrefWidth();
+            sc.setPrefWidth(527.0 + (newVal.doubleValue()-1000)*((double) 527/1000));
+            agrandissemntSC = sc.getPrefWidth() - agrandissemntSC;
+
+            sjjc.setLayoutX(sjjc.getLayoutX()+agrandissemntSC);
+
+            sjjc.setPrefWidth(newVal.doubleValue() - (sc.getPrefWidth()));
+
+
+            mb.setPrefWidth(newVal.doubleValue());
+
+        });
+
+        primaryStage.heightProperty().addListener((obs, oldVal, newVal) -> {
+
+
+            double agrandissementCa = ca.getPrefHeight();
+            ca.setPrefHeight(395 + (newVal.doubleValue()-610)*((double) 395/610));
+            agrandissementCa =  ca.getPrefHeight() - agrandissementCa;
+
+            sc.setLayoutY(sc.getLayoutY()+agrandissementCa);
+            sc.setPrefHeight(newVal.doubleValue()-ca.getPrefHeight());
+
+            double agrandissementP = p.getPrefHeight();
+            p.setPrefHeight(198 + (newVal.doubleValue()-610)*((double) 198/610));
+            agrandissementP = p.getPrefHeight() - agrandissementP;
+
+            t.setLayoutY(t.getLayoutY()+agrandissementP);
+
+            t.setPrefHeight(p.getPrefHeight());
+
+            sjjc.setLayoutY(sjjc.getLayoutY()+agrandissementP*2);
+
+            sjjc.setPrefHeight(newVal.doubleValue()-ca.getPrefHeight());
+
+            jjc.setPrefHeight(395 + (newVal.doubleValue()-610)*((double) 395/610));
+
+
+        });
+
+        primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent event) {
+                quit(null);
             }
         });
     }
@@ -457,4 +574,8 @@ public class Controller implements Initializable {
     public void instrsSuiv(ActionEvent actionEvent) {
         ASTLogger.getInstance().logInfo("Instruction suivante.");
     }
+
+
+
+
 }
