@@ -4,6 +4,7 @@ import fr.femtost.disc.minijaja.*;
 import fr.femtost.disc.minijaja.ast.ASTExpr;
 import fr.femtost.disc.minijaja.ast.ASTInstr;
 import fr.femtost.disc.minijaja.ast.ASTInstrs;
+import fr.femtost.disc.minijaja.ast.expr.BoolVal;
 import fr.femtost.disc.minijaja.ast.instrs.IChain;
 import fr.femtost.disc.minijaja.ast.instrs.Inil;
 import fr.femtost.disc.minijaja.jcode.Goto;
@@ -67,6 +68,9 @@ public class Si extends ASTInstr {
     @Override
     public boolean typeCheck(Memoire global, Memoire local) {
         boolean b1 = expr.typeCheck(global, local, Sorte.BOOL);
+        if (expr instanceof BoolVal) {
+            ASTLogger.getInstance().logWarning(expr, "Utilisation d'une constante dans une condition");
+        }
         boolean b2 = instrsIf.typeCheck(global, local);
         boolean b3 = instrsElse.typeCheck(global, local);
         if (instrsIf instanceof Inil) {

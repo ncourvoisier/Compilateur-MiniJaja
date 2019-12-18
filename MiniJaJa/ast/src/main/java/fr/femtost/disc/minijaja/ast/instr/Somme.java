@@ -85,9 +85,12 @@ public class Somme extends ASTInstr {
                 ASTLogger.getInstance().logError(this, "Affectation d'une adresse de tableau : " + ident.getName());
                 return false;
             } else {
-                if (! ((Tableau) ident).checkIndex(global, local)) {
-                    return false;
+                boolean b1 = decl.getSORTE() == Sorte.INT;
+                if(!b1) {
+                    ASTLogger.getInstance().logError(this, "Somme sur variable non-int " + ident.getName());
                 }
+                boolean b2 = ((Tableau) ident).checkIndex(global, local);
+                return b1 && b2;
             }
         }
 
