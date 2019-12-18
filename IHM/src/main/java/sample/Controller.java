@@ -20,6 +20,7 @@ import org.fxmisc.richtext.CodeArea;
 import org.fxmisc.richtext.LineNumberFactory;
 import org.fxmisc.richtext.model.StyleSpans;
 import org.fxmisc.richtext.model.StyleSpansBuilder;
+import org.fxmisc.richtext.model.TwoDimensional;
 import org.reactfx.Subscription;
 
 import java.io.BufferedReader;
@@ -231,12 +232,25 @@ public class Controller implements Initializable {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 if (mouseEvent.getButton() == MouseButton.SECONDARY) {
-                    System.out.println("Right button clicked" + code.getCaretPosition());
-                    if (!breakPointLines.contains(code.getCaretPosition())) {
-                        breakPointLines.add(code.getCaretPosition());
+                    int oldPosition = code.getCaretPosition();
+                    int current = (int) (mouseEvent.getY()/16);
+                    int max = code.getParagraphs().size();
+                    int total = 0;
+                    for (int i=0; i<max; ++i)
+                        total += code.getParagraphLinesCount(i);
+                    if (total < current)
+                        return;
+                    code.displaceCaret(code.getAbsolutePosition(current, 0));
+                    System.out.println("Right button clicked" + current);
+                    if (!breakPointLines.contains(current)) {
+                        breakPointLines.add(current);
                     } else {
-                        breakPointLines.remove(code.getCaretPosition());
+                        breakPointLines.remove(current);
                     }
+                    if(oldPosition>0) {
+                        code.displaceCaret(oldPosition - 1);
+                    }
+                    code.displaceCaret(oldPosition);
                 }
             }
         });
