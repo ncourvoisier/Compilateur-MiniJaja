@@ -13,4 +13,9 @@ public abstract class ASTExpr extends ASTNode {
     }
 
     public abstract boolean typeCheck(Memoire global, Memoire local, Sorte expected);
+
+    @Override
+    public int getMaxEtape() {
+        return 0;
+    }
 }

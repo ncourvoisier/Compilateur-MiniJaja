@@ -10,6 +10,8 @@ import fr.femtost.disc.minijaja.ast.instrs.Inil;
 import fr.femtost.disc.minijaja.jcode.Goto;
 import fr.femtost.disc.minijaja.jcode.If;
 
+import java.util.List;
+
 public class Si extends ASTInstr {
 
     private ASTExpr expr;
@@ -77,5 +79,36 @@ public class Si extends ASTInstr {
             ASTLogger.getInstance().logWarning(instrsIf, "Bloc if vide");
         }
         return b1 && b2 && b3;
+    }
+
+    @Override
+    public void interpreterPasAPas(Memoire m, List<InterpretationPasAPasCouple> l) {
+        switch (l.get(0).indice) {
+            case 1 :
+                Boolean ee = (Boolean)expr.eval(m);
+                if(ee) {
+                    l.get(0).indice = 2;
+                } else {
+                    l.get(0).indice = 3;
+                }
+                break;
+            case 2 :
+                l.get(0).indice = 4;
+                l.add(0, new InterpretationPasAPasCouple(instrsIf, 1));
+                instrsIf.interpreterPasAPas(m, l);
+                break;
+            case 3 :
+                l.get(0).indice = 4;
+                l.add(0, new InterpretationPasAPasCouple(instrsElse, 1));
+                instrsElse.interpreterPasAPas(m, l);
+                break;
+            default:
+                ASTLogger.getInstance().logWarning(this, "Interpretation inconnue :" + l.get(0).indice);
+        }
+    }
+
+    @Override
+    public int getMaxEtape() {
+        return 3;
     }
 }
