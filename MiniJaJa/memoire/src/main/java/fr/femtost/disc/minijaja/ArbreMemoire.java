@@ -29,8 +29,8 @@ public class ArbreMemoire {
         return racine.allouerMemoire(taille);
     }
 
-    public void libererMemoire(int adresse) {
-        racine.suppressionMemoire(adresse, racine);
+    public int libererMemoire(int adresse) {
+        return racine.suppressionMemoire(adresse, racine);
     }
 
     public NoeudMemoire getNoeudRecursif(int adresse, NoeudMemoire courant) {
@@ -56,5 +56,17 @@ public class ArbreMemoire {
             return null;
         }
         return getNoeudRecursif(adresse, racine);
+    }
+
+    public String recursif(NoeudMemoire noeud) {
+        if (noeud == null) {
+            return "(-)";
+        }
+        return "(" + noeud.adresse + ", " + noeud.taille + ") [" + recursif(noeud.gauche) + ", " + recursif(noeud.droit) + "]";
+    }
+
+    @Override
+    public String toString() {
+        return recursif(racine);
     }
 }

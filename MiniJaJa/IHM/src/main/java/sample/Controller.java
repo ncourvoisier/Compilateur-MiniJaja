@@ -402,18 +402,21 @@ public class Controller implements Initializable {
         String lsp = System.getProperty("line.separator");
         sb.append("Tas:").append(lsp);
         for (TasInfos.BlocInfos bi : i.getBlocs()) {
-            sb.append(bi.toString()).append(": ");
+            sb.append(bi.toString()).append(": {");
+            boolean coma = false;
             for (int c = bi.getAdresse(); c < bi.getAdresse() + bi.getTaille(); c++) {
                 Object val = t.getMemoire()[c];
                 if (val != null) {
-                    sb.append(val);
+                    if (coma) {
+                        sb.append(", ");
+                    }
+                    else {
+                        coma = true;
+                    }
+                    sb.append(c).append(": ").append(val);
                 }
-                else {
-                    sb.append("-");
-                }
-                sb.append(" ");
             }
-            sb.append(lsp);
+            sb.append("}").append(lsp);
         }
         return sb.toString();
     }

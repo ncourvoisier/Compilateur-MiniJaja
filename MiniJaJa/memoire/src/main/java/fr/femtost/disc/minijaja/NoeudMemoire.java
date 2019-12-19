@@ -95,17 +95,17 @@ public class NoeudMemoire {
         }
     }
 
-    public void suppressionMemoire(int adresse, NoeudMemoire courant) {
+    public int suppressionMemoire(int adresse, NoeudMemoire courant) {
         if (adresse >= taille) {
-            return;
+            return -1;
         }
         if (adresse < 0) {
-            return;
+            return -1;
         }
-        suppressionMemoireReccursive(adresse, courant);
+        return suppressionMemoireReccursive(adresse, courant);
     }
 
-    public void suppressionMemoireReccursive(int adresse, NoeudMemoire courant) {
+    public int suppressionMemoireReccursive(int adresse, NoeudMemoire courant) {
         if(courant.adresse == adresse && !courant.disponible) {
             courant.disponible = true;
             courant.tailleDisponible = courant.taille;
@@ -116,20 +116,17 @@ public class NoeudMemoire {
             else { // si racine, propagation directe
                 propagationTailleDisponile(courant.taille);
             }
-            return;
+            return courant.taille;
         }
         if (courant.gauche != null) {
             if (courant.adresse + courant.gauche.taille - adresse > 0) {
-                suppressionMemoireReccursive(adresse, courant.gauche);
-                return;
+                return suppressionMemoireReccursive(adresse, courant.gauche);
             }
         }
-
         if (courant.droit != null) {
-            suppressionMemoireReccursive(adresse, courant.droit);
-            return;
+            return suppressionMemoireReccursive(adresse, courant.droit);
         }
-
+        return -1;
     }
 
     public boolean estUneFeuille() {
