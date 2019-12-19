@@ -213,8 +213,10 @@ public class Controller implements Initializable {
                         }
                     }
 
+                    double decal = 16 - code.screenToLocal(0, code.getVisibleParagraphBoundsOnScreen(0).getMaxY()).getY();
+
                     int oldPosition = code.getCaretPosition();
-                    int current = (int) (mouseEvent.getY()/16);
+                    int current = (int) ((mouseEvent.getY()+decal)/16);
                     current += found;
                     int max = code.getParagraphs().size();
                     int total = 0;
