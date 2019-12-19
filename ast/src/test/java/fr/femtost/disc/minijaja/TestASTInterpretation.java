@@ -13,8 +13,7 @@ import fr.femtost.disc.minijaja.ast.entetes.Enil;
 import fr.femtost.disc.minijaja.ast.expr.*;
 import fr.femtost.disc.minijaja.ast.expr.identificateur.Identifiant;
 import fr.femtost.disc.minijaja.ast.expr.identificateur.Tableau;
-import fr.femtost.disc.minijaja.ast.instr.Affectation;
-import fr.femtost.disc.minijaja.ast.instr.Retour;
+import fr.femtost.disc.minijaja.ast.instr.*;
 import fr.femtost.disc.minijaja.ast.instr.ecrire.EcrireLn;
 import fr.femtost.disc.minijaja.ast.instrs.IChain;
 import fr.femtost.disc.minijaja.ast.instrs.Inil;
@@ -216,13 +215,17 @@ public class TestASTInterpretation {
     }
 
     //a revoir
+
     @Test
     public void test_instr_Ecrireln(){
-        EcrireLn e1 = new EcrireLn(new Identifiant("toto"));
+         ASTInstr i1 = new EcrireLn(new Identifiant("varInt"));
 
         Memoire m = new Memoire(50);
-        e1.interpreter(m);
+        m.getPile().declVar("varInt", 10, Sorte.INT);
+        i1.interpreter(m);
+
         Quad q = m.getPile().getStackTop();
+
     }
 
     @Test
@@ -239,7 +242,162 @@ public class TestASTInterpretation {
         Assert.assertEquals(Sorte.INT,q.getSORTE());
     }
 
+    //probleme coverage
+    @Test
+    public void test_instr_affectationtab(){
+        ASTInstr i1 = new Affectation(new Identifiant("t"), new Nbre(2));
 
+        Memoire m = new Memoire(50);
+        m.getPile().declTab("t", 4, Sorte.INT);
+        i1.interpreter(m);
+        Quad q = m.getPile().getStackTop();
+
+        Assert.assertEquals("t", q.getID());
+        Assert.assertEquals(NatureObjet.TAB,q.getOBJ());
+        Assert.assertEquals(Sorte.INT,q.getSORTE());
+        Assert.assertEquals(2,q.getVAL());
+    }
+    /*
+    @Test
+    public void test_instr_AppelI(){
+        ASTInstr i1 = new AppelI(new Identifiant("meth"), new Exnil());
+
+        Memoire m = new Memoire(50);
+        m.getPile().declMeth("meth", new ASTMethode(new Entier(), new Identifiant("meth"),
+                new EChain(new Enil(), new ASTEntete(new Identifiant("r0"), new Entier())),
+                new Vnil(), new IChain(new Retour(new Nbre(42)), new Inil())), Sorte.INT);
+        System.out.println(m.getPile().getStackTop());
+        i1.interpreter(m);
+
+        Quad q = m.getPile().getStackTop();
+
+        Assert.assertEquals("meth", q.getID());
+
+    }*/
+
+    @Test
+    public void test_instr_ecrire(){
+        ASTInstr i1 = new Ecrire(new Identifiant("varInt"));
+
+        Memoire m = new Memoire(50);
+        m.getPile().declVar("varInt", 10, Sorte.INT);
+        i1.interpreter(m);
+
+        Quad q = m.getPile().getStackTop();
+
+        Assert.assertEquals("varInt", q.getID());
+        Assert.assertEquals(NatureObjet.VAR,q.getOBJ());
+        Assert.assertEquals(Sorte.INT,q.getSORTE());
+        Assert.assertEquals(10,q.getVAL());
+    }
+
+    @Test
+    public void test_instr_incrV(){
+        ASTInstr i1 = new Increment(new Identifiant("varInt"));
+
+        Memoire m = new Memoire(50);
+        m.getPile().declVar("varInt", 10, Sorte.INT);
+        i1.interpreter(m);
+
+        Quad q = m.getPile().getStackTop();
+
+        Assert.assertEquals("varInt", q.getID());
+        Assert.assertEquals(NatureObjet.VAR,q.getOBJ());
+        Assert.assertEquals(Sorte.INT,q.getSORTE());
+        Assert.assertEquals(11,q.getVAL());
+    }
+
+    //Tableau probleme coverage
+    @Test
+    public void test_instr_incrT(){
+        //ASTInstr i2 = new Affectation(new Identifiant("t"),)
+        ASTInstr i1 = new Increment(new Identifiant("t"));
+
+        Memoire m = new Memoire(50);
+        m.getPile().declTab("t", 4, Sorte.INT);
+        i1.interpreter(m);
+        //System.out.println(m.getPile().getStackTop());
+        Quad q = m.getPile().getStackTop();
+    }
+
+
+    //return null
+    @Test
+    public void test_instr_retour(){
+        Retour i1 = new Retour(new Nbre(0));
+
+        Memoire m = new Memoire(50);
+        i1.interpreter(m);
+        Quad q = m.getPile().getStackTop();
+    }
+
+    @Test
+    public void test_instr_SiFalse(){
+
+        Si s = new Si(new BoolVal(false), new Inil(), new IChain(new Affectation(new Identifiant("varInt"), new Nbre(0)),new Inil()) );
+
+        Memoire m = new Memoire(50);
+        m.getPile().declVar("varInt", 10, Sorte.INT);
+        s.interpreter(m);
+        Quad q = m.getPile().getStackTop();
+
+        Assert.assertEquals("varInt", q.getID());
+        Assert.assertEquals(NatureObjet.VAR,q.getOBJ());
+        Assert.assertEquals(Sorte.INT,q.getSORTE());
+        Assert.assertEquals(0,q.getVAL());
+    }
+
+    @Test
+    public void test_instr_SiTrue(){
+
+        Si s = new Si(new BoolVal(true), new Inil(), new IChain(new Affectation(new Identifiant("varInt"), new Nbre(0)),new Inil()) );
+
+        Memoire m = new Memoire(50);
+        m.getPile().declVar("varInt", 10, Sorte.INT);
+        s.interpreter(m);
+        Quad q = m.getPile().getStackTop();
+
+        Assert.assertEquals("varInt", q.getID());
+        Assert.assertEquals(NatureObjet.VAR,q.getOBJ());
+        Assert.assertEquals(Sorte.INT,q.getSORTE());
+        Assert.assertEquals(10,q.getVAL());
+    }
+
+    @Test
+    public void test_instr_Somme(){
+        Somme s = new Somme(new Identifiant("varInt"), new Nbre(10));
+
+        Memoire m = new Memoire(50);
+        m.getPile().declVar("varInt", 10, Sorte.INT);
+        s.interpreter(m);
+        Quad q = m.getPile().getStackTop();
+
+        Assert.assertEquals("varInt", q.getID());
+        Assert.assertEquals(NatureObjet.VAR,q.getOBJ());
+        Assert.assertEquals(Sorte.INT,q.getSORTE());
+        Assert.assertEquals(20,q.getVAL());
+    }
+
+    //assert a voir
+    @Test
+    public void test_instr_SommeT(){
+        Somme s = new Somme(new Tableau("t", new Nbre(0)), new Nbre(1));
+
+        Memoire m = new Memoire(50);
+        m.getPile().declTab("t", 4, Sorte.INT);
+        try{
+
+            m.getPile().affecterValT("t",4,0);
+            m.getPile().valT("t",0);
+            Quad q = m.getPile().getStackTop();
+            System.out.println(q.getVAL());
+            s.interpreter(m);
+            System.out.println(q.getVAL());
+        }catch (PileException p){
+            p.getStackTrace();
+        }
+
+    }
 
 
 
