@@ -4,6 +4,7 @@ import fr.femtost.disc.minijaja.*;
 import fr.femtost.disc.minijaja.ast.ASTExpr;
 import fr.femtost.disc.minijaja.ast.ASTInstr;
 import fr.femtost.disc.minijaja.ast.expr.ASTIdentGenerique;
+import fr.femtost.disc.minijaja.ast.expr.identificateur.Identifiant;
 import fr.femtost.disc.minijaja.ast.expr.identificateur.Tableau;
 import fr.femtost.disc.minijaja.jcode.AStore;
 import fr.femtost.disc.minijaja.jcode.Store;
@@ -81,8 +82,30 @@ public class Affectation extends ASTInstr {
         }
         if (decl.getOBJ() == NatureObjet.TAB) {
             if (!(ident instanceof Tableau)) {
-                ASTLogger.getInstance().logError(this, "Affectation d'une adresse de tableau : " + ident.getName());
-                return false;
+                if (expr instanceof Identifiant) {
+                    Identifiant t = (Identifiant) expr;
+                    Quad declIden;
+                    if (local.containsSymbol(t.getName())) {
+                        declIden = local.getPile().returnQuadWithId(t.getName());
+                    } else {
+                        if (global.containsSymbol(t.getName())) {
+                            declIden = global.getPile().returnQuadWithId(t.getName());
+                        } else {
+                            ASTLogger.getInstance().logError(this, "Variable non déclarée : " + ident.getName());
+                            return false;
+                        }
+                    }
+                    if (declIden.getOBJ() == NatureObjet.TAB) {
+                        return decl.getSORTE() == declIden.getSORTE();
+                    } else {
+                        ASTLogger.getInstance().logError(this, "Type mismatch: expected " + decl.getSORTE().name()
+                                + " got " + declIden.getSORTE().name());
+                        return false;
+                    }
+                } else {
+                    ASTLogger.getInstance().logError(this, "Affectation d'une adresse de tableau : " + ident.getName());
+                    return false;
+                }
             } else {
                 if (! ((Tableau) ident).checkIndex(global, local)) {
                     return false;
