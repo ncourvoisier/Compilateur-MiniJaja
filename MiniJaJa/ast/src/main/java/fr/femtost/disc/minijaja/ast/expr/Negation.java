@@ -13,7 +13,7 @@ public class Negation extends ASTExpr {
 
     @Override
     public String rewrite() {
-        return "-(" + expr.rewrite() + ")";
+        return "(-" + expr.rewrite() + ")";
     }
 
     @Override

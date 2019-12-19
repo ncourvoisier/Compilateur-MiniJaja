@@ -62,7 +62,7 @@ public class TestASTRewrite {
 
     @Test
     public void test_rewrite_neg() {
-        Assert.assertEquals("-(10)", new Negation(new Nbre(10)).rewrite());
+        Assert.assertEquals("(-10)", new Negation(new Nbre(10)).rewrite());
     }
 
     @Test
