@@ -1,9 +1,6 @@
 package fr.femtost.disc.minijaja.ast.listexpr;
 
-import fr.femtost.disc.minijaja.ASTLogger;
-import fr.femtost.disc.minijaja.CompilationCouple;
-import fr.femtost.disc.minijaja.InterpretationPasAPasCouple;
-import fr.femtost.disc.minijaja.Memoire;
+import fr.femtost.disc.minijaja.*;
 import fr.femtost.disc.minijaja.ast.ASTEntetes;
 import fr.femtost.disc.minijaja.ast.ASTListExpr;
 import fr.femtost.disc.minijaja.ast.entetes.Enil;
@@ -34,7 +31,7 @@ public final class Exnil extends ASTListExpr {
     }
 
     @Override
-    public void interpreterPasAPas(Memoire m, List<InterpretationPasAPasCouple> l) {
+    public void interpreterPasAPas(Memoire m, List<InterpretationPasAPasCouple> l, List<EvaluationCouplePasAPas> leval) {
         //noop
     }
 

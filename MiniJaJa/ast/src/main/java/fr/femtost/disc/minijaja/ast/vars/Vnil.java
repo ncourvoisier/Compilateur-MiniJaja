@@ -1,6 +1,7 @@
 package fr.femtost.disc.minijaja.ast.vars;
 
 import fr.femtost.disc.minijaja.CompilationCouple;
+import fr.femtost.disc.minijaja.EvaluationCouplePasAPas;
 import fr.femtost.disc.minijaja.InterpretationPasAPasCouple;
 import fr.femtost.disc.minijaja.Memoire;
 import fr.femtost.disc.minijaja.ast.ASTVars;
@@ -37,11 +38,11 @@ public final class Vnil extends ASTVars {
     }
 
     @Override
-    public void interpreterPasAPas(Memoire m, List<InterpretationPasAPasCouple> l) {
+    public void interpreterPasAPas(Memoire m, List<InterpretationPasAPasCouple> l, List<EvaluationCouplePasAPas> leval) {
         while(l.get(0).indice > l.get(0).node.getMaxEtape()) {
             l.remove(0);
         }
-        l.get(0).node.interpreterPasAPas(m, l);
+        l.get(0).node.interpreterPasAPas(m, l, leval);
     }
 
     @Override

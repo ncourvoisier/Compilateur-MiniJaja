@@ -67,7 +67,7 @@ public class TantQue extends ASTInstr {
     }
 
     @Override
-    public void interpreterPasAPas(Memoire m, List<InterpretationPasAPasCouple> l) {
+    public void interpreterPasAPas(Memoire m, List<InterpretationPasAPasCouple> l, List<EvaluationCouplePasAPas> leval) {
         switch (l.get(0).indice) {
             case 1 :
                 Boolean ee = (Boolean)expr.eval(m);
@@ -80,7 +80,7 @@ public class TantQue extends ASTInstr {
             case 2 :
                 l.get(0).indice = 1;
                 l.add(0, new InterpretationPasAPasCouple(instrs, 1));
-                instrs.interpreterPasAPas(m, l);
+                instrs.interpreterPasAPas(m, l, leval);
                 break;
             default:
                 ASTLogger.getInstance().logWarning(this, "Interpretation inconnue :" + l.get(0).indice);

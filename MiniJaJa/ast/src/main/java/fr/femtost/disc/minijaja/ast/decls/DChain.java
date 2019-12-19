@@ -74,17 +74,17 @@ public class DChain extends ASTDecls {
     }
 
     @Override
-    public void interpreterPasAPas(Memoire m, List<InterpretationPasAPasCouple> l) {
+    public void interpreterPasAPas(Memoire m, List<InterpretationPasAPasCouple> l, List<EvaluationCouplePasAPas> leval) {
         switch (l.get(0).indice) {
             case 1:
                 l.get(0).indice = 2;
                 l.add(0, new InterpretationPasAPasCouple(node, 1));
-                node.interpreterPasAPas(m, l);
+                node.interpreterPasAPas(m, l, leval);
                 break;
             case 2:
                 l.get(0).indice = 3;
                 l.add(0, new InterpretationPasAPasCouple(successor, 1));
-                successor.interpreterPasAPas(m, l);
+                successor.interpreterPasAPas(m, l, leval);
                 break;
             default:
                 ASTLogger.getInstance().logWarning(this, "Interpretation inconnue :" + l.get(0).indice);
