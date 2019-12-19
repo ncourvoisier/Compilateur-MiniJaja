@@ -311,4 +311,14 @@ public class TestJCodeInterpreter {
         Assert.assertEquals(-1, new WriteLn().interpreter(m, 2));
         Assert.assertEquals(0, m.getPile().returnTaillePile());
     }
+    @Test
+    public void interpreterJCStop() {
+        Memoire m = emptyMemoire();
+
+        m.getPile().declCst("numero", 93, null);
+        m.getPile().declCst("numero", 9, null);
+        m.getPile().declCst("numero", 3, null);
+        Assert.assertEquals(-1, new JCStop().interpreter(m, 74));
+        Assert.assertEquals(3, m.getPile().returnTaillePile());
+    }
 }
