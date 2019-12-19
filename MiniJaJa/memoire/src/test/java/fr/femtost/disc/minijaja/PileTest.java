@@ -1,6 +1,7 @@
 package fr.femtost.disc.minijaja;
 
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -508,4 +509,15 @@ public class PileTest {
         assertEquals("<Var3, 7, VAR, INT>.<Var2, 5, VAR, INT>.<Var1, 2, VAR, INT>", p.toString());
     }
 
+   /* @Test
+    public void affecterTabTest() {
+        int addr = p.getTas().allouer(10);
+        p.declTab("Tab", 0, Sorte.INT);
+        try {
+            p.affecterVal("Tab", addr);
+            assertEquals(addr, p.val("Tab"));
+        }catch (PileException e) {
+            Assert.fail();
+        }
+    }*/
 }

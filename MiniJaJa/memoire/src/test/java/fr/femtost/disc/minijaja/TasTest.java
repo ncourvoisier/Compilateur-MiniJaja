@@ -96,4 +96,11 @@ public class TasTest {
         assertNotNull(m.getTas());
     }
 
+    @Test
+    public void toStringArbreTest() {
+        ArbreMemoire arbre = new ArbreMemoire(10);
+        arbre.allouerMemoire(5);
+        arbre.allouerMemoire(10);
+        assertEquals("(0, 10) [(0, 5) [(-), (-)], (5, 5) [(-), (-)]]", arbre.toString());
+    }
 }
