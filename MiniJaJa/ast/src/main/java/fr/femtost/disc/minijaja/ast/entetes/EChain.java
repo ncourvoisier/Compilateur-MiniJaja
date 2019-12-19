@@ -1,11 +1,14 @@
 package fr.femtost.disc.minijaja.ast.entetes;
 
 import fr.femtost.disc.minijaja.CompilationCouple;
+import fr.femtost.disc.minijaja.InterpretationPasAPasCouple;
 import fr.femtost.disc.minijaja.JCodes;
 import fr.femtost.disc.minijaja.Memoire;
 import fr.femtost.disc.minijaja.ast.ASTEntete;
 import fr.femtost.disc.minijaja.ast.ASTEntetes;
 import fr.femtost.disc.minijaja.ast.type.Entier;
+
+import java.util.List;
 
 public class EChain extends ASTEntetes {
     private ASTEntetes successor;
@@ -68,5 +71,15 @@ public class EChain extends ASTEntetes {
     public void retirer(Memoire m) {
         successor.retirer(m);
         node.retirer(m);
+    }
+
+    @Override
+    public void interpreterPasAPas(Memoire m, List<InterpretationPasAPasCouple> l) {
+        //noop
+    }
+
+    @Override
+    public int getMaxEtape() {
+        return 1;
     }
 }
