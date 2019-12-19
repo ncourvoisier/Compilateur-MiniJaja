@@ -107,15 +107,4 @@ public class Somme extends ASTInstr {
             return false;
         }
     }
-
-    @Override
-    public void interpreterPasAPas(Memoire m, List<InterpretationPasAPasCouple> l) {
-        interpreter(m);
-        l.get(0).indice = 2;
-    }
-
-    @Override
-    public int getMaxEtape() {
-        return 1;
-    }
 }

@@ -52,14 +52,4 @@ public class Retour extends ASTInstr {
         }
         return expr.typeCheck(global, local, typeRetour);
     }
-
-    @Override
-    public void interpreterPasAPas(Memoire m, List<InterpretationPasAPasCouple> l) {
-        
-    }
-
-    @Override
-    public int getMaxEtape() {
-        return 0;
-    }
 }
