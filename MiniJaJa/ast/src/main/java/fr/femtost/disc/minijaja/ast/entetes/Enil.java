@@ -1,9 +1,12 @@
 package fr.femtost.disc.minijaja.ast.entetes;
 
 import fr.femtost.disc.minijaja.CompilationCouple;
+import fr.femtost.disc.minijaja.InterpretationPasAPasCouple;
 import fr.femtost.disc.minijaja.Memoire;
 import fr.femtost.disc.minijaja.ast.ASTEntetes;
 import fr.femtost.disc.minijaja.jcodes.JNil;
+
+import java.util.List;
 
 public final class Enil extends ASTEntetes {
 
@@ -37,4 +40,13 @@ public final class Enil extends ASTEntetes {
         return true;
     }
 
+    @Override
+    public void interpreterPasAPas(Memoire m, List<InterpretationPasAPasCouple> l) {
+        //noop
+    }
+
+    @Override
+    public int getMaxEtape() {
+        return 0;
+    }
 }
