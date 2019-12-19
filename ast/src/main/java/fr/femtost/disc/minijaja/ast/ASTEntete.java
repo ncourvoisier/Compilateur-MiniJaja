@@ -7,6 +7,8 @@ import fr.femtost.disc.minijaja.jcode.New;
 import fr.femtost.disc.minijaja.jcodes.JChain;
 import fr.femtost.disc.minijaja.jcodes.JNil;
 
+import java.util.List;
+
 public class ASTEntete extends ASTNode {
     private Identifiant ident;
     private ASTType type;
@@ -71,5 +73,15 @@ public class ASTEntete extends ASTNode {
         }
         locale.getPile().declVar(ident.getName(), null, type.getSorte());
         return true;
+    }
+
+    @Override
+    public void interpreterPasAPas(Memoire m, List<InterpretationPasAPasCouple> l) {
+        interpreter(m);
+    }
+
+    @Override
+    public int getMaxEtape() {
+        return 1;
     }
 }
