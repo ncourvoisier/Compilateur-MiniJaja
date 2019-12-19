@@ -459,6 +459,8 @@ public class Controller implements Initializable {
             CompilationCouple cc = cla.compiler(1);
             String result = cc.jCodes.rewriteWithLines();
             jajacode.setText(result);
+            jcd = cc.jCodes;
+            estPasAPasJajacode = false;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -503,17 +505,32 @@ public class Controller implements Initializable {
     }
 
     public void buildAndRun(ActionEvent actionEvent) {
-        SyntaxChecker sc = new SyntaxChecker(new java.io.StringReader(code.getText()));
-        try {
-            ASTClass cla = sc.S();
-            CompilationCouple cc = cla.compiler(1);
-            String result = cc.jCodes.rewriteWithLines();
-            jajacode.setText(result);
-            cc.jCodes.interpreterFull();
+        build(actionEvent);
+        jcd.interpreterFull();
+    }
 
-        } catch (Exception e) {
-            e.printStackTrace();
+
+    private int currentInterpretationJajaCode;
+    private Memoire memJajaCode;
+    private boolean estPasAPasJajacode = false;
+    private JCodes jcd;
+    public void instrsSuivJajaCode(ActionEvent actionEvent) {
+
+        if(!estPasAPasJajacode) {
+            currentInterpretationJajaCode = 1;
+            memJajaCode = new Memoire(1000);
+            estPasAPasJajacode = true;
         }
+        if(currentInterpretationJajaCode > JCodes.asArray(jcd).size()) {
+            //msg
+            return;
+        }
+        currentInterpretationJajaCode = jcd.interpreterNext(currentInterpretationJajaCode, memJajaCode);
+        affichageMemoire(memJajaCode);
+    }
+
+    public void resetInterpretationJajaCode(ActionEvent actionEvent) {
+        estPasAPasJajacode = false;
     }
 
     public void ptArret(ActionEvent actionEvent) {
