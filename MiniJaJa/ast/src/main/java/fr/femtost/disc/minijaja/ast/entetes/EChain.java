@@ -63,11 +63,6 @@ public class EChain extends ASTEntetes {
     }
 
     @Override
-    public void interpreter(Memoire m) {
-        //noop
-    }
-
-    @Override
     public void retirer(Memoire m) {
         successor.retirer(m);
         node.retirer(m);
