@@ -8,6 +8,8 @@ import fr.femtost.disc.minijaja.ast.expr.identificateur.Identifiant;
 import fr.femtost.disc.minijaja.ast.type.ASTType;
 import fr.femtost.disc.minijaja.jcode.New;
 
+import java.util.List;
+
 public class ASTVarConst extends ASTVar {
 
     private ASTType type;
@@ -73,11 +75,4 @@ public class ASTVarConst extends ASTVar {
         global.getPile().declCst(identifiant.getName(), null, type.getSorte());
         return expr.typeCheck(global, new Memoire(128), type.getSorte());
     }
-
-//    @Override
-//    public EtatArret interpreterPasAPas(Memoire m, int indice, int stop) {
-
-//        Object v = expr.eval(m);
-//        m.getPile().declCst(identifiant.getName(),v,type.getSorte());
-//    }
 }
