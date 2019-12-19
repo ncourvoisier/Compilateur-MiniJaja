@@ -55,4 +55,8 @@ public class Tas {
     public TasInfos getInfos() {
         return new TasInfos(arbre);
     }
+
+    public Object[] getMemoire() {
+        return memoire;
+    }
 }

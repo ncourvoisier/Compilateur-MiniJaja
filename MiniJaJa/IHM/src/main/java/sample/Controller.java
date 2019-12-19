@@ -389,28 +389,50 @@ public class Controller implements Initializable {
         return sRet;
     }
 
-    private String getTasString(TasInfos i) {
+    private String getTasString(Tas t) {
+        TasInfos i = t.getInfos();
+        if (i.getBlocs().size() <= 1) {
+            return "Tas vide";
+        }
         StringBuilder sb = new StringBuilder();
         String lsp = System.getProperty("line.separator");
         sb.append("Tas:").append(lsp);
         for (TasInfos.BlocInfos bi : i.getBlocs()) {
-            sb.append(bi.toString()).append(lsp);
+            sb.append(bi.toString()).append(": ");
+            for (int c = bi.getAdresse(); c < bi.getAdresse() + bi.getTaille(); c++) {
+                Object val = t.getMemoire()[c];
+                if (val != null) {
+                    sb.append(val);
+                }
+                else {
+                    sb.append("-");
+                }
+                sb.append(" ");
+            }
+            sb.append(lsp);
         }
         return sb.toString();
     }
 
+    private String getPileString(Pile p) {
+        if (p.returnTaillePile() == 0) {
+            return "Pile vide";
+        }
+        StringBuilder sb = new StringBuilder();
+        String lsp = System.getProperty("line.separator");
+        sb.append("Pile:").append(lsp);
+        Quad q = p.getStackTop();
+        while (q != null) {
+            sb.append(q).append(lsp);
+            q = q.getBottomQuad();
+        }
+        return sb.toString();
+
+    }
+
     private void affichageMemoire(Memoire m) {
-        if (m.getPile().returnTaillePile() == 0) {
-            pile.setText("La mémoire est vide.");
-        } else {
-            pile.setText("Pile:" + System.getProperty("line.separator") + m.getPile().toString());
-        }
-        TasInfos i = m.getTas().getInfos();
-        if (i.getTaille() > 1) {
-            tas.setText(getTasString(i));
-        } else {
-            tas.setText("Tas vide");
-        }
+        pile.setText(getPileString(m.getPile()));
+        tas.setText(getTasString(m.getTas()));
     }
 
     public void run(ActionEvent actionEvent) {
