@@ -245,17 +245,20 @@ public class TestASTInterpretation {
     //probleme coverage
     @Test
     public void test_instr_affectationtab(){
-        ASTInstr i1 = new Affectation(new Identifiant("t"), new Nbre(2));
+        ASTInstr i1 = new Affectation(new Tableau("t", new Nbre(0)), new Nbre(2));
 
         Memoire m = new Memoire(50);
         m.getPile().declTab("t", 4, Sorte.INT);
-        i1.interpreter(m);
-        Quad q = m.getPile().getStackTop();
-
-        Assert.assertEquals("t", q.getID());
-        Assert.assertEquals(NatureObjet.TAB,q.getOBJ());
-        Assert.assertEquals(Sorte.INT,q.getSORTE());
-        Assert.assertEquals(2,q.getVAL());
+        try{
+            m.getPile().affecterValT("t",4,0);
+            m.getPile().valT("t",0);
+            Quad q = m.getPile().getStackTop();
+            System.out.println(q.getVAL());
+            i1.interpreter(m);
+            System.out.println(q.getVAL());
+        }catch (PileException p){
+            p.getStackTrace();
+        }
     }
     /*
     @Test
@@ -307,17 +310,24 @@ public class TestASTInterpretation {
         Assert.assertEquals(11,q.getVAL());
     }
 
-    //Tableau probleme coverage
+    //Tableau probleme coverage, assert
     @Test
     public void test_instr_incrT(){
         //ASTInstr i2 = new Affectation(new Identifiant("t"),)
-        ASTInstr i1 = new Increment(new Identifiant("t"));
+        ASTInstr i1 = new Increment(new Tableau("t", new Nbre(0)));
 
         Memoire m = new Memoire(50);
         m.getPile().declTab("t", 4, Sorte.INT);
-        i1.interpreter(m);
-        //System.out.println(m.getPile().getStackTop());
-        Quad q = m.getPile().getStackTop();
+        try{
+            m.getPile().affecterValT("t",4,0);
+            m.getPile().valT("t",0);
+            Quad q = m.getPile().getStackTop();
+            System.out.println(q.getVAL());
+            i1.interpreter(m);
+            System.out.println(q.getVAL());
+        }catch (PileException p){
+            p.getStackTrace();
+        }
     }
 
 
@@ -398,6 +408,8 @@ public class TestASTInterpretation {
         }
 
     }
+
+    
 
 
 
