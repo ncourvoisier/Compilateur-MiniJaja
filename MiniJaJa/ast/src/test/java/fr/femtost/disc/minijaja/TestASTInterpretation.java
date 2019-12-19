@@ -4,6 +4,7 @@ import fr.femtost.disc.minijaja.ast.ASTClass;
 import fr.femtost.disc.minijaja.ast.ASTEntete;
 import fr.femtost.disc.minijaja.ast.ASTExpr;
 import fr.femtost.disc.minijaja.ast.decl.ASTMethode;
+import fr.femtost.disc.minijaja.ast.decl.var.ASTVarConst;
 import fr.femtost.disc.minijaja.ast.entetes.EChain;
 import fr.femtost.disc.minijaja.ast.entetes.Enil;
 import fr.femtost.disc.minijaja.ast.expr.*;
@@ -108,4 +109,24 @@ public class TestASTInterpretation {
         ASTClass c = new ASTClass(new Identifiant("classe"), null, null); // set Variable Classe
         Assert.assertEquals(42, new AppelE(new Identifiant("meth"), new ExChain(new Nbre(10), new Exnil())).eval(getMemoire()));
     }
+
+    /* ****************
+       Variable
+   **************** */
+    @Test
+    public void test_decl_const(){
+        ASTVarConst c1 = new ASTVarConst(new Entier(), new Identifiant("x"), new Nbre(1));
+
+        Memoire m = new Memoire(50);
+        c1.interpreter(m);
+        Quad q = m.getPile().getStackTop();
+
+        Assert.assertEquals("x", q.getID());
+        Assert.assertEquals(1,q.getVAL());
+        Assert.assertEquals(Sorte.INT,q.getSORTE());
+        Assert.assertEquals(NatureObjet.CST,q.getOBJ());
+
+    }
+
+
 }
