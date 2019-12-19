@@ -87,7 +87,7 @@ public class ASTMethode extends ASTDecl {
     @Override
     public void interpreter(Memoire m) {
         ASTMethode mth = new ASTMethode(typeMeth, ident, entetes, vars, instrs);
-        m.getPile().declMeth(ident.getName(), mth, null);
+        m.getPile().declMeth(ident.getName(), mth, typeMeth.getSorte());
     }
 
     @Override

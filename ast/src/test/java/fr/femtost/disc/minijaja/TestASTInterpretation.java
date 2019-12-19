@@ -1,25 +1,33 @@
 package fr.femtost.disc.minijaja;
 
-import fr.femtost.disc.minijaja.ast.ASTClass;
-import fr.femtost.disc.minijaja.ast.ASTEntete;
-import fr.femtost.disc.minijaja.ast.ASTExpr;
+import fr.femtost.disc.minijaja.ast.*;
 import fr.femtost.disc.minijaja.ast.decl.ASTMethode;
+import fr.femtost.disc.minijaja.ast.decl.ASTVar;
 import fr.femtost.disc.minijaja.ast.decl.var.ASTVarConst;
+import fr.femtost.disc.minijaja.ast.decl.var.ASTVarSimple;
+import fr.femtost.disc.minijaja.ast.decl.var.ASTVarTableau;
+import fr.femtost.disc.minijaja.ast.decls.DChain;
+import fr.femtost.disc.minijaja.ast.decls.Dnil;
 import fr.femtost.disc.minijaja.ast.entetes.EChain;
 import fr.femtost.disc.minijaja.ast.entetes.Enil;
 import fr.femtost.disc.minijaja.ast.expr.*;
 import fr.femtost.disc.minijaja.ast.expr.identificateur.Identifiant;
 import fr.femtost.disc.minijaja.ast.expr.identificateur.Tableau;
+import fr.femtost.disc.minijaja.ast.instr.Affectation;
 import fr.femtost.disc.minijaja.ast.instr.Retour;
+import fr.femtost.disc.minijaja.ast.instr.ecrire.EcrireLn;
 import fr.femtost.disc.minijaja.ast.instrs.IChain;
 import fr.femtost.disc.minijaja.ast.instrs.Inil;
 import fr.femtost.disc.minijaja.ast.listexpr.ExChain;
 import fr.femtost.disc.minijaja.ast.listexpr.Exnil;
+import fr.femtost.disc.minijaja.ast.type.Booleen;
 import fr.femtost.disc.minijaja.ast.type.Entier;
 import fr.femtost.disc.minijaja.ast.type.Void;
+import fr.femtost.disc.minijaja.ast.vars.VChain;
 import fr.femtost.disc.minijaja.ast.vars.Vnil;
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.experimental.theories.suppliers.TestedOn;
 
 import static org.junit.Assert.fail;
 
@@ -127,6 +135,118 @@ public class TestASTInterpretation {
         Assert.assertEquals(NatureObjet.CST,q.getOBJ());
 
     }
+
+    @Test
+    public void test_decl_varSimple(){
+        ASTVarSimple c1 = new ASTVarSimple(new Entier(), new Identifiant("x"), new Nbre(1));
+
+        Memoire m = new Memoire(50);
+        c1.interpreter(m);
+        Quad q = m.getPile().getStackTop();
+
+        Assert.assertEquals("x", q.getID());
+        Assert.assertEquals(1,q.getVAL());
+        Assert.assertEquals(Sorte.INT,q.getSORTE());
+        Assert.assertEquals(NatureObjet.VAR,q.getOBJ());
+    }
+
+    @Test
+    public void test_decl_varTab(){
+        ASTVarTableau v1 = new ASTVarTableau(new Entier(),new Identifiant("t"), new Nbre(1));
+
+        Memoire m = new Memoire(50);
+        v1.interpreter(m);
+        Quad q = m.getPile().getStackTop();
+
+        Assert.assertEquals("t", q.getID());
+        Assert.assertEquals(Sorte.INT,q.getSORTE());
+        Assert.assertEquals(NatureObjet.TAB,q.getOBJ());
+        //getval??
+    }
+
+    @Test
+    public void test_declr_meth(){
+        ASTMethode methode = new ASTMethode(new Entier(), new Identifiant("meth"), new Enil(), new Vnil(),
+                new IChain(new Retour(new Nbre(10)), new Inil()));
+
+        Memoire m = new Memoire(50);
+        methode.interpreter(m);
+        Quad q = m.getPile().getStackTop();
+
+        Assert.assertEquals("meth", q.getID());
+        Assert.assertEquals(NatureObjet.METH,q.getOBJ());
+        Assert.assertEquals(Sorte.INT,q.getSORTE());
+    }
+
+    @Test
+    public void test_decl_DChain(){
+        ASTMethode methode = new ASTMethode(new Entier(), new Identifiant("meth"), new Enil(), new Vnil(),
+                new IChain(new Retour(new Nbre(10)), new Inil()));
+
+        DChain d1 = new  DChain(new DChain(new Dnil(), new ASTVarConst(new Booleen(), new Identifiant("temp"), new BoolVal(true))), methode);
+
+
+        Memoire m = new Memoire(50);
+        d1.interpreter(m);
+        Quad q = m.getPile().getStackTop();
+
+        Assert.assertEquals("temp", q.getID());
+        Assert.assertEquals(NatureObjet.CST,q.getOBJ());
+        Assert.assertEquals(Sorte.BOOL,q.getSORTE());
+    }
+
+
+    @Test(expected = UnsupportedOperationException.class)
+    public void test_entete_EChain(){
+        ASTEntetes e = new Enil();
+        e.interpreter(emptyMemoire());
+    }
+
+    @Test
+    public void test_vars_Vchain(){
+        ASTVars v1 = new VChain(new ASTVarSimple(new Entier(), new Identifiant("toto"), new Omega()), new Vnil());
+
+        Memoire m = new Memoire(50);
+        v1.interpreter(m);
+        Quad q = m.getPile().getStackTop();
+
+        Assert.assertEquals("toto", q.getID());
+        Assert.assertEquals(NatureObjet.VAR,q.getOBJ());
+        Assert.assertEquals(Sorte.INT,q.getSORTE());
+    }
+
+    //a revoir
+    @Test
+    public void test_instr_Ecrireln(){
+        EcrireLn e1 = new EcrireLn(new Identifiant("toto"));
+
+        Memoire m = new Memoire(50);
+        e1.interpreter(m);
+        Quad q = m.getPile().getStackTop();
+    }
+
+    @Test
+    public void test_instr_affectation(){
+        ASTInstr i1 = new Affectation(new Identifiant("varInt"), new Nbre(2));
+
+        Memoire m = new Memoire(50);
+        m.getPile().declVar("varInt", 10, Sorte.INT);
+        i1.interpreter(m);
+        Quad q = m.getPile().getStackTop();
+
+        Assert.assertEquals("varInt", q.getID());
+        Assert.assertEquals(NatureObjet.VAR,q.getOBJ());
+        Assert.assertEquals(Sorte.INT,q.getSORTE());
+    }
+
+
+
+
+
+
+
+
+
 
 
 }

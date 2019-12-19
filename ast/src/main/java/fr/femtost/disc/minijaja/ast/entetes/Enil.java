@@ -21,11 +21,6 @@ public final class Enil extends ASTEntetes {
     }
 
     @Override
-    public void interpreter(Memoire m) {
-        //noop
-    }
-
-    @Override
     public void retirer(Memoire m) {
         //noop
     }
