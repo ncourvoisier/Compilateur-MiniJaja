@@ -18,9 +18,7 @@ import fr.femtost.disc.minijaja.ast.listexpr.Exnil;
 import fr.femtost.disc.minijaja.ast.type.Entier;
 import fr.femtost.disc.minijaja.ast.type.Void;
 import fr.femtost.disc.minijaja.ast.vars.Vnil;
-import fr.femtost.disc.minijaja.jcode.ALoad;
-import fr.femtost.disc.minijaja.jcode.Load;
-import fr.femtost.disc.minijaja.jcode.Push;
+import fr.femtost.disc.minijaja.jcode.*;
 import fr.femtost.disc.minijaja.jcode.oper.OpBinaire;
 import fr.femtost.disc.minijaja.jcode.oper.OpUnaire;
 import org.junit.Assert;
@@ -81,7 +79,7 @@ public class TestASTCompilation {
     }
 
     @Test
-    public void test_eval_binop() {
+    public void test_binop() {
         ASTExpr e1 = new Nbre(6);
         ASTExpr e2 = new Nbre(2);
         ASTExpr b1 = new BoolVal(false);
@@ -100,6 +98,26 @@ public class TestASTCompilation {
         Assert.assertEquals(3,ls2.size());
         Assert.assertTrue(ls2.get(ls2.size()-1) instanceof OpBinaire);
     }
+
+    @Test
+    public void test_appelE() {
+        AppelE ape = new AppelE(new Identifiant("x"), new ExChain(new Nbre(10), new Exnil()));
+
+        CompilationCouple cc = ape.compiler(0);
+        List<JCode> ls = JCodes.asArray(cc.jCodes);
+        Assert.assertEquals(4,ls.size());
+        Assert.assertTrue(ls.get(1) instanceof Invoke);
+        Assert.assertTrue(ls.get(2) instanceof Swap);
+        Assert.assertTrue(ls.get(3) instanceof Pop);
+
+    }
+
+
+    /* ****************
+       Variable
+   **************** */
+    
+
 
 
 
