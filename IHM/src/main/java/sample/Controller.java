@@ -562,6 +562,7 @@ public class Controller implements Initializable {
     private Memoire memPasAPas;
     private List<InterpretationPasAPasCouple> listePasAPas;
     private boolean estEnPasAPas = false;
+    private List<EvaluationCouplePasAPas> leval;
 
     public void instrsSuiv(ActionEvent actionEvent) {
         ASTLogger.getInstance().logInfo("Instruction suivante.");
@@ -577,7 +578,7 @@ public class Controller implements Initializable {
             }
             ASTLogger.getInstance().logInfo("Etape: " + listePasAPas.get(0).indice);
             ASTLogger.getInstance().logInfo("Noeud: " + listePasAPas.get(0).node);
-            listePasAPas.get(0).node.interpreterPasAPas(memPasAPas, listePasAPas);
+            listePasAPas.get(0).node.interpreterPasAPas(memPasAPas, listePasAPas, leval);
             affichageMemoire(memPasAPas);
         } else {
             SyntaxChecker sc = new SyntaxChecker(new java.io.StringReader(code.getText()));
@@ -587,7 +588,7 @@ public class Controller implements Initializable {
                 memPasAPas = new Memoire(1000);
                 listePasAPas = new LinkedList<>();
                 listePasAPas.add(new InterpretationPasAPasCouple(cla, 1));
-                cla.interpreterPasAPas(memPasAPas, listePasAPas);
+                cla.interpreterPasAPas(memPasAPas, listePasAPas, leval);
                 affichageMemoire(memPasAPas);
             } catch (Exception e) {
                 e.printStackTrace();
