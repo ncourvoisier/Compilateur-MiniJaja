@@ -38,7 +38,10 @@ public final class Vnil extends ASTVars {
 
     @Override
     public void interpreterPasAPas(Memoire m, List<InterpretationPasAPasCouple> l) {
-        //noop
+        while(l.get(0).indice > l.get(0).node.getMaxEtape()) {
+            l.remove(0);
+        }
+        l.get(0).node.interpreterPasAPas(m, l);
     }
 
     @Override

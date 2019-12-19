@@ -1,10 +1,9 @@
 package fr.femtost.disc.minijaja.ast;
 
-import fr.femtost.disc.minijaja.ASTNode;
-import fr.femtost.disc.minijaja.CompilationCouple;
-import fr.femtost.disc.minijaja.JCodes;
-import fr.femtost.disc.minijaja.Memoire;
+import fr.femtost.disc.minijaja.*;
 import fr.femtost.disc.minijaja.jcode.Push;
+
+import java.util.List;
 
 public class ASTMain extends ASTNode {
 
@@ -42,6 +41,42 @@ public class ASTMain extends ASTNode {
         vars.interpreter(m);
         instrs.interpreter(m);
         vars.retirer(m);
+    }
+
+    @Override
+    public void interpreterPasAPas(Memoire m, List<InterpretationPasAPasCouple> l) {
+        switch (l.get(0).indice)
+        {
+            case 1:
+                l.get(0).indice = 2;
+                l.add(new InterpretationPasAPasCouple(vars,1));
+                vars.interpreterPasAPas(m,l);
+                break;
+
+            case 2:
+                l.get(0).indice = 3;
+                l.add(new InterpretationPasAPasCouple(instrs,1));
+                instrs.interpreterPasAPas(m,l);
+                break;
+
+            case 3:
+                l.get(0).indice = 4;
+                vars.retirer(m);
+                while(l.get(0).indice > l.get(0).node.getMaxEtape()) {
+                    l.remove(0);
+                }
+                l.get(0).node.interpreterPasAPas(m, l);
+                break;
+
+
+            default:
+                ASTLogger.getInstance().logWarning(this, "Interpretation inconnue :" + l.get(0).indice);;
+        }
+    }
+
+    @Override
+    public int getMaxEtape() {
+        return 3;
     }
 
     public boolean typeCheck(Memoire m) {

@@ -1,10 +1,10 @@
 package fr.femtost.disc.minijaja.ast.vars;
 
-import fr.femtost.disc.minijaja.CompilationCouple;
-import fr.femtost.disc.minijaja.JCodes;
-import fr.femtost.disc.minijaja.Memoire;
+import fr.femtost.disc.minijaja.*;
 import fr.femtost.disc.minijaja.ast.ASTVars;
 import fr.femtost.disc.minijaja.ast.decl.ASTVar;
+
+import java.util.List;
 
 public class VChain extends ASTVars {
 
@@ -54,6 +54,32 @@ public class VChain extends ASTVars {
         var.interpreter(m);
         vars.interpreter(m);
 
+    }
+
+    @Override
+    public void interpreterPasAPas(Memoire m, List<InterpretationPasAPasCouple> l) {
+        switch(l.get(0).indice)
+        {
+            case 1:
+                l.get(0).indice =2;
+                l.add(new InterpretationPasAPasCouple(var,1));
+                var.interpreterPasAPas(m,l);
+                break;
+
+            case 2 :
+                l.get(0).indice = 3;
+                l.add(new InterpretationPasAPasCouple(vars,1));
+                vars.interpreterPasAPas(m,l);
+                break;
+
+            default:
+                ASTLogger.getInstance().logWarning(this, "Interpretation inconnue :" + l.get(0).indice);
+        }
+    }
+
+    @Override
+    public int getMaxEtape() {
+        return 2;
     }
 
     @Override
