@@ -9,6 +9,8 @@ import fr.femtost.disc.minijaja.ast.expr.identificateur.Identifiant;
 import fr.femtost.disc.minijaja.ast.instr.AppelI;
 import fr.femtost.disc.minijaja.jcode.Invoke;
 
+import java.util.List;
+
 public class AppelE extends ASTExpr {
     private Identifiant ident;
     private ASTListExpr listExpr;
@@ -69,5 +71,7 @@ public class AppelE extends ASTExpr {
         boolean b2 = listExpr.typeCheck(global, local, methode.getEntetes());
         return b1 && b2;
     }
+
+
 }
 

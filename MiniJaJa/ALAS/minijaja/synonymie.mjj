@@ -12,7 +12,7 @@ class synonymie {
 		int i = 0;
 
 		while(10 > i) {
-			t1[i] = x;
+			t1[i] = x; 
 			i++;
 		};
 		t = t1;
@@ -35,3 +35,5 @@ class synonymie {
 		pause(); //  resultat t=[7,7,7,7,7,7,7,4,7,7]
 	}
 }
+
+
