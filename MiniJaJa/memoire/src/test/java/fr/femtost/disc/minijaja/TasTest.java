@@ -90,4 +90,10 @@ public class TasTest {
         assertEquals(4, infos.getNombreBlocs());
     }
 
+    @Test
+    public void tasPasNullTest() {
+        Memoire m = new Memoire(10);
+        assertNotNull(m.getTas());
+    }
+
 }

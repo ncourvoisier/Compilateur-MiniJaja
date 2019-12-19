@@ -507,4 +507,5 @@ public class PileTest {
         p.declVar("Var3", 7, Sorte.INT);
         assertEquals("<Var3, 7, VAR, INT>.<Var2, 5, VAR, INT>.<Var1, 2, VAR, INT>", p.toString());
     }
+
 }
