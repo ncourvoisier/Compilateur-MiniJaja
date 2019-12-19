@@ -15,6 +15,7 @@ public class DChain extends ASTDecls {
     public DChain(ASTDecls successor, ASTDecl node) {
         this.successor = successor;
         this.node = node;
+        this.setPosition(node.getLine(), node.getColumn());
     }
 
     @Override
