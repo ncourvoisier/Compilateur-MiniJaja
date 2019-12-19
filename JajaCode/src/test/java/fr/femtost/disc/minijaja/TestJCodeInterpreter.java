@@ -4,6 +4,7 @@ import fr.femtost.disc.minijaja.jcode.*;
 import org.junit.Assert;
 import org.junit.Test;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.fail;
 
 public class TestJCodeInterpreter {
@@ -171,5 +172,44 @@ public class TestJCodeInterpreter {
         m.getPile().declCst(null, 93, null);
         Assert.assertEquals(93, new Return().interpreter(m, 74));
         Assert.assertEquals(3, m.getPile().returnTaillePile());
+    }
+    @Test
+    public void interpreterStore() {
+        Memoire m = emptyMemoire();
+
+        m.getPile().declCst(null, 93, null);
+        Assert.assertEquals(75, new Store("store").interpreter(m, 74));
+        Assert.assertEquals(0, m.getPile().returnTaillePile());
+    }
+    @Test
+    public void interpreterSwap() {
+        Memoire m = emptyMemoire();
+
+        m.getPile().declCst("numero1", 93, null);
+        m.getPile().declCst("numero2", 55, null);
+        Assert.assertEquals("numero2",m.getPile().getStackTop().getID());
+        Assert.assertEquals(75, new Swap().interpreter(m, 74));
+        Assert.assertEquals(2, m.getPile().returnTaillePile());
+        Assert.assertEquals("numero1",m.getPile().getStackTop().getID());
+    }
+    @Test
+    public void interpreterWrite() {
+        Memoire m = emptyMemoire();
+
+        m.getPile().declCst("numero", 93, null);
+        m.getPile().declCst("numero", 9, null);
+        m.getPile().declCst("numero", 3, null);
+        Assert.assertEquals(75, new Write().interpreter(m, 74));
+        Assert.assertEquals(2, m.getPile().returnTaillePile());
+    }
+    @Test
+    public void interpreterWriteLn() {
+        Memoire m = emptyMemoire();
+
+        m.getPile().declCst("numero", 93, null);
+        m.getPile().declCst("numero", 9, null);
+        m.getPile().declCst("numero", 3, null);
+        Assert.assertEquals(75, new WriteLn().interpreter(m, 74));
+        Assert.assertEquals(2, m.getPile().returnTaillePile());
     }
 }
