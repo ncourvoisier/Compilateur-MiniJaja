@@ -15,7 +15,12 @@ public class Tas {
     }
 
     public void liberer(int adresse) {
-        arbre.libererMemoire(adresse);
+        int taille = arbre.libererMemoire(adresse);
+        if (taille != -1) {
+            for (int cell = adresse; cell < adresse + taille; cell++) {
+                memoire[cell] = null;
+            }
+        }
     }
 
     public int ecrire(int adresse, int decalage, Object valeur) {
@@ -59,4 +64,6 @@ public class Tas {
     public Object[] getMemoire() {
         return memoire;
     }
+
+    public ArbreMemoire getArbre() { return arbre; }
 }
