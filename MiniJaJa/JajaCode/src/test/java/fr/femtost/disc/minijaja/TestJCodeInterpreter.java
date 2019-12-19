@@ -1,0 +1,124 @@
+package fr.femtost.disc.minijaja;
+
+import fr.femtost.disc.minijaja.jcode.*;
+import org.junit.Assert;
+import org.junit.Test;
+
+import static org.junit.Assert.fail;
+
+public class TestJCodeInterpreter {
+
+    private static Memoire getMemoire() {
+        Memoire r = new Memoire(128);
+        r.getPile().declVar("classe", null, null);
+        r.getPile().declVar("varInt", 10, Sorte.INT);
+        r.getPile().declVar("varBool", false, Sorte.BOOL);
+        r.getPile().declCst("cst", 9, Sorte.INT);
+        r.getPile().declTab("t", 4, Sorte.INT);
+        r.getPile().declTab("tBool", 1, Sorte.BOOL);
+
+        return r;
+    }
+
+    private static Memoire emptyMemoire() {
+        return new Memoire(128);
+    }
+
+    @Test
+    public void interpreterAInc()
+    {
+        Memoire m = getMemoire();
+        int taille = m.getPile().returnTaillePile();
+        m.getPile().declCst(null, 0, null);
+        m.getPile().declCst(null, 6, null);
+        try {
+            m.getPile().affecterValT("t", 2, 0);
+        } catch (PileException e) {
+            fail();
+        }
+
+        Assert.assertEquals(3, new AInc("t").interpreter(m, 2));
+        try {
+            Assert.assertEquals(8, m.getPile().valT("t", 0));
+        } catch (PileException e) {
+            fail();
+        }
+        Assert.assertEquals(taille, m.getPile().returnTaillePile());
+    }
+    @Test
+    public void interpreterALoad()
+    {
+        Memoire m = getMemoire();
+        int taille = m.getPile().returnTaillePile();
+        m.getPile().declCst("index", 0, null);
+        try {
+            m.getPile().affecterValT("t", 12, 0);
+        } catch (PileException e) {
+            fail();
+        }
+
+        Assert.assertEquals(3, new ALoad("t").interpreter(m, 2));
+        Assert.assertEquals(12, m.getPile().getStackTop().getVAL());
+        Assert.assertEquals(taille+1, m.getPile().returnTaillePile());
+    }
+    @Test
+    public void interpreterAStore()
+    {
+        Memoire m = getMemoire();
+        int taille = m.getPile().returnTaillePile();
+        m.getPile().declCst("index", 0, null);
+        m.getPile().declCst("val", 6, null);
+        try {
+            m.getPile().affecterValT("t", 12, 0);
+        } catch (PileException e) {
+            fail();
+        }
+
+        Assert.assertEquals(3, new AStore("t").interpreter(m, 2));
+        try {
+            Assert.assertEquals(6, m.getPile().valT("t", 0));
+        } catch (PileException e) {
+            fail();
+        }
+        Assert.assertEquals(taille, m.getPile().returnTaillePile());
+    }
+    @Test
+    public void interpreterGoTo()
+    {
+        Memoire m = emptyMemoire();
+
+        Assert.assertEquals(10, new Goto(10).interpreter(m, 2));
+        Assert.assertEquals(0, m.getPile().returnTaillePile());
+    }
+    @Test
+    public void interpreterIf()
+    {
+        Memoire m = emptyMemoire();
+        m.getPile().declCst("condition", true, null);
+        Assert.assertEquals(57, new If(57).interpreter(m, 9));
+        m.getPile().declCst("condition", false, null);
+        Assert.assertEquals(10, new If(57).interpreter(m, 9));
+        Assert.assertEquals(0, m.getPile().returnTaillePile());
+    }
+  /*  @Test
+    public void interpreterInc()
+    {
+        Memoire m = emptyMemoire();
+        m.getPile().declVar("Add",5,null);
+        int taille = m.getPile().returnTaillePile();
+        try {
+            m.getPile().affecterVal("val", 12);
+        } catch (PileException e) {
+            fail();
+        }
+
+        Assert.assertEquals(3, new AStore("t").interpreter(m, 2));
+        try {
+            Assert.assertEquals(6, m.getPile().valT("t", 0));
+        } catch (PileException e) {
+            fail();
+        }
+        Assert.assertEquals(taille, m.getPile().returnTaillePile());
+    }*/
+
+}
