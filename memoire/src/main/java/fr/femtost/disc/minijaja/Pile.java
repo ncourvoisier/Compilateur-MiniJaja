@@ -68,10 +68,7 @@ public class Pile {
         return oldTop;
     }
 
-    private Quad depilerNoRemove() throws PileException {
-        if (isEmpty()) {
-            throw new PileException("Impossible de dépiler un élément la pile est vide.");
-        }
+    private Quad depilerNoRemove() {
         Quad oldTop = stackTop;
         ASTLogger.getInstance().logDebug("DEPILER " + oldTop);
         stackTop = stackTop.getBottomQuad();
@@ -165,7 +162,7 @@ public class Pile {
         } else if (q1.getOBJ().equals(NatureObjet.VCST)) {
             Quad q2 = tds.creerSymboles(q1.getID(), VAL, NatureObjet.CST, q1.getSORTE());
             empilerNoCreate(q2);
-        } else if (!q1.getOBJ().equals(NatureObjet.CST)) {
+        } else if (q1.getOBJ().equals(NatureObjet.CST)) {
             Quad q3 = tds.creerSymboles(ID, VAL, q1.getOBJ(), q1.getSORTE());
             empilerNoCreate(q3);
         } else if (q1.getOBJ().equals(NatureObjet.TAB)) {
