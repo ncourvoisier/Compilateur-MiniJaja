@@ -253,9 +253,9 @@ public class TestASTInterpretation {
             m.getPile().affecterValT("t",4,0);
             m.getPile().valT("t",0);
             Quad q = m.getPile().getStackTop();
-            System.out.println(q.getVAL());
+
             i1.interpreter(m);
-            System.out.println(q.getVAL());
+
         }catch (PileException p){
             p.getStackTrace();
         }
@@ -322,9 +322,9 @@ public class TestASTInterpretation {
             m.getPile().affecterValT("t",4,0);
             m.getPile().valT("t",0);
             Quad q = m.getPile().getStackTop();
-            System.out.println(q.getVAL());
+
             i1.interpreter(m);
-            System.out.println(q.getVAL());
+
         }catch (PileException p){
             p.getStackTrace();
         }
@@ -400,16 +400,56 @@ public class TestASTInterpretation {
             m.getPile().affecterValT("t",4,0);
             m.getPile().valT("t",0);
             Quad q = m.getPile().getStackTop();
-            System.out.println(q.getVAL());
+
             s.interpreter(m);
-            System.out.println(q.getVAL());
+
         }catch (PileException p){
             p.getStackTrace();
         }
+    }
+
+    @Test
+    public void test_instr_while(){
+
+        TantQue tq = new TantQue(new Binop(Binop.Operandes.SUPERIEUR,new Nbre(6), new Identifiant("varInt") ), new IChain(new Affectation(new Identifiant("varInt"), new Nbre(7)),new Inil()));
+        Memoire m = new Memoire(50);
+        m.getPile().declVar("varInt", 4, Sorte.INT);
+
+        tq.interpreter(m);
+        Quad q = m.getPile().getStackTop();
+
+        Assert.assertEquals("varInt", q.getID());
+        Assert.assertEquals(NatureObjet.VAR,q.getOBJ());
+        Assert.assertEquals(Sorte.INT,q.getSORTE());
+        Assert.assertEquals(7,q.getVAL());
+    }
+
+
+    @Test
+    public void test_Class(){
+
+        ASTClass c = new ASTClass(new Identifiant("b"), new DChain(new Dnil(), new ASTVarSimple(new Entier(), new Identifiant("x"), new Omega())), new ASTMain(new Vnil(), new Inil()));
+
+        Memoire m = new Memoire(50);
+        c.interpreter(m);
+        Quad q = m.getPile().getStackTop();
 
     }
 
-    
+    @Test
+    public void test_entete(){
+        ASTEntete e = new ASTEntete(new Identifiant("nombre"), new Entier());
+
+        Memoire m = new Memoire(50);
+        e.interpreter(m);
+        Quad q = m.getPile().getStackTop();
+
+    }
+
+
+
+
+
 
 
 
