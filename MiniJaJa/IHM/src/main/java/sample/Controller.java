@@ -498,5 +498,14 @@ public class Controller implements Initializable {
 
     public void instrsSuiv(ActionEvent actionEvent) {
         ASTLogger.getInstance().logInfo("Instruction suivante.");
+        SyntaxChecker sc = new SyntaxChecker(new java.io.StringReader(code.getText()));
+        try {
+            ASTClass cla = sc.S();
+            Memoire m = new Memoire(1000);
+            cla.interpreterPasAPas(m, new ArrayList<InterpretationPasAPasCouple>());
+            affichageMemoire(m);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
