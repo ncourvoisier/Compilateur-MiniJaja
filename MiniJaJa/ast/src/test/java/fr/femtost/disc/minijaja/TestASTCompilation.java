@@ -5,6 +5,9 @@ import fr.femtost.disc.minijaja.ast.ASTEntete;
 import fr.femtost.disc.minijaja.ast.ASTExpr;
 import fr.femtost.disc.minijaja.ast.decl.ASTMethode;
 import fr.femtost.disc.minijaja.ast.decl.var.ASTVarConst;
+import fr.femtost.disc.minijaja.ast.decl.var.ASTVarSimple;
+import fr.femtost.disc.minijaja.ast.decls.DChain;
+import fr.femtost.disc.minijaja.ast.decls.Dnil;
 import fr.femtost.disc.minijaja.ast.entetes.EChain;
 import fr.femtost.disc.minijaja.ast.entetes.Enil;
 import fr.femtost.disc.minijaja.ast.expr.*;
@@ -15,12 +18,14 @@ import fr.femtost.disc.minijaja.ast.instrs.IChain;
 import fr.femtost.disc.minijaja.ast.instrs.Inil;
 import fr.femtost.disc.minijaja.ast.listexpr.ExChain;
 import fr.femtost.disc.minijaja.ast.listexpr.Exnil;
+import fr.femtost.disc.minijaja.ast.type.Booleen;
 import fr.femtost.disc.minijaja.ast.type.Entier;
 import fr.femtost.disc.minijaja.ast.type.Void;
 import fr.femtost.disc.minijaja.ast.vars.Vnil;
 import fr.femtost.disc.minijaja.jcode.*;
 import fr.femtost.disc.minijaja.jcode.oper.OpBinaire;
 import fr.femtost.disc.minijaja.jcode.oper.OpUnaire;
+import fr.femtost.disc.minijaja.jcodes.JChain;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -116,7 +121,68 @@ public class TestASTCompilation {
     /* ****************
        Variable
    **************** */
-    
+
+    @Test
+    public void test_decl_const(){
+        ASTVarConst c1 = new ASTVarConst(new Entier(), new Identifiant("x"), new Nbre(1));
+
+        CompilationCouple cc = c1.compiler(0);
+        List<JCode> ls = JCodes.asArray(cc.jCodes);
+        Assert.assertEquals(2,ls.size());
+        Assert.assertTrue(ls.get(0) instanceof Push);
+        Assert.assertTrue(ls.get(1) instanceof New);
+
+    }
+
+    @Test
+    public void test_decl_varSimple(){
+        ASTVarSimple c1 = new ASTVarSimple(new Entier(), new Identifiant("x"), new Nbre(1));
+
+        CompilationCouple cc = c1.compiler(0);
+        List<JCode> ls = JCodes.asArray(cc.jCodes);
+
+        Assert.assertEquals(2,ls.size());
+        Assert.assertTrue(ls.get(0) instanceof Push);
+        Assert.assertTrue(ls.get(1) instanceof New);
+    }
+
+
+    @Test
+    public void test_declr_meth(){
+        ASTMethode methode = new ASTMethode(new Entier(), new Identifiant("meth"), new Enil(), new Vnil(),
+                new IChain(new Retour(new Nbre(10)), new Inil()));
+        CompilationCouple cc = methode.compiler(0);
+        List<JCode> ls = JCodes.asArray(cc.jCodes);
+
+        Assert.assertEquals(6,ls.size());
+        Assert.assertTrue(ls.get(5) instanceof Return);
+
+        ASTMethode methode2 = new ASTMethode(new Void(), new Identifiant("meth"), new Enil(), new Vnil(),
+                new IChain(new Retour(new Nbre(10)), new Inil()));
+
+        CompilationCouple cc2 = methode.compiler(0);
+        List<JCode> ls1 = JCodes.asArray(cc2.jCodes);
+
+        Assert.assertEquals(6,ls.size());
+        Assert.assertTrue(ls.get(5) instanceof Return);
+    }
+
+    @Test
+    public void test_decl_DChain(){
+        ASTMethode methode = new ASTMethode(new Entier(), new Identifiant("meth"), new Enil(), new Vnil(),
+                new IChain(new Retour(new Nbre(10)), new Inil()));
+
+        DChain d1 = new  DChain(new DChain(new Dnil(), new ASTVarConst(new Booleen(), new Identifiant("temp"), new BoolVal(true))), methode);
+
+        CompilationCouple cc = d1.compiler(0);
+        List<JCode> ls = JCodes.asArray(cc.jCodes);
+        Assert.assertEquals(8,ls.size());
+        Assert.assertTrue(ls.get(5) instanceof Return);
+
+
+
+    }
+
 
 
 
