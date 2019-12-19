@@ -101,26 +101,17 @@ public class TestJCodeInterpreter {
         Assert.assertEquals(10, new If(57).interpreter(m, 9));
         Assert.assertEquals(0, m.getPile().returnTaillePile());
     }
-  /*  @Test
+    @Test
     public void interpreterInc()
     {
         Memoire m = emptyMemoire();
         m.getPile().declVar("Add",5,null);
-        int taille = m.getPile().returnTaillePile();
-        try {
-            m.getPile().affecterVal("val", 12);
-        } catch (PileException e) {
-            fail();
-        }
+        m.getPile().declVar("",8,null);
 
-        Assert.assertEquals(3, new AStore("t").interpreter(m, 2));
-        try {
-            Assert.assertEquals(6, m.getPile().valT("t", 0));
-        } catch (PileException e) {
-            fail();
-        }
-        Assert.assertEquals(taille, m.getPile().returnTaillePile());
-    }*/
+        Assert.assertEquals(3, new Inc("Add").interpreter(m, 2));
+        Assert.assertEquals(13,m.getPile().getStackTop().getVAL());
+        Assert.assertEquals(1, m.getPile().returnTaillePile());
+    }
   @Test
   public void interpreterInit()
   {
@@ -128,7 +119,16 @@ public class TestJCodeInterpreter {
       Assert.assertEquals(89, new Init().interpreter(m, 88));
       Assert.assertEquals(0, m.getPile().returnTaillePile());
   }
-  //invoke
+    @Test
+    public void interpreterInvoke()
+    {
+        Memoire m = emptyMemoire();
+        m.getPile().declVar("Add",5,null);
+        m.getPile().declVar("",8,null);
+
+        Assert.assertEquals(5, new Invoke("Add").interpreter(m, 88));
+        Assert.assertEquals(3, m.getPile().returnTaillePile());
+    }
   @Test
   public void interpreterNew() {
       Memoire m = emptyMemoire();
