@@ -82,7 +82,7 @@ public class Si extends ASTInstr {
     }
 
     @Override
-    public void interpreterPasAPas(Memoire m, List<InterpretationPasAPasCouple> l) {
+    public void interpreterPasAPas(Memoire m, List<InterpretationPasAPasCouple> l, List<EvaluationCouplePasAPas> leval) {
         switch (l.get(0).indice) {
             case 1 :
                 Boolean ee = (Boolean)expr.eval(m);
@@ -95,12 +95,12 @@ public class Si extends ASTInstr {
             case 2 :
                 l.get(0).indice = 4;
                 l.add(0, new InterpretationPasAPasCouple(instrsIf, 1));
-                instrsIf.interpreterPasAPas(m, l);
+                instrsIf.interpreterPasAPas(m, l, leval);
                 break;
             case 3 :
                 l.get(0).indice = 4;
                 l.add(0, new InterpretationPasAPasCouple(instrsElse, 1));
-                instrsElse.interpreterPasAPas(m, l);
+                instrsElse.interpreterPasAPas(m, l, leval);
                 break;
             default:
                 ASTLogger.getInstance().logWarning(this, "Interpretation inconnue :" + l.get(0).indice);

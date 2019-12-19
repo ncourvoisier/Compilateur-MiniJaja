@@ -44,19 +44,19 @@ public class ASTMain extends ASTNode {
     }
 
     @Override
-    public void interpreterPasAPas(Memoire m, List<InterpretationPasAPasCouple> l) {
+    public void interpreterPasAPas(Memoire m, List<InterpretationPasAPasCouple> l, List<EvaluationCouplePasAPas> leval) {
         switch (l.get(0).indice)
         {
             case 1:
                 l.get(0).indice = 2;
                 l.add(0, new InterpretationPasAPasCouple(vars,1));
-                vars.interpreterPasAPas(m,l);
+                vars.interpreterPasAPas(m,l, leval);
                 break;
 
             case 2:
                 l.get(0).indice = 3;
                 l.add(0, new InterpretationPasAPasCouple(instrs,1));
-                instrs.interpreterPasAPas(m,l);
+                instrs.interpreterPasAPas(m,l, leval);
                 break;
 
             case 3:
@@ -65,7 +65,7 @@ public class ASTMain extends ASTNode {
                 while(l.get(0).indice > l.get(0).node.getMaxEtape()) {
                     l.remove(0);
                 }
-                l.get(0).node.interpreterPasAPas(m, l);
+                l.get(0).node.interpreterPasAPas(m, l, leval);
                 break;
 
 

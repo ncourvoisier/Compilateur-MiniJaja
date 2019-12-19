@@ -1,6 +1,7 @@
 package fr.femtost.disc.minijaja.ast.entetes;
 
 import fr.femtost.disc.minijaja.CompilationCouple;
+import fr.femtost.disc.minijaja.EvaluationCouplePasAPas;
 import fr.femtost.disc.minijaja.InterpretationPasAPasCouple;
 import fr.femtost.disc.minijaja.Memoire;
 import fr.femtost.disc.minijaja.ast.ASTEntetes;
@@ -36,7 +37,7 @@ public final class Enil extends ASTEntetes {
     }
 
     @Override
-    public void interpreterPasAPas(Memoire m, List<InterpretationPasAPasCouple> l) {
+    public void interpreterPasAPas(Memoire m, List<InterpretationPasAPasCouple> l, List<EvaluationCouplePasAPas> leval) {
         //noop
     }
 

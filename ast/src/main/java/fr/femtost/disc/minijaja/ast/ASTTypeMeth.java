@@ -19,7 +19,7 @@ public abstract class ASTTypeMeth extends ASTNode {
     }
 
     @Override
-    public void interpreterPasAPas(Memoire m, List<InterpretationPasAPasCouple> l) {
+    public void interpreterPasAPas(Memoire m, List<InterpretationPasAPasCouple> l, List<EvaluationCouplePasAPas> leval) {
         throw new UnsupportedOperationException("Interpretation not implemented in Type");
     }
 

@@ -58,19 +58,19 @@ public class VChain extends ASTVars {
     }
 
     @Override
-    public void interpreterPasAPas(Memoire m, List<InterpretationPasAPasCouple> l) {
+    public void interpreterPasAPas(Memoire m, List<InterpretationPasAPasCouple> l, List<EvaluationCouplePasAPas> leval) {
         switch(l.get(0).indice)
         {
             case 1:
                 l.get(0).indice =2;
                 l.add(0, new InterpretationPasAPasCouple(var,1));
-                var.interpreterPasAPas(m,l);
+                var.interpreterPasAPas(m,l, leval);
                 break;
 
             case 2 :
                 l.get(0).indice = 3;
                 l.add(0, new InterpretationPasAPasCouple(vars,1));
-                vars.interpreterPasAPas(m,l);
+                vars.interpreterPasAPas(m,l, leval);
                 break;
 
             default:

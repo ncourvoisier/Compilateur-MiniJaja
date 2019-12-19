@@ -43,7 +43,7 @@ public abstract class ASTNode implements Positionable {
     return new CompilationCouple(new JNil(), 0);
     }
     public abstract void interpreter(Memoire m);
-    public abstract void interpreterPasAPas(Memoire m, List<InterpretationPasAPasCouple> l);
+    public abstract void interpreterPasAPas(Memoire m, List<InterpretationPasAPasCouple> l, List<EvaluationCouplePasAPas> leval);
     public abstract int getMaxEtape();
 
 }

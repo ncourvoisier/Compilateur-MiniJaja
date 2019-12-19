@@ -1,9 +1,6 @@
 package fr.femtost.disc.minijaja.ast.entetes;
 
-import fr.femtost.disc.minijaja.CompilationCouple;
-import fr.femtost.disc.minijaja.InterpretationPasAPasCouple;
-import fr.femtost.disc.minijaja.JCodes;
-import fr.femtost.disc.minijaja.Memoire;
+import fr.femtost.disc.minijaja.*;
 import fr.femtost.disc.minijaja.ast.ASTEntete;
 import fr.femtost.disc.minijaja.ast.ASTEntetes;
 import fr.femtost.disc.minijaja.ast.type.Entier;
@@ -69,7 +66,7 @@ public class EChain extends ASTEntetes {
     }
 
     @Override
-    public void interpreterPasAPas(Memoire m, List<InterpretationPasAPasCouple> l) {
+    public void interpreterPasAPas(Memoire m, List<InterpretationPasAPasCouple> l, List<EvaluationCouplePasAPas> leval) {
         //noop
     }
 
