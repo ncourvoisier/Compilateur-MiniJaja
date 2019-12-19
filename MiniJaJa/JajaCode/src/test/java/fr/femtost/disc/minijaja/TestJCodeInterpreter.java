@@ -120,5 +120,39 @@ public class TestJCodeInterpreter {
         }
         Assert.assertEquals(taille, m.getPile().returnTaillePile());
     }*/
-
+  @Test
+  public void interpreterInit()
+  {
+      Memoire m = emptyMemoire();
+      Assert.assertEquals(89, new Init().interpreter(m, 88));
+      Assert.assertEquals(0, m.getPile().returnTaillePile());
+  }
+  //invoke
+  @Test
+  public void interpreterNew() {
+      Memoire m = emptyMemoire();
+      m.getPile().declCst(null, 10, null);
+      Assert.assertEquals(10, new New("id",Sorte.VOID,JCSorte.METHODE,0).interpreter(m, 9));
+      m.getPile().declCst(null, 77, null);
+      Assert.assertEquals(10, new New("id",Sorte.BOOL,JCSorte.CONSTANTE,0).interpreter(m, 9));
+      m.getPile().declCst(null, 3, null);
+      Assert.assertEquals(10, new New("id",Sorte.INT,JCSorte.VARIABLE,0).interpreter(m, 9));
+      Assert.assertEquals(3, m.getPile().returnTaillePile());
+  }
+    @Test
+    public void interpreterNewArray() {
+        Memoire m = emptyMemoire();
+        m.getPile().declCst(null, 10, null);
+        Assert.assertEquals(10, new NewArray("id",Sorte.BOOL).interpreter(m, 9));
+        Assert.assertEquals(1, m.getPile().returnTaillePile());
+    }
+    @Test
+    public void interpreterPop() {
+        Memoire m = emptyMemoire();
+        m.getPile().declCst(null, 10, null);
+        m.getPile().declCst(null, 93, null);
+        m.getPile().declCst(null, 40, null);
+        Assert.assertEquals(75, new Pop().interpreter(m, 74));
+        Assert.assertEquals(2, m.getPile().returnTaillePile());
+    }
 }
