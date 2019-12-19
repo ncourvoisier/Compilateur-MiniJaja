@@ -4,7 +4,6 @@ import fr.femtost.disc.minijaja.ASTNode;
 import fr.femtost.disc.minijaja.EvaluationCouplePasAPas;
 import fr.femtost.disc.minijaja.InterpretationPasAPasCouple;
 import fr.femtost.disc.minijaja.Memoire;
-import fr.femtost.disc.minijaja.ast.decl.ASTMethode;
 
 import java.util.List;
 

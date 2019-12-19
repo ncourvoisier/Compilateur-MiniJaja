@@ -16,24 +16,24 @@ public class TableDesSymboles {
         this.tableSymbole = new HashMap<>();
     }
 
-    public Quad creerSymboles(String ID, Object VAL, NatureObjet OBJ, Sorte SORTE) {
-        Quad q = new Quad(ID, VAL, OBJ, SORTE);
-        LinkedList<Quad> linkedList = tableSymbole.get(ID);
+    public Quad creerSymboles(String id, Object val, NatureObjet obj, Sorte sorte) {
+        Quad q = new Quad(id, val, obj, sorte);
+        LinkedList<Quad> linkedList = tableSymbole.get(id);
         if (linkedList != null) {
             linkedList.addFirst(q);
         }
         else {
             linkedList = new LinkedList<>();
             linkedList.addFirst(q);
-            tableSymbole.put(ID, linkedList);
+            tableSymbole.put(id, linkedList);
         }
         return q;
     }
 
-    public void enleverSymbole(String ID) {
-        LinkedList<Quad> linkedList = tableSymbole.get(ID);
+    public void enleverSymbole(String id) {
+        LinkedList<Quad> linkedList = tableSymbole.get(id);
         if(linkedList != null) {
-            if ((ID == null && linkedList.getFirst().getID() == null) || linkedList.getFirst().getID().equals(ID)) {
+            if ((id == null && linkedList.getFirst().getID() == null) || linkedList.getFirst().getID().equals(id)) {
                 linkedList.removeFirst();
             }
             else {
@@ -42,21 +42,21 @@ public class TableDesSymboles {
                     return;
                 }
                 for (int i = 1; i < taille; i++) {
-                    if (linkedList.get(i).getID().equals(ID)) {
+                    if (linkedList.get(i).getID().equals(id)) {
                         linkedList.remove(i);
                     }
                 }
             }
             if (linkedList.isEmpty()) {
-                tableSymbole.remove(ID);
+                tableSymbole.remove(id);
             }
         }
     }
     //Overide with Type
-    public Quad chercheQuad(String ID) {
-        LinkedList<Quad> linkedList = tableSymbole.get(ID);
+    public Quad chercheQuad(String id) {
+        LinkedList<Quad> linkedList = tableSymbole.get(id);
         if(linkedList != null) {
-            if (linkedList.getFirst().getID().equals(ID)) {
+            if (linkedList.getFirst().getID().equals(id)) {
                 return linkedList.getFirst();
             }
             else {
@@ -65,7 +65,7 @@ public class TableDesSymboles {
                     return null;
                 }
                 for (int i = 1; i < taille; i++) {
-                    if (linkedList.get(i).getID().equals(ID)) {
+                    if (linkedList.get(i).getID().equals(id)) {
                         return linkedList.get(i);
                     }
                 }
@@ -74,10 +74,10 @@ public class TableDesSymboles {
         return null;
     }
 
-    public Quad chercheQuad(String ID,Sorte No) {
-        LinkedList<Quad> linkedList = tableSymbole.get(ID);
+    public Quad chercheQuad(String id,Sorte no) {
+        LinkedList<Quad> linkedList = tableSymbole.get(id);
         if(linkedList != null) {
-            if (linkedList.getFirst().getID().equals(ID) && linkedList.getFirst().getSORTE().equals(No)) {
+            if (linkedList.getFirst().getID().equals(id) && linkedList.getFirst().getSORTE().equals(no)) {
                 return linkedList.getFirst();
             }
             else {
@@ -86,7 +86,7 @@ public class TableDesSymboles {
                     return null;
                 }
                 for (int i = 1; i < taille; i++) {
-                    if (linkedList.get(i).getID().equals(ID) && linkedList.getFirst().getSORTE().equals(No)) {
+                    if (linkedList.get(i).getID().equals(id) && linkedList.getFirst().getSORTE().equals(no)) {
                         return linkedList.get(i);
                     }
                 }

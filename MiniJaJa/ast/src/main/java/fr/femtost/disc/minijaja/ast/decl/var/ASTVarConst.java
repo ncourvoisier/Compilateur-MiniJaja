@@ -8,7 +8,6 @@ import fr.femtost.disc.minijaja.ast.expr.identificateur.Identifiant;
 import fr.femtost.disc.minijaja.ast.type.ASTType;
 import fr.femtost.disc.minijaja.jcode.New;
 
-import java.util.List;
 
 public class ASTVarConst extends ASTVar {
 

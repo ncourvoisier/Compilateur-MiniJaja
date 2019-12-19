@@ -1,54 +1,52 @@
 package fr.femtost.disc.minijaja;
 
-import java.util.LinkedList;
-
 public class Quad {
 
-    private String ID;
-    private Object VAL;
-    private NatureObjet OBJ;
-    private Sorte SORTE;
+    private String id;
+    private Object val;
+    private NatureObjet obj;
+    private Sorte sorte;
 
     private Quad topQuad;
     private Quad bottomQuad;
 
-    public Quad (String ID, Object VAL, NatureObjet OBJ, Sorte SORTE){
-        this.ID = ID;
-        this.VAL = VAL;
-        this.OBJ = OBJ;
-        this.SORTE = SORTE;
+    public Quad (String id, Object val, NatureObjet obj, Sorte sorte){
+        this.id = id;
+        this.val = val;
+        this.obj = obj;
+        this.sorte = sorte;
     }
 
     public String getID() {
-        return ID;
+        return id;
     }
 
     public Object getVAL() {
-        return VAL;
+        return val;
     }
 
     public NatureObjet getOBJ() {
-        return OBJ;
+        return obj;
     }
 
     public Sorte getSORTE() {
-        return SORTE;
+        return sorte;
     }
 
-    public void setID(String ID) {
-        this.ID = ID;
+    public void setID(String id) {
+        this.id = id;
     }
 
-    public void setVAL(Object VAL) {
-        this.VAL = VAL;
+    public void setVAL(Object val) {
+        this.val = val;
     }
 
-    public void setOBJ(NatureObjet OBJ) {
-        this.OBJ = OBJ;
+    public void setOBJ(NatureObjet obj) {
+        this.obj = obj;
     }
 
-    public void setSORTE(Sorte SORTE) {
-        this.SORTE = SORTE;
+    public void setSORTE(Sorte sorte) {
+        this.sorte = sorte;
     }
 
     public String toString() {

@@ -8,7 +8,6 @@ import fr.femtost.disc.minijaja.ast.expr.identificateur.Tableau;
 import fr.femtost.disc.minijaja.jcode.AInc;
 import fr.femtost.disc.minijaja.jcode.Inc;
 
-import java.util.List;
 
 public class Somme extends ASTInstr {
 

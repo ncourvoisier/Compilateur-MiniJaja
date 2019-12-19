@@ -10,7 +10,6 @@ import fr.femtost.disc.minijaja.jcode.Push;
 import fr.femtost.disc.minijaja.jcodes.JChain;
 import fr.femtost.disc.minijaja.jcodes.JNil;
 
-import java.util.List;
 
 public class Increment extends ASTInstr {
 
