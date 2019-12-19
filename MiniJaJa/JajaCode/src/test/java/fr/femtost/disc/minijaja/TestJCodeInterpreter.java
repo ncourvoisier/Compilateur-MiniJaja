@@ -155,4 +155,21 @@ public class TestJCodeInterpreter {
         Assert.assertEquals(75, new Pop().interpreter(m, 74));
         Assert.assertEquals(2, m.getPile().returnTaillePile());
     }
+    @Test
+    public void interpreterPush() {
+        Memoire m = emptyMemoire();
+        int push = 4;
+        Assert.assertEquals(77, new Push(push).interpreter(m, 76));
+        Assert.assertEquals(1, m.getPile().returnTaillePile());
+    }
+    @Test
+    public void interpreterReturn() {
+        Memoire m = emptyMemoire();
+        m.getPile().declCst(null, 930, null);
+        m.getPile().declCst(null, 9, null);
+        m.getPile().declCst(null, 3, null);
+        m.getPile().declCst(null, 93, null);
+        Assert.assertEquals(93, new Return().interpreter(m, 74));
+        Assert.assertEquals(3, m.getPile().returnTaillePile());
+    }
 }
