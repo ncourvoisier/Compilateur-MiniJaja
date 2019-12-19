@@ -67,4 +67,12 @@ public class TablesDesSymbolesTest {
         assertNull(tds.chercheQuad("var"));
     }
 
+    @Test
+    public void contientSymboleTest() {
+        Memoire m = new Memoire(10);
+        m.getPile().getTds().creerSymboles("Var", 1, NatureObjet.TAB, Sorte.INT);
+        assertTrue(m.containsSymbol("Var"));
+        assertFalse(m.containsSymbol("Va"));
+    }
+
 }
