@@ -47,6 +47,13 @@ public class TestJCodeInterpreter {
         Assert.assertEquals(taille, m.getPile().returnTaillePile());
     }
     @Test
+    public void interpreterAIncException()
+    {
+        Memoire m = emptyMemoire();
+        Assert.assertEquals(-1, new AInc("t").interpreter(m, 2));
+        Assert.assertEquals(0, m.getPile().returnTaillePile());
+    }
+    @Test
     public void interpreterALoad()
     {
         Memoire m = getMemoire();
@@ -61,6 +68,13 @@ public class TestJCodeInterpreter {
         Assert.assertEquals(3, new ALoad("t").interpreter(m, 2));
         Assert.assertEquals(12, m.getPile().getStackTop().getVAL());
         Assert.assertEquals(taille+1, m.getPile().returnTaillePile());
+    }
+    @Test
+    public void interpreterALoadException()
+    {
+        Memoire m = emptyMemoire();
+        Assert.assertEquals(-1, new ALoad("t").interpreter(m, 2));
+        Assert.assertEquals(0, m.getPile().returnTaillePile());
     }
     @Test
     public void interpreterAStore()
@@ -84,6 +98,13 @@ public class TestJCodeInterpreter {
         Assert.assertEquals(taille, m.getPile().returnTaillePile());
     }
     @Test
+    public void interpreterAStoreException()
+    {
+        Memoire m = emptyMemoire();
+        Assert.assertEquals(-1, new AStore("t").interpreter(m, 2));
+        Assert.assertEquals(0, m.getPile().returnTaillePile());
+    }
+    @Test
     public void interpreterGoTo()
     {
         Memoire m = emptyMemoire();
@@ -102,6 +123,13 @@ public class TestJCodeInterpreter {
         Assert.assertEquals(0, m.getPile().returnTaillePile());
     }
     @Test
+    public void interpreterIfException()
+    {
+        Memoire m = emptyMemoire();
+        Assert.assertEquals(-1, new If(6).interpreter(m, 2));
+        Assert.assertEquals(0, m.getPile().returnTaillePile());
+    }
+    @Test
     public void interpreterInc()
     {
         Memoire m = emptyMemoire();
@@ -111,6 +139,13 @@ public class TestJCodeInterpreter {
         Assert.assertEquals(3, new Inc("Add").interpreter(m, 2));
         Assert.assertEquals(13,m.getPile().getStackTop().getVAL());
         Assert.assertEquals(1, m.getPile().returnTaillePile());
+    }
+    @Test
+    public void interpreterIncException()
+    {
+        Memoire m = emptyMemoire();
+        Assert.assertEquals(-1, new Inc("t").interpreter(m, 2));
+        Assert.assertEquals(0, m.getPile().returnTaillePile());
     }
   @Test
   public void interpreterInit()
@@ -129,6 +164,13 @@ public class TestJCodeInterpreter {
         Assert.assertEquals(5, new Invoke("Add").interpreter(m, 88));
         Assert.assertEquals(3, m.getPile().returnTaillePile());
     }
+/*    @Test
+    public void interpreterInvokeException()
+    {
+        Memoire m = emptyMemoire();
+        Assert.assertEquals(-1, new Invoke("test").interpreter(m, 2));
+        Assert.assertEquals(0, m.getPile().returnTaillePile());
+    }*/
   @Test
   public void interpreterNew() {
       Memoire m = emptyMemoire();
@@ -141,11 +183,25 @@ public class TestJCodeInterpreter {
       Assert.assertEquals(3, m.getPile().returnTaillePile());
   }
     @Test
+    public void interpreterNewException()
+    {
+        Memoire m = emptyMemoire();
+        Assert.assertEquals(-1, new New("id",Sorte.VOID,JCSorte.METHODE,0).interpreter(m, 2));
+        Assert.assertEquals(0, m.getPile().returnTaillePile());
+    }
+    @Test
     public void interpreterNewArray() {
         Memoire m = emptyMemoire();
         m.getPile().declCst(null, 10, null);
         Assert.assertEquals(10, new NewArray("id",Sorte.BOOL).interpreter(m, 9));
         Assert.assertEquals(1, m.getPile().returnTaillePile());
+    }
+    @Test
+    public void interpreterNewArrayException()
+    {
+        Memoire m = emptyMemoire();
+        Assert.assertEquals(-1, new NewArray("t",Sorte.INT).interpreter(m, 2));
+        Assert.assertEquals(0, m.getPile().returnTaillePile());
     }
     @Test
     public void interpreterPop() {
@@ -157,12 +213,20 @@ public class TestJCodeInterpreter {
         Assert.assertEquals(2, m.getPile().returnTaillePile());
     }
     @Test
+    public void interpreterPopException()
+    {
+        Memoire m = emptyMemoire();
+        Assert.assertEquals(-1, new Pop().interpreter(m, 2));
+        Assert.assertEquals(0, m.getPile().returnTaillePile());
+    }
+    @Test
     public void interpreterPush() {
         Memoire m = emptyMemoire();
         int push = 4;
         Assert.assertEquals(77, new Push(push).interpreter(m, 76));
         Assert.assertEquals(1, m.getPile().returnTaillePile());
     }
+
     @Test
     public void interpreterReturn() {
         Memoire m = emptyMemoire();
@@ -174,11 +238,25 @@ public class TestJCodeInterpreter {
         Assert.assertEquals(3, m.getPile().returnTaillePile());
     }
     @Test
+    public void interpreterReturnException()
+    {
+        Memoire m = emptyMemoire();
+        Assert.assertEquals(-1, new Return().interpreter(m, 2));
+        Assert.assertEquals(0, m.getPile().returnTaillePile());
+    }
+    @Test
     public void interpreterStore() {
         Memoire m = emptyMemoire();
 
         m.getPile().declCst(null, 93, null);
         Assert.assertEquals(75, new Store("store").interpreter(m, 74));
+        Assert.assertEquals(0, m.getPile().returnTaillePile());
+    }
+    @Test
+    public void interpreterStoreException()
+    {
+        Memoire m = emptyMemoire();
+        Assert.assertEquals(-1, new Store("t").interpreter(m, 2));
         Assert.assertEquals(0, m.getPile().returnTaillePile());
     }
     @Test
@@ -193,6 +271,13 @@ public class TestJCodeInterpreter {
         Assert.assertEquals("numero1",m.getPile().getStackTop().getID());
     }
     @Test
+    public void interpreterSwapException()
+    {
+        Memoire m = emptyMemoire();
+        Assert.assertEquals(-1, new Swap().interpreter(m, 2));
+        Assert.assertEquals(0, m.getPile().returnTaillePile());
+    }
+    @Test
     public void interpreterWrite() {
         Memoire m = emptyMemoire();
 
@@ -203,6 +288,13 @@ public class TestJCodeInterpreter {
         Assert.assertEquals(2, m.getPile().returnTaillePile());
     }
     @Test
+    public void interpreterWriteException()
+    {
+        Memoire m = emptyMemoire();
+        Assert.assertEquals(-1, new Write().interpreter(m, 2));
+        Assert.assertEquals(0, m.getPile().returnTaillePile());
+    }
+    @Test
     public void interpreterWriteLn() {
         Memoire m = emptyMemoire();
 
@@ -211,5 +303,12 @@ public class TestJCodeInterpreter {
         m.getPile().declCst("numero", 3, null);
         Assert.assertEquals(75, new WriteLn().interpreter(m, 74));
         Assert.assertEquals(2, m.getPile().returnTaillePile());
+    }
+    @Test
+    public void interpreterWriteLnException()
+    {
+        Memoire m = emptyMemoire();
+        Assert.assertEquals(-1, new WriteLn().interpreter(m, 2));
+        Assert.assertEquals(0, m.getPile().returnTaillePile());
     }
 }
