@@ -17,11 +17,9 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import org.fxmisc.richtext.CodeArea;
 import org.fxmisc.richtext.LineNumberFactory;
-import org.fxmisc.richtext.model.Paragraph;
 import org.fxmisc.richtext.model.StyleSpans;
 import org.fxmisc.richtext.model.StyleSpansBuilder;
 import org.reactfx.Subscription;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -31,18 +29,13 @@ import java.time.Duration;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-
-
 import java.util.function.IntFunction;
-
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
-
 import org.reactfx.value.Val;
 
 public class Controller implements Initializable {
@@ -59,15 +52,11 @@ public class Controller implements Initializable {
     public TextArea jajacode;
     @FXML
     public TextArea sortieJajacode;
-
     @FXML
     public MenuBar MB;
 
     public Stage primaryStage;
-
-
     public File pathFile;
-
     public ScrollPane sp2;
     public ScrollPane sp3a;
     public ScrollPane sp3b;
@@ -76,7 +65,6 @@ public class Controller implements Initializable {
 
     private static final String[] KEYWORDS = new String[]{
             "boolean", "int", "final", "void", "true", "false", "null"
-
     };
 
     private static final String[] JAJACODE = new String[]{
@@ -117,8 +105,6 @@ public class Controller implements Initializable {
             this.shownLine = shownLine;
         }
 
-
-
         @Override
         public Node apply(int lineNumber) {
             Polygon triangle = new Polygon(0.0, 0.0, 10.0, 5.0, 0.0, 10.0);
@@ -135,7 +121,6 @@ public class Controller implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-
         sp2 = new ScrollPane();
         sp3a = new ScrollPane();
         sp3b = new ScrollPane();
@@ -147,7 +132,6 @@ public class Controller implements Initializable {
         sp4.setContent(sortieConsole);
 
         pathFile = null;
-
 
         Subscription cleanupWhenNoLongerNeedIt = code
                 .multiPlainChanges()
@@ -266,69 +250,48 @@ public class Controller implements Initializable {
         TextArea jjc = (TextArea) primaryStage.getScene().lookup("#jajacode");
 
         primaryStage.widthProperty().addListener((obs, oldVal, newVal) -> {
-
             double agrandissementCa = ca.getPrefWidth();
             ca.setPrefWidth(527.0 + (newVal.doubleValue()-1000)*((double) 527/1000));
             agrandissementCa =  ca.getPrefWidth() - agrandissementCa;
-
             p.setLayoutX(p.getLayoutX()+agrandissementCa);
             t.setLayoutX(t.getLayoutX()+agrandissementCa);
-
 
             double agrandissementPT = p.getPrefWidth();
             p.setPrefWidth(236.0 + (newVal.doubleValue()-1000)*((double) 236/1000));
             agrandissementPT = p.getPrefWidth() - agrandissementPT;
             t.setPrefWidth(236.0 + (newVal.doubleValue()-1000)*((double) 236/1000));
-
             jjc.setLayoutX(jjc.getLayoutX()+agrandissementCa+agrandissementPT);
-
             jjc.setPrefWidth(newVal.doubleValue()- (ca.getPrefWidth()+p.getPrefWidth()));
 
             double agrandissemntSC = sc.getPrefWidth();
             sc.setPrefWidth(527.0 + (newVal.doubleValue()-1000)*((double) 527/1000));
             agrandissemntSC = sc.getPrefWidth() - agrandissemntSC;
-
             sjjc.setLayoutX(sjjc.getLayoutX()+agrandissemntSC);
-
             sjjc.setPrefWidth(newVal.doubleValue() - (sc.getPrefWidth()));
-
-
             mb.setPrefWidth(newVal.doubleValue());
-
         });
 
         primaryStage.heightProperty().addListener((obs, oldVal, newVal) -> {
-
-
             double agrandissementCa = ca.getPrefHeight();
             ca.setPrefHeight(395 + (newVal.doubleValue()-610)*((double) 395/610));
             agrandissementCa =  ca.getPrefHeight() - agrandissementCa;
-
             sc.setLayoutY(sc.getLayoutY()+agrandissementCa);
             sc.setPrefHeight(newVal.doubleValue()-ca.getPrefHeight());
 
             double agrandissementP = p.getPrefHeight();
             p.setPrefHeight(198 + (newVal.doubleValue()-610)*((double) 198/610));
             agrandissementP = p.getPrefHeight() - agrandissementP;
-
             t.setLayoutY(t.getLayoutY()+agrandissementP);
-
             t.setPrefHeight(p.getPrefHeight());
-
             sjjc.setLayoutY(sjjc.getLayoutY()+agrandissementP*2);
-
             sjjc.setPrefHeight(newVal.doubleValue()-ca.getPrefHeight());
-
             jjc.setPrefHeight(395 + (newVal.doubleValue()-610)*((double) 395/610));
-
-
         });
 
         primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
             public void handle(WindowEvent event) {
-                if(quit(null))
-                {
+                if(quit(null)) {
                     event.consume();
                 }
             }
@@ -338,15 +301,15 @@ public class Controller implements Initializable {
     @FXML
     public void open(ActionEvent actionEvent) {
         FileChooser fc = new FileChooser();
-        code.clear();
+        //code.clear();
         FileChooser.ExtensionFilter extFilterMJJ = new FileChooser.ExtensionFilter("Minijaja files (*.mjj)", "*.mjj");
         FileChooser.ExtensionFilter extFilterJJC = new FileChooser.ExtensionFilter("Jajacode files (*.jjc)", "*.jjc");
         fc.getExtensionFilters().add(extFilterMJJ);
         fc.getExtensionFilters().add(extFilterJJC);
-
         File file = fc.showOpenDialog(null);
         pathFile = file;
         if (file != null) {
+            breakPointLines.clear();
             code.replaceText(fileToString(file.toString()));
         }
     }
@@ -384,11 +347,9 @@ public class Controller implements Initializable {
         if (pathFile == null) {
             alert.getButtonTypes().setAll(boutonSauvegarder, boutonQuitter, buttonTypeCancel);
             Optional<ButtonType> result = alert.showAndWait();
-            if(result.get() == buttonTypeCancel)
-            {
+            if(result.get() == buttonTypeCancel) {
                 return true;
-            }
-            else{
+            } else {
                 if (result.get() == boutonSauvegarder) {
                     saveAs(actionEvent);
                     System.exit(0);
@@ -428,7 +389,6 @@ public class Controller implements Initializable {
         return sRet;
     }
 
-
     private String getTasString(TasInfos i) {
         StringBuilder sb = new StringBuilder();
         String lsp = System.getProperty("line.separator");
@@ -454,20 +414,15 @@ public class Controller implements Initializable {
     }
 
     public void run(ActionEvent actionEvent) {
-//        System.out.println("Affichage de la pile :");
         SyntaxChecker sc = new SyntaxChecker(new java.io.StringReader(code.getText()));
         try {
-
             ASTClass cla = sc.S();
             Memoire m = new Memoire(1000);
-//            System.out.println("TypeCheck");
             if (cla.typeCheck()) {
                 //interpretation si le typeCheck est bon
-//                System.out.println("Interpreter");
                 cla.interpreter(m);
                 affichageMemoire(m);  // Pile vide après le run, normal
             }
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -544,8 +499,4 @@ public class Controller implements Initializable {
     public void instrsSuiv(ActionEvent actionEvent) {
         ASTLogger.getInstance().logInfo("Instruction suivante.");
     }
-
-
-
-
 }
