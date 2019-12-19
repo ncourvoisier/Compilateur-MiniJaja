@@ -2,6 +2,8 @@ package fr.femtost.disc.minijaja;
 
 import fr.femtost.disc.minijaja.jcodes.JNil;
 
+import java.util.List;
+
 public abstract class ASTNode implements Positionable {
 
     private int line ;
@@ -41,6 +43,8 @@ public abstract class ASTNode implements Positionable {
     return new CompilationCouple(new JNil(), 0);
     }
     public abstract void interpreter(Memoire m);
+    public abstract void interpreterPasAPas(Memoire m, List<InterpretationPasAPasCouple> l);
+    public abstract int getMaxEtape();
 
 }
 
