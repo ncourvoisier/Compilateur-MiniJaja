@@ -2,7 +2,6 @@ package fr.femtost.disc.minijaja.ast.instr;
 
 import fr.femtost.disc.minijaja.*;
 import fr.femtost.disc.minijaja.ast.ASTInstr;
-import fr.femtost.disc.minijaja.ast.ASTMain;
 import fr.femtost.disc.minijaja.ast.expr.identificateur.HardcodedString;
 import fr.femtost.disc.minijaja.ast.expr.identificateur.Identifiant;
 import fr.femtost.disc.minijaja.jcode.Write;

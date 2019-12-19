@@ -3,7 +3,6 @@ package fr.femtost.disc.minijaja.jcodes;
 import fr.femtost.disc.minijaja.JCode;
 import fr.femtost.disc.minijaja.JCodes;
 
-import java.util.List;
 
 public class JChain extends JCodes {
 

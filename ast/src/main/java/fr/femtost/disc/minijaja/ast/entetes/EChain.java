@@ -3,7 +3,6 @@ package fr.femtost.disc.minijaja.ast.entetes;
 import fr.femtost.disc.minijaja.*;
 import fr.femtost.disc.minijaja.ast.ASTEntete;
 import fr.femtost.disc.minijaja.ast.ASTEntetes;
-import fr.femtost.disc.minijaja.ast.type.Entier;
 
 import java.util.List;
 

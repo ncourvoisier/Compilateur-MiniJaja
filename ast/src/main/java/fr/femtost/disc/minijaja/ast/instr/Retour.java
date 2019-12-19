@@ -5,7 +5,6 @@ import fr.femtost.disc.minijaja.ast.ASTClass;
 import fr.femtost.disc.minijaja.ast.ASTExpr;
 import fr.femtost.disc.minijaja.ast.ASTInstr;
 
-import java.util.List;
 
 public class Retour extends ASTInstr {
 
