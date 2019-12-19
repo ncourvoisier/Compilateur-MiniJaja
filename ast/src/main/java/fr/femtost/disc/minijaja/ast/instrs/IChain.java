@@ -1,11 +1,10 @@
 package fr.femtost.disc.minijaja.ast.instrs;
 
-import fr.femtost.disc.minijaja.CompilationCouple;
-import fr.femtost.disc.minijaja.JCodes;
-import fr.femtost.disc.minijaja.Memoire;
-import fr.femtost.disc.minijaja.Sorte;
+import fr.femtost.disc.minijaja.*;
 import fr.femtost.disc.minijaja.ast.ASTInstr;
 import fr.femtost.disc.minijaja.ast.ASTInstrs;
+
+import java.util.List;
 
 public class IChain extends ASTInstrs {
     private ASTInstrs successor;
@@ -52,5 +51,31 @@ public class IChain extends ASTInstrs {
     public void forwardTypeRetour(Sorte sorte) {
         node.forwardTypeRetour(sorte);
         successor.forwardTypeRetour(sorte);
+    }
+
+    @Override
+    public void interpreterPasAPas(Memoire m, List<InterpretationPasAPasCouple> l) {
+        switch(l.get(0).indice)
+        {
+            case 1:
+                l.get(0).indice =2;
+                l.add(0, new InterpretationPasAPasCouple(node, 1));
+                node.interpreterPasAPas(m,l);
+                break;
+
+            case 2:
+                l.get(0).indice = 3;
+                l.add(0, new InterpretationPasAPasCouple(successor, 1));
+                successor.interpreterPasAPas(m,l);
+                break;
+
+            default:
+                ASTLogger.getInstance().logWarning(this, "Interpretation inconnue :" + l.get(0).indice);
+        }
+    }
+
+    @Override
+    public int getMaxEtape() {
+        return 2;
     }
 }

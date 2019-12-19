@@ -8,6 +8,8 @@ import fr.femtost.disc.minijaja.jcode.Pop;
 import fr.femtost.disc.minijaja.jcodes.JChain;
 import fr.femtost.disc.minijaja.jcodes.JNil;
 
+import java.util.List;
+
 public class ASTClass extends ASTNode
 {
 
@@ -62,6 +64,42 @@ public class ASTClass extends ASTNode
         } catch (PileException e) {
             ASTLogger.getInstance().logError(this,"Var not found for removal: " + ident.getName());
         }
+    }
+
+    @Override
+    public void interpreterPasAPas(Memoire m, List<InterpretationPasAPasCouple> l) {
+        switch (l.get(0).indice)
+        {
+            case 1:
+                l.get(0).indice = 2;
+                m.getPile().declVar(ident.getName(),null,null);
+                break;
+
+            case 2:
+                l.get(0).indice = 3;
+                l.add(new InterpretationPasAPasCouple(decls,1));
+                decls.interpreterPasAPas(m,l);
+                break;
+
+            case 3:
+                l.get(0).indice = 4;
+                l.add(new InterpretationPasAPasCouple(main,1));
+                main.interpreterPasAPas(m,l);
+                break;
+
+            case 4:
+                l.get(0).indice = 5;
+                decls.retirer(m);
+                break;
+
+            default:
+                ASTLogger.getInstance().logWarning(this, "Interpretation inconnue :" + l.get(0).indice);;
+        }
+    }
+
+    @Override
+    public int getMaxEtape() {
+        return 4;
     }
 
     public boolean typeCheck() {
