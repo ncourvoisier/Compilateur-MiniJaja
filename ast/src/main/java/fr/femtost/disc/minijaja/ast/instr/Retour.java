@@ -5,6 +5,8 @@ import fr.femtost.disc.minijaja.ast.ASTClass;
 import fr.femtost.disc.minijaja.ast.ASTExpr;
 import fr.femtost.disc.minijaja.ast.ASTInstr;
 
+import java.util.List;
+
 public class Retour extends ASTInstr {
 
     private ASTExpr expr;
@@ -49,5 +51,15 @@ public class Retour extends ASTInstr {
             return false;
         }
         return expr.typeCheck(global, local, typeRetour);
+    }
+
+    @Override
+    public void interpreterPasAPas(Memoire m, List<InterpretationPasAPasCouple> l) {
+        
+    }
+
+    @Override
+    public int getMaxEtape() {
+        return 0;
     }
 }

@@ -9,6 +9,8 @@ import fr.femtost.disc.minijaja.jcode.Goto;
 import fr.femtost.disc.minijaja.jcode.If;
 import fr.femtost.disc.minijaja.jcode.oper.OpUnaire;
 
+import java.util.List;
+
 public class TantQue extends ASTInstr {
 
     private ASTInstrs instrs;
@@ -62,5 +64,31 @@ public class TantQue extends ASTInstr {
             ASTLogger.getInstance().logWarning(expr, "Utilisation d'une constante dans une boucle while");
         }
         return b1 && b2;
+    }
+
+    @Override
+    public void interpreterPasAPas(Memoire m, List<InterpretationPasAPasCouple> l) {
+        switch (l.get(0).indice) {
+            case 1 :
+                Boolean ee = (Boolean)expr.eval(m);
+                if(ee) {
+                    l.get(0).indice = 2;
+                } else {
+                    l.get(0).indice = 3;
+                }
+                break;
+            case 2 :
+                l.get(0).indice = 1;
+                l.add(0, new InterpretationPasAPasCouple(instrs, 1));
+                instrs.interpreterPasAPas(m, l);
+                break;
+            default:
+                ASTLogger.getInstance().logWarning(this, "Interpretation inconnue :" + l.get(0).indice);
+        }
+    }
+
+    @Override
+    public int getMaxEtape() {
+        return 2;
     }
 }

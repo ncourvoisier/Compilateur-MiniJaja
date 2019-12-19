@@ -8,6 +8,8 @@ import fr.femtost.disc.minijaja.ast.expr.identificateur.Tableau;
 import fr.femtost.disc.minijaja.jcode.AInc;
 import fr.femtost.disc.minijaja.jcode.Inc;
 
+import java.util.List;
+
 public class Somme extends ASTInstr {
 
     private ASTIdentGenerique ident;
@@ -104,5 +106,16 @@ public class Somme extends ASTInstr {
             ASTLogger.getInstance().logError(this, "Somme sur variable non-int " + ident.getName());
             return false;
         }
+    }
+
+    @Override
+    public void interpreterPasAPas(Memoire m, List<InterpretationPasAPasCouple> l) {
+        interpreter(m);
+        l.get(0).indice = 2;
+    }
+
+    @Override
+    public int getMaxEtape() {
+        return 1;
     }
 }
