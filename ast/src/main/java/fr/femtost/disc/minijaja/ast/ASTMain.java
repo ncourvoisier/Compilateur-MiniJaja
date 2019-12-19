@@ -49,13 +49,13 @@ public class ASTMain extends ASTNode {
         {
             case 1:
                 l.get(0).indice = 2;
-                l.add(new InterpretationPasAPasCouple(vars,1));
+                l.add(0, new InterpretationPasAPasCouple(vars,1));
                 vars.interpreterPasAPas(m,l);
                 break;
 
             case 2:
                 l.get(0).indice = 3;
-                l.add(new InterpretationPasAPasCouple(instrs,1));
+                l.add(0, new InterpretationPasAPasCouple(instrs,1));
                 instrs.interpreterPasAPas(m,l);
                 break;
 

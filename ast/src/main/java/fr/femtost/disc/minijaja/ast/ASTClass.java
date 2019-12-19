@@ -77,19 +77,24 @@ public class ASTClass extends ASTNode
 
             case 2:
                 l.get(0).indice = 3;
-                l.add(new InterpretationPasAPasCouple(decls,1));
+                l.add(0, new InterpretationPasAPasCouple(decls,1));
                 decls.interpreterPasAPas(m,l);
                 break;
 
             case 3:
                 l.get(0).indice = 4;
-                l.add(new InterpretationPasAPasCouple(main,1));
+                l.add(0, new InterpretationPasAPasCouple(main,1));
                 main.interpreterPasAPas(m,l);
                 break;
 
             case 4:
                 l.get(0).indice = 5;
                 decls.retirer(m);
+                try {
+                    m.getPile().retirerDecl(ident.getName());
+                } catch (PileException e) {
+                    ASTLogger.getInstance().logError(this,"Var not found for removal: " + ident.getName());
+                }
                 break;
 
             default:

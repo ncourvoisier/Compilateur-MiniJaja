@@ -147,6 +147,7 @@ public class Controller implements Initializable {
                 Matcher m0 = whiteSpace.matcher(code.getParagraph(currentParagraph - 1).getSegments().get(0));
                 if (m0.find()) Platform.runLater(() -> code.insertText(caretPosition, m0.group()));
             }
+            estEnPasAPas = false;
         });
 
 
@@ -311,6 +312,7 @@ public class Controller implements Initializable {
         if (file != null) {
             breakPointLines.clear();
             code.replaceText(fileToString(file.toString()));
+            estEnPasAPas = false;
         }
     }
 
@@ -516,18 +518,58 @@ public class Controller implements Initializable {
 
     public void ptArret(ActionEvent actionEvent) {
         ASTLogger.getInstance().logInfo("Interprétation par point d'arrêt");
+
+        if (!estEnPasAPas) {
+            SyntaxChecker sc = new SyntaxChecker(new java.io.StringReader(code.getText()));
+            try {
+                ASTClass cla = sc.S();
+                estEnPasAPas = true;
+                memPasAPas = new Memoire(1000);
+                listePasAPas = new LinkedList<>();
+                listePasAPas.add(new InterpretationPasAPasCouple(cla, 1));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        do {
+            instrsSuiv(actionEvent);
+        } while (!listePasAPas.isEmpty() && !breakPointLines.contains(listePasAPas.get(0).node.getLine()));
     }
+
+
+    private Memoire memPasAPas;
+    private List<InterpretationPasAPasCouple> listePasAPas;
+    private boolean estEnPasAPas = false;
 
     public void instrsSuiv(ActionEvent actionEvent) {
         ASTLogger.getInstance().logInfo("Instruction suivante.");
-        SyntaxChecker sc = new SyntaxChecker(new java.io.StringReader(code.getText()));
-        try {
-            ASTClass cla = sc.S();
-            Memoire m = new Memoire(1000);
-            cla.interpreterPasAPas(m, new ArrayList<InterpretationPasAPasCouple>());
-            affichageMemoire(m);
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (estEnPasAPas) {
+            while (!listePasAPas.isEmpty() && listePasAPas.get(0).indice > listePasAPas.get(0).node.getMaxEtape()) {
+                listePasAPas.remove(0);
+                ASTLogger.getInstance().logInfo("Instruction retirée.");
+            }
+            if (listePasAPas.isEmpty()) {
+                ASTLogger.getInstance().logWarning("Pas d'instruction suivante");
+                estEnPasAPas = false;
+                return;
+            }
+            ASTLogger.getInstance().logInfo("Etape: " + listePasAPas.get(0).indice);
+            ASTLogger.getInstance().logInfo("Noeud: " + listePasAPas.get(0).node);
+            listePasAPas.get(0).node.interpreterPasAPas(memPasAPas, listePasAPas);
+            affichageMemoire(memPasAPas);
+        } else {
+            SyntaxChecker sc = new SyntaxChecker(new java.io.StringReader(code.getText()));
+            try {
+                ASTClass cla = sc.S();
+                estEnPasAPas = true;
+                memPasAPas = new Memoire(1000);
+                listePasAPas = new LinkedList<>();
+                listePasAPas.add(new InterpretationPasAPasCouple(cla, 1));
+                cla.interpreterPasAPas(memPasAPas, listePasAPas);
+                affichageMemoire(memPasAPas);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 }

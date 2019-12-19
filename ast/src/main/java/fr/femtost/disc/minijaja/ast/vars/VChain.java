@@ -14,6 +14,7 @@ public class VChain extends ASTVars {
     public VChain(ASTVar var, ASTVars vars) {
         this.var = var;
         this.vars = vars;
+        this.setPosition(var.getLine(), var.getColumn());
     }
 
     public ASTVar getVar() {
@@ -62,13 +63,13 @@ public class VChain extends ASTVars {
         {
             case 1:
                 l.get(0).indice =2;
-                l.add(new InterpretationPasAPasCouple(var,1));
+                l.add(0, new InterpretationPasAPasCouple(var,1));
                 var.interpreterPasAPas(m,l);
                 break;
 
             case 2 :
                 l.get(0).indice = 3;
-                l.add(new InterpretationPasAPasCouple(vars,1));
+                l.add(0, new InterpretationPasAPasCouple(vars,1));
                 vars.interpreterPasAPas(m,l);
                 break;
 
