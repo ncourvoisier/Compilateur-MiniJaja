@@ -88,92 +88,92 @@ public class Pile {
         empilerNoCreate(bottom);
     }
 
-    public void declVar(String ID, Object VAL, Sorte SORTE) {
-        Quad q = tds.creerSymboles(ID, VAL, NatureObjet.VAR, SORTE);
+    public void declVar(String id, Object val, Sorte sorte) {
+        Quad q = tds.creerSymboles(id, val, NatureObjet.VAR, sorte);
         empilerNoCreate(q);
     }
 
-    public Quad returnQuadWithId(String ID) {
-        return tds.chercheQuad(ID);
+    public Quad returnQuadWithId(String id) {
+        return tds.chercheQuad(id);
     }
 
-    public void identVal(String ID, Sorte SORTE, int S) throws PileException {
+    public void identVal(String id, Sorte sorte, int s) throws PileException {
         if (isEmpty()) {
             throw new PileException("La pile est vide, impossible d'utiliser la fonction identVal.");
         }
         Quad q = depiler();
-        if (S == 0) {
-            empiler(new Quad(ID, q.getVAL(), NatureObjet.VAR, SORTE));
+        if (s == 0) {
+            empiler(new Quad(id, q.getVAL(), NatureObjet.VAR, sorte));
         } else {
-            identVal(ID, SORTE, S-1);
+            identVal(id, sorte, s-1);
             empiler(q);
         }
     }
 
-    public void declCst(String ID, Object VAL, Sorte SORTE) {
+    public void declCst(String id, Object val, Sorte sorte) {
         Quad q;
-        if (VAL == null) {
-            q = tds.creerSymboles(ID, VAL, NatureObjet.VCST, SORTE);
+        if (val == null) {
+            q = tds.creerSymboles(id, val, NatureObjet.VCST, sorte);
         } else {
-            q = tds.creerSymboles(ID, VAL, NatureObjet.CST, SORTE);
+            q = tds.creerSymboles(id, val, NatureObjet.CST, sorte);
         }
         empilerNoCreate(q);
     }
 
-    public void declTab(String ID, Object VAL, Sorte SORTE) {
-        int addr = ajouterRef(VAL);
+    public void declTab(String id, Object val, Sorte sorte) {
+        int addr = ajouterRef(val);
         if (addr >= 0) {
-            Quad q = tds.creerSymboles(ID, addr, NatureObjet.TAB, SORTE);
+            Quad q = tds.creerSymboles(id, addr, NatureObjet.TAB, sorte);
             empilerNoCreate(q);
         }
     }
 
 
-    public void declMeth(String ID, Object VAL, Sorte SORTE) {
-        Quad q = tds.creerSymboles(ID, VAL, NatureObjet.METH, SORTE);
+    public void declMeth(String id, Object val, Sorte sorte) {
+        Quad q = tds.creerSymboles(id, val, NatureObjet.METH, sorte);
         empilerNoCreate(q);
     }
 
-    public void retirerDecl(String ID) throws PileException {
+    public void retirerDecl(String id) throws PileException {
         if (isEmpty()) {
             return;
         }
         Quad q = stackTop;
-        if (ID.equals(q.getID())){
+        if (id.equals(q.getID())){
             if (q.getOBJ().equals(NatureObjet.TAB)) {
                 retirerTas(q.getVAL());
             }
             depiler();
         } else {
             Quad qDepile = depilerNoRemove();
-            retirerDecl(ID);
+            retirerDecl(id);
             empilerNoCreate(qDepile);
         }
     }
 
-    public void affecterVal(String ID, Object VAL) throws PileException {
+    public void affecterVal(String id, Object val) throws PileException {
         if (isEmpty()) {
             return;
         }
         Quad q1 = depiler();
-        if (!ID.equals(q1.getID())) {
-            affecterVal(ID, VAL);
+        if (!id.equals(q1.getID())) {
+            affecterVal(id, val);
             empiler(q1);
         } else if (q1.getOBJ().equals(NatureObjet.VCST)) {
-            Quad q2 = tds.creerSymboles(q1.getID(), VAL, NatureObjet.CST, q1.getSORTE());
+            Quad q2 = tds.creerSymboles(q1.getID(), val, NatureObjet.CST, q1.getSORTE());
             empilerNoCreate(q2);
         } else if (q1.getOBJ().equals(NatureObjet.CST)) {
-            Quad q3 = tds.creerSymboles(ID, VAL, q1.getOBJ(), q1.getSORTE());
+            Quad q3 = tds.creerSymboles(id, val, q1.getOBJ(), q1.getSORTE());
             empilerNoCreate(q3);
         } else if (q1.getOBJ().equals(NatureObjet.TAB)) {
-            int addr = ajouterRef(VAL);
+            int addr = ajouterRef(val);
             if (addr >= 0) {
-                Quad q4 = tds.creerSymboles(ID, addr, q1.getOBJ(), q1.getSORTE());
+                Quad q4 = tds.creerSymboles(id, addr, q1.getOBJ(), q1.getSORTE());
                 retirerTas(q1.getVAL());
                 empilerNoCreate(q4);
             }
         } else {  // Meth
-            Quad q5 = tds.creerSymboles(ID, VAL, q1.getOBJ(), q1.getSORTE());
+            Quad q5 = tds.creerSymboles(id, val, q1.getOBJ(), q1.getSORTE());
             empilerNoCreate(q5);
         }
     }
@@ -181,80 +181,80 @@ public class Pile {
     // Ajout d'une référence à un emplacement dans le tas, stockée dans l'attribut VAL d'un Quad de nature TAB
     // Ret: adresse dans le tas
     // Ret Err: -1 = Problème mémoire -2 = VAL pas entier
-    public int ajouterRef(Object VAL) {
-        if (VAL instanceof Integer) {
-            return tas.allouer((Integer) VAL);
+    public int ajouterRef(Object val) {
+        if (val instanceof Integer) {
+            return tas.allouer((Integer) val);
         }
         return -2;
     }
 
     // Désallocation de l'espace mémoire dans le tas associé à l'adresse VAL
-    public void retirerTas(Object VAL) {
-        if (VAL instanceof Integer) {
-            tas.liberer((Integer) VAL);
+    public void retirerTas(Object val) {
+        if (val instanceof Integer) {
+            tas.liberer((Integer) val);
         }
     }
 
     // Affectation d'une valeur à une case d'un tableau déjà existant
-    public void affecterValT(String ID, Object VAL, int INDEX) throws PileException {
+    public void affecterValT(String id, Object val, int index) throws PileException {
         if (isEmpty()) {
             return;
         }
         Quad q1 = depilerNoRemove();
-        if (!ID.equals(q1.getID())) {
-            affecterValT(ID, VAL, INDEX);
+        if (!id.equals(q1.getID())) {
+            affecterValT(id, val, index);
         }
         else {
-            affecterTas(q1.getVAL(), INDEX, VAL);
+            affecterTas(q1.getVAL(), index, val);
         }
         empilerNoCreate(q1);
     }
 
     // VALT: Adresse du tableau dans le tas | VAL: Valeur à affecter à l'index INDEX du tableau
-    public void affecterTas(Object VALT, int INDEX, Object VAL) {
-        if (VALT instanceof Integer) {
-            tas.ecrire((Integer) VALT, INDEX, VAL);
+    public void affecterTas(Object valt, int index, Object val) {
+        if (valt instanceof Integer) {
+            tas.ecrire((Integer) valt, index, val);
         }
     }
 
-    public Object val(String ID) throws PileException {
+    public Object val(String id) throws PileException {
         if (isEmpty()) {
-            throw new PileException("La pile est vide impossible d'obtenir la valeur de l'élément " + ID + ".");
+            throw new PileException("La pile est vide impossible d'obtenir la valeur de l'élément " + id + ".");
         }
-        Quad quadV = tds.chercheQuad(ID);
+        Quad quadV = tds.chercheQuad(id);
         if (quadV != null) {
             return quadV.getVAL();
         }
         return "NOK_";
     }
 
-    public Object valT(String ID, int INDEX) throws PileException {
+    public Object valT(String id, int index) throws PileException {
         if (isEmpty()) {
-            throw new PileException("La pile est vide impossible d'obtenir la valeur de l'élément " + ID + ".");
+            throw new PileException("La pile est vide impossible d'obtenir la valeur de l'élément " + id + ".");
         }
-        Quad quadV = tds.chercheQuad(ID);
+        Quad quadV = tds.chercheQuad(id);
         if (quadV != null) {
-            return tas.lire((Integer) quadV.getVAL(), INDEX);
+            return tas.lire((Integer) quadV.getVAL(), index);
         }
         return null;
     }
 
-    public NatureObjet object(String ID) throws PileException {
+    public NatureObjet object(String id) throws PileException {
         if (isEmpty()) {
-            throw new PileException("La pile est vide impossible d'obtenir la nature objet de l'élément " + ID + ".");
+            throw new PileException("La pile est vide impossible d'obtenir la nature objet de l'élément " + id + ".");
         }
-        Quad quadO = tds.chercheQuad(ID);
+        Quad quadO = tds.chercheQuad(id);
         if (quadO != null) {
             return quadO.getOBJ();
         }
         return null;
     }
 
-    public Sorte sorte(String ID) throws PileException {
+    public Sorte sorte(String id) throws PileException {
         if (isEmpty()) {
-            throw new PileException("La pile est vide impossible d'obtenir la sorte de l'élément " + ID + ".");
+            throw new PileException("La pile est vide impossible d'obtenir la sorte de l'élément " + id + ".");
         }
-        Quad quadS = tds.chercheQuad(ID);
+        Quad quadS = tds.chercheQuad(id);
         if (quadS != null) {
             return quadS.getSORTE();
         }
@@ -269,15 +269,15 @@ public class Pile {
         return  qID.getVAL();
     }
 
-    public boolean affecterType(String ID, Sorte SORTE) throws PileException {
+    public boolean affecterType(String id, Sorte sorte) throws PileException {
         if (isEmpty()) {
-            throw new PileException("La pile est vide impossible d'affecter le type de l'ID : " + ID + ".");
+            throw new PileException("La pile est vide impossible d'affecter le type de l'ID : " + id + ".");
         }
-        Quad qID = tds.chercheQuad(ID);
+        Quad qID = tds.chercheQuad(id);
         if (qID == null) {
             return false;
         }
-        qID.setSORTE(SORTE);
+        qID.setSORTE(sorte);
         return true;
     }
 
