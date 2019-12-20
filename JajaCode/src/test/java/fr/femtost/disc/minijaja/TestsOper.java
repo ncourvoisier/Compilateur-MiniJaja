@@ -58,5 +58,23 @@ public class TestsOper {
         Assert.assertEquals(7,op.interpreter(m,6));
         Assert.assertEquals(1, m.getPile().returnTaillePile());
     }
+    @Test
+    public void TestOpBinaireException()
+    {
+        Memoire m = emptyMemoire();
+        OpBinaire op = new OpBinaire(OpBinaire.Operandes.ADD);
+        Assert.assertEquals(-1,op.interpreter(m,6));
+        Assert.assertEquals(0, m.getPile().returnTaillePile());
+    }
+    @Test
+    public void TestOpBinaireRewrite()
+    {
+        Memoire m = emptyMemoire();
+        m.getPile().declVar("Add",5,null);
+        m.getPile().declVar("",8,null);
+        OpBinaire op = new OpBinaire(OpBinaire.Operandes.ADD);
+        Assert.assertEquals("add",op.rewrite());
+        Assert.assertEquals(2, m.getPile().returnTaillePile());
+    }
 
 }
