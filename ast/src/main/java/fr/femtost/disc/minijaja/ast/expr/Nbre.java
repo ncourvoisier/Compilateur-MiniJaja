@@ -19,7 +19,7 @@ public class Nbre extends ASTExpr {
 
     @Override
     public String rewrite() {
-        return Integer.valueOf(expr).toString();
+        return Integer.toString(expr);
     }
 
     @Override
