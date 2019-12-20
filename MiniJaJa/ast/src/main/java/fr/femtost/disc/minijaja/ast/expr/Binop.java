@@ -40,6 +40,8 @@ public class Binop extends ASTExpr {
                     return OpBinaire.Operandes.SUB;
                 case SUPERIEUR:
                     return OpBinaire.Operandes.SUP;
+                default:
+                    ASTLogger.getInstance().logWarning("Opérateur non trouvé");
             }
             return OpBinaire.Operandes.CMP;
         }
@@ -55,6 +57,7 @@ public class Binop extends ASTExpr {
         this.expr2 = expr2;
     }
 
+    @Override
     public String rewrite() {
         StringBuilder sb = new StringBuilder();
         sb.append("(");
@@ -96,6 +99,8 @@ public class Binop extends ASTExpr {
                 return (int)e1 - (int)e2;
             case SUPERIEUR:
                 return (int)e1 > (int)e2;
+            default:
+                ASTLogger.getInstance().logWarning("Opérateur non supporté");
         }
         return null;
     }
