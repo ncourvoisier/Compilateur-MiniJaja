@@ -453,7 +453,8 @@ public class Controller implements Initializable {
                 affichageMemoire(m);  // Pile vide après le run, normal
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            ASTLogger.getInstance().logError(e.toString());
+           e.printStackTrace();
         }
     }
 
@@ -467,6 +468,7 @@ public class Controller implements Initializable {
             jcd = cc.jCodes;
             estPasAPasJajacode = false;
         } catch (Exception e) {
+            ASTLogger.getInstance().logError(e.toString());
             e.printStackTrace();
         }
     }
@@ -520,14 +522,14 @@ public class Controller implements Initializable {
     private boolean estPasAPasJajacode = false;
     private JCodes jcd;
     public void instrsSuivJajaCode(ActionEvent actionEvent) {
-
+        ASTLogger.getInstance().logInfo("Instruction suivante JajaCode.");
         if(!estPasAPasJajacode) {
             currentInterpretationJajaCode = 1;
             memJajaCode = new Memoire(1000);
             estPasAPasJajacode = true;
         }
         if(currentInterpretationJajaCode > JCodes.asArray(jcd).size()) {
-            //msg
+            ASTLogger.getInstance().logInfo("Fin des instructions suivantes");
             return;
         }
         currentInterpretationJajaCode = jcd.interpreterNext(currentInterpretationJajaCode, memJajaCode);
@@ -535,6 +537,7 @@ public class Controller implements Initializable {
     }
 
     public void resetInterpretationJajaCode(ActionEvent actionEvent) {
+        ASTLogger.getInstance().logInfo("Remise à zéro de l'interprétation JajaCode");
         estPasAPasJajacode = false;
     }
 
@@ -550,7 +553,9 @@ public class Controller implements Initializable {
                 listePasAPas = new LinkedList<>();
                 listePasAPas.add(new InterpretationPasAPasCouple(cla, 1));
             } catch (Exception e) {
+                ASTLogger.getInstance().logError(e.toString());
                 e.printStackTrace();
+
             }
         }
         do {
@@ -565,7 +570,7 @@ public class Controller implements Initializable {
     private List<EvaluationCouplePasAPas> leval;
 
     public void instrsSuiv(ActionEvent actionEvent) {
-        ASTLogger.getInstance().logInfo("Instruction suivante.");
+        ASTLogger.getInstance().logInfo("Instruction suivante MiniJaja.");
         if (estEnPasAPas) {
             while (!listePasAPas.isEmpty() && listePasAPas.get(0).indice > listePasAPas.get(0).node.getMaxEtape()) {
                 listePasAPas.remove(0);
@@ -591,6 +596,7 @@ public class Controller implements Initializable {
                 cla.interpreterPasAPas(memPasAPas, listePasAPas, leval);
                 affichageMemoire(memPasAPas);
             } catch (Exception e) {
+                ASTLogger.getInstance().logError(e.toString());
                 e.printStackTrace();
             }
         }
