@@ -10,6 +10,7 @@ import fr.femtost.disc.minijaja.ast.decls.Dnil;
 import fr.femtost.disc.minijaja.ast.entetes.EChain;
 import fr.femtost.disc.minijaja.ast.entetes.Enil;
 import fr.femtost.disc.minijaja.ast.expr.*;
+import fr.femtost.disc.minijaja.ast.expr.identificateur.HardcodedString;
 import fr.femtost.disc.minijaja.ast.expr.identificateur.Identifiant;
 import fr.femtost.disc.minijaja.ast.expr.identificateur.Tableau;
 import fr.femtost.disc.minijaja.ast.instr.*;
@@ -323,6 +324,17 @@ public class TestASTCompilation {
         Assert.assertEquals(OpBinaire.Operandes.SUB, Binop.Operandes.SOUSTRACTION.getOperande());
         Assert.assertEquals(OpBinaire.Operandes.SUP, Binop.Operandes.SUPERIEUR.getOperande());
     }
+
+    @Test
+    public void test_hardcodedString() {
+        HardcodedString hs = new HardcodedString("string");
+        CompilationCouple cc = hs.compiler(0);
+        List<JCode> ls = JCodes.asArray(cc.jCodes);
+        Assert.assertEquals(1, ls.size());
+        Assert.assertTrue(ls.get(0) instanceof Push);
+    }
+
+    
 
 
 
