@@ -567,4 +567,16 @@ public class PileTest {
        }
        Assert.fail();
    }
+
+   @Test
+   public void affecterValTPasSommetTest() {
+       p.declTab("Tab", 10, Sorte.INT);
+       p.declVar("Var", 5, Sorte.INT);
+       try {
+           p.affecterValT("Tab", 2, 0);
+           assertEquals(2, p.valT("Tab", 0));
+       }catch (PileException e) {
+           Assert.fail();
+       }
+   }
 }
