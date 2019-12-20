@@ -35,6 +35,8 @@ public class OpUnaire extends Oper {
                 case NEG:
                     m.getPile().declCst(null, -((int)v), Sorte.VOID);
                     return current+1;
+                default:
+                    ASTLogger.getInstance().logWarning("Opérateur non trouvé");
             }
             ASTLogger.getInstance().logWarning("Unexpected operator:" + op.name());
             return -1;
