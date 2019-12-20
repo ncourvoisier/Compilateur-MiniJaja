@@ -19,6 +19,8 @@ public class ASTLogger {
         void receiveMessage(String message, MessageLevel level);
     }
 
+    private Set<ASTListener> listeners = new HashSet<>();
+
     private static ASTLogger instance;
     public static ASTLogger getInstance() {
         if(instance == null) {
@@ -27,8 +29,7 @@ public class ASTLogger {
         return instance;
     }
 
-    private Set<ASTListener> listeners = new HashSet<>();
-
+    
     public void addListener(ASTListener listener) {
         listeners.add(listener);
     }
