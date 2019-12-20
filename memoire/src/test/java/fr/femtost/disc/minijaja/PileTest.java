@@ -508,19 +508,7 @@ public class PileTest {
         p.declVar("Var3", 7, Sorte.INT);
         assertEquals("<Var3, 7, VAR, INT>.<Var2, 5, VAR, INT>.<Var1, 2, VAR, INT>", p.toString());
     }
-
-   /*@Test
-    public void affecterTabTest() {
-        int addr = p.getTas().allouer(10);
-        p.declTab("Tab", 10, Sorte.INT);
-        try {
-            p.affecterVal("Tab", addr);
-            assertEquals(addr, p.val("Tab"));
-        }catch (PileException e) {
-            Assert.fail();
-        }
-    }*/
-
+    
    @Test
    public void parametreTest() {
        p.declMeth("Var", 2, Sorte.INT);
