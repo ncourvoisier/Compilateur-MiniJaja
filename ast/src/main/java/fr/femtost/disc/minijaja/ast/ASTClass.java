@@ -62,7 +62,7 @@ public class ASTClass extends ASTNode
         try {
             m.getPile().retirerDecl(ident.getName());
         } catch (PileException e) {
-            ASTLogger.getInstance().logError(this,"Var not found for removal: " + ident.getName() + e.toString());
+            ASTLogger.getInstance().logError(this,"Var not found for removal: " + ident.getName());
         }
     }
 
