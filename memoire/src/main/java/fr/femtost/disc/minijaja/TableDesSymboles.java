@@ -5,7 +5,7 @@ import java.util.LinkedList;
 import java.util.Map;
 
 public class TableDesSymboles {
-    
+
     public TableDesSymboles() {
         this.tableSymbole = new HashMap<>();
     }
