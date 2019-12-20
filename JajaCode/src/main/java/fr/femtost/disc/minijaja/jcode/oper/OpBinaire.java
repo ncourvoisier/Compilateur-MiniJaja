@@ -60,6 +60,8 @@ public class OpBinaire extends Oper {
                 case SUP:
                     m.getPile().declCst(null, (int)v1 > (int)v2, Sorte.VOID);
                     return current+1;
+                default:
+                    ASTLogger.getInstance().logWarning("Opérateur non trouvé");
             }
             ASTLogger.getInstance().logWarningJJC("Unexpected operator:" + operandes.name());
             return -1;
