@@ -526,4 +526,15 @@ public class PileTest {
        p.declMeth("Var", 2, Sorte.INT);
        assertEquals(2, p.parametre("Var"));
    }
+
+   @Test
+   public void valTTest() {
+       p.declTab("Tab", 10, Sorte.INT);
+       try {
+           p.affecterValT("Tab", 5, 0);
+           assertEquals(5, p.valT("Tab", 0));
+       }catch (PileException e) {
+           Assert.fail();
+       }
+   }
 }
