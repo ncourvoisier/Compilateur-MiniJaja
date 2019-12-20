@@ -6,6 +6,7 @@ public class PileException extends Exception {
         super(msgErreur);
     }
 
+    @Override
     public String toString() {
         return this.getMessage() + " -> " + this.getClass().getName();
     }
