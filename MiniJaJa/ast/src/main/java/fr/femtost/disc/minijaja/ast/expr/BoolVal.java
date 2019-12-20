@@ -17,6 +17,7 @@ public class BoolVal extends ASTExpr {
         this.value = value;
     }
 
+    @Override
     public String rewrite() {
         if(value){
             return "true";
