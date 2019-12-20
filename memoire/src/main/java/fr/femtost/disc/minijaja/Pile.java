@@ -198,7 +198,7 @@ public class Pile {
     // Affectation d'une valeur à une case d'un tableau déjà existant
     public void affecterValT(String id, Object val, int index) throws PileException {
         if (isEmpty()) {
-            return;
+            throw new PileException("La pile est vide, impossible d'utiliser la fonction affecterValT.");
         }
         Quad q1 = depilerNoRemove();
         if (!id.equals(q1.getID())) {

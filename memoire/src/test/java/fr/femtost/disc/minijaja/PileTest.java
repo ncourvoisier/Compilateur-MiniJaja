@@ -549,12 +549,22 @@ public class PileTest {
    }
 
    @Test
-   public void valTIDNonExistant() {
+   public void valTIDNonExistantTest() {
        p.declVar("Var", 5, Sorte.INT);
        try {
            assertNull(p.valT("Tab", 0));
        }catch (PileException e) {
            Assert.fail();
        }
+   }
+
+   @Test
+   public void affecterValTPileVideTest() {
+       try {
+           p.affecterValT("Var", 2, 0);
+       }catch (PileException e) {
+           return;
+       }
+       Assert.fail();
    }
 }
