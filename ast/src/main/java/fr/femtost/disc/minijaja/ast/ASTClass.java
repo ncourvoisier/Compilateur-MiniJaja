@@ -18,15 +18,15 @@ public class ASTClass extends ASTNode
     private ASTMain main;
     private static String variableClasse;
 
-    public static String getVariableClass() {
-        return variableClasse;
-    }
-
     public ASTClass(Identifiant ident, ASTDecls decls, ASTMain main) {
         this.ident = ident;
         this.decls = decls;
         this.main = main;
         variableClasse = ident.getName();
+    }
+
+    public static String getVariableClass() {
+        return variableClasse;
     }
 
     @Override
@@ -94,6 +94,8 @@ public class ASTClass extends ASTNode
                     m.getPile().retirerDecl(ident.getName());
                 } catch (PileException e) {
                     ASTLogger.getInstance().logError(this,"Var not found for removal: " + ident.getName());
+                } catch (Exception e) {
+                    ASTLogger.getInstance().logError(this,"Exception: " + ident.getName());
                 }
                 break;
 
