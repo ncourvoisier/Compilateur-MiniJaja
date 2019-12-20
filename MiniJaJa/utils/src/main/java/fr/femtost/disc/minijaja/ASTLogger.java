@@ -29,7 +29,7 @@ public class ASTLogger {
         return instance;
     }
 
-    
+
     public void addListener(ASTListener listener) {
         listeners.add(listener);
     }
