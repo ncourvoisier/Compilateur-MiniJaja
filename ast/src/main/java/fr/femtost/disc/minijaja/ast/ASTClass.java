@@ -67,7 +67,7 @@ public class ASTClass extends ASTNode
     }
 
     @Override
-    public void interpreterPasAPas(Memoire m, List<InterpretationPasAPasCouple> l, List<EvaluationCouplePasAPas> leval) {
+    public void interpreterPasAPas(Memoire m, List<InterpretationPasAPasCouple> l, List<MethodeEvalTuple> calls) {
         switch (l.get(0).indice)
         {
             case 1:
@@ -78,13 +78,13 @@ public class ASTClass extends ASTNode
             case 2:
                 l.get(0).indice = 3;
                 l.add(0, new InterpretationPasAPasCouple(decls,1));
-                decls.interpreterPasAPas(m,l, leval);
+                decls.interpreterPasAPas(m,l, calls);
                 break;
 
             case 3:
                 l.get(0).indice = 4;
                 l.add(0, new InterpretationPasAPasCouple(main,1));
-                main.interpreterPasAPas(m,l, leval);
+                main.interpreterPasAPas(m,l, calls);
                 break;
 
             case 4:

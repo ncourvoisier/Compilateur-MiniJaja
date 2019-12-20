@@ -550,6 +550,7 @@ public class Controller implements Initializable {
                 ASTClass cla = sc.S();
                 estEnPasAPas = true;
                 memPasAPas = new Memoire(1000);
+                leval = new LinkedList<>();
                 listePasAPas = new LinkedList<>();
                 listePasAPas.add(new InterpretationPasAPasCouple(cla, 1));
             } catch (Exception e) {
@@ -567,7 +568,7 @@ public class Controller implements Initializable {
     private Memoire memPasAPas;
     private List<InterpretationPasAPasCouple> listePasAPas;
     private boolean estEnPasAPas = false;
-    private List<EvaluationCouplePasAPas> leval;
+    private List<MethodeEvalTuple> leval;
 
     public void instrsSuiv(ActionEvent actionEvent) {
         ASTLogger.getInstance().logInfo("Instruction suivante MiniJaja.");
@@ -591,6 +592,7 @@ public class Controller implements Initializable {
                 ASTClass cla = sc.S();
                 estEnPasAPas = true;
                 memPasAPas = new Memoire(1000);
+                leval = new LinkedList<>();
                 listePasAPas = new LinkedList<>();
                 listePasAPas.add(new InterpretationPasAPasCouple(cla, 1));
                 cla.interpreterPasAPas(memPasAPas, listePasAPas, leval);

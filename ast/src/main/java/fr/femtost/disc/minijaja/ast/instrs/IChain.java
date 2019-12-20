@@ -54,19 +54,19 @@ public class IChain extends ASTInstrs {
     }
 
     @Override
-    public void interpreterPasAPas(Memoire m, List<InterpretationPasAPasCouple> l, List<EvaluationCouplePasAPas> leval) {
+    public void interpreterPasAPas(Memoire m, List<InterpretationPasAPasCouple> l, List<MethodeEvalTuple> calls) {
         switch(l.get(0).indice)
         {
             case 1:
                 l.get(0).indice =2;
                 l.add(0, new InterpretationPasAPasCouple(node, 1));
-                node.interpreterPasAPas(m,l, leval);
+                node.interpreterPasAPas(m,l, calls);
                 break;
 
             case 2:
                 l.get(0).indice = 3;
                 l.add(0, new InterpretationPasAPasCouple(successor, 1));
-                successor.interpreterPasAPas(m,l, leval);
+                successor.interpreterPasAPas(m,l, calls);
                 break;
 
             default:

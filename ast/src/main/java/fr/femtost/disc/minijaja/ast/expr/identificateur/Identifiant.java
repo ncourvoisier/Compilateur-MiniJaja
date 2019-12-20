@@ -6,6 +6,8 @@ import fr.femtost.disc.minijaja.jcode.Load;
 import fr.femtost.disc.minijaja.jcodes.JChain;
 import fr.femtost.disc.minijaja.jcodes.JNil;
 
+import java.util.List;
+
 public class Identifiant extends ASTIdentGenerique {
 
     protected String name;
@@ -37,6 +39,11 @@ public class Identifiant extends ASTIdentGenerique {
             ASTLogger.getInstance().logError(this,e.getMessage());
         }
         return null;
+    }
+
+    @Override
+    public Object tryEval(Memoire m, List<MethodeEvalTuple> evaluations) {
+        return eval(m);
     }
 
     @Override

@@ -10,6 +10,8 @@ import fr.femtost.disc.minijaja.jcode.Push;
 import fr.femtost.disc.minijaja.jcodes.JChain;
 import fr.femtost.disc.minijaja.jcodes.JNil;
 
+import java.util.List;
+
 
 public class Increment extends ASTInstr {
 
@@ -56,6 +58,32 @@ public class Increment extends ASTInstr {
                 m.getPile().affecterVal(ident.getName(),(int)(m.getPile().val(ident.getName()))+1);
             } catch (PileException e) {
                 ASTLogger.getInstance().logError(this,e.getMessage());
+            }
+        }
+    }
+
+    @Override
+    public void interpreterPasAPas(Memoire m, List<InterpretationPasAPasCouple> l, List<MethodeEvalTuple> calls) {
+        if (l.get(0).indice < 4) {
+            if (helperPas(m, l, calls, ident.getAllCalls())) {
+                if (ident instanceof Tableau) {
+                    int v = ((Tableau) ident).tryEvalIndex(m, calls);
+                    try {
+                        m.getPile().affecterValT(ident.getName(), (int) m.getPile().valT(ident.getName(), v) + 1, v);
+                    } catch (PileException e) {
+                        ASTLogger.getInstance().logError(this, e.getMessage());
+                    }
+                } else {
+                    try {
+                        m.getPile().affecterVal(ident.getName(), (int) (m.getPile().val(ident.getName())) + 1);
+                    } catch (PileException e) {
+                        ASTLogger.getInstance().logError(this, e.getMessage());
+                    }
+                }
+                l.get(0).indice = 4;
+                if (!ident.getAllCalls().isEmpty()) {
+                    cleanEvals(calls);
+                }
             }
         }
     }

@@ -1,9 +1,7 @@
 package fr.femtost.disc.minijaja.ast;
 
-import fr.femtost.disc.minijaja.ASTNode;
-import fr.femtost.disc.minijaja.EvaluationCouplePasAPas;
-import fr.femtost.disc.minijaja.InterpretationPasAPasCouple;
-import fr.femtost.disc.minijaja.Memoire;
+import fr.femtost.disc.minijaja.*;
+import fr.femtost.disc.minijaja.ast.expr.AppelE;
 
 import java.util.List;
 
@@ -16,8 +14,10 @@ public abstract class ASTListExpr extends ASTNode {
 
     public abstract boolean typeCheck(Memoire global, Memoire local, ASTEntetes entetes);
 
+    public abstract List<AppelE> getAllCalls();
+
     @Override
-    public void interpreterPasAPas(Memoire m, List<InterpretationPasAPasCouple> l, List<EvaluationCouplePasAPas> leval) {
+    public void interpreterPasAPas(Memoire m, List<InterpretationPasAPasCouple> l, List<MethodeEvalTuple> calls) {
         throw new UnsupportedOperationException("Interpretation dans liste expr");
     }
 

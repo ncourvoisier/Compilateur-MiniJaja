@@ -1,9 +1,6 @@
 package fr.femtost.disc.minijaja.ast.decls;
 
-import fr.femtost.disc.minijaja.CompilationCouple;
-import fr.femtost.disc.minijaja.EvaluationCouplePasAPas;
-import fr.femtost.disc.minijaja.InterpretationPasAPasCouple;
-import fr.femtost.disc.minijaja.Memoire;
+import fr.femtost.disc.minijaja.*;
 import fr.femtost.disc.minijaja.ast.ASTDecls;
 import fr.femtost.disc.minijaja.jcodes.JNil;
 
@@ -42,11 +39,11 @@ public final class Dnil extends ASTDecls {
     }
 
     @Override
-    public void interpreterPasAPas(Memoire m, List<InterpretationPasAPasCouple> l, List<EvaluationCouplePasAPas> leval) {
+    public void interpreterPasAPas(Memoire m, List<InterpretationPasAPasCouple> l, List<MethodeEvalTuple> calls) {
         while(l.get(0).indice > l.get(0).node.getMaxEtape()) {
             l.remove(0);
         }
-        l.get(0).node.interpreterPasAPas(m, l, leval);
+        l.get(0).node.interpreterPasAPas(m, l, calls);
     }
 
     @Override

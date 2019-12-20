@@ -4,10 +4,13 @@ import fr.femtost.disc.minijaja.*;
 import fr.femtost.disc.minijaja.ast.ASTExpr;
 import fr.femtost.disc.minijaja.ast.ASTInstr;
 import fr.femtost.disc.minijaja.ast.expr.ASTIdentGenerique;
+import fr.femtost.disc.minijaja.ast.expr.AppelE;
 import fr.femtost.disc.minijaja.ast.expr.identificateur.Identifiant;
 import fr.femtost.disc.minijaja.ast.expr.identificateur.Tableau;
 import fr.femtost.disc.minijaja.jcode.AStore;
 import fr.femtost.disc.minijaja.jcode.Store;
+
+import java.util.List;
 
 public class Affectation extends ASTInstr {
 
@@ -55,6 +58,35 @@ public class Affectation extends ASTInstr {
                 m.getPile().affecterVal(ident.getName(), v);
             } catch (PileException e) {
                 ASTLogger.getInstance().logError(this,e.toString());
+            }
+        }
+    }
+
+    @Override
+    public void interpreterPasAPas(Memoire m, List<InterpretationPasAPasCouple> l, List<MethodeEvalTuple> calls) {
+        if (l.get(0).indice < 4) {
+            List<AppelE> appels = expr.getAllCalls();
+            appels.addAll(ident.getAllCalls());
+            if (helperPas(m, l, calls, appels)) {
+                l.get(0).indice = 4;
+                Object v = expr.tryEval(m, calls);
+                if (ident instanceof Tableau) {
+                    int v2 = ((Tableau) ident).tryEvalIndex(m, calls);
+                    try {
+                        m.getPile().affecterValT(ident.getName(), v, v2);
+                    } catch (PileException e) {
+                        ASTLogger.getInstance().logError(this,e.toString());
+                    }
+                } else {
+                    try {
+                        m.getPile().affecterVal(ident.getName(), v);
+                    } catch (PileException e) {
+                        ASTLogger.getInstance().logError(this,e.toString());
+                    }
+                }
+                if (!appels.isEmpty()) {
+                    cleanEvals(calls);
+                }
             }
         }
     }

@@ -5,6 +5,8 @@ import fr.femtost.disc.minijaja.ast.ASTClass;
 import fr.femtost.disc.minijaja.ast.ASTExpr;
 import fr.femtost.disc.minijaja.ast.ASTInstr;
 
+import java.util.List;
+
 
 public class Retour extends ASTInstr {
 
@@ -40,6 +42,24 @@ public class Retour extends ASTInstr {
             m.getPile().affecterVal(ASTClass.getVariableClass(), v);
         } catch (PileException e) {
             ASTLogger.getInstance().logError(this,e.toString());
+        }
+    }
+
+    @Override
+    public void interpreterPasAPas(Memoire m, List<InterpretationPasAPasCouple> l, List<MethodeEvalTuple> calls) {
+        if (l.get(0).indice < 4) {
+            if (helperPas(m, l, calls, expr.getAllCalls())) {
+                l.get(0).indice = 4;
+                Object v = expr.tryEval(m, calls);
+                try {
+                    m.getPile().affecterVal(ASTClass.getVariableClass(), v);
+                } catch (PileException e) {
+                    ASTLogger.getInstance().logError(this,e.toString());
+                }
+                if(!expr.getAllCalls().isEmpty()) {
+                    cleanEvals(calls);
+                }
+            }
         }
     }
 
