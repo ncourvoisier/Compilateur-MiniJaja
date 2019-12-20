@@ -1,6 +1,7 @@
 package fr.femtost.disc.minijaja;
 
 import fr.femtost.disc.minijaja.jcode.oper.OpBinaire;
+import fr.femtost.disc.minijaja.jcode.oper.OpUnaire;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -76,5 +77,34 @@ public class TestsOper {
         Assert.assertEquals("add",op.rewrite());
         Assert.assertEquals(2, m.getPile().returnTaillePile());
     }
-
+    @Test
+    public void TestOpUnaire()
+    {
+        Memoire m = emptyMemoire();
+        m.getPile().declVar("Add",5,null);
+        OpUnaire op = new OpUnaire(OpUnaire.Operandes.NEG);
+        Assert.assertEquals(7,op.interpreter(m,6));
+        m.getPile().declVar("",true,null);
+        op = new OpUnaire(OpUnaire.Operandes.NOT);
+        Assert.assertEquals(7,op.interpreter(m,6));
+        Assert.assertEquals(2, m.getPile().returnTaillePile());
+    }
+    @Test
+    public void TestOpUnaireException()
+    {
+        Memoire m = emptyMemoire();
+        OpUnaire op = new OpUnaire(OpUnaire.Operandes.NOT);
+        Assert.assertEquals(-1,op.interpreter(m,6));
+        Assert.assertEquals(0, m.getPile().returnTaillePile());
+    }
+    @Test
+    public void TestOpUnaireRewrite()
+    {
+        Memoire m = emptyMemoire();
+        m.getPile().declVar("Add",5,null);
+        m.getPile().declVar("",8,null);
+        OpUnaire op = new OpUnaire(OpUnaire.Operandes.NEG);
+        Assert.assertEquals("neg",op.rewrite());
+        Assert.assertEquals(2, m.getPile().returnTaillePile());
+    }
 }
