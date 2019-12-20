@@ -15,6 +15,7 @@ public class Tableau extends ASTIdentGenerique {
         this.index = index;
     }
 
+    @Override
     public String rewrite() {
         return name + "[" + index.rewrite() + "]";
     }

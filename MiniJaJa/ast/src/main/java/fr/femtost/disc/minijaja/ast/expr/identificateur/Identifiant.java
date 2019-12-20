@@ -14,6 +14,7 @@ public class Identifiant extends ASTIdentGenerique {
         this.name = name;
     }
 
+    @Override
     public String rewrite() {
         return name;
     }

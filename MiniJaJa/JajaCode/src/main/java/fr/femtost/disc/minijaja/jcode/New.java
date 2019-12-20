@@ -34,6 +34,8 @@ public class New extends JCode {
                 case METHODE:
                     m.getPile().declMeth(ident, m.getPile().depiler().getVAL(), type);
                     return current + 1;
+                default:
+                    ASTLogger.getInstance().logWarning("Unexpected sorte " + sorte);
             }
             ASTLogger.getInstance().logWarningJJC("Unexpected sort for new: " + type.name());
             return -1;

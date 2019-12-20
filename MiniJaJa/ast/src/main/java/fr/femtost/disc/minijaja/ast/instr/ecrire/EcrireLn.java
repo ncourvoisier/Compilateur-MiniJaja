@@ -29,7 +29,6 @@ public class EcrireLn extends Ecrire {
     @Override
     public void interpreter(Memoire m) {
         Object v =ident.eval(m);
-        System.out.println(v);
         ASTLogger.getInstance().logInfo(v.toString() + "\n");
     }
 }
