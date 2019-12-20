@@ -297,7 +297,6 @@ public class Pile {
     public String toString() {
         StringBuilder pileQuadString = new StringBuilder();
         if (isEmpty()) {
-            System.out.println("IS EMPTY");
             return "";
         }
         pileQuadString.append(stackTop.toString());
@@ -306,7 +305,6 @@ public class Pile {
             pileQuadString.append(".").append(next.getBottomQuad());
             next = next.getBottomQuad();
         }
-        System.out.println("FIN TS");
         return pileQuadString.toString();
     }
 }
