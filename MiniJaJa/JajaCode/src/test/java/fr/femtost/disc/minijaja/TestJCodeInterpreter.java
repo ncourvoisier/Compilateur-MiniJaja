@@ -190,6 +190,20 @@ public class TestJCodeInterpreter {
         Assert.assertEquals(0, m.getPile().returnTaillePile());
     }
     @Test
+    public void interpreterLoad() {
+        Memoire m = emptyMemoire();
+        m.getPile().declCst(null, 10, null);
+        Assert.assertEquals(10, new Load("id").interpreter(m, 9));
+        Assert.assertEquals(2, m.getPile().returnTaillePile());
+    }
+    @Test
+    public void interpreterLoadException()
+    {
+        Memoire m = emptyMemoire();
+        Assert.assertEquals(-1, new NewArray("t",Sorte.INT).interpreter(m, 2));
+        Assert.assertEquals(0, m.getPile().returnTaillePile());
+    }
+    @Test
     public void interpreterNewArray() {
         Memoire m = emptyMemoire();
         m.getPile().declCst(null, 10, null);
