@@ -1,11 +1,10 @@
 package fr.femtost.disc.minijaja;
 
-import fr.femtost.disc.minijaja.ast.ASTClass;
-import fr.femtost.disc.minijaja.ast.ASTEntete;
-import fr.femtost.disc.minijaja.ast.ASTExpr;
+import fr.femtost.disc.minijaja.ast.*;
 import fr.femtost.disc.minijaja.ast.decl.ASTMethode;
 import fr.femtost.disc.minijaja.ast.decl.var.ASTVarConst;
 import fr.femtost.disc.minijaja.ast.decl.var.ASTVarSimple;
+import fr.femtost.disc.minijaja.ast.decl.var.ASTVarTableau;
 import fr.femtost.disc.minijaja.ast.decls.DChain;
 import fr.femtost.disc.minijaja.ast.decls.Dnil;
 import fr.femtost.disc.minijaja.ast.entetes.EChain;
@@ -13,7 +12,8 @@ import fr.femtost.disc.minijaja.ast.entetes.Enil;
 import fr.femtost.disc.minijaja.ast.expr.*;
 import fr.femtost.disc.minijaja.ast.expr.identificateur.Identifiant;
 import fr.femtost.disc.minijaja.ast.expr.identificateur.Tableau;
-import fr.femtost.disc.minijaja.ast.instr.Retour;
+import fr.femtost.disc.minijaja.ast.instr.*;
+import fr.femtost.disc.minijaja.ast.instr.ecrire.EcrireLn;
 import fr.femtost.disc.minijaja.ast.instrs.IChain;
 import fr.femtost.disc.minijaja.ast.instrs.Inil;
 import fr.femtost.disc.minijaja.ast.listexpr.ExChain;
@@ -21,6 +21,7 @@ import fr.femtost.disc.minijaja.ast.listexpr.Exnil;
 import fr.femtost.disc.minijaja.ast.type.Booleen;
 import fr.femtost.disc.minijaja.ast.type.Entier;
 import fr.femtost.disc.minijaja.ast.type.Void;
+import fr.femtost.disc.minijaja.ast.vars.VChain;
 import fr.femtost.disc.minijaja.ast.vars.Vnil;
 import fr.femtost.disc.minijaja.jcode.*;
 import fr.femtost.disc.minijaja.jcode.oper.OpBinaire;
@@ -183,7 +184,91 @@ public class TestASTCompilation {
 
     }
 
+    @Test
+    public void test_decl_varTab(){
+        ASTVarTableau v1 = new ASTVarTableau(new Entier(),new Identifiant("t"), new Nbre(1));
+        CompilationCouple cc = v1.compiler(0);
+        List<JCode> ls = JCodes.asArray(cc.jCodes);
+        Assert.assertEquals(2,ls.size());
+        Assert.assertTrue(ls.get(1) instanceof NewArray);
+    }
 
+    @Test
+    public void test_vars_Vchain(){
+        ASTVars v1 = new VChain(new ASTVarSimple(new Entier(), new Identifiant("toto"), new Omega()), new Vnil());
+        CompilationCouple cc = v1.compiler(0);
+        List<JCode> ls = JCodes.asArray(cc.jCodes);
+        Assert.assertEquals(2,ls.size());
+        Assert.assertTrue(ls.get(1) instanceof New);
+
+    }
+
+    /* ****************
+       Instruction
+   **************** */
+
+    @Test
+    public void test_instr_Ecrireln(){
+        ASTInstr i1 = new EcrireLn(new Identifiant("varInt"));
+        CompilationCouple cc = i1.compiler(0);
+        List<JCode> ls = JCodes.asArray(cc.jCodes);
+        Assert.assertEquals(2,ls.size());
+        Assert.assertTrue(ls.get(1) instanceof WriteLn);
+    }
+
+    @Test
+    public void test_instr_affectation(){
+        ASTInstr i1 = new Affectation(new Identifiant("varInt"), new Nbre(2));
+        CompilationCouple cc = i1.compiler(0);
+        List<JCode> ls = JCodes.asArray(cc.jCodes);
+        Assert.assertEquals(2,ls.size());
+        Assert.assertTrue(ls.get(1) instanceof Store);
+    }
+
+    @Test
+    public void test_instr_affectationtab(){
+        ASTInstr i1 = new Affectation(new Tableau("t", new Nbre(0)), new Nbre(2));
+        CompilationCouple cc = i1.compiler(0);
+        List<JCode> ls = JCodes.asArray(cc.jCodes);
+        Assert.assertEquals(3,ls.size());
+        Assert.assertTrue(ls.get(1) instanceof Push);
+    }
+
+    @Test
+    public void test_instr_ecrire(){
+        ASTInstr i1 = new Ecrire(new Identifiant("varInt"));
+        CompilationCouple cc = i1.compiler(0);
+        List<JCode> ls = JCodes.asArray(cc.jCodes);
+        Assert.assertEquals(2,ls.size());
+        Assert.assertTrue(ls.get(1) instanceof Write);
+    }
+
+    @Test
+    public void test_instr_incrV(){
+        ASTInstr i1 = new Increment(new Tableau("t", new Nbre(0)));
+        CompilationCouple cc = i1.compiler(0);
+        List<JCode> ls = JCodes.asArray(cc.jCodes);
+        Assert.assertEquals(3,ls.size());
+        Assert.assertTrue(ls.get(1) instanceof Push);
+    }
+
+    @Test
+    public void test_instr_retour(){
+        Retour i1 = new Retour(new Nbre(0));
+        CompilationCouple cc = i1.compiler(0);
+        List<JCode> ls = JCodes.asArray(cc.jCodes);
+        Assert.assertEquals(1,ls.size());
+        Assert.assertTrue(ls.get(0) instanceof Push);
+    }
+
+    @Test
+    public void test_instr_Si(){
+        Si s = new Si(new BoolVal(false), new Inil(), new IChain(new Affectation(new Identifiant("varInt"), new Nbre(0)),new Inil()) );
+        CompilationCouple cc = s.compiler(0);
+        List<JCode> ls = JCodes.asArray(cc.jCodes);
+        Assert.assertEquals(5,ls.size());
+        Assert.assertTrue(ls.get(4) instanceof Goto);
+    }
 
 
 
