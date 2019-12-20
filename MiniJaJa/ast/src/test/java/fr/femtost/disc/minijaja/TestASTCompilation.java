@@ -270,6 +270,51 @@ public class TestASTCompilation {
         Assert.assertTrue(ls.get(4) instanceof Goto);
     }
 
+    @Test
+    public void test_instr_Somme(){
+        Somme s = new Somme(new Identifiant("varInt"), new Nbre(10));
+        CompilationCouple cc = s.compiler(0);
+        List<JCode> ls = JCodes.asArray(cc.jCodes);
+        Assert.assertEquals(2,ls.size());
+        Assert.assertTrue(ls.get(1) instanceof Inc);
+    }
+
+    @Test
+    public void test_instr_SommeT(){
+        Somme s = new Somme(new Tableau("t", new Nbre(0)), new Nbre(1));
+        CompilationCouple cc = s.compiler(0);
+        List<JCode> ls = JCodes.asArray(cc.jCodes);
+        Assert.assertEquals(3,ls.size());
+        Assert.assertTrue(ls.get(2) instanceof AInc);
+    }
+
+    @Test
+    public void test_instr_while(){
+        TantQue tq = new TantQue(new Binop(Binop.Operandes.SUPERIEUR,new Nbre(6), new Identifiant("varInt") ), new IChain(new Affectation(new Identifiant("varInt"), new Nbre(7)),new Inil()));
+        CompilationCouple cc = tq.compiler(0);
+        List<JCode> ls = JCodes.asArray(cc.jCodes);
+        Assert.assertEquals(8,ls.size());
+        Assert.assertTrue(ls.get(7) instanceof Goto);
+    }
+
+    @Test
+    public void test_Class(){
+        ASTClass c = new ASTClass(new Identifiant("b"), new DChain(new Dnil(), new ASTVarSimple(new Entier(), new Identifiant("x"), new Omega())), new ASTMain(new Vnil(), new Inil()));
+        CompilationCouple cc = c.compiler(0);
+        List<JCode> ls = JCodes.asArray(cc.jCodes);
+        Assert.assertEquals(6,ls.size());
+        Assert.assertTrue(ls.get(5) instanceof JCStop);
+    }
+
+    @Test
+    public void test_entete(){
+        ASTEntete e = new ASTEntete(new Identifiant("nombre"), new Entier());
+        CompilationCouple cc = e.compiler(0);
+        List<JCode> ls = JCodes.asArray(cc.jCodes);
+        Assert.assertEquals(1,ls.size());
+        Assert.assertTrue(ls.get(0) instanceof New);
+    }
+
 
 
 }
