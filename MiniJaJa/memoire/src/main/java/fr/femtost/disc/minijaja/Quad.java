@@ -49,6 +49,7 @@ public class Quad {
         this.sorte = sorte;
     }
 
+    @Override
     public String toString() {
         String q = "<";
         q += getID() + ", ";
