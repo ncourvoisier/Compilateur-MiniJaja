@@ -64,6 +64,4 @@ public class Tas {
     public Object[] getMemoire() {
         return memoire;
     }
-
-    public ArbreMemoire getArbre() { return arbre; }
 }
