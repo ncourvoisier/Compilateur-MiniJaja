@@ -68,28 +68,28 @@ public class TantQue extends ASTInstr {
     }
 
     @Override
-    public void interpreterPasAPas(Memoire m, List<InterpretationPasAPasCouple> l, List<EvaluationCouplePasAPas> leval) {
-        switch (l.get(0).indice) {
-            case 1 :
-                Boolean ee = (Boolean)expr.eval(m);
+    public void interpreterPasAPas(Memoire m, List<InterpretationPasAPasCouple> l, List<MethodeEvalTuple> calls) {
+        if (l.get(0).indice < 4) {
+            if (helperPas(m, l, calls, expr.getAllCalls())) {
+                Boolean ee = (Boolean)expr.tryEval(m, calls);
                 if(ee) {
-                    l.get(0).indice = 2;
+                    l.get(0).indice = 4;
                 } else {
-                    l.get(0).indice = 3;
+                    l.get(0).indice = 5;
                 }
-                break;
-            case 2 :
-                l.get(0).indice = 1;
-                l.add(0, new InterpretationPasAPasCouple(instrs, 1));
-                instrs.interpreterPasAPas(m, l, leval);
-                break;
-            default:
-                ASTLogger.getInstance().logWarning(this, "Interpretation inconnue :" + l.get(0).indice);
+                if (!expr.getAllCalls().isEmpty()) {
+                    cleanEvals(calls);
+                }
+            }
+        } else if (l.get(0).indice == 4) {
+            l.get(0).indice = 5;
+            l.add(0, new InterpretationPasAPasCouple(instrs, 1));
+            instrs.interpreterPasAPas(m, l, calls);
         }
     }
 
     @Override
     public int getMaxEtape() {
-        return 2;
+        return 4;
     }
 }

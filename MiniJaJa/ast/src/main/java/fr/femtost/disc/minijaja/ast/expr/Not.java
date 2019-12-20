@@ -4,6 +4,9 @@ import fr.femtost.disc.minijaja.*;
 import fr.femtost.disc.minijaja.ast.ASTExpr;
 import fr.femtost.disc.minijaja.jcode.oper.OpUnaire;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Not extends ASTExpr {
 
     private ASTExpr expr;
@@ -27,6 +30,16 @@ public class Not extends ASTExpr {
     public Object eval(Memoire m) {
         Boolean e = (Boolean) expr.eval(m);
         return !e;
+    }
+
+    @Override
+    public Object tryEval(Memoire m, List<MethodeEvalTuple> evaluations) {
+        return !((Boolean)expr.tryEval(m, evaluations));
+    }
+
+    @Override
+    public List<AppelE> getAllCalls() {
+        return expr.getAllCalls();
     }
 
     @Override

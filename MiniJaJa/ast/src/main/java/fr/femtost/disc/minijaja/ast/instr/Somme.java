@@ -4,9 +4,12 @@ import fr.femtost.disc.minijaja.*;
 import fr.femtost.disc.minijaja.ast.ASTExpr;
 import fr.femtost.disc.minijaja.ast.ASTInstr;
 import fr.femtost.disc.minijaja.ast.expr.ASTIdentGenerique;
+import fr.femtost.disc.minijaja.ast.expr.AppelE;
 import fr.femtost.disc.minijaja.ast.expr.identificateur.Tableau;
 import fr.femtost.disc.minijaja.jcode.AInc;
 import fr.femtost.disc.minijaja.jcode.Inc;
+
+import java.util.List;
 
 
 public class Somme extends ASTInstr {
@@ -56,6 +59,37 @@ public class Somme extends ASTInstr {
                 m.getPile().affecterVal(ident.getName(),(int)(m.getPile().val(ident.getName()))+(int)v);
             } catch (PileException e) {
                 ASTLogger.getInstance().logError(this,e.getMessage());
+            }
+        }
+    }
+
+    @Override
+    public void interpreterPasAPas(Memoire m, List<InterpretationPasAPasCouple> l, List<MethodeEvalTuple> calls) {
+        if (l.get(0).indice < 4) {
+            List<AppelE> appels = expr.getAllCalls();
+            appels.addAll(ident.getAllCalls());
+            if (helperPas(m, l, calls, appels)) {
+                Object v = expr.tryEval(m, calls);
+                if(ident instanceof Tableau)
+                {
+                    int v2 = ((Tableau) ident).tryEvalIndex(m, calls);
+                    try {
+                        m.getPile().affecterValT(ident.getName(),(int)m.getPile().valT(ident.getName(),v2)+(int)v,v2);
+                    } catch (PileException e){
+                        ASTLogger.getInstance().logError(this,e.getMessage());
+                    }
+                }
+                else {
+                    try {
+                        m.getPile().affecterVal(ident.getName(),(int)(m.getPile().val(ident.getName()))+(int)v);
+                    } catch (PileException e) {
+                        ASTLogger.getInstance().logError(this,e.getMessage());
+                    }
+                }
+                l.get(0).indice = 4;
+                if (!appels.isEmpty()) {
+                    cleanEvals(calls);
+                }
             }
         }
     }

@@ -4,8 +4,10 @@ import fr.femtost.disc.minijaja.*;
 import fr.femtost.disc.minijaja.ast.ASTEntetes;
 import fr.femtost.disc.minijaja.ast.ASTListExpr;
 import fr.femtost.disc.minijaja.ast.entetes.Enil;
+import fr.femtost.disc.minijaja.ast.expr.AppelE;
 import fr.femtost.disc.minijaja.jcodes.JNil;
 
+import java.util.LinkedList;
 import java.util.List;
 
 public final class Exnil extends ASTListExpr {
@@ -31,7 +33,12 @@ public final class Exnil extends ASTListExpr {
     }
 
     @Override
-    public void interpreterPasAPas(Memoire m, List<InterpretationPasAPasCouple> l, List<EvaluationCouplePasAPas> leval) {
+    public List<AppelE> getAllCalls() {
+        return new LinkedList<>();
+    }
+
+    @Override
+    public void interpreterPasAPas(Memoire m, List<InterpretationPasAPasCouple> l, List<MethodeEvalTuple> calls) {
         //noop
     }
 

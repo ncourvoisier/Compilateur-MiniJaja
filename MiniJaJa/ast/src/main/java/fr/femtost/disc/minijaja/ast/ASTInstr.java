@@ -1,6 +1,10 @@
 package fr.femtost.disc.minijaja.ast;
 
 import fr.femtost.disc.minijaja.*;
+import fr.femtost.disc.minijaja.ast.decl.ASTMethode;
+import fr.femtost.disc.minijaja.ast.entetes.EChain;
+import fr.femtost.disc.minijaja.ast.expr.AppelE;
+import fr.femtost.disc.minijaja.ast.listexpr.ExChain;
 
 import java.util.List;
 
@@ -13,13 +17,7 @@ public abstract class ASTInstr extends ASTNode {
     }
 
     @Override
-    public void interpreterPasAPas(Memoire m, List<InterpretationPasAPasCouple> l, List<EvaluationCouplePasAPas> leval) {
-        interpreter(m);
-        l.get(0).indice = 2;
-    }
-
-    @Override
     public int getMaxEtape() {
-        return 1;
+        return 3;
     }
 }

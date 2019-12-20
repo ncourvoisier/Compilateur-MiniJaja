@@ -3,7 +3,11 @@ package fr.femtost.disc.minijaja.ast.expr.identificateur;
 import fr.femtost.disc.minijaja.*;
 import fr.femtost.disc.minijaja.ast.ASTExpr;
 import fr.femtost.disc.minijaja.ast.expr.ASTIdentGenerique;
+import fr.femtost.disc.minijaja.ast.expr.AppelE;
 import fr.femtost.disc.minijaja.jcode.ALoad;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Tableau extends ASTIdentGenerique {
 
@@ -32,6 +36,9 @@ public class Tableau extends ASTIdentGenerique {
     public int evalIndex(Memoire m) {
         return (int)index.eval(m);
     }
+    public int tryEvalIndex(Memoire m, List<MethodeEvalTuple> evaluations) {
+        return (int)index.tryEval(m, evaluations);
+    }
 
     @Override
     public String getName() {
@@ -40,12 +47,26 @@ public class Tableau extends ASTIdentGenerique {
 
     @Override
     public Object eval(Memoire m) {
+        return calcul(m, evalIndex(m));
+    }
+
+    @Override
+    public Object tryEval(Memoire m, List<MethodeEvalTuple> evaluations) {
+        return calcul(m, (int)index.tryEval(m, evaluations));
+    }
+
+    private Object calcul(Memoire m, int index) {
         try {
-            return m.getPile().valT(name, evalIndex(m));
+            return m.getPile().valT(name, index);
         } catch (PileException e) {
             ASTLogger.getInstance().logError(this,e.getMessage());
         }
         return null;
+    }
+
+    @Override
+    public List<AppelE> getAllCalls() {
+        return index.getAllCalls();
     }
 
     @Override

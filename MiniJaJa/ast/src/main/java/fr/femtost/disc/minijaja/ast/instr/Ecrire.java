@@ -6,6 +6,8 @@ import fr.femtost.disc.minijaja.ast.expr.identificateur.HardcodedString;
 import fr.femtost.disc.minijaja.ast.expr.identificateur.Identifiant;
 import fr.femtost.disc.minijaja.jcode.Write;
 
+import java.util.List;
+
 public class Ecrire extends ASTInstr {
 
     protected Identifiant ident;
@@ -40,6 +42,19 @@ public class Ecrire extends ASTInstr {
         Object v =ident.eval(m);
         System.out.print(v);
         ASTLogger.getInstance().logInfo(v.toString());
+    }
+
+    @Override
+    public void interpreterPasAPas(Memoire m, List<InterpretationPasAPasCouple> l, List<MethodeEvalTuple> calls) {
+        if (l.get(0).indice == 1) {
+            interpreter(m);
+            l.get(0).indice = 2;
+        }
+    }
+
+    @Override
+    public int getMaxEtape() {
+        return 1;
     }
 
     @Override

@@ -34,11 +34,11 @@ public final class Inil extends ASTInstrs {
     }
 
     @Override
-    public void interpreterPasAPas(Memoire m, List<InterpretationPasAPasCouple> l, List<EvaluationCouplePasAPas> leval) {
+    public void interpreterPasAPas(Memoire m, List<InterpretationPasAPasCouple> l, List<MethodeEvalTuple> calls) {
         while(l.get(0).indice > l.get(0).node.getMaxEtape()) {
             l.remove(0);
         }
-        l.get(0).node.interpreterPasAPas(m, l, leval);
+        l.get(0).node.interpreterPasAPas(m, l, calls);
     }
 
     @Override

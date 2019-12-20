@@ -9,6 +9,9 @@ import fr.femtost.disc.minijaja.ast.expr.identificateur.Identifiant;
 import fr.femtost.disc.minijaja.ast.instr.AppelI;
 import fr.femtost.disc.minijaja.jcode.Invoke;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class AppelE extends ASTExpr {
     private Identifiant ident;
@@ -18,6 +21,14 @@ public class AppelE extends ASTExpr {
     public AppelE(Identifiant ident, ASTListExpr listExpr) {
         this.ident = ident;
         this.listExpr = listExpr;
+    }
+
+    public ASTListExpr getListExpr() {
+        return listExpr;
+    }
+
+    public String getIdent() {
+        return ident.getName();
     }
 
     @Override
@@ -50,6 +61,23 @@ public class AppelE extends ASTExpr {
             ASTLogger.getInstance().logError(this,e.toString());
         }
         return null;
+    }
+
+    @Override
+    public Object tryEval(Memoire m, List<MethodeEvalTuple> evaluations) {
+        for (MethodeEvalTuple tuple : evaluations) {
+            if (tuple.appel == this)
+                return tuple.retour;
+        }
+        ASTLogger.getInstance().logError(this, "Fail pas à pas : eval not found");
+        return null;
+    }
+
+    @Override
+    public List<AppelE> getAllCalls() {
+        List<AppelE> result = listExpr.getAllCalls();
+        result.add(this);
+        return result;
     }
 
     @Override

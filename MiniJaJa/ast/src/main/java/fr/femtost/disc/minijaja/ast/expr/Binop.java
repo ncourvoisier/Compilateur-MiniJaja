@@ -4,6 +4,9 @@ import fr.femtost.disc.minijaja.*;
 import fr.femtost.disc.minijaja.ast.ASTExpr;
 import fr.femtost.disc.minijaja.jcode.oper.OpBinaire;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Binop extends ASTExpr {
 
     public enum Operandes {
@@ -82,6 +85,18 @@ public class Binop extends ASTExpr {
         Object e1 = expr1.eval(m);
         Object e2 = expr2.eval(m);
 
+        return calcul(e1, e2);
+    }
+
+    @Override
+    public Object tryEval(Memoire m, List<MethodeEvalTuple> evaluations) {
+        Object e1 = expr1.tryEval(m, evaluations);
+        Object e2 = expr2.tryEval(m, evaluations);
+
+        return calcul(e1, e2);
+    }
+
+    private Object calcul(Object e1, Object e2) {
         switch (op) {
             case ADDITION:
                 return (int)e1 + (int)e2;
@@ -141,5 +156,12 @@ public class Binop extends ASTExpr {
         boolean b3 = expr2.typeCheck(global, local, s1);
 
         return b1 && b2 && b3;
+    }
+
+    @Override
+    public List<AppelE> getAllCalls() {
+        List<AppelE> result = expr1.getAllCalls();
+        result.addAll(expr2.getAllCalls());
+        return result;
     }
 }

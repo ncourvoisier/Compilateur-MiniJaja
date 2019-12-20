@@ -11,6 +11,8 @@ import fr.femtost.disc.minijaja.ast.listexpr.ExChain;
 import fr.femtost.disc.minijaja.jcode.Invoke;
 import fr.femtost.disc.minijaja.jcode.Pop;
 
+import java.util.List;
+
 public class AppelI extends ASTInstr {
 
     private Identifiant ident;
@@ -65,6 +67,40 @@ public class AppelI extends ASTInstr {
             }
             entetes = ((EChain) entetes).getSuccessor();
         }
+    }
+
+    @Override
+    public void interpreterPasAPas(Memoire m, List<InterpretationPasAPasCouple> l, List<MethodeEvalTuple> calls) {
+        if (l.get(0).indice < 4) {
+            if (helperPas(m, l, calls, listExpr.getAllCalls())) {
+                l.get(0).indice = 4;
+                ASTMethode meth = (ASTMethode) m.getPile().parametre(ident.getName());
+                ASTListExpr ls = listExpr;
+                ASTEntetes entetes = meth.getEntetes();
+                while(ls instanceof ExChain && entetes instanceof EChain) {
+                    m.getPile().declVar(((EChain) entetes).getNode().getIdent().getName(),
+                            ((ExChain) ls).getNode().tryEval(m, calls),
+                            ((EChain) entetes).getNode().getType().getSorte());
+                    ls = ((ExChain) ls).getSuccessor();
+                    entetes = ((EChain) entetes).getSuccessor();
+                }
+                l.add(0, new InterpretationPasAPasCouple(meth.getInstrs(), 1));
+                l.add(0, new InterpretationPasAPasCouple(meth.getVars(), 1));
+                if (!listExpr.getAllCalls().isEmpty()) {
+                    cleanEvals(calls);
+                }
+            }
+        } else if (l.get(0).indice == 4) {
+            l.get(0).indice = 5;
+            ASTMethode meth = (ASTMethode) m.getPile().parametre(ident.getName());
+            meth.getVars().retirer(m);
+            meth.getEntetes().retirer(m);
+        }
+    }
+
+    @Override
+    public int getMaxEtape() {
+        return 4;
     }
 
     @Override

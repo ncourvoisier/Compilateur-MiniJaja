@@ -7,6 +7,8 @@ import fr.femtost.disc.minijaja.jcode.*;
 import fr.femtost.disc.minijaja.jcodes.JChain;
 import fr.femtost.disc.minijaja.jcodes.JNil;
 
+import java.util.List;
+
 public class ASTMethode extends ASTDecl {
 
     private ASTVars vars;
@@ -86,8 +88,13 @@ public class ASTMethode extends ASTDecl {
 
     @Override
     public void interpreter(Memoire m) {
-        ASTMethode mth = new ASTMethode(typeMeth, ident, entetes, vars, instrs);
-        m.getPile().declMeth(ident.getName(), mth, typeMeth.getSorte());
+        m.getPile().declMeth(ident.getName(), this, typeMeth.getSorte());
+    }
+
+    @Override
+    public void interpreterPasAPas(Memoire m, List<InterpretationPasAPasCouple> l, List<MethodeEvalTuple> calls) {
+        interpreter(m);
+        l.get(0).indice = 2;
     }
 
     @Override

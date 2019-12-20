@@ -36,4 +36,9 @@ public abstract class ASTVar extends ASTDecl {
             ASTLogger.getInstance().logError(this,e.getMessage());
         }
     }
+
+    @Override
+    public int getMaxEtape() {
+        return 3;
+    }
 }

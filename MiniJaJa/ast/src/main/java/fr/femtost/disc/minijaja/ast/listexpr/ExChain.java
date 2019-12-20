@@ -1,17 +1,17 @@
 package fr.femtost.disc.minijaja.ast.listexpr;
 
 
-import fr.femtost.disc.minijaja.ASTLogger;
-import fr.femtost.disc.minijaja.CompilationCouple;
-import fr.femtost.disc.minijaja.JCodes;
-import fr.femtost.disc.minijaja.Memoire;
+import fr.femtost.disc.minijaja.*;
 import fr.femtost.disc.minijaja.ast.ASTEntetes;
 import fr.femtost.disc.minijaja.ast.ASTExpr;
 import fr.femtost.disc.minijaja.ast.ASTListExpr;
 import fr.femtost.disc.minijaja.ast.entetes.EChain;
 import fr.femtost.disc.minijaja.ast.entetes.Enil;
+import fr.femtost.disc.minijaja.ast.expr.AppelE;
 import fr.femtost.disc.minijaja.jcode.Pop;
 import fr.femtost.disc.minijaja.jcode.Swap;
+
+import java.util.List;
 
 public class ExChain extends ASTListExpr {
 
@@ -69,5 +69,12 @@ public class ExChain extends ASTListExpr {
         boolean b1 = node.typeCheck(global, local, chain.getNode().getType().getSorte());
         boolean b2 = successor.typeCheck(global, local, chain.getSuccessor());
         return b1 && b2;
+    }
+
+    @Override
+    public List<AppelE> getAllCalls() {
+        List<AppelE> result = node.getAllCalls();
+        result.addAll(successor.getAllCalls());
+        return result;
     }
 }

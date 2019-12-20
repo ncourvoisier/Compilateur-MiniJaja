@@ -2,9 +2,12 @@ package fr.femtost.disc.minijaja.ast.expr.identificateur;
 
 import fr.femtost.disc.minijaja.CompilationCouple;
 import fr.femtost.disc.minijaja.Memoire;
+import fr.femtost.disc.minijaja.MethodeEvalTuple;
 import fr.femtost.disc.minijaja.jcode.Push;
 import fr.femtost.disc.minijaja.jcodes.JChain;
 import fr.femtost.disc.minijaja.jcodes.JNil;
+
+import java.util.List;
 
 public class HardcodedString extends Identifiant {
 
@@ -24,6 +27,11 @@ public class HardcodedString extends Identifiant {
 
     @Override
     public Object eval(Memoire m){
+        return name;
+    }
+
+    @Override
+    public Object tryEval(Memoire m, List<MethodeEvalTuple> evaluations) {
         return name;
     }
 }

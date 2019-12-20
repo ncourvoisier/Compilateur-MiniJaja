@@ -8,6 +8,8 @@ import fr.femtost.disc.minijaja.ast.expr.identificateur.Identifiant;
 import fr.femtost.disc.minijaja.ast.type.ASTType;
 import fr.femtost.disc.minijaja.jcode.New;
 
+import java.util.List;
+
 
 public class ASTVarConst extends ASTVar {
 
@@ -39,6 +41,20 @@ public class ASTVarConst extends ASTVar {
     public void interpreter(Memoire m) {
         Object v = expr.eval(m);
         m.getPile().declCst(identifiant.getName(),v,type.getSorte());
+    }
+
+    @Override
+    public void interpreterPasAPas(Memoire m, List<InterpretationPasAPasCouple> l, List<MethodeEvalTuple> calls) {
+        if (l.get(0).indice < 4) {
+            if (helperPas(m, l, calls, expr.getAllCalls())) {
+                l.get(0).indice = 4;
+                Object v = expr.tryEval(m, calls);
+                m.getPile().declCst(identifiant.getName(),v,type.getSorte());
+                if (!expr.getAllCalls().isEmpty()) {
+                    cleanEvals(calls);
+                }
+            }
+        }
     }
 
     @Override
