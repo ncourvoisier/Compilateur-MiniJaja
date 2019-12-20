@@ -4,6 +4,7 @@ import static org.junit.Assert.assertTrue;
 
 import fr.femtost.disc.minijaja.ast.ASTClass;
 import org.junit.Test;
+import sample.Controller;
 
 import java.io.BufferedReader;
 import java.io.StringReader;
@@ -34,7 +35,5 @@ public class AppTest {
         } catch (Throwable e) {
             System.out.println("Syntax check failed: " + e.getMessage());
         }
-
-
     }
 }
