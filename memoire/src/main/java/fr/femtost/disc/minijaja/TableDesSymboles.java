@@ -5,15 +5,15 @@ import java.util.LinkedList;
 import java.util.Map;
 
 public class TableDesSymboles {
+    
+    public TableDesSymboles() {
+        this.tableSymbole = new HashMap<>();
+    }
 
     private Map<String, LinkedList<Quad>> tableSymbole;
 
     public Map<String, LinkedList<Quad>> getTableSymbole() {
         return tableSymbole;
-    }
-
-    public TableDesSymboles() {
-        this.tableSymbole = new HashMap<>();
     }
 
     public Quad creerSymboles(String id, Object val, NatureObjet obj, Sorte sorte) {
