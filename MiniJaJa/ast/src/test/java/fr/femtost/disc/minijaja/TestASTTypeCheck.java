@@ -201,6 +201,7 @@ public class TestASTTypeCheck {
         Assert.assertTrue(new Affectation(new Identifiant("varInt"), new Nbre(6)).typeCheck(emptyMemoire(), local));
         Assert.assertFalse(new Affectation(new Tableau("varInt", new Nbre(0)), new Nbre(6)).typeCheck(emptyMemoire(), local));
         Assert.assertTrue(new Affectation(new Tableau("t", new Nbre(0)), new Nbre(6)).typeCheck(emptyMemoire(), local));
+
     }
 
     @Test

@@ -315,6 +315,15 @@ public class TestASTCompilation {
         Assert.assertTrue(ls.get(0) instanceof New);
     }
 
+    @Test
+    public void test_binop_getOperande(){
+        Assert.assertEquals(OpBinaire.Operandes.CMP, Binop.Operandes.EGAL.getOperande());
+        Assert.assertEquals(OpBinaire.Operandes.DIV, Binop.Operandes.DIVISION.getOperande());
+        Assert.assertEquals(OpBinaire.Operandes.MUL, Binop.Operandes.MULTIPLICATION.getOperande());
+        Assert.assertEquals(OpBinaire.Operandes.SUB, Binop.Operandes.SOUSTRACTION.getOperande());
+        Assert.assertEquals(OpBinaire.Operandes.SUP, Binop.Operandes.SUPERIEUR.getOperande());
+    }
+
 
 
 }
