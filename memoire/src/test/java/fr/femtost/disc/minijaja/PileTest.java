@@ -537,4 +537,14 @@ public class PileTest {
            Assert.fail();
        }
    }
+
+   @Test
+    public void valTPileVideTest() {
+       try {
+           p.valT("Tab", 0);
+       }catch (PileException e) {
+           return;
+       }
+       Assert.fail();
+   }
 }
