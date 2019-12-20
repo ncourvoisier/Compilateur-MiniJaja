@@ -84,10 +84,14 @@ public class TasTest {
         assertEquals(600, c);
         assertEquals(-1, d);
         TasInfos infos = t.getInfos();
+        TasInfos.BlocInfos b1 = infos.getBlocs().get(0);
         assertEquals(1000, infos.getTaille());
         assertEquals(100, infos.getTailleDisponible());
         assertEquals(100, infos.getTailleMaximaleAllouable());
         assertEquals(4, infos.getNombreBlocs());
+        assertEquals(0, b1.getAdresse());
+        assertEquals(200, b1.getTaille());
+        assertFalse(b1.estDisponible());
     }
 
     @Test
@@ -102,5 +106,30 @@ public class TasTest {
         arbre.allouerMemoire(5);
         arbre.allouerMemoire(10);
         assertEquals("(0, 10) [(0, 5) [(-), (-)], (5, 5) [(-), (-)]]", arbre.toString());
+    }
+
+    @Test
+    public void tasInfosStringTest() {
+        Tas tas = new Tas(10);
+        tas.allouer(5);
+        TasInfos infos = tas.getInfos();
+        assertEquals("[0->4:A][5->9:-]", infos.toString());
+    }
+
+    @Test
+    public void ajoutMemoireTest() {
+        Tas tas = new Tas(10);
+        tas.allouer(5);
+        tas.ecrire(0, 0, 1);
+        tas.ecrire(0, 2, 2);
+        tas.ecrire(0, 4, 3);
+        tas.ecrire(0, 5, 4);
+        Object[] mem = tas.getMemoire();
+        assertEquals(1, mem[0]);
+        assertEquals(2, mem[2]);
+        assertEquals(3, mem[4]);
+        assertNull(mem[5]);
+        tas.liberer(0);
+        assertNull(mem[0]);
     }
 }
