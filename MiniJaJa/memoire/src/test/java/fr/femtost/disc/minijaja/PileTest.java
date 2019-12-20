@@ -547,4 +547,14 @@ public class PileTest {
        }
        Assert.fail();
    }
+
+   @Test
+   public void valTIDNonExistant() {
+       p.declVar("Var", 5, Sorte.INT);
+       try {
+           assertNull(p.valT("Tab", 0));
+       }catch (PileException e) {
+           Assert.fail();
+       }
+   }
 }
