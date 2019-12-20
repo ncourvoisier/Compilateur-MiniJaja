@@ -5,7 +5,7 @@ import fr.femtost.disc.minijaja.*;
 import java.util.List;
 
 public abstract class ASTExpr extends ASTNode {
-    abstract public Object eval(Memoire m);
+    public abstract Object eval(Memoire m);
 
     @Override
     public void interpreter(Memoire m) {
