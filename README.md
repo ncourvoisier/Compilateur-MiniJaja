@@ -14,3 +14,11 @@ Le projet est considéré terminé, il est possible de compiler des fichiers Min
 
 + Java
 + JavaCC
+
+## Outils utilisés : 
+
++ Jetbrains IntelliJIdea
++ Jenkins
++ SonarCube
++ Subversion
++ Trello
